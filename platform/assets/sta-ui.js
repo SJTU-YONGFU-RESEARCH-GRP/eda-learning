@@ -1,6 +1,7 @@
 /**
  * STA canvas helpers + re-export of challenge chrome from clustering-ui.
  */
+import { fitHiDpiCanvas, LAB_CANVAS_CSS_HEIGHT } from "./canvas-hires.js";
 import { createChallengeLab, el, metricsBlock } from "./clustering-ui.js";
 
 export { createChallengeLab, el, metricsBlock };
@@ -13,35 +14,12 @@ const KIND_FILL = {
 };
 
 /**
- * Draw a levelized timing DAG left→right by level.
- *
- * @param {HTMLCanvasElement} canvas
- * @param {object} timing
- * @param {object} [opts]
- * @param {Record<string,number>|null} [opts.levels]
- * @param {string[]} [opts.highlightPins]
- * @param {string[]} [opts.highlightArcs] — "from|to"
- * @param {Record<string,number|string>} [opts.tags] — pin → label under L#
- * @param {boolean} [opts.showDelay=true]
+ * Compute pin screen positions for a timing DAG (same layout as drawTimingGraph).
+ * @returns {Record<string,{x:number,y:number,pin:object}>}
  */
-export function drawTimingGraph(canvas, timing, opts = {}) {
-  const ctx = canvas.getContext("2d");
-  const dpr = window.devicePixelRatio || 1;
-  const w = canvas.clientWidth || 480;
-  const h = canvas.clientHeight || 300;
-  canvas.width = w * dpr;
-  canvas.height = h * dpr;
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  ctx.clearRect(0, 0, w, h);
-  ctx.fillStyle = "#f7faf9";
-  ctx.fillRect(0, 0, w, h);
-
-  const levels = opts.levels || null;
-  const highlightPins = new Set(opts.highlightPins || []);
-  const highlightArcs = new Set(opts.highlightArcs || []);
-  const tags = opts.tags || {};
-  const showDelay = opts.showDelay !== false;
-
+export function pinPositions(canvas, timing, levels = null) {
+  const w = canvas.clientWidth || 640;
+  const h = canvas.clientHeight || LAB_CANVAS_CSS_HEIGHT;
   const pins = timing.pins;
   const byLevel = {};
   for (const p of pins) {
@@ -56,7 +34,6 @@ export function drawTimingGraph(canvas, timing, opts = {}) {
   const padX = 48;
   const padY = 36;
   const pos = {};
-
   for (const lv of levelKeys) {
     const col = byLevel[lv];
     const x =
@@ -69,6 +46,53 @@ export function drawTimingGraph(canvas, timing, opts = {}) {
       pos[p.id] = { x, y, pin: p };
     });
   }
+  return pos;
+}
+
+/** Hit-test pin under canvas click. */
+export function hitPin(canvas, timing, clientX, clientY, levels = null, radius = 18) {
+  const rect = canvas.getBoundingClientRect();
+  const mx = clientX - rect.left;
+  const my = clientY - rect.top;
+  const pos = pinPositions(canvas, timing, levels);
+  let best = null;
+  let bestD = radius * radius;
+  for (const [id, p] of Object.entries(pos)) {
+    const dx = mx - p.x;
+    const dy = my - p.y;
+    const d = dx * dx + dy * dy;
+    if (d <= bestD) {
+      bestD = d;
+      best = id;
+    }
+  }
+  return best;
+}
+
+/**
+ * Draw a levelized timing DAG left→right by level.
+ *
+ * @param {HTMLCanvasElement} canvas
+ * @param {object} timing
+ * @param {object} [opts]
+ * @param {Record<string,number>|null} [opts.levels]
+ * @param {string[]} [opts.highlightPins]
+ * @param {string[]} [opts.highlightArcs] — "from|to"
+ * @param {Record<string,number|string>} [opts.tags] — pin → label under L#
+ * @param {boolean} [opts.showDelay=true]
+ */
+export function drawTimingGraph(canvas, timing, opts = {}) {
+  const { ctx, w, h } = fitHiDpiCanvas(canvas);
+  ctx.clearRect(0, 0, w, h);
+  ctx.fillStyle = "#f7faf9";
+  ctx.fillRect(0, 0, w, h);
+
+  const levels = opts.levels || null;
+  const highlightPins = new Set(opts.highlightPins || []);
+  const highlightArcs = new Set(opts.highlightArcs || []);
+  const tags = opts.tags || {};
+  const showDelay = opts.showDelay !== false;
+  const pos = pinPositions(canvas, timing, levels);
 
   // Arcs
   for (const a of timing.arcs) {
@@ -116,7 +140,7 @@ export function drawTimingGraph(canvas, timing, opts = {}) {
   }
 
   // Pins
-  for (const p of pins) {
+  for (const p of timing.pins) {
     const P = pos[p.id];
     if (!P) continue;
     const hi = highlightPins.has(p.id);

@@ -1,280 +1,177 @@
 import {
   PROP_GOLDENS,
-  TINY_TIMING,
   analyzeSetup,
-  cloneTiming,
-  levelize,
   near,
   propagateArrival,
   propagateRequired,
   setupSlack,
 } from "../../assets/sta-core.js";
-import {
-  createChallengeLab,
-  drawTimingGraph,
-  el,
-  metricsBlock,
-} from "../../assets/sta-ui.js";
+import { createInteractiveStaLab } from "../../assets/interactive-sta-lab.js";
+import { el } from "../../assets/sta-ui.js";
 
 const G = PROP_GOLDENS;
-const FP_ARC = "u1/Y|u2/A";
 const root = document.getElementById("lab-root");
-let timing = cloneTiming(TINY_TIMING);
-let levels = levelize(timing);
-let mode = "none"; // none | normal | multicycle | falsepath
-let arrival = null;
-let required = null;
-let slackOut = null;
-let disabled = [];
 
-function arm() {
-  timing = cloneTiming(TINY_TIMING);
-  levels = levelize(timing);
-  mode = "none";
-  arrival = null;
-  required = null;
-  slackOut = null;
-  disabled = [];
-}
-
-function normalSetup() {
-  timing = cloneTiming(TINY_TIMING);
-  levels = levelize(timing);
-  mode = "normal";
-  disabled = [];
-  const r = analyzeSetup(timing);
-  arrival = r.arrival;
-  required = r.required;
-  slackOut = r.slackAtSink;
-}
-
-function multicycleSetup() {
-  timing = cloneTiming(TINY_TIMING);
-  levels = levelize(timing);
-  mode = "multicycle";
-  disabled = [];
-  arrival = propagateArrival(timing);
-  required = propagateRequired(timing, { setupCycles: G.multicycle.setupCycles });
-  slackOut = setupSlack(arrival, required, "out");
-}
-
-function falsePath() {
-  timing = cloneTiming(TINY_TIMING);
-  levels = levelize(timing);
-  mode = "falsepath";
-  disabled = [FP_ARC];
-  arrival = propagateArrival(timing, { disableArcs: disabled });
-  required = propagateRequired(timing, { disableArcs: disabled });
-  slackOut = setupSlack(arrival, required, "out");
-}
-
-createChallengeLab(root, {
+createInteractiveStaLab(root, {
+  mode: "exceptions",
+  initialDisabled: [],
+  initialSetupCycles: 1,
+  revealDisabled: G.falsePath.arcs.map(([a, b]) => `${a}|${b}`),
+  revealSetupCycles: G.multicycle.setupCycles,
   starterHtml: `
-    <p><strong>Starter example (reference):</strong> normal setup slack at out =
-    <strong>${G.setupSlackOut}</strong>; multicycle setup×${G.multicycle.setupCycles}
-    → required <strong>${G.multicycle.requiredOut}</strong>, slack
-    <strong>${G.multicycle.setupSlackOut}</strong>; false-path disables
-    <code>u1/Y→u2/A</code> so u2/A has no enabled predecessor (arrival 0).</p>
+    <p><strong>Your workspace:</strong> disable arcs for a <em>false path</em>, or raise
+    <em>setup multicycle</em> cycles so required = cycles×period.
+    Challenges check <strong>your</strong> disables / cycles (and resulting slack). Reveal golden is study-only.</p>
   `,
-  loadStarter() {
-    normalSetup();
+  extraActions: (ctx, api) => [
+    el("button", {
+      className: "btn btn-secondary",
+      type: "button",
+      text: "Analyze setup slack",
+      onClick: () => {
+        const t = api.getTiming();
+        const disabled = [...api.getDisabledArcs()];
+        const cycles = api.getSetupCycles();
+        const arr = propagateArrival(t, { disableArcs: disabled });
+        const req = propagateRequired(t, { disableArcs: disabled, setupCycles: cycles });
+        const slack = arr && req ? setupSlack(arr, req, "out") : null;
+        api.setMeta({ arr, req, slack });
+        ctx.rerender();
+      },
+    }),
+  ],
+  extraMetrics: (api) => {
+    const m = api.getMeta();
+    return [
+      m.slack == null && m.arr == null
+        ? "slack: (run Analyze)"
+        : `setup slack out: ${m.slack == null ? "untimed/null" : m.slack}`,
+      m.req?.out != null ? `required out: ${m.req.out}` : null,
+      m.arr?.out != null ? `arrival out: ${m.arr.out}` : null,
+    ].filter(Boolean);
   },
   challenges: [
     {
-      id: "normal-slack",
-      title: "Normal slack 6.8",
+      id: "default-slack",
+      title: "Default slack 6.8",
       level: "Intro",
-      prompt: "Normal setup; slack at out is 6.8.",
-      hint: "Single-cycle required = period.",
-      setup: arm,
-      check: () =>
-        mode === "normal" && slackOut != null && near(slackOut, G.setupSlackOut),
-    },
-    {
-      id: "multicycle-required",
-      title: "Multicycle required 20",
-      level: "Intro",
-      prompt: "Multicycle×2; required at out is 20.",
-      hint: "2 × period.",
-      setup: arm,
-      check: () =>
-        mode === "multicycle" &&
-        required &&
-        near(required.out, G.multicycle.requiredOut),
-    },
-    {
-      id: "multicycle-slack",
-      title: "Multicycle slack 16.8",
-      level: "Intro",
-      prompt: "Multicycle×2; setup slack at out is 16.8.",
-      hint: "20 − 3.2.",
-      setup: arm,
-      check: () =>
-        mode === "multicycle" &&
-        slackOut != null &&
-        near(slackOut, G.multicycle.setupSlackOut),
-    },
-    {
-      id: "normal-required",
-      title: "Normal required 10",
-      level: "Practice",
-      prompt: "Normal setup; required at out is 10.",
-      hint: "Default one clock cycle.",
-      setup: arm,
-      check: () =>
-        mode === "normal" &&
-        required &&
-        near(required.out, G.requiredSetup.out),
-    },
-    {
-      id: "normal-arrival",
-      title: "Normal arrival 3.2",
-      level: "Practice",
-      prompt: "Normal setup; arrival at out is 3.2.",
-      hint: "Unchanged by multicycle/false-path modes.",
-      setup: arm,
-      check: () =>
-        mode === "normal" && arrival && near(arrival.out, G.arrival.out),
-    },
-    {
-      id: "multicycle-cycles",
-      title: "Setup cycles 2",
-      level: "Practice",
-      prompt: "Multicycle mode uses setupCycles=2.",
-      hint: "Check required = 2×10.",
-      setup: arm,
-      check: () =>
-        mode === "multicycle" &&
-        required &&
-        near(required.out, G.period * G.multicycle.setupCycles),
-    },
-    {
-      id: "falsepath-u1y",
-      title: "False-path u1/Y",
-      level: "Practice",
-      prompt: "False-path; u1/Y arrival still 1.2.",
-      hint: "Upstream of cut is intact.",
-      setup: arm,
-      check: () =>
-        mode === "falsepath" &&
-        arrival &&
-        near(arrival["u1/Y"], G.arrival["u1/Y"]),
-    },
-    {
-      id: "falsepath-u2a",
-      title: "False-path u2/A zero",
-      level: "Stretch",
-      prompt: "False-path; u2/A arrival is 0 (no enabled predecessor).",
-      hint: "Disabled arc u1/Y→u2/A.",
-      setup: arm,
-      check: () =>
-        mode === "falsepath" &&
-        arrival &&
-        near(arrival["u2/A"], 0),
-    },
-    {
-      id: "falsepath-disable",
-      title: "Arc disabled",
-      level: "Stretch",
-      prompt: "False-path mode disables u1/Y→u2/A.",
-      hint: "Click False-path button.",
-      setup: arm,
-      check: () => mode === "falsepath" && disabled.includes(FP_ARC),
-    },
-    {
-      id: "falsepath-propagate",
-      title: "False-path propagate check",
-      level: "Stretch",
-      prompt: "False-path; propagateArrival with disable gives u1/Y≈1.2 and u2/A≈0.",
-      hint: "Cross-check with sta-core propagateArrival.",
-      setup: arm,
-      check: () => {
-        if (mode !== "falsepath" || !arrival) return false;
-        const arr = propagateArrival(cloneTiming(TINY_TIMING), {
-          disableArcs: [FP_ARC],
-        });
+      prompt: "No disables, cycles=1: Analyze → setup slack out = 6.8.",
+      hint: "Reset workspace, Analyze setup slack.",
+      check: (_c, api) => {
+        const t = api.getTiming();
+        const r = analyzeSetup(t, { setupCycles: api.getSetupCycles() });
         return (
-          near(arr["u1/Y"], 1.2) &&
-          near(arr["u2/A"], 0) &&
-          near(arrival["u1/Y"], arr["u1/Y"]) &&
-          near(arrival["u2/A"], arr["u2/A"])
+          api.getDisabledArcs().size === 0 &&
+          api.getSetupCycles() === 1 &&
+          r &&
+          near(r.slackAtSink, G.setupSlackOut)
         );
       },
     },
+    {
+      id: "disable-net",
+      title: "Disable u1/Y→u2/A",
+      level: "Intro",
+      prompt: "Disable the false-path arc u1/Y→u2/A.",
+      hint: "Select that arc, Disable arc.",
+      check: (_c, api) => api.getDisabledArcs().has("u1/Y|u2/A"),
+    },
+    {
+      id: "false-untimed",
+      title: "False path breaks chain slack",
+      level: "Practice",
+      prompt: "Disable u1/Y→u2/A; Analyze — setup slack out is no longer 6.8.",
+      hint: "Disable false arc, Analyze setup slack.",
+      check: (_c, api) => {
+        if (!api.getDisabledArcs().has("u1/Y|u2/A")) return false;
+        const r = analyzeSetup(api.getTiming(), {
+          disableArcs: [...api.getDisabledArcs()],
+          setupCycles: 1,
+        });
+        return !r || r.slackAtSink == null || !near(r.slackAtSink, G.setupSlackOut);
+      },
+    },
+    {
+      id: "mc-cycles-2",
+      title: "Multicycle = 2",
+      level: "Practice",
+      prompt: "Set setup cycles to 2 (no false-path disable).",
+      hint: "Cycles + until 2; clear disables.",
+      check: (_c, api) =>
+        api.getSetupCycles() === G.multicycle.setupCycles &&
+        api.getDisabledArcs().size === 0,
+    },
+    {
+      id: "mc-required-20",
+      title: "Required out = 20",
+      level: "Practice",
+      prompt: "Cycles=2: Analyze → required out = 20.",
+      hint: "Cycles + to 2, Analyze.",
+      check: (_c, api) => {
+        if (api.getSetupCycles() !== 2) return false;
+        const req = propagateRequired(api.getTiming(), { setupCycles: 2 });
+        return req && near(req.out, G.multicycle.requiredOut);
+      },
+    },
+    {
+      id: "mc-slack-168",
+      title: "Multicycle slack 16.8",
+      level: "Challenge",
+      prompt: "Cycles=2, no disables: setup slack out = 16.8.",
+      hint: "Analyze after setting cycles=2.",
+      check: (_c, api) => {
+        const r = analyzeSetup(api.getTiming(), { setupCycles: api.getSetupCycles() });
+        return (
+          api.getSetupCycles() === 2 &&
+          api.getDisabledArcs().size === 0 &&
+          r &&
+          near(r.slackAtSink, G.multicycle.setupSlackOut)
+        );
+      },
+    },
+    {
+      id: "cycles-at-least-2",
+      title: "Cycles ≥ 2",
+      level: "Challenge",
+      prompt: "Setup cycles is at least 2.",
+      hint: "Cycles +.",
+      check: (_c, api) => api.getSetupCycles() >= 2,
+    },
+    {
+      id: "reenable",
+      title: "Re-enable all arcs",
+      level: "Challenge",
+      prompt: "No arcs disabled and cycles back to 1 with default slack 6.8.",
+      hint: "Enable any disabled arc; Cycles − to 1.",
+      check: (_c, api) => {
+        const r = analyzeSetup(api.getTiming(), { setupCycles: 1 });
+        return (
+          api.getDisabledArcs().size === 0 &&
+          api.getSetupCycles() === 1 &&
+          r &&
+          near(r.slackAtSink, G.setupSlackOut)
+        );
+      },
+    },
+    {
+      id: "false-arc-only",
+      title: "Only false arc disabled",
+      level: "Challenge",
+      prompt: "Exactly one disable: u1/Y|u2/A.",
+      hint: "Disable that arc only.",
+      check: (_c, api) => {
+        const d = api.getDisabledArcs();
+        return d.size === 1 && d.has("u1/Y|u2/A");
+      },
+    },
+    {
+      id: "mc-not-false",
+      title: "Multicycle without false",
+      level: "Challenge",
+      prompt: "Cycles=2 and zero disabled arcs.",
+      hint: "Clear disables; Cycles +.",
+      check: (_c, api) =>
+        api.getSetupCycles() === 2 && api.getDisabledArcs().size === 0,
+    },
   ],
-  extraActions(ctx) {
-    return [
-      el("button", {
-        className: "btn btn-secondary",
-        type: "button",
-        text: "Normal setup",
-        onClick: () => {
-          normalSetup();
-          ctx.rerender();
-        },
-      }),
-      el("button", {
-        className: "btn btn-primary",
-        type: "button",
-        text: "Multicycle×2",
-        onClick: () => {
-          multicycleSetup();
-          ctx.rerender();
-        },
-      }),
-      el("button", {
-        className: "btn btn-secondary",
-        type: "button",
-        text: "False-path (disable u1/Y→u2/A)",
-        onClick: () => {
-          falsePath();
-          ctx.rerender();
-        },
-      }),
-    ];
-  },
-  renderWorkspace(ctx) {
-    const tags = {};
-    if (arrival) {
-      for (const [p, v] of Object.entries(arrival)) tags[p] = `A:${v}`;
-    }
-    if (required && mode !== "falsepath") {
-      for (const [p, v] of Object.entries(required)) {
-        if (p === "out" || mode === "multicycle") {
-          tags[p] = tags[p] ? `${tags[p]} R:${v}` : `R:${v}`;
-        }
-      }
-    }
-    drawTimingGraph(ctx.canvas, timing, {
-      levels,
-      highlightPins:
-        mode === "falsepath"
-          ? ["u1/Y", "u2/A"]
-          : mode === "normal" || mode === "multicycle"
-            ? ["out"]
-            : [],
-      highlightArcs: mode === "falsepath" ? [FP_ARC] : [],
-      tags,
-    });
-    const lines = [
-      `view: ${mode}`,
-      `slack at out: ${slackOut ?? "—"}`,
-    ];
-    if (mode === "multicycle") {
-      lines.push(`setupCycles: ${G.multicycle.setupCycles}`);
-      lines.push(`required out: ${required?.out ?? "—"}`);
-    }
-    if (mode === "normal") {
-      lines.push(`required out: ${required?.out ?? "—"}`);
-      lines.push(`arrival out: ${arrival?.out ?? "—"}`);
-    }
-    if (mode === "falsepath") {
-      lines.push(`disabled: ${disabled.join(", ")}`);
-      lines.push(`u1/Y arrival: ${arrival?.["u1/Y"] ?? "—"}`);
-      lines.push(`u2/A arrival: ${arrival?.["u2/A"] ?? "—"} (no enabled pred)`);
-      lines.push("note: downstream sink not fully timed when path is cut");
-    }
-    ctx.metrics.innerHTML = "";
-    ctx.metrics.append(metricsBlock(lines));
-  },
 });

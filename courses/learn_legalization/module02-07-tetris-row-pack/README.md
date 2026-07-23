@@ -22,7 +22,7 @@ After this module you can: **Fill row slots with Tetris-style placement order wh
 1. Local: [http://127.0.0.1:8080/tools/tetris-row-pack/](http://127.0.0.1:8080/tools/tetris-row-pack/)
 2. Live: [https://universal-verification-methodology.github.io/learning/tools/tetris-row-pack/](https://universal-verification-methodology.github.io/learning/tools/tetris-row-pack/)
 3. Tools shelf: open `tetris-row-pack` from the platform tools index
-4. Load the **starter legalization**, run the algorithm, inspect legality and metrics.
+4. Open the lab, place/snap cells on the site/row grid (or use Apply helpers), then Check — Reveal golden is study-only.
 5. Check off Track B items in [CHECKLIST.md](CHECKLIST.md).
 
 > Concept labs teach legalization literacy on tiny site/row grids — not production OpenROAD legalizers.

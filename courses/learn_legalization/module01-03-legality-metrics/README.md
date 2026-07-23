@@ -22,7 +22,7 @@ After this module you can: **Check row alignment, site snapping, pairwise non-ov
 1. Local: [http://127.0.0.1:8080/tools/legality-metrics/](http://127.0.0.1:8080/tools/legality-metrics/)
 2. Live: [https://universal-verification-methodology.github.io/learning/tools/legality-metrics/](https://universal-verification-methodology.github.io/learning/tools/legality-metrics/)
 3. Tools shelf: open `legality-metrics` from the platform tools index
-4. Load the **starter legalization**, run the algorithm, inspect legality and metrics.
+4. Open the lab, place/snap cells on the site/row grid (or use Apply helpers), then Check — Reveal golden is study-only.
 5. Check off Track B items in [CHECKLIST.md](CHECKLIST.md).
 
 > Concept labs teach legalization literacy on tiny site/row grids — not production OpenROAD legalizers.

@@ -110,22 +110,36 @@ def check_legality(
     return True, "ok"
 
 
-def hpwl(net: Sequence[str], positions: Mapping[str, Mapping[str, float]]) -> float:
+def hpwl(
+    net: Sequence[str],
+    positions: Mapping[str, Mapping[str, float]],
+    *,
+    cells: Mapping[str, int] | None = None,
+    row_h: float = 2.0,
+) -> float:
+    """Half-perimeter using cell centers (matches legalization-core.js)."""
     xs: List[float] = []
     ys: List[float] = []
     for cid in net:
         p = positions.get(cid)
         if not p:
             continue
-        xs.append(float(p["x"]))
-        ys.append(float(p["y"]))
+        w = float(cells.get(cid, 1)) if cells else 1.0
+        xs.append(float(p["x"]) + w / 2.0)
+        ys.append(float(p["y"]) + row_h / 2.0)
     if not xs:
         return 0.0
     return (max(xs) - min(xs)) + (max(ys) - min(ys))
 
 
-def total_hpwl(nets: Iterable[Sequence[str]], positions: Mapping[str, Mapping[str, float]]) -> float:
-    return float(sum(hpwl(n, positions) for n in nets))
+def total_hpwl(
+    nets: Iterable[Sequence[str]],
+    positions: Mapping[str, Mapping[str, float]],
+    *,
+    cells: Mapping[str, int] | None = None,
+    row_h: float = 2.0,
+) -> float:
+    return float(sum(hpwl(n, positions, cells=cells, row_h=row_h) for n in nets))
 
 
 def total_displacement(
@@ -134,11 +148,10 @@ def total_displacement(
     *,
     fixed: Iterable[str] = (),
 ) -> float:
-    fixed_set = set(fixed)
+    """L1 on lower-left coords for all cells (matches legalization-core.js)."""
+    del fixed  # API compat; JS sums every cell
     s = 0.0
     for cid, p0 in before.items():
-        if cid in fixed_set:
-            continue
         p1 = after.get(cid)
         if not p1:
             continue

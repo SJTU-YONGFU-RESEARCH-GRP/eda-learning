@@ -6,6 +6,8 @@
  * Cell widths: A–D=2, E–F=1. Total width 10 ≤ 12.
  */
 
+import { fitHiDpiCanvas } from "./canvas-hires.js";
+
 export const CELLS = ["A", "B", "C", "D", "E", "F"];
 
 export const WIDTHS = { A: 2, B: 2, C: 2, D: 2, E: 1, F: 1 };
@@ -437,9 +439,7 @@ export function detailedLegalize(positions, opts = {}) {
 export function drawLegalization(canvas, opts = {}) {
   const positions = opts.positions || {};
   const highlight = new Set(opts.highlight || []);
-  const ctx = canvas.getContext("2d");
-  const W = canvas.width;
-  const H = canvas.height;
+  const { ctx, w: W, h: H } = fitHiDpiCanvas(canvas);
   ctx.clearRect(0, 0, W, H);
   ctx.fillStyle = "#f7f4ef";
   ctx.fillRect(0, 0, W, H);
@@ -486,6 +486,8 @@ export function drawLegalization(canvas, opts = {}) {
     F: "#ad1457",
   };
 
+  const labelPx = Math.max(13, Math.min(20, Math.round(14 * Math.min(scaleX, scaleY))));
+
   for (const id of CELLS) {
     const p = positions[id];
     if (!p) continue;
@@ -502,7 +504,7 @@ export function drawLegalization(canvas, opts = {}) {
     ctx.lineWidth = highlight.has(id) ? 3 : 1.5;
     ctx.strokeRect(x0, y0, ww, hh);
     ctx.fillStyle = "#fff";
-    ctx.font = "bold 14px sans-serif";
+    ctx.font = `bold ${labelPx}px sans-serif`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillText(id, x0 + ww / 2, y0 + hh / 2);

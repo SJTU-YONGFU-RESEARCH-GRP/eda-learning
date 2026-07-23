@@ -9,7 +9,7 @@ from typing import Any
 import yaml
 
 from transcript_parse import load_transcript_sections
-from transcript_to_outline import _strip_code_fences, _strip_images
+from transcript_to_outline import _strip_code_fences, _strip_html_comments, _strip_images
 
 
 def _normalize_title(title: str) -> str:
@@ -17,8 +17,9 @@ def _normalize_title(title: str) -> str:
 
 
 def _normalize_notes(text: str) -> str:
-    """Compare spoken body ignoring snapshot embeds and try-these fences."""
-    cleaned, _ = _strip_images(text)
+    """Compare spoken body ignoring snapshots, fences, and HTML markers."""
+    cleaned = _strip_html_comments(text)
+    cleaned, _ = _strip_images(cleaned)
     cleaned, _ = _strip_code_fences(cleaned)
     return cleaned.strip()
 

@@ -1,25 +1,34 @@
 # Examples — Cutsize and balance
 
-Track A (implement). Use tiny graphs first (8–30 nodes).
+Track A (implement). Use `examples/tiny_graph.json` and `../../common/solvers.py`.
 
 ## Algorithm
 
-**cutsize + balance metrics on a labeled bipartition**
+**cutsize + balance metrics**
+
+## Pseudocode
+
+```text
+INPUT: assignment side[v], weighted edges
+OUTPUT: cutsize, sizes, imbalance
+cut ← Σ w(u,v) where side[u]≠side[v]
+size[p] ← Σ node_size on side p
+imbalance ← |s0−s1| / (s0+s1)
+GOLDEN bad AE|BCD: cut=12, sizes 2|3
+GOLDEN ABC|DE: cut=3, sizes 3|2
+```
 
 ## Starter prompts
 
-1. Restate the algorithm in five bullets (inputs → loop → stop → output).
-2. Run it on the 5-node weighted graph in `examples/tiny_graph.json` (create if missing).
-3. Compute cutsize and balance after the run.
-4. Change one parameter (seed, k, balance tolerance) and report what moved.
-5. Name one failure mode (imbalance, local minimum, ignored terminals, …).
+1. Implement the pseudocode above (or call the matching `common/` helper).
+2. Print the metrics named in the GOLDEN line; match browser / Track A tests.
+3. Change one knob and report what moved.
 
 ## Expected artifacts
 
-- Partition assignment per node
-- Cutsize and balance before and after
-- Short note: why this algorithm belongs on the partitioning shelf
+- Outputs listed in the pseudocode OUTPUT line
+- Note tying the run to the pseudocode phases
 
 ## Stretch
 
-Scale to ~100 nodes; keep the same API as the tiny case.
+Scale the instance slightly; keep the same metrics API.

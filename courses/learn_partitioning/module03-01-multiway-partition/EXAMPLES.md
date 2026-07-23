@@ -1,25 +1,34 @@
 # Examples — Multiway partitioning
 
-Track A (implement). Use tiny graphs first (8–30 nodes).
+Track A (implement). Use `examples/tiny_graph.json` and `../../common/solvers.py`.
 
 ## Algorithm
 
-**direct multiway partitioning**
+**recursive bisection vs round-robin k-way**
+
+## Pseudocode
+
+```text
+INPUT: G, k
+OUTPUT: k-way assignment + cutsize
+method A: recursive_bisection(G,k)
+method B: round-robin / block assign labels
+cut ← Σ w where side[u]≠side[v]
+GOLDEN k=3 recursive: AB|C|DE cut=8
+round-robin alphabetic: cut≈18 (worse)
+```
 
 ## Starter prompts
 
-1. Restate the algorithm in five bullets (inputs → loop → stop → output).
-2. Run it on the 5-node weighted graph in `examples/tiny_graph.json` (create if missing).
-3. Compute cutsize and balance after the run.
-4. Change one parameter (seed, k, balance tolerance) and report what moved.
-5. Name one failure mode (imbalance, local minimum, ignored terminals, …).
+1. Implement the pseudocode above (or call the matching `common/` helper).
+2. Print the metrics named in the GOLDEN line; match browser / Track A tests.
+3. Change one knob and report what moved.
 
 ## Expected artifacts
 
-- Partition assignment per node
-- Cutsize and balance before and after
-- Short note: why this algorithm belongs on the partitioning shelf
+- Outputs listed in the pseudocode OUTPUT line
+- Note tying the run to the pseudocode phases
 
 ## Stretch
 
-Scale to ~100 nodes; keep the same API as the tiny case.
+Scale the instance slightly; keep the same metrics API.

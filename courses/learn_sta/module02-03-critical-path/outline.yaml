@@ -1,8 +1,91 @@
-title: "Critical path"
-footer: "learn_sta — Critical path"
+title: Critical path
+footer: learn_sta — 03 critical path
 slides:
-  - type: title
-    title: "Critical path"
-    subtitle: "module02-03-critical-path · learn_sta"
-    notes: |
-      Stub — replace via transcript_to_outline.py after revising transcript.md.
+- type: title
+  title: Critical path
+  subtitle: When slack is bad, or even when it is good, you still need the path
+  notes: When slack is bad—or even when it is good—you still need the path. Trace
+    from the worst endpoint through matching arrival tags. You will recover the golden
+    path in → u1/A → u1/Y → u2/A → u2/Y → out.
+- type: bullets
+  title: Goldens to remember
+  bullets:
+  - Critical path has six pins
+  - Path delay equals A(out)=3.2
+  - Always match A(u)+d to A(v)
+  - Keep these numbers handy, the browser challenges and Track A tests use the same
+    instance
+  - <!-- algorithm-walkthrough -->
+  notes: 'Critical path has six pins. Path delay equals A(out)=3.2. Always match A(u)+d
+    to A(v). Keep these numbers handy—the browser challenges and Track A tests use
+    the same instance.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: Start from the worst endpoint
+  image: assets/steps/01-worst-sink.png
+  caption: Start from the worst endpoint
+  notes: Critical-path traceback begins at the endpoint with the worst setup slack.
+    Here that is out with slack 6.8—still the only sink.
+- type: image
+  title: Step to the matching predecessor
+  image: assets/steps/02-match-pred.png
+  caption: Step to the matching predecessor
+  notes: At each pin, choose a predecessor u where A(u) + delay equals A(v). That
+    arc is on the critical path.
+- type: image
+  title: The full golden path
+  image: assets/steps/03-full-path.png
+  caption: The full golden path
+  notes: 'The complete critical path is in → u1/A → u1/Y → u2/A → u2/Y → out. Arrival
+    at out equals the sum of arc delays along this path: 3.2.'
+- type: image
+  title: Fix the path, not a random gate
+  image: assets/steps/04-why-it-matters.png
+  caption: Fix the path, not a random gate
+  notes: Optimization and ECO work chase critical paths. Tag matching keeps you honest
+    when reconvergence exists—on this chain there is only one route.
+- type: image
+  title: Slack and path travel together
+  image: assets/steps/05-slack-path.png
+  caption: Slack and path travel together
+  notes: 'Reports pair worst slack with its path. Next labs edit delays and exceptions—always
+    re-trace after the tags change.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab, open **critical-path**
+  - Load the starter, run the analysis once, and read the metrics panel
+  - Orient yourself, challenge panel, canvas, Check, then mirror the same goldens
+    in code
+  notes: In the browser lab, open **critical-path**. Load the starter, run the analysis
+    once, and read the metrics panel. Orient yourself—challenge panel, canvas, Check—then
+    mirror the same goldens in code.
+- type: bullets
+  title: Implement track
+  bullets:
+  - In the implement track
+  - Run `python3 common/test_propagate.py` (and the timing-graph test) until the goldens
+    print
+  notes: In the implement track, use `common/tiny_timing.json` with the helpers in
+    `common/graph.py` and `common/propagate.py`. Run `python3 common/test_propagate.py`
+    (and the timing-graph test) until the goldens print ok.
+- type: bullets
+  title: Pitfall
+  bullets:
+  - Do not mix setup and hold required maps
+  - Do not propagate before the graph is levelized
+  - After an edit or exception, recompute, stale tags lie
+  notes: Do not mix setup and hold required maps. Do not propagate before the graph
+    is levelized. After an edit or exception, recompute—stale tags lie.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Finish the checklist on at least one track, preferably both
+  - When your numbers match the goldens, take the quiz, then continue
+  notes: Finish the checklist on at least one track—preferably both. When your numbers
+    match the goldens, take the quiz, then continue.

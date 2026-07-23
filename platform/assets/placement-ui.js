@@ -1,6 +1,7 @@
 /**
  * Placement canvas + re-exports of challenge chrome from clustering-ui.
  */
+import { fitHiDpiCanvas } from "./canvas-hires.js";
 import { createChallengeLab, el, metricsBlock } from "./clustering-ui.js";
 import { CELLS, NETS } from "./placement-core.js";
 
@@ -29,13 +30,7 @@ function cellColor(id) {
  * @param {string[]} [opts.highlightCells]
  */
 export function drawPlacement(canvas, cells, positions, nets, opts = {}) {
-  const ctx = canvas.getContext("2d");
-  const dpr = window.devicePixelRatio || 1;
-  const w = canvas.clientWidth || 420;
-  const h = canvas.clientHeight || 300;
-  canvas.width = w * dpr;
-  canvas.height = h * dpr;
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const { ctx, w, h } = fitHiDpiCanvas(canvas);
   ctx.clearRect(0, 0, w, h);
   ctx.fillStyle = "#f7faf9";
   ctx.fillRect(0, 0, w, h);

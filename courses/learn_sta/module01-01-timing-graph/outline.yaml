@@ -1,8 +1,93 @@
-title: "Timing graph"
-footer: "learn_sta — Timing graph"
+title: Timing graph
+footer: learn_sta — 01 timing graph
 slides:
-  - type: title
-    title: "Timing graph"
-    subtitle: "module01-01-timing-graph · learn_sta"
-    notes: |
-      Stub — replace via transcript_to_outline.py after revising transcript.md.
+- type: title
+  title: Timing graph
+  subtitle: Static timing starts with a directed timing graph
+  notes: Static timing starts with a directed timing graph. On our tiny chain, six
+    pins and five arcs carry you from in through two cells to out. You will levelize
+    the graph, name sources and sinks, and prove that a back-edge out to in makes
+    levelize fail.
+- type: bullets
+  title: Goldens to remember
+  bullets:
+  - 'Goldens: six pins, five arcs, levels zero through five, path delay three point
+    two'
+  - A cycle returns no levels
+  - Keep these numbers handy, the browser challenges and Track A tests use the same
+    instance
+  - <!-- algorithm-walkthrough -->
+  notes: 'Goldens: six pins, five arcs, levels zero through five, path delay three
+    point two. A cycle returns no levels. Keep these numbers handy—the browser challenges
+    and Track A tests use the same instance.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: Start with a tiny timing chain
+  image: assets/steps/01-tiny-chain.png
+  caption: Start with a tiny timing chain
+  notes: Six pins form one path from primary input in through two cells to out. Net
+    arcs are dashed; cell arcs are solid. This is the shared starter for every STA
+    lab.
+- type: image
+  title: Name sources and sinks
+  image: assets/steps/02-sources-sinks.png
+  caption: Name sources and sinks
+  notes: A source has no incoming arc; a sink has no outgoing arc. On this chain,
+    in is the only source and out is the only sink.
+- type: image
+  title: Levelize with Kahn's algorithm
+  image: assets/steps/03-levelize.png
+  caption: Levelize with Kahn's algorithm
+  notes: Process pins with indegree zero, then peel successors. out lands at level
+    5 on this chain.
+- type: image
+  title: Topo order and delay sums
+  image: assets/steps/04-topo-delays.png
+  caption: Topo order and delay sums
+  notes: Sorting pins by level gives the topo order. Path delay sums to 3.2; cell
+    arcs alone sum to 2.7.
+- type: image
+  title: A cycle fails levelize
+  image: assets/steps/05-cycle-reject.png
+  caption: A cycle fails levelize
+  notes: 'Add a back-edge from out to in and Kahn''s algorithm stalls. Timing graphs
+    for STA must be acyclic.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab, open **timing-graph**
+  - Load the starter, run the analysis once, and read the metrics panel
+  - Orient yourself, challenge panel, canvas, Check, then mirror the same goldens
+    in code
+  notes: In the browser lab, open **timing-graph**. Load the starter, run the analysis
+    once, and read the metrics panel. Orient yourself—challenge panel, canvas, Check—then
+    mirror the same goldens in code.
+- type: bullets
+  title: Implement track
+  bullets:
+  - In the implement track
+  - Run `python3 common/test_propagate.py` (and the timing-graph test) until the goldens
+    print
+  notes: In the implement track, use `common/tiny_timing.json` with the helpers in
+    `common/graph.py` and `common/propagate.py`. Run `python3 common/test_propagate.py`
+    (and the timing-graph test) until the goldens print ok.
+- type: bullets
+  title: Pitfall
+  bullets:
+  - Do not mix setup and hold required maps
+  - Do not propagate before the graph is levelized
+  - After an edit or exception, recompute, stale tags lie
+  notes: Do not mix setup and hold required maps. Do not propagate before the graph
+    is levelized. After an edit or exception, recompute—stale tags lie.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Finish the checklist on at least one track, preferably both
+  - When your numbers match the goldens, take the quiz, then continue
+  notes: Finish the checklist on at least one track—preferably both. When your numbers
+    match the goldens, take the quiz, then continue.

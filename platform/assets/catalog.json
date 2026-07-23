@@ -347,7 +347,7 @@
       "id": "learn_sta",
       "title": "Static timing analysis",
       "focus": "Timing graph \u2192 arrival/required \u2192 slack \u2192 critical path \u2192 incremental update",
-      "status": "scaffold",
+      "status": "ready",
       "repo": "learn_sta",
       "prereq": null,
       "labs": [
@@ -360,9 +360,9 @@
           "toolId": null,
           "status": "shipped",
           "media": {
-            "video": false,
-            "pdf": false,
-            "pptx": false,
+            "video": true,
+            "pdf": true,
+            "pptx": true,
             "quiz": true
           }
         },
@@ -375,9 +375,9 @@
           "toolId": "timing-graph",
           "status": "shipped",
           "media": {
-            "video": false,
-            "pdf": false,
-            "pptx": false,
+            "video": true,
+            "pdf": true,
+            "pptx": true,
             "quiz": true
           }
         },
@@ -388,11 +388,11 @@
           "kind": "lab",
           "title": "Arrival and required times",
           "toolId": "arrival-required",
-          "status": "planned",
+          "status": "shipped",
           "media": {
-            "video": false,
-            "pdf": false,
-            "pptx": false,
+            "video": true,
+            "pdf": true,
+            "pptx": true,
             "quiz": true
           }
         },
@@ -403,11 +403,11 @@
           "kind": "lab",
           "title": "Slack, setup, and hold",
           "toolId": "slack-setup-hold",
-          "status": "planned",
+          "status": "shipped",
           "media": {
-            "video": false,
-            "pdf": false,
-            "pptx": false,
+            "video": true,
+            "pdf": true,
+            "pptx": true,
             "quiz": true
           }
         },
@@ -418,11 +418,11 @@
           "kind": "lab",
           "title": "Critical path",
           "toolId": "critical-path",
-          "status": "planned",
+          "status": "shipped",
           "media": {
-            "video": false,
-            "pdf": false,
-            "pptx": false,
+            "video": true,
+            "pdf": true,
+            "pptx": true,
             "quiz": true
           }
         },
@@ -433,11 +433,11 @@
           "kind": "lab",
           "title": "Incremental timing update",
           "toolId": "incremental-update",
-          "status": "planned",
+          "status": "shipped",
           "media": {
-            "video": false,
-            "pdf": false,
-            "pptx": false,
+            "video": true,
+            "pdf": true,
+            "pptx": true,
             "quiz": true
           }
         },
@@ -448,11 +448,11 @@
           "kind": "lab",
           "title": "False and multicycle paths (engine view)",
           "toolId": "false-multicycle-lite",
-          "status": "planned",
+          "status": "shipped",
           "media": {
-            "video": false,
-            "pdf": false,
-            "pptx": false,
+            "video": true,
+            "pdf": true,
+            "pptx": true,
             "quiz": true
           }
         },
@@ -463,11 +463,11 @@
           "kind": "offline",
           "title": "Offline benchmark compare",
           "toolId": null,
-          "status": "planned",
+          "status": "shipped",
           "media": {
-            "video": false,
-            "pdf": false,
-            "pptx": false,
+            "video": true,
+            "pdf": true,
+            "pptx": true,
             "quiz": true
           }
         },
@@ -480,9 +480,9 @@
           "toolId": null,
           "status": "shipped",
           "media": {
-            "video": false,
-            "pdf": false,
-            "pptx": false,
+            "video": true,
+            "pdf": true,
+            "pptx": true,
             "quiz": true
           }
         }

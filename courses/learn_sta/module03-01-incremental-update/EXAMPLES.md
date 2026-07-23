@@ -1,25 +1,35 @@
-# Examples — Incremental timing update
+# Examples — Incremental update
 
-Track A (implement). Use tiny timing netlists first (handful of cells / pins).
+Track A (implement). Use `examples/tiny_timing.json` and `../../common/propagate.py + graph.py`.
 
 ## Algorithm
 
-**incremental invalidate / recompute on a delay edit**
+**invalidate fanout cone; recompute A**
+
+## Pseudocode
+
+```text
+INPUT: G, edit u→v delay:=d', A_old
+OUTPUT: A_new, invalidated cone
+set delay(u,v)←d'
+inv ← BFS successors from v (incl. v)
+delete A[p] for p in inv
+recompute A in topo order for missing pins
+GOLDEN edit 1.2→2.0 on u1 cell:
+  inv={u1/Y,u2/A,u2/Y,out}; A[out]=4.0
+```
 
 ## Starter prompts
 
-1. Restate the algorithm in five bullets (inputs → loop → stop → output).
-2. Run it on the tiny netlist in `examples/tiny_timing.json` (create if missing).
-3. Report the metrics this module cares about (levels, arrival, required, slack, path, …).
-4. Change one input (clock period, arc delay, exception) and report what moved.
-5. Name one failure mode (wrong levelization, missed endpoint, stale incremental cone, …).
+1. Implement the pseudocode above (or call the matching `common/` helper).
+2. Print the metrics named in the GOLDEN line; match browser / Track A tests.
+3. Change one knob and report what moved.
 
 ## Expected artifacts
 
-- Timing graph or tagged pin times (as applicable)
-- Slack and/or critical path for the starter clocks
-- Short note: why this step belongs on the STA shelf
+- Outputs listed in the pseudocode OUTPUT line
+- Note tying the run to the pseudocode phases
 
 ## Stretch
 
-Scale to ~50 cells; keep the same API as the tiny case.
+Scale the instance slightly; keep the same metrics API.

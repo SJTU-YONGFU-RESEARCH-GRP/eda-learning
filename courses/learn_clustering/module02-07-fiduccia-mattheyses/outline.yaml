@@ -4,12 +4,9 @@ slides:
 - type: title
   title: Fiduccia–Mattheyses refinement
   subtitle: FM refines a bipartition with single-vertex moves, locking
-  notes: 'FM refines a bipartition with single-vertex moves, locking, and rollback—cousin
+  notes: FM refines a bipartition with single-vertex moves, locking, and rollback—cousin
     to Kernighan–Lin, but one cell at a time. On the same bad seed that starts at
     cutsize twelve, FM reaches cutsize three.
-
-
-    <!-- algorithm-walkthrough -->'
 - type: image
   title: Same bad seed, different move set
   image: assets/steps/01-bad-seed.png
@@ -38,11 +35,8 @@ slides:
   title: Pass 1 confirms local optimum
   image: assets/steps/05-pass1-stop.png
   caption: Pass 1 confirms local optimum
-  notes: 'A second FM pass finds no improving move prefix. Stop. In real tools, FM
+  notes: A second FM pass finds no improving move prefix. Stop. In real tools, FM
     often runs inside multilevel V-cycles with tighter balance and hyperedges.
-
-
-    <!-- /algorithm-walkthrough -->'
 - type: bullets
   title: Browser lab track
   bullets:
@@ -65,9 +59,7 @@ slides:
 
     export PYTHONPATH=../common
 
-    python ../common/solvers.py examples/tiny_graph.json --mode fm --seed ../module02-05-kernighan-lin/examples/seed_partition.json
-
-    '
+    python ../common/solvers.py examples/tiny_graph.json --mode fm --seed ../module02-05-kernighan-lin/examples/seed_partition.json'
   notes: ''
 - type: bullets
   title: Pitfalls to watch

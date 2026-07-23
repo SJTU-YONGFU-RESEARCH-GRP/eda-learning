@@ -1,8 +1,51 @@
-title: "STA path complete"
-footer: "learn_sta — Wrap"
+title: STA path complete
+footer: learn_sta — 00 wrap
 slides:
-  - type: title
-    title: "STA path complete"
-    subtitle: "module99-00-wrap · learn_sta"
-    notes: |
-      Stub — replace via transcript_to_outline.py after revising transcript.md.
+- type: title
+  title: STA path complete
+  subtitle: You’ve walked the STA path
+  notes: You’ve walked the STA path—from timing graphs and arrival/required propagation,
+    through setup and hold slack and critical-path traceback, into incremental updates
+    and engine-facing false or multicycle exceptions, plus an offline compare habit.
+    This wrap names what you can do now and where to go next.
+- type: bullets
+  title: What you can do now
+  bullets:
+  - You can build a levelized timing graph, propagate tags, compute slack
+  - You know when a full rebuild is wasteful and when an incremental cone update is
+    enough
+  - You treat false paths and multicycle checks as engine data, not magic
+  - You are not shipping a foundry timer
+  notes: You can build a levelized timing graph, propagate tags, compute slack, and
+    trace a critical path. You know when a full rebuild is wasteful and when an incremental
+    cone update is enough. You treat false paths and multicycle checks as engine data,
+    not magic. You are not shipping a foundry timer—you are building algorithm literacy
+    for the digital flow.
+- type: bullets
+  title: Close the gaps
+  bullets:
+  - If you mainly watched browser labs
+  - If you mainly coded, re-open any skipped visual labs when they ship
+  - Either track works for self-study
+  notes: If you mainly watched browser labs, go back and finish at least one full
+    implementation in foundations and one in slack or critical path. If you mainly
+    coded, re-open any skipped visual labs when they ship. Either track works for
+    self-study; both together stick best before constraints or signal integrity.
+- type: bullets
+  title: Next
+  bullets:
+  - Complete the quiz for this part
+  - Natural next step is learn SDC
+  notes: 'Natural next step is learn SDC—clocks, I/O, false and multicycle constraints
+    as data the engine consumes. Optional later: learn SI for crosstalk and noise-on-timing
+    literacy. Keep your tiny netlist harness—you’ll reuse the I/O format.'
+- type: bullets
+  title: Your turn
+  bullets:
+  - Review the wrap checklist
+  - Name five ideas from this course and one strength each
+  - Say which idea you’d use after inserting a buffer on a critical net
+  - When you’re ready, take the short quiz, then open the learn SDC README
+  notes: Review the wrap checklist. Name five ideas from this course and one strength
+    each. Say which idea you’d use after inserting a buffer on a critical net. When
+    you’re ready, take the short quiz, then open the learn SDC README.

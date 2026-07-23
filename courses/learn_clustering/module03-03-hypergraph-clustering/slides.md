@@ -52,7 +52,6 @@ Netlists are hypergraphs, one net can touch many pins
 ```
 export PYTHONPATH=../common
 python ../common/solvers.py examples/tiny_hypergraph.json --mode hypergraph --k 2
-
 ```
 
 ---

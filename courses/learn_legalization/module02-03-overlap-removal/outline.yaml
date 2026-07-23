@@ -14,13 +14,40 @@ slides:
   - Sort movables by x within each row and place left without overlap
   - D, E, and F keep their seed roles on other rows
   - This is the same shelf pack Tetris uses, simple, deterministic
-  - <!-- algorithm-walkthrough -->
-  notes: 'Sort movables by x within each row and place left without overlap. D, E,
+  notes: Sort movables by x within each row and place left without overlap. D, E,
     and F keep their seed roles on other rows. This is the same shelf pack Tetris
     uses—simple, deterministic, and a good global legalize baseline.
+- type: bullets
+  title: Pseudocode
+  bullets:
+  - 'Overlap removal is a two-phase sketch: snap first, then pack each row'
+  - Pseudocode makes the phases explicit so you do not merge them into one vague “fix
+  - Open this module's examples file and find the Pseudocode section
+  - That written sketch is what you implement on the implement track and what the
+    browser
+  notes: 'Overlap removal is a two-phase sketch: snap first, then pack each row. Pseudocode
+    makes the phases explicit so you do not merge them into one vague “fix overlaps”
+    bullet.
 
 
-    <!-- algorithm-walkthrough -->'
+    Open this module''s examples file and find the Pseudocode section. That written
+    sketch is what you implement on the implement track and what the browser challenges
+    measure.'
+- type: bullets
+  title: Algorithm sketch
+  bullets:
+  - Inside each row
+  - On the teaching seed that yields A at four
+  notes: Inside each row, sort by x and place left without interval overlap, skipping
+    fixed macro blocks. On the teaching seed that yields A at four, B at six, C at
+    eight on the middle row—displacement six, HPWL thirty-two.
+- type: code
+  title: Algorithm sketch — try these
+  code: "INPUT: positions, widths, rows, fixed macros\nOUTPUT: legal packing (if capacity\
+    \ allows)\nsnap all movables to sites/rows\nfor each row y:\n  sort movables by\
+    \ x; left-pack (skip macros)\nreport legal?, disp, HPWL\nGOLDEN: A@4 B@6 C@8 on\
+    \ y=2; disp=6; HPWL=32"
+  notes: ''
 - type: image
   title: A, B, C stacked at (4, 2)
   image: assets/steps/01-overlap-seed.png
@@ -51,31 +78,29 @@ slides:
   title: D, E, F unchanged
   image: assets/steps/05-unchanged.png
   caption: D, E, F unchanged
-  notes: 'Macro-sized D stays at (8, 4), E at (0, 4), F at (10, 0). Overlap removal
+  notes: Macro-sized D stays at (8, 4), E at (0, 4), F at (10, 0). Overlap removal
     only repacked the crowded middle row—fixed-looking cells on other rows are untouched.
-
-
-    <!-- /algorithm-walkthrough -->'
 - type: bullets
   title: Browser lab track
   bullets:
   - In the browser lab track, open the **overlap-removal** lab from the tools shelf
-  - Load the overlap or float starter, run the legalizer once
+  - Open the interactive lab
+  - Reveal golden is study-only
   - Work the challenges that lock the goldens
   notes: In the browser lab track, open the **overlap-removal** lab from the tools
-    shelf. Load the overlap or float starter, run the legalizer once, and read legality
-    plus displacement and HPWL when the panel shows them. Work the challenges that
-    lock the goldens, then come back to implement the same loop yourself.
+    shelf. Open the interactive lab, place or snap cells on the site and row grid—or
+    use an Apply helper—then Check. Reveal golden is study-only. Work the challenges
+    that lock the goldens, then come back to implement the same loop yourself.
 - type: bullets
   title: Implement track
   bullets:
-  - In the implement track, open this module's examples and the course `common/` solvers
+  - In the implement track
   - Parse `tiny_legal.json`, run the algorithm with deterministic coordinates
   - Match the browser goldens before you claim the checklist
-  notes: In the implement track, open this module's examples and the course `common/`
-    solvers. Parse `tiny_legal.json`, run the algorithm with deterministic coordinates,
-    and print legality, displacement, and HPWL. Match the browser goldens before you
-    claim the checklist.
+  notes: In the implement track, open this module's EXAMPLES.md Pseudocode section
+    and the course common solvers. Parse `tiny_legal.json`, run the algorithm with
+    deterministic coordinates, and print legality, displacement, and HPWL. Match the
+    browser goldens before you claim the checklist.
 - type: bullets
   title: Pitfalls
   bullets:

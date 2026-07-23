@@ -66,32 +66,63 @@ Shared helpers: `platform/assets/floorplanning-core.js`, `platform/assets/floorp
 
 ## Placement
 
-| Tool | Starter (reference) | Challenges | Status |
-|------|---------------------|------------|--------|
-| `hpwl-metrics` | Starter HPWL **52**; golden **14** | **10** | **Shipped** |
-| `net-models` | Golden ABCD bbox 4; clique **16**; star-from-A **8** | **10** | **Shipped** |
-| `force-directed-place` | Starter 52 → force ≈ **18.7** | **10** | **Shipped** |
-| `quadratic-place` | Pads A,D fixed → HPWL **48** | **10** | **Shipped** |
-| `analytical-place` | Force/quad + density spread → ≈ **48.1** | **10** | **Shipped** |
-| `sa-placement` | Seed 42 best ≈ **49.6** (acc 44 / rej 16) | **10** | **Shipped** |
-| `density-bins` | 2×2 cap1 overflow **2**; golden cap2 overflow **1** | **10** | **Shipped** |
-| `spread-legalize-lite` | Overlap minDist 0 → spacing ≥ **0.5** | **10** | **Shipped** |
-| `timing-driven-place` | Timing HPWL **116** → golden **30** (net4×5) | **10** | **Shipped** |
+Interactive labs: **you move cells** (and/or apply force/SA/quad helpers), then Check.
+Workspace starts at the high-HPWL seed — **not** the golden. **Reveal golden (study)** is optional.
 
-Shared helpers: `platform/assets/placement-core.js`, `platform/assets/placement-ui.js` (reuses `createChallengeLab` from `clustering-ui.js`).
+| Tool | Learner actions | Challenges | Status |
+|------|-----------------|------------|--------|
+| `hpwl-metrics` | Move cells; starter HPWL 52 → golden 14 | **10** | **Shipped** |
+| `net-models` | Move / inspect clique vs star nets | **10** | **Shipped** |
+| `force-directed-place` | Move or Apply force step → ≈18.7 | **10** | **Shipped** |
+| `quadratic-place` | Pads A,D fixed; place rest → HPWL 48 | **10** | **Shipped** |
+| `analytical-place` | Force/quad + density spread | **10** | **Shipped** |
+| `sa-placement` | Swap/move or SA steps | **10** | **Shipped** |
+| `density-bins` | Move cells; read bin overflow | **10** | **Shipped** |
+| `spread-legalize-lite` | Spread overlaps → minDist ≥ 0.5 | **10** | **Shipped** |
+| `timing-driven-place` | Move critical nets → timing HPWL 30 | **10** | **Shipped** |
+
+Shared helpers: `platform/assets/placement-core.js`, `platform/assets/interactive-placement-lab.js`.
+
+## Legalization
+
+Interactive labs: **you move cells on the site/row grid** (and/or Apply snap/Abacus/Tetris), then Check.
+Overlap/float seeds — **not** the golden. **Reveal golden (study)** is optional.
+
+| Tool | Learner actions | Challenges | Status |
+|------|-----------------|------------|--------|
+| `site-row-model` | Snap to sites/rows; read grid model | **10** | **Shipped** |
+| `legality-metrics` | Fix overlaps; legalityReport | **10** | **Shipped** |
+| `greedy-snap` | Float → Snap all (may still overlap) | **10** | **Shipped** |
+| `overlap-removal` | Move or Apply overlap-removal | **10** | **Shipped** |
+| `abacus-row-pack` | Apply Abacus / pack by hand | **10** | **Shipped** |
+| `tetris-row-pack` | Apply Tetris / pack by hand | **10** | **Shipped** |
+| `fixed-macros` | D locked; Abacus respects macros | **10** | **Shipped** |
+| `displacement-hpwl` | Legalize; cost = HPWL + λ·disp | **10** | **Shipped** |
+| `detailed-vs-global` | Compare global vs detailed disp | **10** | **Shipped** |
+
+Shared helpers: `platform/assets/legalization-core.js`, `platform/assets/interactive-legalization-lab.js`.
 
 ## Static timing analysis (STA)
 
-| Tool | Starter (reference) | Challenges | Status |
-|------|---------------------|------------|--------|
-| `timing-graph` | 6 pins / 5 arcs; levels 0…5; path Σ 3.2; cycle fails | **10** | **Shipped** |
+Interactive labs: **you assign levels / values / path / cone / exceptions**, then Check.
+Workspace starts empty or seeded — **not** the golden. **Reveal golden (study)** is optional.
+Helpers (Levelize / Propagate / Trace) are optional accelerators.
 
-Shared helpers: `platform/assets/sta-core.js`, `platform/assets/sta-ui.js`.
+| Tool | Learner actions | Challenges | Status |
+|------|-----------------|------------|--------|
+| `timing-graph` | Assign levels or Run levelize; try cycle edge | **10** | **Shipped** |
+| `arrival-required` | Enter A/R or Propagate | **10** | **Shipped** |
+| `slack-setup-hold` | Enter slack or Compute setup/hold | **10** | **Shipped** |
+| `critical-path` | Click path pins or Trace | **10** | **Shipped** |
+| `incremental-update` | Bump delay; mark fanout cone | **10** | **Shipped** |
+| `false-multicycle-lite` | Disable arcs; set multicycle | **10** | **Shipped** |
+
+Shared helpers: `platform/assets/sta-core.js`, `platform/assets/interactive-sta-lab.js`.
 
 ## Algorithm walkthroughs (PPT / transcript)
 
 Step-by-step teaching frames (graph + caption + bullets):
 
 - Viewer: [`tools/algorithm-walkthrough/`](tools/algorithm-walkthrough/) — `?algo=<lab-id>&step=N`
-- Media rebuild **in WSL**: `bash courses/learn_clustering/scripts/build_all_media.sh`
-- Index: [`courses/learn_clustering/docs/WALKTHROUGHS.md`](../courses/learn_clustering/docs/WALKTHROUGHS.md)
+- Media rebuild **in WSL**: e.g. `bash courses/learn_legalization/scripts/build_all_media.sh`
+- Indexes: [`learn_clustering/docs/WALKTHROUGHS.md`](../courses/learn_clustering/docs/WALKTHROUGHS.md) · [`learn_legalization/docs/WALKTHROUGHS.md`](../courses/learn_legalization/docs/WALKTHROUGHS.md)

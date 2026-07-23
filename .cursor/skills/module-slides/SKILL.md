@@ -10,11 +10,12 @@ description: >-
   assets/steps/, requires full media (pptx→pdf→audio→video), clustering-depth
   content (algorithm-specific transcripts, walkthrough frames, Track A common/
   solvers), and publishes the course into platform/ at digital_learning quality
-  (catalog + pages.js lab shells, tools with starter+challenges) when media and
-  tools are ready. Use when the user mentions module-slides, module PPT/pptx, PDF,
+  (catalog + pages.js lab shells, interactive tools where learners solve challenges)
+  when media and tools are ready. Requires Track A EXAMPLES.md with algorithm
+  pseudocode. Use when the user mentions module-slides, module PPT/pptx, PDF,
   transcript, narration, TTS, video clips, quiz.json, lab screenshot/snapshot,
-  algorithm walkthrough, step frames, platform publish, course/module README, or
-  media for a course module.
+  algorithm walkthrough, step frames, platform publish, course/module README,
+  interactive labs, pseudocode, or media for a course module.
 ---
 
 # Module Slides
@@ -89,11 +90,12 @@ Bash entry points source `_require_unix.sh` and **exit** if they detect MSYS/Cyg
 3. **Course `README.md`** matches the [learn_unix](https://github.com/universal-verification-methodology/learn_unix) pattern (badges, TOC, Contents, Browse/clone, Consume from parent, Author/module-slides, Two tracks, Module landings, Browser labs, License) — see [README conventions](#readme-conventions-learn_unix-pattern) and `templates/course_README.md.example`
 4. **Each module `README.md`** matches kind-specific templates (`lab` / `intro` / `wrap`) — Media table, prev/next, Track A/B when lab
 5. `python3 .cursor/skills/module-slides/scripts/verify_course_readme.py courses/<course_id> --modules` passes
-6. Browser tools shipped under `platform/tools/<lab-id>/` with **starter example + challenges** (digital_learning pattern)
-7. `python3 platform/scripts/publish_course_platform.py <course_id>` has been run
-8. Platform course pages use **catalog + `pages.js` shells** (progress, prev/next, tool CTA, video, quiz) — not thin static video tags
-9. `platform/course-media/<course_id>` symlink works for local media
-10. Smoke: `python3 -m http.server 8080 --directory platform` → `/courses/<id>/` and one lab page render correctly
+6. Browser tools shipped under `platform/tools/<lab-id>/` as **interactive labs** (see [Interactive browser labs](#interactive-browser-labs-required)) — learners edit state and Check; goldens are study-only
+7. Each algorithm lab `EXAMPLES.md` includes a **`## Pseudocode`** section (see [Pseudocode in materials](#pseudocode-in-materials-required))
+8. `python3 platform/scripts/publish_course_platform.py <course_id>` has been run
+9. Platform course pages use **catalog + `pages.js` shells** (progress, prev/next, tool CTA, video, quiz) — not thin static video tags
+10. `platform/course-media/<course_id>` symlink works for local media
+11. Smoke: `python3 -m http.server 8080 --directory platform` → `/courses/<id>/` and one lab page render correctly
 
 Reference quality bar: **learn_unix** course README + **digital_learning** lab shells + **learn_clustering** content depth (walkthroughs, solvers, algorithm-specific narration).
 
@@ -109,20 +111,83 @@ Scaffold + media alone is **not** enough. Every new algorithm course must reach 
 | **Walkthrough frames** | `assets/steps/*.png` + `STEPS.md` + `<!-- algorithm-walkthrough -->` in transcript for **every** algorithm lab | PPTX with only Track B/A prose slides |
 | **Walkthrough map** | Lab id registered in `platform/tools/algorithm-walkthrough/` **and** `capture_algorithm_walkthrough.py` `LAB_TO_ALGO` | Capture that fails “No walkthrough mapping” |
 | **Track A `common/`** | Real reference helpers/solvers + tiny golden instance (Python); not just README | Empty `common/` or JSON-only stub |
-| **Browser tools** | Starter example + ~10 challenges via `createChallengeLab` | Tool chrome with no checks |
+| **Browser tools** | Interactive workspace + ~10 challenges that score **learner state** (see below) | Demo buttons whose challenges check `mode === "golden"` / “Click Show …” |
+| **Pseudocode** | Lab `EXAMPLES.md` has `## Pseudocode` matching Track A / `common/` solvers | Vague “restate in five bullets” with no algorithm sketch |
 | **Docs** | `docs/MODULES.md`, `SCOPE.md`, `TWO_TRACKS.md`, **`WALKTHROUGHS.md`** listing every algo lab | Missing walkthrough index |
 | **Quizzes** | 3–5 items tied to **this** algorithm’s goldens / pitfalls | Identical quiz text across all labs |
+
+### Interactive browser labs (required)
+
+Challenges must be **solvable by the learner**, not by revealing the answer.
+
+| Rule | Required | Anti-pattern (reject) |
+|------|----------|------------------------|
+| Workspace | Starts empty, seed, or unlabeled — **not** the golden | Loading golden as the only workspace |
+| Learner actions | Place / flip / assign / edit delays / pick path / mark cone / … then **Check** | Challenges that only pass after “Show golden / Show arrival / Trace path” |
+| Check body | Reads learner state (`getPack()`, assignment, levels, path, …) | `check: () => mode === "starter"` or `mode === "golden"` |
+| Reveal golden | Optional **study** aid; label “Reveal golden (study)”; must not be required to clear challenges | Primary CTA “Show golden” that is the intended solve path |
+| Algorithm helpers | “Run KL / Propagate / Levelize” OK as optional accelerators (like Track A calling a solver) | Helper is the *only* action and challenges assert which button was clicked |
+| Shared helpers | Prefer `interactive-*-lab.js` / `floorplanning-lab.js` patterns over raw demo `createChallengeLab` | Copy-paste mode-flag labs |
+| Canvas quality | HiDPI + large display surface (see below) | Fixed low-res bitmap, 300px-tall canvas, design coords drawn 1:1 into a wide panel |
+
+Reference: clustering/partitioning (`interactive-graph-lab.js`), floorplanning (`floorplanning-lab.js`), placement, legalization, STA (`interactive-sta-lab.js`).
+
+### Lab canvas quality (required)
+
+Browser graphs / chip drawings must look sharp on retina displays and fill the panel — not a small blurry strip.
+
+| Rule | Required | Anti-pattern (reject) |
+|------|----------|------------------------|
+| HiDPI setup | Every `draw*` uses `fitHiDpiCanvas` from `platform/assets/canvas-hires.js` (backing store = CSS size × `devicePixelRatio`, capped) | `canvas.width = clientWidth` only; reading `canvas.width` without DPR scale |
+| CSS size | `.cluster-canvas` (or equivalent) **height ≈ 480px** (360px on narrow viewports); `width: 100%` | Hardcoded `height: 300px` inline styles |
+| Layout fit | Graph node layouts use `fitGraphLayout` so design coords scale into the canvas; world→screen drawers (floorplan / place / legalize / STA) already map to `clientWidth`/`clientHeight` | Fixed pixel layouts (e.g. nodes at x=90…280) left in the corner of a wide canvas |
+| Hit-testing | Click maps use the **same** screen transform as draw (`fitGraphLayout` / client CSS size, not backing-store pixels) | Hit tests against unscaled design coords after draw scaled |
+| Walkthrough | `algorithm-walkthrough` canvas matches lab height (480px) | Walkthrough frames captured from a tiny 300px canvas |
+| Shared CSS | Link `clustering-lab.css`; do not re-inline canvas dimensions per tool | Per-tool one-off canvas styles that regress size |
+
+Constants live in `canvas-hires.js` (`LAB_CANVAS_CSS_HEIGHT = 480`). New domain drawers must import `fitHiDpiCanvas` — do not copy-paste DPR math.
+
+When capturing walkthrough / lab snapshots after a canvas size change, **re-capture** `assets/steps/` and `lab-starter.png` so stills match the sharper UI.
+
+### Pseudocode in materials (required)
+
+Every **algorithm lab** must teach the algorithm in writing, not only as a black-box button.
+
+| Where | What |
+|-------|------|
+| `EXAMPLES.md` | Required `## Pseudocode` fenced `text` block: inputs → loop → stop → outputs; name goldens when useful |
+| Transcript (lab) | At least one spoken slide that explains the sketch, plus a fenced block that becomes a **`code`** slide |
+| Walkthrough frames | Steps align with the same pseudocode phases |
+| `common/` | Solvers implement the same sketch (comments may mirror it) |
+
+Scaffold “Restate the algorithm in five bullets” prompts are **not** a substitute for authored pseudocode.
+
+### Code / pseudocode slides (no cropping)
+
+Monospace code slides have a **hard visual budget**. Longer text must **split across slides** — never crop with `# ...`.
+
+| Rule | Value |
+|------|--------|
+| Max lines per code slide | **`CODE_SLIDE_MAX_LINES` = 12** (after wrap; includes blank lines) |
+| Wrap width | ~68 monospace columns |
+| Authoring | Prefer ≤12 lines per fenced block in the transcript; use a second ``` fence or let sync auto-split |
+| Try-these (bash) | Comment-led groups may get a blank before each `#` group — do **not** blank every line |
+| Pseudocode (`text`) | Preserve author blanks only; dense listings stay dense |
+| Builder | `pptx_theme.split_code_for_slides` + `transcript_to_outline` emit `(1/N)` titled parts |
+
+**Do not** rely on shrinking fonts to fit more code. Split instead.
 
 ### Authoring order (depth first)
 
 ```
 1. common/ solvers + goldens
-2. Browser tool (starter + challenges) using same goldens
-3. algorithm-walkthrough ALGOS entry (5 teaching steps)
-4. Capture frames → inject transcript (Step 2c)
-5. Revise surrounding speech so it is algorithm-specific (not scaffold boilerplate)
-6. Sync → PPTX → PDF → narrate (WSL)
-7. docs/WALKTHROUGHS.md + publish
+2. EXAMPLES.md with ## Pseudocode (+ Track A API)
+3. Interactive browser tool (learner-editable state + challenges on that state)
+4. algorithm-walkthrough ALGOS entry (5 teaching steps aligned with pseudocode)
+5. Capture frames → inject transcript (Step 2c)
+6. Revise surrounding speech so it is algorithm-specific (not scaffold boilerplate)
+7. Sync → PPTX → PDF → narrate (WSL)
+8. docs/WALKTHROUGHS.md + publish
 ```
 
 ### Parity self-check (vs learn_clustering)
@@ -132,9 +197,11 @@ Before marking a course ready, compare to clustering:
 - [ ] Lab transcript median length and specificity ≈ clustering (concrete metrics in speech)
 - [ ] Walkthrough PNG count ≈ 5 × (number of algorithm labs)
 - [ ] `common/` has importable solvers / metrics, not only a README
+- [ ] Each algo lab `EXAMPLES.md` has real `## Pseudocode` (not empty scaffold)
+- [ ] Challenges score learner workspace state — no “Click Show …” demo checks
 - [ ] No lab still using the scaffold “Here’s the core idea in one breath: {algorithm}” filler
 
-**Do not** ship a course as ready if tools + video exist but walkthroughs / solvers / specific transcripts are missing — list them under Deferred in the packaging report.
+**Do not** ship a course as ready if tools + video exist but walkthroughs / solvers / specific transcripts / pseudocode / interactive challenges are missing — list them under Deferred in the packaging report.
 
 ```
 courses/<course>/moduleNN-slug/
@@ -246,7 +313,7 @@ Module-Slides Progress:
 - [ ] 6. TTS + narrated MP4 (narrate_clips.sh) — required when edge-tts/ffmpeg exist
 - [ ] 7. Optional quiz.json
 - [ ] 8. Packaging report for this module
-- [ ] 9. Course ready: READMEs OK + tools (starter+challenges) + platform publish
+- [ ] 9. Course ready: READMEs OK + interactive tools + EXAMPLES pseudocode + platform publish
 ```
 
 ### Step 1: Inventory
@@ -374,7 +441,7 @@ Do **not** dump a bare command list. For each try-these line, the learner must h
 | **Flags** | Explain non-obvious flags (`-la`, `--help`, pipes like `head`) in the same breath or comment |
 | **Don’t** | Read punctuation aloud (`ls dash ell ay`); say “list with a long listing that includes hidden files” |
 
-`build_pptx` also auto-inserts a blank line after each command when the fence omitted one, so spacing stays readable.
+For bash try-these, `build_pptx` inserts a blank only before `#` comment groups (not after every line). Dense `text`/pseudocode listings stay compact. Overlong fences split across slides (`CODE_SLIDE_MAX_LINES` = 12) — never crop with `# ...`.
 
 Pattern for Track A sections:
 
@@ -590,14 +657,17 @@ When **tools are shipped** and **module media exists** (`slides.pptx` / `slides.
 
 #### 9a. Browser tools (before or with media)
 
-Each lab tool under `platform/tools/<lab-id>/` should match the digital_learning pattern:
+Each lab tool under `platform/tools/<lab-id>/` must be an **interactive** lab (see [Interactive browser labs](#interactive-browser-labs-required)):
 
 | Requirement | Notes |
 |-------------|--------|
-| Starter example loaded by default | Learner sees a working graph/netlist immediately |
-| Challenges (typically ~10) | Progressive tasks with Check / feedback |
-| Shared UI helpers when applicable | e.g. clustering `createChallengeLab` |
-| Linked from MODULES.md / catalog `labs[]` | Lab id matches tool folder |
+| Learner-editable workspace | Empty/seed — not the golden as the only state |
+| Challenges (~10) | **Check scores learner state**; no `mode === "golden"` / “Click Show …” |
+| Reveal golden (study) | Optional study aid — not required to pass |
+| Algorithm helpers OK | Run KL / Propagate / Levelize as accelerators |
+| Pseudocode | Matching `EXAMPLES.md` `## Pseudocode` for algorithm labs |
+| Shared UI helpers | `interactive-*-lab.js`, `floorplanning-lab.js`, … |
+| Linked from MODULES.md / catalog | Lab id matches tool folder |
 
 Algorithm courses also keep `platform/tools/algorithm-walkthrough/` in sync with lab ids used by `capture_algorithm_walkthrough.py`.
 
@@ -662,6 +732,7 @@ python3 platform/scripts/publish_course_platform.py learn_clustering
 - [ ] `verify_transcript_consistency.py` + `verify_clip.py` pass
 - [ ] Spoken length estimate ≤ 10 minutes (`words / 140`)
 - [ ] `slides.pptx` + `slides.pdf` exist (PDF via LibreOffice in WSL)
+- [ ] Code / pseudocode slides: no cropped `# ...` stubs; long fences split to ≤12 lines each
 - [ ] `audio/full.mp3` + `video.mp4` exist (only after natural transcript)
 - [ ] Host was Unix/WSL for all media scripts (never native Windows)
 

@@ -12,13 +12,42 @@ slides:
   bullets:
   - Cross-row spread beats single-row shelf pack on displacement
   - 'Abacus is the detailed legalizer in this course: more search, less movement'
-  - <!-- algorithm-walkthrough -->
   notes: 'Cross-row spread beats single-row shelf pack on displacement—four versus
     six here—with HPWL thirty-eight versus thirty-two for Tetris. Abacus is the detailed
-    legalizer in this course: more search, less movement.
+    legalizer in this course: more search, less movement.'
+- type: bullets
+  title: Pseudocode
+  bullets:
+  - 'Abacus needs a nested loop in pseudocode: outer cells in x order, inner trial
+    of every row'
+  - For each trial you compute leftmost legal x and an L1 cost back to the origin
+  - Open this module's examples file and find the Pseudocode section
+  - That written sketch is what you implement on the implement track and what the
+    browser
+  notes: 'Abacus needs a nested loop in pseudocode: outer cells in x order, inner
+    trial of every row. For each trial you compute leftmost legal x and an L1 cost
+    back to the origin, then keep the cheapest row.
 
 
-    <!-- algorithm-walkthrough -->'
+    Open this module''s examples file and find the Pseudocode section. That written
+    sketch is what you implement on the implement track and what the browser challenges
+    measure.'
+- type: bullets
+  title: Algorithm sketch
+  bullets:
+  - Fixed macros sit first so their intervals block later trials
+  - On the overlap seed the sketch lands A at four two
+  notes: Fixed macros sit first so their intervals block later trials. On the overlap
+    seed the sketch lands A at four two, B at four zero, C at four four—displacement
+    four and HPWL thirty-eight, tighter movement than Tetris.
+- type: code
+  title: Algorithm sketch — try these
+  code: "INPUT: origin, widths, rows Y[], fixed macros\nOUTPUT: legal pack minimizing\
+    \ Σ L1 move\nplace fixed macros first\norder ← movables by origin.x\nfor each\
+    \ cell c in order:\n  for each row y: trial leftmost legal x\n  keep (x,y) with\
+    \ min |Δx|+|Δy| to origin\n  place c at best\nGOLDEN: A(4,2) B(4,0) C(4,4); disp=4;\
+    \ HPWL=38"
+  notes: ''
 - type: image
   title: Start from overlap seed
   image: assets/steps/01-overlap-seed.png
@@ -51,30 +80,28 @@ slides:
   image: assets/steps/05-takeaway.png
   caption: Abacus minimizes movement
   notes: 'Abacus is the detailed legalizer in this course: try rows, pick min displacement.
-    Use it when staying near global coordinates matters more than the last HPWL point.
-
-
-    <!-- /algorithm-walkthrough -->'
+    Use it when staying near global coordinates matters more than the last HPWL point.'
 - type: bullets
   title: Browser lab track
   bullets:
   - In the browser lab track, open the **abacus-row-pack** lab from the tools shelf
-  - Load the overlap or float starter, run the legalizer once
+  - Open the interactive lab
+  - Reveal golden is study-only
   - Work the challenges that lock the goldens
   notes: In the browser lab track, open the **abacus-row-pack** lab from the tools
-    shelf. Load the overlap or float starter, run the legalizer once, and read legality
-    plus displacement and HPWL when the panel shows them. Work the challenges that
-    lock the goldens, then come back to implement the same loop yourself.
+    shelf. Open the interactive lab, place or snap cells on the site and row grid—or
+    use an Apply helper—then Check. Reveal golden is study-only. Work the challenges
+    that lock the goldens, then come back to implement the same loop yourself.
 - type: bullets
   title: Implement track
   bullets:
-  - In the implement track, open this module's examples and the course `common/` solvers
+  - In the implement track
   - Parse `tiny_legal.json`, run the algorithm with deterministic coordinates
   - Match the browser goldens before you claim the checklist
-  notes: In the implement track, open this module's examples and the course `common/`
-    solvers. Parse `tiny_legal.json`, run the algorithm with deterministic coordinates,
-    and print legality, displacement, and HPWL. Match the browser goldens before you
-    claim the checklist.
+  notes: In the implement track, open this module's EXAMPLES.md Pseudocode section
+    and the course common solvers. Parse `tiny_legal.json`, run the algorithm with
+    deterministic coordinates, and print legality, displacement, and HPWL. Match the
+    browser goldens before you claim the checklist.
 - type: bullets
   title: Pitfalls
   bullets:

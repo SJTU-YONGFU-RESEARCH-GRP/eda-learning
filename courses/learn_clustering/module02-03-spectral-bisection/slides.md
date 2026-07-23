@@ -53,7 +53,6 @@ Spectral bisection uses the graph Laplacian and its Fiedler vector to propose a 
 ```
 export PYTHONPATH=../common
 python ../common/solvers.py examples/tiny_graph.json --mode spectral
-
 ```
 
 ---

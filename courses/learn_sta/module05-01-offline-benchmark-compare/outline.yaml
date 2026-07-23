@@ -1,8 +1,42 @@
-title: "Offline benchmark compare"
-footer: "learn_sta — Offline compare"
+title: Offline benchmark compare
+footer: learn_sta — 01 offline benchmark compare
 slides:
-  - type: title
-    title: "Offline benchmark compare"
-    subtitle: "module05-01-offline-benchmark-compare · learn_sta"
-    notes: |
-      Stub — replace via transcript_to_outline.py after revising transcript.md.
+- type: title
+  title: Offline benchmark compare
+  subtitle: Toy engines teach mechanism
+  notes: Toy engines teach mechanism. Benchmarks teach honesty. In this offline module
+    you’ll run the same tiny netlists through your STA and, when available, an open
+    external timer—then compare WNS, TNS, and path delay without pretending the numbers
+    are foundry sign-off.
+- type: bullets
+  title: Fair compare rules
+  bullets:
+  - Use identical input
+  - Fix clocks and library delays
+  - Report the same metrics on both sides
+  - If the external tool is missing
+  - A clean I/O contract matters more than a flashy chart
+  notes: Use identical input. Fix clocks and library delays. Report the same metrics
+    on both sides. If the external tool is missing, still run your harness and document
+    the install gap—don’t invent golden numbers. A clean I/O contract matters more
+    than a flashy chart.
+- type: bullets
+  title: What good looks like
+  bullets:
+  - Expect your educational engine to be slower and sometimes less complete
+  - That’s fine
+  - You’re looking for the same qualitative behavior
+  - Huge unexplained wins usually mean a metric or exception mismatch, not genius
+  notes: 'Expect your educational engine to be slower and sometimes less complete.
+    That’s fine. You’re looking for the same qualitative behavior: matching worst
+    paths, consistent slack signs, and no silent illegal tags. Huge unexplained wins
+    usually mean a metric or exception mismatch, not genius.'
+- type: bullets
+  title: Your turn
+  bullets:
+  - Follow the examples file, fill the comparison table, and finish the checklist
+  - Bring one discrepancy and a short hypothesis into your notes
+  - Then continue to the wrap module to close the course
+  notes: Follow the examples file, fill the comparison table, and finish the checklist.
+    Bring one discrepancy and a short hypothesis into your notes. Then continue to
+    the wrap module to close the course.

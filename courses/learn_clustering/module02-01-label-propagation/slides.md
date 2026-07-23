@@ -54,7 +54,6 @@ Label propagation grows communities by letting each node adopt the strongest nei
 # run async label propagation on the tiny graph
 export PYTHONPATH=../common
 python ../common/solvers.py examples/tiny_graph.json --mode lp
-
 ```
 
 ---

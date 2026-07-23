@@ -52,7 +52,6 @@ When bridge edges are congested, cutting them becomes expensive
 ```
 export PYTHONPATH=../common
 python ../common/solvers.py examples/tiny_graph.json --mode congestion --seed ../module02-05-kernighan-lin/examples/seed_partition.json --congestion examples/congestion.json --lambda 5
-
 ```
 
 ---

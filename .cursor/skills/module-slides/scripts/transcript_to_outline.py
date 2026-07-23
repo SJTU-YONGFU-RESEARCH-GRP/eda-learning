@@ -15,7 +15,24 @@ from prose_to_bullets import (
     prose_to_bullets,
     summarize_subtitle,
 )
+from pptx_theme import CODE_SLIDE_MAX_LINES, split_code_for_slides
 from transcript_parse import chapter_number_from_path, load_transcript_sections
+
+
+def _code_slide_specs(title: str, code: str, *, notes: str = "") -> list[dict[str, Any]]:
+    """One or more ``code`` outline slides; never crop — split at CODE_SLIDE_MAX_LINES."""
+    chunks = split_code_for_slides(code, max_lines=CODE_SLIDE_MAX_LINES)
+    specs: list[dict[str, Any]] = []
+    n = len(chunks)
+    for i, chunk in enumerate(chunks):
+        part = title if n == 1 else f"{title} ({i + 1}/{n})"
+        specs.append({
+            "type": "code",
+            "title": part,
+            "code": chunk,
+            "notes": notes if i == 0 else "",
+        })
+    return specs
 
 
 def _part_footer(part_dir: Path) -> str:
@@ -90,6 +107,11 @@ def _strip_code_fences(body: str) -> tuple[str, list[str]]:
     return cleaned, blocks
 
 
+def _strip_html_comments(body: str) -> str:
+    """Drop authoring markers (e.g. algorithm-walkthrough) from slide prose."""
+    return re.sub(r"<!--.*?-->", "", body, flags=re.S).strip()
+
+
 def section_to_slide_spec(
     section: Any,
     *,
@@ -109,7 +131,7 @@ def section_to_slide_spec(
     after the bullets (or alone if that is the whole slide).
     """
     title = section.title
-    body_raw = section.body
+    body_raw = _strip_html_comments(section.body)
     body, images = _strip_images(body_raw)
     body, code_blocks = _strip_code_fences(body)
     title_lower = title.lower()
@@ -160,7 +182,7 @@ def section_to_slide_spec(
             })
         for i, block in enumerate(code_blocks):
             code_title = f"{title} — try these" if i == 0 else f"{title} — more"
-            specs.append({"type": "code", "title": code_title, "code": block})
+            specs.extend(_code_slide_specs(code_title, block))
         return specs
 
     if title_lower == "next" or title_lower.startswith("next "):
@@ -187,11 +209,7 @@ def section_to_slide_spec(
                         "bullets": clean_bullets[:MAX_BULLETS],
                         "notes": body,
                     },
-                    {
-                        "type": "code",
-                        "title": f"Example {ch}.{ex} — listing",
-                        "code": code,
-                    },
+                    *_code_slide_specs(f"Example {ch}.{ex} — listing", code),
                 ]
 
     command = example_module_command(title, chapter)
@@ -214,14 +232,15 @@ def section_to_slide_spec(
         })
     if code_blocks:
         code_title = title if not specs else f"{title} — try these"
-        specs.append({
-            "type": "code",
-            "title": code_title,
-            "code": code_blocks[0],
-            "notes": body if not specs else "",
-        })
+        specs.extend(
+            _code_slide_specs(
+                code_title,
+                code_blocks[0],
+                notes=body if not specs else "",
+            )
+        )
         for extra in code_blocks[1:]:
-            specs.append({"type": "code", "title": f"{title} — more", "code": extra})
+            specs.extend(_code_slide_specs(f"{title} — more", extra))
     if not specs:
         specs.append({
             "type": "bullets",

@@ -1,8 +1,91 @@
-title: "Slack, setup, and hold"
-footer: "learn_sta — Slack / setup / hold"
+title: Slack, setup, and hold
+footer: learn_sta — 01 slack setup hold
 slides:
-  - type: title
-    title: "Slack, setup, and hold"
-    subtitle: "module02-01-slack-setup-hold · learn_sta"
-    notes: |
-      Stub — replace via transcript_to_outline.py after revising transcript.md.
+- type: title
+  title: Slack, setup, and hold
+  subtitle: Slack turns tags into a pass or fail
+  notes: Slack turns tags into a pass or fail. Setup slack is required minus arrival;
+    hold uses a different required. You will get setup slack six point eight and hold
+    slack three point two at out on the lite model.
+- type: bullets
+  title: Goldens to remember
+  bullets:
+  - 'Setup: R−A = 10−3.2 = 6.8'
+  - 'Hold lite: A−0 = 3.2'
+  - Positive means the check passes
+  - Keep these numbers handy, the browser challenges and Track A tests use the same
+    instance
+  - <!-- algorithm-walkthrough -->
+  notes: 'Setup: R−A = 10−3.2 = 6.8. Hold lite: A−0 = 3.2. Positive means the check
+    passes. Keep these numbers handy—the browser challenges and Track A tests use
+    the same instance.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: Setup slack is required minus arrival
+  image: assets/steps/01-setup-formula.png
+  caption: Setup slack is required minus arrival
+  notes: At the endpoint out, setup slack equals R − A. With R=10 and A=3.2, slack
+    is 6.8—positive means the path meets the single-cycle check.
+- type: image
+  title: Hold slack uses a different required
+  image: assets/steps/02-hold-formula.png
+  caption: Hold slack uses a different required
+  notes: For this lite hold model, required at out is 0 on the same edge. Hold slack
+    is A − R_hold = 3.2 − 0 = 3.2.
+- type: image
+  title: The sign tells you pass or fail
+  image: assets/steps/03-sign-matters.png
+  caption: The sign tells you pass or fail
+  notes: Negative setup slack means the path is too slow for the period. Negative
+    hold means data changes too soon. Read the sign before you chase the path.
+- type: image
+  title: Report slack at endpoints first
+  image: assets/steps/04-endpoint-habit.png
+  caption: Report slack at endpoints first
+  notes: Engineers scan worst negative slack at endpoints, then open the path. On
+    this toy netlist there is one sink—out—so both checks live there.
+- type: image
+  title: Period changes setup, not hold lite
+  image: assets/steps/05-period-knob.png
+  caption: Period changes setup, not hold lite
+  notes: 'If the period were tighter, setup required would drop and setup slack would
+    shrink. Hold in this lite model stays tied to arrival versus zero.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab, open **slack-setup-hold**
+  - Load the starter, run the analysis once, and read the metrics panel
+  - Orient yourself, challenge panel, canvas, Check, then mirror the same goldens
+    in code
+  notes: In the browser lab, open **slack-setup-hold**. Load the starter, run the
+    analysis once, and read the metrics panel. Orient yourself—challenge panel, canvas,
+    Check—then mirror the same goldens in code.
+- type: bullets
+  title: Implement track
+  bullets:
+  - In the implement track
+  - Run `python3 common/test_propagate.py` (and the timing-graph test) until the goldens
+    print
+  notes: In the implement track, use `common/tiny_timing.json` with the helpers in
+    `common/graph.py` and `common/propagate.py`. Run `python3 common/test_propagate.py`
+    (and the timing-graph test) until the goldens print ok.
+- type: bullets
+  title: Pitfall
+  bullets:
+  - Do not mix setup and hold required maps
+  - Do not propagate before the graph is levelized
+  - After an edit or exception, recompute, stale tags lie
+  notes: Do not mix setup and hold required maps. Do not propagate before the graph
+    is levelized. After an edit or exception, recompute—stale tags lie.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Finish the checklist on at least one track, preferably both
+  - When your numbers match the goldens, take the quiz, then continue
+  notes: Finish the checklist on at least one track—preferably both. When your numbers
+    match the goldens, take the quiz, then continue.

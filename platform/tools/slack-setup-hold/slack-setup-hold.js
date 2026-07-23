@@ -1,234 +1,202 @@
 import {
   PROP_GOLDENS,
-  TINY_TIMING,
-  analyzeSetup,
-  cloneTiming,
-  holdSlack,
-  levelize,
   near,
   propagateArrival,
   propagateRequired,
   setupSlack,
+  holdSlack,
 } from "../../assets/sta-core.js";
-import {
-  createChallengeLab,
-  drawTimingGraph,
-  el,
-  metricsBlock,
-} from "../../assets/sta-ui.js";
+import { createInteractiveStaLab } from "../../assets/interactive-sta-lab.js";
+import { el } from "../../assets/sta-ui.js";
 
 const G = PROP_GOLDENS;
 const root = document.getElementById("lab-root");
-let timing = cloneTiming(TINY_TIMING);
-let levels = levelize(timing);
-let mode = "none"; // none | setup | hold
-let arrival = null;
-let required = null;
-let slackOut = null;
 
-function arm() {
-  timing = cloneTiming(TINY_TIMING);
-  levels = levelize(timing);
-  mode = "none";
-  arrival = null;
-  required = null;
-  slackOut = null;
-}
-
-function computeSetup() {
-  timing = cloneTiming(TINY_TIMING);
-  levels = levelize(timing);
-  mode = "setup";
-  const r = analyzeSetup(timing);
-  arrival = r.arrival;
-  required = r.required;
-  slackOut = r.slackAtSink;
-}
-
-function computeHold() {
-  timing = cloneTiming(TINY_TIMING);
-  levels = levelize(timing);
-  mode = "hold";
-  arrival = propagateArrival(timing);
-  required = propagateRequired(timing, { mode: "hold" });
-  slackOut = holdSlack(arrival, required, "out");
-}
-
-createChallengeLab(root, {
+createInteractiveStaLab(root, {
+  mode: "values",
+  valueLabel: "S",
+  valueStep: 0.1,
+  initialValues: {},
+  revealValues: { out: G.setupSlackOut },
   starterHtml: `
-    <p><strong>Starter example (reference):</strong> at <code>out</code>,
-    setup slack = required − arrival = <strong>${G.setupSlackOut}</strong>
-    (10 − 3.2); hold slack = arrival − required = <strong>${G.holdSlackOut}</strong>
-    (3.2 − 0). Use <em>Compute setup</em> and <em>Compute hold</em>.</p>
+    <p><strong>Your workspace:</strong> compute and enter <em>slack</em> at pins
+    (setup: R−A, hold: A−Rhold). Use helpers to fill arrivals/required first, then set slack at <code>out</code>.
+    Challenges check <strong>your</strong> slack values. Reveal golden is study-only.</p>
   `,
-  loadStarter() {
-    computeSetup();
+  getTags: (api) => {
+    const tags = {};
+    for (const [p, v] of Object.entries(api.getValues())) tags[p] = `S:${v}`;
+    const m = api.getMeta();
+    if (m.arr && m.req) {
+      for (const p of Object.keys(m.arr)) {
+        if (tags[p]) continue;
+        tags[p] = `A:${m.arr[p]}`;
+      }
+    }
+    return tags;
+  },
+  extraActions: (ctx, api) => [
+    el("button", {
+      className: "btn btn-secondary",
+      type: "button",
+      text: "Fill A+R (setup)",
+      onClick: () => {
+        const t = api.getTiming();
+        const arr = propagateArrival(t);
+        const req = propagateRequired(t);
+        api.setMeta({ arr, req, mode: "setup" });
+        api.setValues({});
+        api.setRevealed(false);
+        ctx.rerender();
+      },
+    }),
+    el("button", {
+      className: "btn btn-secondary",
+      type: "button",
+      text: "Compute setup slack→values",
+      onClick: () => {
+        const t = api.getTiming();
+        const arr = propagateArrival(t);
+        const req = propagateRequired(t);
+        const slack = {};
+        for (const p of t.pins) {
+          const s = setupSlack(arr, req, p.id);
+          if (s != null) slack[p.id] = s;
+        }
+        api.setMeta({ arr, req, mode: "setup" });
+        api.setValues(slack);
+        api.setRevealed(false);
+        ctx.rerender();
+      },
+    }),
+    el("button", {
+      className: "btn btn-ghost",
+      type: "button",
+      text: "Compute hold slack→values",
+      onClick: () => {
+        const t = api.getTiming();
+        const arr = propagateArrival(t);
+        const reqH = propagateRequired(t, { mode: "hold" });
+        const slack = {};
+        for (const p of t.pins) {
+          const s = holdSlack(arr, reqH, p.id);
+          if (s != null) slack[p.id] = s;
+        }
+        api.setMeta({ arr, req: reqH, mode: "hold" });
+        api.setValues(slack);
+        api.setRevealed(false);
+        ctx.rerender();
+      },
+    }),
+  ],
+  extraMetrics: (api) => {
+    const m = api.getMeta();
+    const lines = [];
+    if (m.arr?.out != null) lines.push(`arrival out: ${m.arr.out}`);
+    if (m.req?.out != null) lines.push(`required out: ${m.req.out}`);
+    if (api.getValues().out != null) lines.push(`your slack out: ${api.getValues().out}`);
+    return lines;
   },
   challenges: [
     {
-      id: "setup-slack",
-      title: "Setup slack 6.8",
+      id: "setup-out-68",
+      title: "Setup slack out = 6.8",
       level: "Intro",
-      prompt: "Compute setup; slack at out equals 6.8.",
-      hint: "analyzeSetup → slackAtSink.",
-      setup: arm,
-      check: () =>
-        mode === "setup" && slackOut != null && near(slackOut, G.setupSlackOut),
+      prompt: "Enter setup slack at out = 6.8 (10 − 3.2).",
+      hint: "Fill A+R, then set S at out, or Compute setup slack.",
+      check: (_c, api) => near(api.getValues().out ?? NaN, G.setupSlackOut),
     },
     {
-      id: "hold-slack",
-      title: "Hold slack 3.2",
+      id: "hold-out-32",
+      title: "Hold slack out = 3.2",
       level: "Intro",
-      prompt: "Compute hold; slack at out equals 3.2.",
-      hint: "Hold required at sink = 0.",
-      setup: arm,
-      check: () =>
-        mode === "hold" && slackOut != null && near(slackOut, G.holdSlackOut),
+      prompt: "Enter hold slack at out = 3.2 (arrival − 0).",
+      hint: "Compute hold slack→values.",
+      check: (_c, api) =>
+        api.getMeta().mode === "hold" && near(api.getValues().out ?? NaN, G.holdSlackOut),
     },
     {
-      id: "setup-mode",
-      title: "Setup computed",
-      level: "Intro",
-      prompt: "Compute setup; view mode is setup with arrival and required maps.",
-      hint: "Click Compute setup.",
-      setup: arm,
-      check: () => mode === "setup" && arrival && required,
-    },
-    {
-      id: "hold-mode",
-      title: "Hold computed",
-      level: "Intro",
-      prompt: "Compute hold; view mode is hold with both maps.",
-      hint: "Click Compute hold.",
-      setup: arm,
-      check: () => mode === "hold" && arrival && required,
-    },
-    {
-      id: "setup-arrival-out",
-      title: "Setup arrival out",
+      id: "setup-positive",
+      title: "Setup meets",
       level: "Practice",
-      prompt: "Compute setup; arrival at out is 3.2.",
-      hint: "Forward propagate first.",
-      setup: arm,
-      check: () =>
-        mode === "setup" && arrival && near(arrival.out, G.arrival.out),
+      prompt: "Setup slack at out is positive (meets).",
+      hint: "6.8 > 0.",
+      check: (_c, api) => (api.getValues().out ?? -1) > 0,
     },
     {
-      id: "setup-required-out",
-      title: "Setup required out",
+      id: "setup-in",
+      title: "Setup slack at in",
       level: "Practice",
-      prompt: "Compute setup; required at out is 10.",
-      hint: "Period × 1 cycle.",
-      setup: arm,
-      check: () =>
-        mode === "setup" &&
-        required &&
-        near(required.out, G.requiredSetup.out),
+      prompt: "Setup slack at in equals 6.8 (same as path slack on this chain).",
+      hint: "Compute setup slack→values.",
+      check: (_c, api) => near(api.getValues().in ?? NaN, G.setupSlackOut),
     },
     {
-      id: "hold-required-out",
-      title: "Hold required out",
+      id: "formula-setup",
+      title: "R − A at out",
       level: "Practice",
-      prompt: "Compute hold; hold required at out is 0.",
-      hint: "mode: hold seeds sinks at 0.",
-      setup: arm,
-      check: () => mode === "hold" && required && near(required.out, 0),
+      prompt: "With A+R filled, your slack out equals required−arrival.",
+      hint: "Fill A+R, set S=out R−A by hand.",
+      check: (_c, api) => {
+        const m = api.getMeta();
+        if (!m.arr || !m.req) return false;
+        const expect = setupSlack(m.arr, m.req, "out");
+        return near(api.getValues().out ?? NaN, expect);
+      },
     },
     {
-      id: "hold-arrival-out",
-      title: "Hold arrival out",
-      level: "Practice",
-      prompt: "Compute hold; arrival at out still 3.2.",
-      hint: "Arrival unchanged for hold check.",
-      setup: arm,
-      check: () =>
-        mode === "hold" && arrival && near(arrival.out, G.arrival.out),
+      id: "all-setup-slacks",
+      title: "All setup slacks",
+      level: "Challenge",
+      prompt: "Every pin has setup slack 6.8 on this pure chain.",
+      hint: "Compute setup slack→values.",
+      check: (_c, api) => {
+        const v = api.getValues();
+        const t = api.getTiming();
+        return t.pins.every((p) => near(v[p.id] ?? NaN, G.setupSlackOut));
+      },
     },
     {
-      id: "setup-slack-fn",
-      title: "setupSlack matches",
-      level: "Stretch",
-      prompt: "Compute setup; setupSlack(arr, req, out) === 6.8.",
-      hint: "Cross-check with setupSlack helper.",
-      setup: arm,
-      check: () =>
-        mode === "setup" &&
-        near(setupSlack(arrival, required, "out"), G.setupSlackOut),
+      id: "hold-positive",
+      title: "Hold meets at out",
+      level: "Challenge",
+      prompt: "Hold slack at out is positive.",
+      hint: "Compute hold slack.",
+      check: (_c, api) =>
+        api.getMeta().mode === "hold" && (api.getValues().out ?? -1) > 0,
     },
     {
-      id: "hold-slack-fn",
-      title: "holdSlack matches",
-      level: "Stretch",
-      prompt: "Compute hold; holdSlack(arr, req, out) === 3.2.",
-      hint: "Cross-check with holdSlack helper.",
-      setup: arm,
-      check: () =>
-        mode === "hold" &&
-        near(holdSlack(arrival, required, "out"), G.holdSlackOut),
+      id: "setup-not-hold",
+      title: "Setup ≠ hold number",
+      level: "Challenge",
+      prompt: "Your out slack equals setup 6.8 (not hold 3.2).",
+      hint: "Use setup path.",
+      check: (_c, api) =>
+        near(api.getValues().out ?? NaN, G.setupSlackOut) &&
+        !near(api.getValues().out, G.holdSlackOut),
+    },
+    {
+      id: "u1y-setup",
+      title: "Slack at u1/Y",
+      level: "Challenge",
+      prompt: "Setup slack at u1/Y is 6.8.",
+      hint: "Compute setup slack→values.",
+      check: (_c, api) => near(api.getValues()["u1/Y"] ?? NaN, G.setupSlackOut),
+    },
+    {
+      id: "period-used",
+      title: "Period 10 in play",
+      level: "Challenge",
+      prompt: "After Fill A+R, required out is 10 and your setup slack out is 6.8.",
+      hint: "Fill A+R then set slack.",
+      check: (_c, api) => {
+        const m = api.getMeta();
+        return (
+          m.req &&
+          near(m.req.out, G.period) &&
+          near(api.getValues().out ?? NaN, G.setupSlackOut)
+        );
+      },
     },
   ],
-  extraActions(ctx) {
-    return [
-      el("button", {
-        className: "btn btn-primary",
-        type: "button",
-        text: "Compute setup",
-        onClick: () => {
-          computeSetup();
-          ctx.rerender();
-        },
-      }),
-      el("button", {
-        className: "btn btn-secondary",
-        type: "button",
-        text: "Compute hold",
-        onClick: () => {
-          computeHold();
-          ctx.rerender();
-        },
-      }),
-    ];
-  },
-  renderWorkspace(ctx) {
-    const tags = {};
-    if (arrival) {
-      for (const [p, v] of Object.entries(arrival)) tags[p] = `A:${v}`;
-    }
-    if (required && mode === "hold") {
-      for (const [p, v] of Object.entries(required)) {
-        tags[p] = tags[p] ? `${tags[p]} H:${v}` : `H:${v}`;
-      }
-    } else if (required && mode === "setup") {
-      for (const [p, v] of Object.entries(required)) {
-        tags[p] = tags[p] ? `${tags[p]} R:${v}` : `R:${v}`;
-      }
-    }
-    drawTimingGraph(ctx.canvas, timing, {
-      levels,
-      highlightPins: slackOut != null ? ["out"] : [],
-      tags,
-    });
-    const lines = [
-      `view: ${mode}`,
-      `slack at out: ${slackOut ?? "—"}`,
-    ];
-    if (mode === "setup" && arrival && required) {
-      lines.push(
-        `setup: req[out] − arr[out] = ${required.out} − ${arrival.out} = ${slackOut}`
-      );
-    }
-    if (mode === "hold" && arrival && required) {
-      lines.push(
-        `hold: arr[out] − req[out] = ${arrival.out} − ${required.out} = ${slackOut}`
-      );
-    }
-    if (arrival) {
-      lines.push(`arrival out: ${arrival.out}`);
-    }
-    if (required) {
-      lines.push(`required out: ${required.out}`);
-    }
-    ctx.metrics.innerHTML = "";
-    ctx.metrics.append(metricsBlock(lines));
-  },
 });

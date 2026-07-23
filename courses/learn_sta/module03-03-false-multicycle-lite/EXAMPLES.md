@@ -1,25 +1,35 @@
-# Examples — False and multicycle paths (engine view)
+# Examples — False and multicycle lite
 
-Track A (implement). Use tiny timing netlists first (handful of cells / pins).
+Track A (implement). Use `examples/tiny_timing.json` and `../../common/propagate.py + graph.py`.
 
 ## Algorithm
 
-**false-path and multicycle exceptions as STA engine data**
+**disable arcs + setup_cycles×period**
+
+## Pseudocode
+
+```text
+INPUT: G, disable set S, setup_cycles
+OUTPUT: setup slack at sink
+A ← prop_arrival using arcs ∉ S
+R ← prop_required; R[sink]←period×cycles
+slack ← R[sink] − A[sink]
+GOLDEN default: slack(out)=6.8
+cycles=2 → R[out]=20, slack=16.8
+disable u1/Y→u2/A breaks that path
+```
 
 ## Starter prompts
 
-1. Restate the algorithm in five bullets (inputs → loop → stop → output).
-2. Run it on the tiny netlist in `examples/tiny_timing.json` (create if missing).
-3. Report the metrics this module cares about (levels, arrival, required, slack, path, …).
-4. Change one input (clock period, arc delay, exception) and report what moved.
-5. Name one failure mode (wrong levelization, missed endpoint, stale incremental cone, …).
+1. Implement the pseudocode above (or call the matching `common/` helper).
+2. Print the metrics named in the GOLDEN line; match browser / Track A tests.
+3. Change one knob and report what moved.
 
 ## Expected artifacts
 
-- Timing graph or tagged pin times (as applicable)
-- Slack and/or critical path for the starter clocks
-- Short note: why this step belongs on the STA shelf
+- Outputs listed in the pseudocode OUTPUT line
+- Note tying the run to the pseudocode phases
 
 ## Stretch
 
-Scale to ~50 cells; keep the same API as the tiny case.
+Scale the instance slightly; keep the same metrics API.

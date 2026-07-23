@@ -4,11 +4,8 @@ slides:
 - type: title
   title: Size-constrained agglomerative clustering
   subtitle: Size caps change which merges are legal
-  notes: 'Size caps change which merges are legal. You’ll watch greedy agglomeration
+  notes: Size caps change which merges are legal. You’ll watch greedy agglomeration
     with capacity two on the tiny graph—and see why A–B–C can no longer form.
-
-
-    <!-- algorithm-walkthrough -->'
 - type: image
   title: Capacity blocks illegal merges
   image: assets/steps/01-capacity-rule.png
@@ -38,10 +35,7 @@ slides:
   image: assets/steps/05-takeaway.png
   caption: Why capacity matters in EDA
   notes: 'Floorplanning and clustering often cap cluster area. Teaching point: constraints
-    change the greedy path — you may never reach the unconstrained communities.
-
-
-    <!-- /algorithm-walkthrough -->'
+    change the greedy path — you may never reach the unconstrained communities.'
 - type: bullets
   title: Browser lab track
   bullets:
@@ -61,9 +55,7 @@ slides:
   title: Implement track — try these
   code: 'export PYTHONPATH=../common
 
-    python ../common/solvers.py examples/tiny_graph.json --k 2 --capacity 2
-
-    '
+    python ../common/solvers.py examples/tiny_graph.json --k 2 --capacity 2'
   notes: ''
 - type: bullets
   title: Pitfalls to watch

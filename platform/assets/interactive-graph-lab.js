@@ -3,6 +3,7 @@
  * Learner flips, swaps, and assigns nodes; Check scores learner state.
  * Reveal golden is optional study aid — not the path to pass.
  */
+import { fitGraphLayout } from "./canvas-hires.js";
 import {
   BAD_SEED,
   TINY_GRAPH,
@@ -23,14 +24,18 @@ export function cloneAssignment(asn) {
   return asn ? { ...asn } : {};
 }
 
-/** Hit-test node under canvas click (layout coords). */
+/** Hit-test node under canvas click (screen coords after fitGraphLayout). */
 export function hitNode(canvas, clientX, clientY, layout = starterLayout(), radius = 20) {
   const rect = canvas.getBoundingClientRect();
+  const w = canvas.clientWidth || rect.width || 640;
+  const h = canvas.clientHeight || rect.height || 480;
+  const { layout: screen, nodeR } = fitGraphLayout(layout, w, h);
   const mx = clientX - rect.left;
   const my = clientY - rect.top;
+  const r = Math.max(radius, nodeR + 4);
   let best = null;
-  let bestD = radius * radius;
-  for (const [id, p] of Object.entries(layout)) {
+  let bestD = r * r;
+  for (const [id, p] of Object.entries(screen)) {
     const dx = mx - p.x;
     const dy = my - p.y;
     const d = dx * dx + dy * dy;

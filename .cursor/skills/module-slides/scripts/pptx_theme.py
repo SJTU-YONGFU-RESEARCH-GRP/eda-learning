@@ -47,6 +47,10 @@ COLOR_FOOTER = RGBColor(0x66, 0x66, 0x66)
 MAX_BULLETS = 6
 MAX_CHARS_PER_BULLET = 110
 MAX_TITLE_CHARS = 70
+# Code / pseudocode slides: hard visual budget (title + monospace + padding).
+# Including blank lines — longer blocks must split across slides (no crop).
+CODE_SLIDE_MAX_LINES = 12
+CODE_SLIDE_WRAP_WIDTH = 68
 
 # Hanging indent for bullet paragraphs.
 # Wrap lines must start further right than the bullet glyph + gap, otherwise
@@ -417,11 +421,23 @@ def _add_image_slide(
     _add_footer(slide, footer)
 
 
+def _looks_like_try_these(code: str) -> bool:
+    """Bash try-these: comment-led command groups. Pseudocode listings are denser."""
+    lines = [ln for ln in code.replace("\r\n", "\n").split("\n") if ln.strip()]
+    if not lines:
+        return False
+    comment_lines = sum(1 for ln in lines if ln.lstrip().startswith("#"))
+    return comment_lines >= 2 and comment_lines >= len(lines) // 3
+
+
 def _format_try_these_code(code: str) -> list[str]:
-    """Keep one blank line between command groups for readable try-these slides."""
+    """Format code for a slide.
+
+    Try-these (bash): keep one blank line before each ``#`` comment group.
+    Pseudocode / listings: preserve author blanks; do **not** insert a blank
+    after every line (that doubled line count and cropped long sketches).
+    """
     raw = code.replace("\r\n", "\n").strip("\n").split("\n")
-    # Collapse runs of blank lines, then ensure a blank after each command line
-    # that is followed by another non-blank group.
     compact: list[str] = []
     for line in raw:
         if not line.strip():
@@ -432,38 +448,82 @@ def _format_try_these_code(code: str) -> list[str]:
     while compact and compact[-1] == "":
         compact.pop()
 
+    if not _looks_like_try_these(code):
+        return compact
+
     out: list[str] = []
     for i, line in enumerate(compact):
+        if (
+            line.lstrip().startswith("#")
+            and out
+            and out[-1] != ""
+            and not out[-1].lstrip().startswith("#")
+        ):
+            out.append("")
         out.append(line)
-        if not line.strip():
-            continue
-        # After a command (non-comment), leave one blank before the next block.
-        is_comment = line.lstrip().startswith("#")
-        if is_comment:
-            continue
-        nxt = compact[i + 1] if i + 1 < len(compact) else None
-        if nxt is not None and nxt.strip() and not (out and out[-1] == ""):
-            # Next line is another comment/command without a blank — insert one.
-            if nxt.lstrip().startswith("#") or not nxt.lstrip().startswith("#"):
-                out.append("")
-    # Remove trailing blank
     while out and out[-1] == "":
         out.pop()
     return out
 
 
+def _wrap_code_lines(lines: list[str], width: int = CODE_SLIDE_WRAP_WIDTH) -> list[str]:
+    """Wrap long lines for monospace display; blanks stay blanks."""
+    display: list[str] = []
+    for line in lines:
+        if not line.strip():
+            display.append("")
+            continue
+        display.extend(textwrap.wrap(line, width=width) or [""])
+    return display
+
+
+def split_code_for_slides(
+    code: str,
+    *,
+    max_lines: int = CODE_SLIDE_MAX_LINES,
+) -> list[str]:
+    """Split code into chunks that each fit one code slide after wrap.
+
+    Never truncates with ``# ...`` — authors get full text across N slides.
+    """
+    lines = _format_try_these_code(code)
+    if not lines:
+        return [""]
+
+    chunks: list[list[str]] = []
+    current: list[str] = []
+
+    def flush() -> None:
+        nonlocal current
+        while current and current[-1] == "":
+            current.pop()
+        if current:
+            chunks.append(current)
+        current = []
+
+    for line in lines:
+        trial = current + [line]
+        if len(_wrap_code_lines(trial)) <= max_lines:
+            current.append(line)
+            continue
+        flush()
+        # Single overlong line: hard-wrap into its own chunk(s)
+        wrapped = _wrap_code_lines([line])
+        if len(wrapped) <= max_lines:
+            current = [line]
+        else:
+            for i in range(0, len(wrapped), max_lines):
+                chunks.append(wrapped[i : i + max_lines])
+            current = []
+    flush()
+    return ["\n".join(c) for c in chunks] or [""]
+
+
 def _add_code_slide(slide: Any, title: str, code: str, footer: str) -> None:
+    """Render one code chunk. Caller must pre-split with ``split_code_for_slides``."""
     _add_heading(slide, title)
     lines = _format_try_these_code(code)
-    display_lines: list[str] = []
-    for line in lines[:22]:
-        if not line.strip():
-            display_lines.append("")
-            continue
-        display_lines.extend(textwrap.wrap(line, width=72) or [""])
-    if len(lines) > 22:
-        display_lines.append("# ...")
-    display_lines = display_lines[:24]
+    display_lines = _wrap_code_lines(lines)[:CODE_SLIDE_MAX_LINES]
 
     box = slide.shapes.add_textbox(MARGIN_L, Inches(1.25), CONTENT_W, Inches(5.5))
     tf = box.text_frame
@@ -473,7 +533,7 @@ def _add_code_slide(slide: Any, title: str, code: str, footer: str) -> None:
         FONT_CODE,
         font_name=FONT_MONO,
         color=COLOR_BODY,
-        space_after=Pt(6),
+        space_after=Pt(4),
         parse_md=False,
     )
     fill = box.fill
@@ -607,12 +667,24 @@ def build_deck(media_dir: Path, outline: dict[str, Any], output_path: Path) -> i
                 footer,
             )
         elif stype == "code":
-            _add_code_slide(
-                slide,
-                str(spec.get("title", "")),
-                str(spec.get("code", "")),
-                footer,
-            )
+            base_title = str(spec.get("title", ""))
+            chunks = split_code_for_slides(str(spec.get("code", "")))
+            # First chunk uses the already-created slide; extras get new slides.
+            for ci, chunk in enumerate(chunks):
+                if ci == 0:
+                    target = slide
+                else:
+                    target = prs.slides.add_slide(blank)
+                part_title = base_title
+                if len(chunks) > 1:
+                    part_title = f"{base_title} ({ci + 1}/{len(chunks)})"
+                _add_code_slide(target, part_title, chunk, footer)
+                if notes and ci == 0:
+                    target.notes_slide.notes_text_frame.text = str(notes)
+                elif ci > 0:
+                    target.notes_slide.notes_text_frame.text = ""
+            # Skip the shared notes handler below (already applied for chunk 0).
+            continue
         elif stype == "demo":
             _add_demo_slide(
                 slide,

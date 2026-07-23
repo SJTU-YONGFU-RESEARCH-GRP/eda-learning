@@ -22,8 +22,8 @@ After this module you can: **Propagate arrival forward and required backward on 
 1. Local: [http://127.0.0.1:8080/tools/arrival-required/index.html](http://127.0.0.1:8080/tools/arrival-required/index.html)
 2. Live: [https://universal-verification-methodology.github.io/learning/tools/arrival-required/](https://universal-verification-methodology.github.io/learning/tools/arrival-required/)
 3. Tools shelf: open `arrival-required` from the platform tools index
-3. Load the **starter netlist**, run the analysis, inspect path / slack metrics.
-4. Check off Track B items in [CHECKLIST.md](CHECKLIST.md).
+4. Load the **starter netlist**, run the analysis, inspect path / slack metrics.
+5. Check off Track B items in [CHECKLIST.md](CHECKLIST.md).
 
 > Concept labs teach STA literacy on tiny graphs — not foundry sign-off or vendor GUI flows.
 

@@ -2,6 +2,8 @@
 
 Shared Track A helpers (Python) for tiny timing netlists and metrics.
 
+Pseudocode for each algorithm lives in the lab module `EXAMPLES.md` (`## Pseudocode`) and must match these solvers.
+
 | File | Role |
 |------|------|
 | `tiny_timing.json` | Starter chain (6 pins, 5 arcs) |
@@ -19,4 +21,4 @@ python3 test_propagate.py
 python3 ../scripts/offline_compare.py
 ```
 
-Browser algorithms: `platform/assets/sta-core.js` (must stay in sync with `GOLDENS` / `PROP_GOLDENS` here).
+Browser algorithms: `platform/assets/sta-core.js` + interactive labs via `platform/assets/interactive-sta-lab.js` (must stay in sync with `GOLDENS` / `PROP_GOLDENS` here).

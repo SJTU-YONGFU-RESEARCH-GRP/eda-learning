@@ -14,7 +14,34 @@ Macro D is locked at (8, 4) on the top row, width two blocks sites eight and nin
 - Fixed cells are placed first; occupied intervals block shelf and Abacus trials on that row
 - Legality adds a macro check, any drift off the lock fails
 - Movable cells must route around macro sites, not slide through them
-- <!-- algorithm-walkthrough -->
+
+---
+
+## Pseudocode
+- Macro legalization adds one precondition to the Abacus sketch: place locked cells first
+- Their site intervals become obstacles for every later try-place on that row
+- Open this module's examples file and find the Pseudocode section
+- That written sketch is what you implement on the implement track and what the browser
+
+---
+
+## Algorithm sketch
+- The legality line in the sketch is new too
+- On this instance Abacus still finishes legal with displacement four
+
+---
+
+## Algorithm sketch — try these
+
+```
+INPUT: positions, widths, fixed F (e.g. D@(8,4))
+OUTPUT: legal pack; macros never move
+place every f in F at locked (x,y)
+run Abacus/Tetris on movables only
+F intervals block try-place / left-pack
+fail legality if any macro drifted
+GOLDEN: D stays (8,4); Abacus disp=4; legal
+```
 
 ---
 
@@ -45,13 +72,14 @@ Macro D is locked at (8, 4) on the top row, width two blocks sites eight and nin
 
 ## Browser lab track
 - In the browser lab track, open the **fixed-macros** lab from the tools shelf
-- Load the overlap or float starter, run the legalizer once
+- Open the interactive lab
+- Reveal golden is study-only
 - Work the challenges that lock the goldens
 
 ---
 
 ## Implement track
-- In the implement track, open this module's examples and the course `common/` solvers
+- In the implement track
 - Parse `tiny_legal.json`, run the algorithm with deterministic coordinates
 - Match the browser goldens before you claim the checklist
 

@@ -6,6 +6,8 @@
  * Outline area: 80 → deadspace 57 → density 23/80 = 0.2875
  */
 
+import { fitHiDpiCanvas } from "./canvas-hires.js";
+
 export const OUTLINE = { w: 10, h: 8 };
 
 export const TINY_MODULES = [
@@ -397,13 +399,7 @@ export function drawFloorplan(canvas, opts = {}) {
   const outline = opts.outline || OUTLINE;
   const pack = opts.pack || {};
   const pins = opts.pins || [];
-  const ctx = canvas.getContext("2d");
-  const dpr = window.devicePixelRatio || 1;
-  const cw = canvas.clientWidth || 420;
-  const ch = canvas.clientHeight || 300;
-  canvas.width = cw * dpr;
-  canvas.height = ch * dpr;
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const { ctx, w: cw, h: ch } = fitHiDpiCanvas(canvas);
   ctx.clearRect(0, 0, cw, ch);
   ctx.fillStyle = "#f4f7f6";
   ctx.fillRect(0, 0, cw, ch);

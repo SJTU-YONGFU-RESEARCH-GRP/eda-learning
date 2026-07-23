@@ -1,25 +1,35 @@
-# Examples — Area, packing density, whitespace/deadspace
+# Examples — Area and deadspace
 
-Track A (implement). Use the tiny outline first (`examples/tiny_modules.json`, W×H = 10×8).
+Track A (implement). Use `examples/tiny_modules.json` and `../../common/solvers.py`.
 
 ## Algorithm
 
-**area / density / deadspace metrics on a packing**
+**module area, density, deadspace**
+
+## Pseudocode
+
+```text
+INPUT: outline W×H, modules areas
+OUTPUT: area_sum, deadspace, density
+area_sum ← Σ w[m]·h[m]
+deadspace ← W·H − area_sum
+density ← area_sum / (W·H)
+only report density on legal packs
+GOLDEN: area=23; outline=80; dead=57
+density=0.2875
+```
 
 ## Starter prompts
 
-1. Restate the idea in five bullets (inputs → representation or loop → legality → metrics → output).
-2. Load modules A–E; confirm outline area = 80 and module areas sum correctly.
-3. Produce a packing (or assignment) and check: every module inside the outline, no pairwise overlap.
-4. Report deadspace = outlineArea − Σ(module areas) and packing density = Σ areas / outlineArea.
-5. Change one knob (aspect of soft A, a tree edge, a sequence swap, a pin side) and report what moved.
+1. Implement the pseudocode above (or call the matching `common/` helper).
+2. Print the metrics named in the GOLDEN line; match browser / Track A tests.
+3. Change one knob and report what moved.
 
 ## Expected artifacts
 
-- Coordinates (or representation) for each module
-- Legality boolean + deadspace / density
-- Short note: why this idea belongs on the floorplanning shelf
+- Outputs listed in the pseudocode OUTPUT line
+- Note tying the run to the pseudocode phases
 
 ## Stretch
 
-Add one hard macro at a fixed (x, y) or nest a 2-module sub-floorplan; keep the same metrics API.
+Scale the instance slightly; keep the same metrics API.

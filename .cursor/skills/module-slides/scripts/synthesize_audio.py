@@ -56,6 +56,7 @@ def _norm_title(title: str) -> str:
     t = re.sub(r"\s*[—–-]\s*try these.*$", "", t)
     t = re.sub(r"\s*[—–-]\s*more.*$", "", t)
     t = re.sub(r"\s*[—–-]\s*listing.*$", "", t)
+    t = re.sub(r"\s*\(\d+/\d+\)\s*$", "", t)
     return t.strip()
 
 

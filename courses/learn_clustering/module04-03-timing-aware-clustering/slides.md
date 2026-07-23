@@ -51,7 +51,6 @@ Critical nets should stay uncut
 ```
 export PYTHONPATH=../common
 python ../common/solvers.py examples/tiny_graph.json --mode timing --seed ../module02-05-kernighan-lin/examples/seed_partition.json --criticality examples/criticality.json
-
 ```
 
 ---

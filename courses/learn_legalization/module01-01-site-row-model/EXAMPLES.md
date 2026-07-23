@@ -1,25 +1,43 @@
 # Examples — Site and row model
 
-Track A (implement). Use the tiny legalization instance first (`examples/tiny_legal.json`).
+Track A (implement). Use `examples/tiny_legal.json` and `../../common/` solvers.
 
 ## Algorithm
 
-**site and row geometry model (sites, rowH, cell width in sites)**
+**site/row grid model and cell widths**
+
+## API
+
+```text
+# Python (courses/learn_legalization/common/)
+load_legal / greedy_snap / overlap_remove / abacus_lite / tetris_lite
+check_legality · total_displacement · total_hpwl
+```
+
+## Pseudocode
+
+```text
+INPUT: chip W×H, siteW, rowH, rows Y[], widths w[c]
+OUTPUT: legal coordinate rules
+for each cell c:
+  x multiple of siteW; y in Y[]
+  occupies [x, x+w[c]) × [y, y+rowH)
+GOLDEN: W=12 H=6 siteW=1 rowH=2 Y={0,2,4}
+widths A–D=2 E–F=1 (total 10 ≤ 12)
+```
 
 ## Starter prompts
 
-1. Restate the idea in five bullets (inputs → row/site model → algorithm loop → legality → metrics).
-2. Load cells A–F on the 12-site × 6-height grid (3 rows, rowH=2, bottoms y=0,2,4).
-3. Pick `starter_float` or `starter_illegal` depending on the lab; confirm cell widths in sites.
-4. Produce legal site-aligned coordinates; report legality boolean and total displacement from float start.
-5. Change one knob (macro lock, pack order, snap rounding) and report HPWL or displacement delta.
+1. Implement the pseudocode above (or call the matching `common/` solver).
+2. Print legality, displacement, and HPWL; match the GOLDEN line.
+3. Change one knob (macro lock, λ, or packer) and report the delta.
 
 ## Expected artifacts
 
-- Legal (x, y) per cell on site grid
-- Legality boolean + displacement / HPWL summary
-- Short note: why this idea belongs on the legalization shelf
+- Legal (x, y) per cell (or intentional illegal before-state)
+- Legality + displacement / HPWL (and cost when relevant)
+- Note tying the run to the pseudocode phases
 
 ## Stretch
 
-Lock macro D at (8,4) or add a second fixed block; keep the same metrics API.
+Lock macro D at (8,4) or sweep λ; keep the same metrics API.

@@ -4,11 +4,8 @@ slides:
 - type: title
   title: Congestion-aware clustering
   subtitle: When bridge edges are congested, cutting them becomes expensive
-  notes: 'When bridge edges are congested, cutting them becomes expensive. You’ll
-    watch FM under a congestion penalty and see how lambda reshapes the partition.
-
-
-    <!-- algorithm-walkthrough -->'
+  notes: When bridge edges are congested, cutting them becomes expensive. You’ll watch
+    FM under a congestion penalty and see how lambda reshapes the partition.
 - type: image
   title: Start from BAD_SEED
   image: assets/steps/01-bad-seed.png
@@ -37,11 +34,8 @@ slides:
   title: Objective tradeoffs
   image: assets/steps/05-takeaway.png
   caption: Objective tradeoffs
-  notes: 'EDA flows rarely optimize cut alone. λ makes the congestion tax explicit
+  notes: EDA flows rarely optimize cut alone. λ makes the congestion tax explicit
     so students see the Pareto move between wire and routing.
-
-
-    <!-- /algorithm-walkthrough -->'
 - type: bullets
   title: Browser lab track
   bullets:
@@ -63,9 +57,7 @@ slides:
 
     python ../common/solvers.py examples/tiny_graph.json --mode congestion --seed
     ../module02-05-kernighan-lin/examples/seed_partition.json --congestion examples/congestion.json
-    --lambda 5
-
-    '
+    --lambda 5'
   notes: ''
 - type: bullets
   title: Pitfalls to watch

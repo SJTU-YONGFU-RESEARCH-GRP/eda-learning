@@ -1,8 +1,90 @@
-title: "Arrival and required times"
-footer: "learn_sta — Arrival / required"
+title: Arrival and required times
+footer: learn_sta — 03 arrival required
 slides:
-  - type: title
-    title: "Arrival and required times"
-    subtitle: "module01-03-arrival-required · learn_sta"
-    notes: |
-      Stub — replace via transcript_to_outline.py after revising transcript.md.
+- type: title
+  title: Arrival and required times
+  subtitle: Once the graph is levelized, you propagate tags
+  notes: Once the graph is levelized, you propagate tags. Arrival moves forward from
+    sources; required moves backward from sinks. You will compute A(out)=3.2 and R(out)=10
+    on the starter chain with period ten.
+- type: bullets
+  title: Goldens to remember
+  bullets:
+  - 'Forward: A(in)=0, A(u1/Y)=1.2, A(out)=3.2'
+  - 'Backward setup: R(out)=10, R(in)=6.8'
+  - Keep these numbers handy, the browser challenges and Track A tests use the same
+    instance
+  - <!-- algorithm-walkthrough -->
+  notes: 'Forward: A(in)=0, A(u1/Y)=1.2, A(out)=3.2. Backward setup: R(out)=10, R(in)=6.8.
+    Keep these numbers handy—the browser challenges and Track A tests use the same
+    instance.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: Seed arrival at the source
+  image: assets/steps/01-seed-arrival.png
+  caption: Seed arrival at the source
+  notes: Set arrival at in to zero for the launch edge. Every other pin waits for
+    its predecessors.
+- type: image
+  title: Propagate arrival forward
+  image: assets/steps/02-forward-wave.png
+  caption: Propagate arrival forward
+  notes: For each pin in topo order, arrival is the max over predecessors of A(pred)
+    + delay. At out the wavefront reaches 3.2.
+- type: image
+  title: Seed required at the sink
+  image: assets/steps/03-seed-required.png
+  caption: Seed required at the sink
+  notes: For a single-cycle setup check, required at out equals the clock period—here
+    10.
+- type: image
+  title: Propagate required backward
+  image: assets/steps/04-backward-wave.png
+  caption: Propagate required backward
+  notes: Walk reverse topo order. Required at a pin is the min over successors of
+    R(succ) − delay. At in, required becomes 6.8.
+- type: image
+  title: Keep both tags on every pin
+  image: assets/steps/05-both-tags.png
+  caption: Keep both tags on every pin
+  notes: 'Arrival and required live together. Slack at a pin is R − A for setup. Next
+    labs turn those tags into slack and a critical path.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab, open **arrival-required**
+  - Load the starter, run the analysis once, and read the metrics panel
+  - Orient yourself, challenge panel, canvas, Check, then mirror the same goldens
+    in code
+  notes: In the browser lab, open **arrival-required**. Load the starter, run the
+    analysis once, and read the metrics panel. Orient yourself—challenge panel, canvas,
+    Check—then mirror the same goldens in code.
+- type: bullets
+  title: Implement track
+  bullets:
+  - In the implement track
+  - Run `python3 common/test_propagate.py` (and the timing-graph test) until the goldens
+    print
+  notes: In the implement track, use `common/tiny_timing.json` with the helpers in
+    `common/graph.py` and `common/propagate.py`. Run `python3 common/test_propagate.py`
+    (and the timing-graph test) until the goldens print ok.
+- type: bullets
+  title: Pitfall
+  bullets:
+  - Do not mix setup and hold required maps
+  - Do not propagate before the graph is levelized
+  - After an edit or exception, recompute, stale tags lie
+  notes: Do not mix setup and hold required maps. Do not propagate before the graph
+    is levelized. After an edit or exception, recompute—stale tags lie.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Finish the checklist on at least one track, preferably both
+  - When your numbers match the goldens, take the quiz, then continue
+  notes: Finish the checklist on at least one track—preferably both. When your numbers
+    match the goldens, take the quiz, then continue.

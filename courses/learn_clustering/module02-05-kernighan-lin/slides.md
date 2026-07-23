@@ -60,7 +60,6 @@ ls examples
 # run full KL refinement on the bad seed
 export PYTHONPATH=../common
 python ../common/solvers.py examples/tiny_graph.json --mode kl --seed examples/seed_partition.json
-
 ```
 
 ---

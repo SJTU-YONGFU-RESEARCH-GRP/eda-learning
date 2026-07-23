@@ -5,12 +5,9 @@ slides:
   title: Label propagation clustering
   subtitle: Label propagation grows communities by letting each node adopt the strongest
     neighbor label
-  notes: 'Label propagation grows communities by letting each node adopt the strongest
+  notes: Label propagation grows communities by letting each node adopt the strongest
     neighbor label. You’ll watch the asynchronous update on the tiny graph, then measure
     iterations-to-stable and cutsize.
-
-
-    <!-- algorithm-walkthrough -->'
 - type: image
   title: 'Initialize: each node is its own label'
   image: assets/steps/01-init.png
@@ -41,11 +38,8 @@ slides:
   title: When LP helps in EDA flows
   image: assets/steps/05-takeaway.png
   caption: When LP helps in EDA flows
-  notes: 'LP is a cheap community detector—great as a seed or coarsening hint. It
-    does not enforce balance or timing; refinement still matters on hard instances.
-
-
-    <!-- /algorithm-walkthrough -->'
+  notes: LP is a cheap community detector—great as a seed or coarsening hint. It does
+    not enforce balance or timing; refinement still matters on hard instances.
 - type: bullets
   title: Browser lab track
   bullets:
@@ -70,9 +64,7 @@ slides:
 
     export PYTHONPATH=../common
 
-    python ../common/solvers.py examples/tiny_graph.json --mode lp
-
-    '
+    python ../common/solvers.py examples/tiny_graph.json --mode lp'
   notes: ''
 - type: bullets
   title: Pitfalls to watch

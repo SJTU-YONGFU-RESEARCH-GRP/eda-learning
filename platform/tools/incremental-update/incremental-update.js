@@ -1,264 +1,196 @@
 import {
   PROP_GOLDENS,
-  TINY_TIMING,
   cloneTiming,
+  fanoutCone,
   incrementalArrival,
-  levelize,
   near,
   propagateArrival,
-  propagateRequired,
-  setupSlack,
 } from "../../assets/sta-core.js";
-import {
-  createChallengeLab,
-  drawTimingGraph,
-  el,
-  metricsBlock,
-} from "../../assets/sta-ui.js";
+import { createInteractiveStaLab } from "../../assets/interactive-sta-lab.js";
+import { el } from "../../assets/sta-ui.js";
 
 const G = PROP_GOLDENS;
 const INC = G.incremental;
 const root = document.getElementById("lab-root");
-let timing = cloneTiming(TINY_TIMING);
-let levels = levelize(timing);
-let mode = "none"; // none | base | edited
-let baseArr = null;
-let edited = null; // { timing, arrival, invalidated }
 
-function arm() {
-  timing = cloneTiming(TINY_TIMING);
-  levels = levelize(timing);
-  mode = "none";
-  baseArr = null;
-  edited = null;
-}
-
-function showBase() {
-  timing = cloneTiming(TINY_TIMING);
-  levels = levelize(timing);
-  mode = "base";
-  baseArr = propagateArrival(timing);
-  edited = null;
-}
-
-function applyEdit() {
-  const base = cloneTiming(TINY_TIMING);
-  if (!baseArr) baseArr = propagateArrival(base);
-  edited = incrementalArrival(
-    base,
-    { from: INC.editFrom, to: INC.editTo, delay: INC.newDelay },
-    baseArr
-  );
-  timing = edited.timing;
-  levels = levelize(timing);
-  mode = "edited";
-}
-
-function currentArr() {
-  if (mode === "edited" && edited) return edited.arrival;
-  if (mode === "base" && baseArr) return baseArr;
-  return null;
-}
-
-function editedSlack() {
-  if (mode !== "edited" || !edited) return null;
-  const req = propagateRequired(timing);
-  return setupSlack(edited.arrival, req, "out");
-}
-
-createChallengeLab(root, {
+createInteractiveStaLab(root, {
+  mode: "cone",
+  initialMarked: [],
+  revealMarked: INC.invalidated,
   starterHtml: `
-    <p><strong>Starter example (reference):</strong> base arrival at out =
-    <strong>${G.arrival.out}</strong>. After editing arc
-    <code>${INC.editFrom}→${INC.editTo}</code> delay to <strong>${INC.newDelay}</strong>,
-    out arrival = <strong>${INC.arrivalOut}</strong>, setup slack =
-    <strong>${INC.setupSlackOut}</strong>, invalidated =
-    <code>${INC.invalidated.join(", ")}</code>.</p>
+    <p><strong>Your workspace:</strong> bump cell delay <code>u1/A→u1/Y</code> from 1.2→2.0,
+    then mark the <em>invalidated fanout cone</em> (click pins). Optional helpers apply the edit
+    and mark the cone. Challenges check <strong>your</strong> marks and delay. Reveal golden is study-only.</p>
   `,
-  loadStarter() {
-    showBase();
-    applyEdit();
+  extraActions: (ctx, api) => [
+    el("button", {
+      className: "btn btn-secondary",
+      type: "button",
+      text: "Bump u1 delay → 2.0",
+      onClick: () => {
+        const t = cloneTiming(api.getTiming());
+        const arc = t.arcs.find((a) => a.from === INC.editFrom && a.to === INC.editTo);
+        if (arc) arc.delay = INC.newDelay;
+        api.setTiming(t);
+        api.setMeta({ bumped: true });
+        api.setRevealed(false);
+        ctx.rerender();
+      },
+    }),
+    el("button", {
+      className: "btn btn-secondary",
+      type: "button",
+      text: "Mark fanout cone of u1/Y",
+      onClick: () => {
+        const cone = fanoutCone(api.getTiming(), INC.editTo);
+        api.setMarked(cone);
+        api.setRevealed(false);
+        ctx.rerender();
+      },
+    }),
+    el("button", {
+      className: "btn btn-ghost",
+      type: "button",
+      text: "Apply incremental arrival",
+      onClick: () => {
+        const base = propagateArrival(api.getTiming());
+        // ensure delay bumped
+        let t = cloneTiming(api.getTiming());
+        const arc = t.arcs.find((a) => a.from === INC.editFrom && a.to === INC.editTo);
+        if (arc) arc.delay = INC.newDelay;
+        api.setTiming(t);
+        const baseOnOrig = propagateArrival(
+          (() => {
+            const o = cloneTiming(api.getTiming());
+            const a = o.arcs.find((x) => x.from === INC.editFrom && x.to === INC.editTo);
+            if (a) a.delay = 1.2;
+            return o;
+          })()
+        );
+        const res = incrementalArrival(t, { from: INC.editFrom, to: INC.editTo, delay: INC.newDelay }, baseOnOrig);
+        api.setTiming(res.timing);
+        api.setMarked(res.invalidated);
+        api.setMeta({ arrival: res.arrival, bumped: true });
+        api.setRevealed(false);
+        ctx.rerender();
+      },
+    }),
+  ],
+  extraMetrics: (api) => {
+    const t = api.getTiming();
+    const arc = t.arcs.find((a) => a.from === INC.editFrom && a.to === INC.editTo);
+    const lines = [`u1 cell delay: ${arc?.delay}`, `marked: ${[...api.getMarked()].sort().join(", ") || "(none)"}`];
+    const arr = api.getMeta().arrival;
+    if (arr?.out != null) lines.push(`arrival out (meta): ${arr.out}`);
+    return lines;
   },
   challenges: [
     {
-      id: "base-out",
-      title: "Base out 3.2",
+      id: "bump-delay",
+      title: "Bump delay to 2.0",
       level: "Intro",
-      prompt: "Show base; arrival at out is 3.2.",
-      hint: "Full propagate before edit.",
-      setup: arm,
-      check: () =>
-        mode === "base" && baseArr && near(baseArr.out, G.arrival.out),
-    },
-    {
-      id: "edited-out",
-      title: "Edited out 4.0",
-      level: "Intro",
-      prompt: "Apply delay edit; arrival at out is 4.0.",
-      hint: "u1 cell +0.8 ns propagates downstream.",
-      setup: arm,
-      check: () =>
-        mode === "edited" &&
-        edited &&
-        near(edited.arrival.out, INC.arrivalOut),
-    },
-    {
-      id: "edited-slack",
-      title: "Edited slack 6.0",
-      level: "Intro",
-      prompt: "After edit, setup slack at out is 6.0.",
-      hint: "10 − 4.0.",
-      setup: arm,
-      check: () => {
-        if (mode !== "edited" || !edited) return false;
-        return near(editedSlack(), INC.setupSlackOut);
+      prompt: "Set u1/A→u1/Y delay to 2.0.",
+      hint: "Bump u1 delay → 2.0.",
+      check: (_c, api) => {
+        const arc = api.getTiming().arcs.find((a) => a.from === INC.editFrom && a.to === INC.editTo);
+        return arc && near(arc.delay, INC.newDelay);
       },
     },
     {
-      id: "invalidated-out",
-      title: "out invalidated",
-      level: "Practice",
-      prompt: "Apply edit; out is in the invalidated cone.",
-      hint: "Fanout from u1/Y includes out.",
-      setup: arm,
-      check: () =>
-        mode === "edited" &&
-        edited &&
-        edited.invalidated.includes("out"),
+      id: "mark-u1y",
+      title: "Mark u1/Y",
+      level: "Intro",
+      prompt: "Mark pin u1/Y (edit target).",
+      hint: "Click u1/Y.",
+      check: (_c, api) => api.getMarked().has("u1/Y"),
     },
     {
-      id: "invalidated-u1y",
-      title: "u1/Y invalidated",
+      id: "mark-out",
+      title: "Mark out",
       level: "Practice",
-      prompt: "Apply edit; u1/Y is invalidated.",
-      hint: "Edit target's fanout starts at u1/Y.",
-      setup: arm,
-      check: () =>
-        mode === "edited" &&
-        edited &&
-        edited.invalidated.includes("u1/Y"),
+      prompt: "Mark out (downstream of the edit).",
+      hint: "Fanout reaches out.",
+      check: (_c, api) => api.getMarked().has("out"),
+    },
+    {
+      id: "full-cone",
+      title: "Full invalidated cone",
+      level: "Practice",
+      prompt: `Mark exactly {${INC.invalidated.join(", ")}}.`,
+      hint: "Mark fanout cone of u1/Y.",
+      check: (_c, api) => {
+        const m = api.getMarked();
+        return (
+          INC.invalidated.every((p) => m.has(p)) &&
+          m.size === INC.invalidated.length
+        );
+      },
     },
     {
       id: "not-in",
-      title: "in not invalidated",
+      title: "Do not mark in",
       level: "Practice",
-      prompt: "Apply edit; in is NOT in the invalidated set.",
-      hint: "Upstream of edit is unchanged.",
-      setup: arm,
-      check: () =>
-        mode === "edited" &&
-        edited &&
-        !edited.invalidated.includes("in"),
+      prompt: "Cone marked and in is not marked.",
+      hint: "Upstream of edit stays valid.",
+      check: (_c, api) => {
+        const m = api.getMarked();
+        return INC.invalidated.every((p) => m.has(p)) && !m.has("in");
+      },
     },
     {
-      id: "invalidated-u2a",
-      title: "u2/A invalidated",
-      level: "Practice",
-      prompt: "Apply edit; u2/A is invalidated.",
-      hint: "Downstream of u1/Y.",
-      setup: arm,
-      check: () =>
-        mode === "edited" &&
-        edited &&
-        edited.invalidated.includes("u2/A"),
+      id: "arrival-out-4",
+      title: "Arrival out = 4.0",
+      level: "Challenge",
+      prompt: "After incremental update, arrival at out is 4.0.",
+      hint: "Apply incremental arrival.",
+      check: (_c, api) => near(api.getMeta().arrival?.out ?? NaN, INC.arrivalOut),
     },
     {
-      id: "base-u1y",
-      title: "Base u1/Y 1.2",
-      level: "Stretch",
-      prompt: "Show base; u1/Y arrival is 1.2.",
-      hint: "Before the delay bump.",
-      setup: arm,
-      check: () =>
-        mode === "base" &&
-        baseArr &&
-        near(baseArr["u1/Y"], G.arrival["u1/Y"]),
+      id: "slack-6",
+      title: "Setup slack out = 6.0",
+      level: "Challenge",
+      prompt: "After update, setup slack at out is 6.0 (10 − 4).",
+      hint: "Apply incremental; slack = period − arrival.",
+      check: (_c, api) => {
+        const arr = api.getMeta().arrival?.out;
+        return arr != null && near(10 - arr, INC.setupSlackOut);
+      },
     },
     {
-      id: "edited-u1y",
-      title: "Edited u1/Y 2.0",
-      level: "Stretch",
-      prompt: "After edit; u1/Y arrival is 2.0.",
-      hint: "Cell delay now 2.0 from u1/A.",
-      setup: arm,
-      check: () =>
-        mode === "edited" &&
-        edited &&
-        near(edited.arrival["u1/Y"], INC.newDelay),
+      id: "cone-has-u2",
+      title: "Cone includes u2",
+      level: "Challenge",
+      prompt: "Marked set includes u2/A and u2/Y.",
+      hint: "Both are downstream.",
+      check: (_c, api) => api.getMarked().has("u2/A") && api.getMarked().has("u2/Y"),
     },
     {
-      id: "invalidated-set",
-      title: "Invalidated set match",
-      level: "Stretch",
-      prompt: "Invalidated pins match PROP_GOLDENS.incremental.invalidated.",
-      hint: "u1/Y, u2/A, u2/Y, out — not in or u1/A.",
-      setup: arm,
-      check: () => {
-        if (mode !== "edited" || !edited) return false;
-        const got = [...edited.invalidated].sort().join(",");
-        const exp = [...INC.invalidated].sort().join(",");
-        return got === exp;
+      id: "bump-and-cone",
+      title: "Bump + full cone",
+      level: "Challenge",
+      prompt: "Delay is 2.0 and cone matches golden invalidated set.",
+      hint: "Bump then Mark fanout cone.",
+      check: (_c, api) => {
+        const arc = api.getTiming().arcs.find((a) => a.from === INC.editFrom && a.to === INC.editTo);
+        const m = api.getMarked();
+        return (
+          arc &&
+          near(arc.delay, INC.newDelay) &&
+          INC.invalidated.every((p) => m.has(p)) &&
+          m.size === INC.invalidated.length
+        );
+      },
+    },
+    {
+      id: "u1a-not-invalid",
+      title: "u1/A not invalidated",
+      level: "Challenge",
+      prompt: "Full cone marked; u1/A is not in the marked set.",
+      hint: "Invalidation starts at arc.to = u1/Y.",
+      check: (_c, api) => {
+        const m = api.getMarked();
+        return INC.invalidated.every((p) => m.has(p)) && !m.has("u1/A");
       },
     },
   ],
-  extraActions(ctx) {
-    return [
-      el("button", {
-        className: "btn btn-secondary",
-        type: "button",
-        text: "Show base",
-        onClick: () => {
-          showBase();
-          ctx.rerender();
-        },
-      }),
-      el("button", {
-        className: "btn btn-primary",
-        type: "button",
-        text: "Apply delay edit (u1 1.2→2.0)",
-        onClick: () => {
-          applyEdit();
-          ctx.rerender();
-        },
-      }),
-    ];
-  },
-  renderWorkspace(ctx) {
-    const arr = currentArr();
-    const tags = {};
-    if (arr) {
-      for (const [p, v] of Object.entries(arr)) tags[p] = `A:${v}`;
-    }
-    const highlightPins =
-      mode === "edited" && edited ? edited.invalidated : mode === "base" ? ["out"] : [];
-    const highlightArcs =
-      mode === "edited"
-        ? [`${INC.editFrom}|${INC.editTo}`]
-        : [];
-    drawTimingGraph(ctx.canvas, timing, {
-      levels,
-      highlightPins,
-      highlightArcs,
-      tags,
-    });
-    const lines = [
-      `view: ${mode}`,
-      `edit: ${INC.editFrom}→${INC.editTo} delay ${INC.newDelay}`,
-    ];
-    if (mode === "base" && baseArr) {
-      lines.push(`arrival out: ${baseArr.out}`);
-      lines.push(`u1/Y: ${baseArr["u1/Y"]}`);
-    }
-    if (mode === "edited" && edited) {
-      lines.push(`arrival out: ${edited.arrival.out}`);
-      lines.push(`setup slack out: ${editedSlack()}`);
-      lines.push(`invalidated: ${edited.invalidated.join(", ")}`);
-      lines.push("arrival (invalidated cone):");
-      for (const p of edited.invalidated) {
-        lines.push(`  ${p}: ${edited.arrival[p] ?? "—"}`);
-      }
-    }
-    ctx.metrics.innerHTML = "";
-    ctx.metrics.append(metricsBlock(lines));
-  },
 });

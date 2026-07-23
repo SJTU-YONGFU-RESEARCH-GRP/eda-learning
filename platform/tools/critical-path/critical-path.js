@@ -1,194 +1,146 @@
+import { PROP_GOLDENS, near } from "../../assets/sta-core.js";
+import { createInteractiveStaLab } from "../../assets/interactive-sta-lab.js";
+import { el } from "../../assets/sta-ui.js";
 import {
-  GOLDENS,
-  PROP_GOLDENS,
-  TINY_TIMING,
-  cloneTiming,
   criticalPathTo,
-  levelize,
-  near,
   propagateArrival,
 } from "../../assets/sta-core.js";
-import {
-  createChallengeLab,
-  drawTimingGraph,
-  el,
-  metricsBlock,
-} from "../../assets/sta-ui.js";
 
 const G = PROP_GOLDENS;
 const root = document.getElementById("lab-root");
-let timing = cloneTiming(TINY_TIMING);
-let levels = levelize(timing);
-let mode = "none"; // none | path
-let arrival = null;
-let path = null;
 
-function arm() {
-  timing = cloneTiming(TINY_TIMING);
-  levels = levelize(timing);
-  mode = "none";
-  arrival = null;
-  path = null;
+function pathEqual(a, b) {
+  if (!a || !b || a.length !== b.length) return false;
+  return a.every((p, i) => p === b[i]);
 }
 
-function tracePath() {
-  timing = cloneTiming(TINY_TIMING);
-  levels = levelize(timing);
-  mode = "path";
-  arrival = propagateArrival(timing);
-  path = criticalPathTo(timing, arrival, "out");
-}
-
-function pathArcs(p) {
-  if (!p || p.length < 2) return [];
-  const arcs = [];
-  for (let i = 0; i < p.length - 1; i++) arcs.push(`${p[i]}|${p[i + 1]}`);
-  return arcs;
-}
-
-createChallengeLab(root, {
+createInteractiveStaLab(root, {
+  mode: "path",
+  initialPath: [],
+  revealPath: G.criticalPath,
   starterHtml: `
-    <p><strong>Starter example (reference):</strong> critical path
-    <code>${G.criticalPath.join(" → ")}</code> — length <strong>${G.criticalPath.length}</strong>,
-    arrival at out <strong>${G.arrival.out}</strong> (= path delay Σ <strong>${GOLDENS.pathDelay}</strong>).
-    Click <em>Trace critical path</em> to highlight pins and arcs.</p>
+    <p><strong>Your workspace:</strong> click pins in order to build the critical path
+    from <code>in</code> to <code>out</code>. Optional: <em>Trace critical path</em> helper.
+    Challenges check <strong>your</strong> path. Reveal golden is study-only.</p>
   `,
-  loadStarter() {
-    tracePath();
+  extraActions: (ctx, api) => [
+    el("button", {
+      className: "btn btn-secondary",
+      type: "button",
+      text: "Trace critical path",
+      onClick: () => {
+        const t = api.getTiming();
+        const arr = propagateArrival(t);
+        const path = criticalPathTo(t, arr, "out");
+        api.setPath(path || []);
+        api.setMeta({ arrival: arr });
+        api.setRevealed(false);
+        ctx.rerender();
+      },
+    }),
+  ],
+  extraMetrics: (api) => {
+    const p = api.getPath();
+    return [
+      `golden length: ${G.criticalPath.length}`,
+      `your length: ${p.length}`,
+      `arrival out (ref): ${G.arrival.out}`,
+    ];
   },
   challenges: [
     {
-      id: "path-length",
+      id: "len-6",
       title: "Path length 6",
       level: "Intro",
-      prompt: "Trace critical path; path has 6 pins.",
-      hint: "Every pin on the chain is critical.",
-      setup: arm,
-      check: () => mode === "path" && path && path.length === 6,
+      prompt: "Build a path with 6 pins.",
+      hint: "Click each pin on the chain once.",
+      check: (_c, api) => api.getPath().length === 6,
     },
     {
       id: "starts-in",
       title: "Starts at in",
       level: "Intro",
-      prompt: "Critical path starts at in.",
-      hint: "Backward trace ends at source.",
-      setup: arm,
-      check: () => mode === "path" && path && path[0] === "in",
+      prompt: "Path starts at in.",
+      hint: "First click: in.",
+      check: (_c, api) => api.getPath()[0] === "in",
     },
     {
       id: "ends-out",
       title: "Ends at out",
       level: "Intro",
-      prompt: "Critical path ends at out.",
-      hint: "Trace into the sink pin.",
-      setup: arm,
-      check: () => mode === "path" && path && path[path.length - 1] === "out",
+      prompt: "Path ends at out.",
+      hint: "Last pin: out.",
+      check: (_c, api) => {
+        const p = api.getPath();
+        return p.length && p[p.length - 1] === "out";
+      },
+    },
+    {
+      id: "full-path",
+      title: "Exact critical path",
+      level: "Practice",
+      prompt: `Path equals ${G.criticalPath.join(" → ")}.`,
+      hint: "Click in order, or Trace critical path.",
+      check: (_c, api) => pathEqual(api.getPath(), G.criticalPath),
     },
     {
       id: "includes-u1y",
       title: "Includes u1/Y",
       level: "Practice",
-      prompt: "Critical path includes u1/Y.",
-      hint: "Cell output of u1.",
-      setup: arm,
-      check: () => mode === "path" && path && path.includes("u1/Y"),
+      prompt: "Path includes u1/Y.",
+      hint: "Middle of the chain.",
+      check: (_c, api) => api.getPath().includes("u1/Y"),
     },
     {
       id: "includes-u2a",
       title: "Includes u2/A",
       level: "Practice",
-      prompt: "Critical path includes u2/A.",
-      hint: "Net from u1/Y lands here.",
-      setup: arm,
-      check: () => mode === "path" && path && path.includes("u2/A"),
+      prompt: "Path includes u2/A.",
+      hint: "After the net from u1/Y.",
+      check: (_c, api) => api.getPath().includes("u2/A"),
     },
     {
-      id: "golden-path",
-      title: "Matches golden path",
-      level: "Practice",
-      prompt: "Path equals PROP_GOLDENS.criticalPath.",
-      hint: "in → u1/A → u1/Y → u2/A → u2/Y → out.",
-      setup: arm,
-      check: () =>
-        mode === "path" && path && path.join(",") === G.criticalPath.join(","),
+      id: "no-dupes",
+      title: "No duplicate pins",
+      level: "Challenge",
+      prompt: "Critical path has 6 unique pins (no repeats).",
+      hint: "Clear and rebuild if you double-clicked.",
+      check: (_c, api) => {
+        const p = api.getPath();
+        return p.length === 6 && new Set(p).size === 6;
+      },
     },
     {
-      id: "arrival-out",
-      title: "Arrival out 3.2",
-      level: "Practice",
-      prompt: "After trace, arrival at out is 3.2.",
-      hint: "Matches path delay sum.",
-      setup: arm,
-      check: () =>
-        mode === "path" && arrival && near(arrival.out, G.arrival.out),
+      id: "order-u1",
+      title: "u1/A before u1/Y",
+      level: "Challenge",
+      prompt: "u1/A appears before u1/Y on your path.",
+      hint: "Cell input before output.",
+      check: (_c, api) => {
+        const p = api.getPath();
+        return p.indexOf("u1/A") >= 0 && p.indexOf("u1/A") < p.indexOf("u1/Y");
+      },
     },
     {
-      id: "includes-u1a",
-      title: "Includes u1/A",
-      level: "Stretch",
-      prompt: "Critical path includes u1/A.",
-      hint: "First cell input.",
-      setup: arm,
-      check: () => mode === "path" && path && path.includes("u1/A"),
+      id: "matches-arrival",
+      title: "Path matches arrival trace",
+      level: "Challenge",
+      prompt: "Your path equals criticalPathTo(arrival, out).",
+      hint: "Trace critical path helper.",
+      check: (_c, api) => {
+        const t = api.getTiming();
+        const arr = propagateArrival(t);
+        return pathEqual(api.getPath(), criticalPathTo(t, arr, "out"));
+      },
     },
     {
-      id: "includes-u2y",
-      title: "Includes u2/Y",
-      level: "Stretch",
-      prompt: "Critical path includes u2/Y.",
-      hint: "Second cell output.",
-      setup: arm,
-      check: () => mode === "path" && path && path.includes("u2/Y"),
-    },
-    {
-      id: "delay-matches",
-      title: "Delay sum 3.2",
-      level: "Stretch",
-      prompt: "Arrival at out matches GOLDENS.pathDelay (3.2).",
-      hint: "Only one path — sum of arc delays.",
-      setup: arm,
-      check: () =>
-        mode === "path" &&
-        arrival &&
-        near(arrival.out, GOLDENS.pathDelay),
+      id: "delay-sum",
+      title: "Path delay sense-check",
+      level: "Challenge",
+      prompt: "Full critical path built (length 6 ending at out) — delay sum is 3.2 by construction.",
+      hint: "Build the full path.",
+      check: (_c, api) =>
+        pathEqual(api.getPath(), G.criticalPath) && near(G.arrival.out, 3.2),
     },
   ],
-  extraActions(ctx) {
-    return [
-      el("button", {
-        className: "btn btn-primary",
-        type: "button",
-        text: "Trace critical path",
-        onClick: () => {
-          tracePath();
-          ctx.rerender();
-        },
-      }),
-    ];
-  },
-  renderWorkspace(ctx) {
-    const tags = {};
-    if (arrival) {
-      for (const [p, v] of Object.entries(arrival)) tags[p] = `A:${v}`;
-    }
-    drawTimingGraph(ctx.canvas, timing, {
-      levels,
-      highlightPins: path || [],
-      highlightArcs: pathArcs(path),
-      tags,
-    });
-    const lines = [
-      `view: ${mode}`,
-      `path: ${path ? path.join(" → ") : "—"}`,
-      `path length: ${path ? path.length : "—"}`,
-      `arrival out: ${arrival?.out ?? "—"}`,
-      `path delay Σ: ${GOLDENS.pathDelay}`,
-    ];
-    if (path) {
-      lines.push("path pins:");
-      for (const p of path) lines.push(`  ${p}: arr=${arrival?.[p] ?? "—"}`);
-    }
-    ctx.metrics.innerHTML = "";
-    ctx.metrics.append(metricsBlock(lines));
-  },
 });

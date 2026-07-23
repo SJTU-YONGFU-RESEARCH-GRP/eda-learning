@@ -2,6 +2,7 @@
  * Shared canvas + challenge chrome for clustering labs.
  * Pattern matches digital_learning tools: starter example + challenge catalog.
  */
+import { fitGraphLayout, fitHiDpiCanvas } from "./canvas-hires.js";
 import {
   PALETTE,
   clusterColor,
@@ -33,16 +34,11 @@ export function el(tag, attrs = {}, children = []) {
 }
 
 export function drawGraph(canvas, graph, opts = {}) {
-  const ctx = canvas.getContext("2d");
-  const layout = opts.layout || starterLayout();
+  const { ctx, w, h } = fitHiDpiCanvas(canvas);
+  const design = opts.layout || starterLayout();
+  const { layout, nodeR, fontPx, edgeW } = fitGraphLayout(design, w, h);
   const assignment = opts.assignment || null;
   const highlightPairs = new Set(opts.highlightPairs || []);
-  const dpr = window.devicePixelRatio || 1;
-  const w = canvas.clientWidth || 420;
-  const h = canvas.clientHeight || 300;
-  canvas.width = w * dpr;
-  canvas.height = h * dpr;
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   ctx.clearRect(0, 0, w, h);
   ctx.fillStyle = "#f7faf9";
   ctx.fillRect(0, 0, w, h);
@@ -59,12 +55,12 @@ export function drawGraph(canvas, graph, opts = {}) {
     ctx.moveTo(a.x, a.y);
     ctx.lineTo(b.x, b.y);
     ctx.strokeStyle = hot ? "#b45309" : cut ? "#9f1239" : "#94a3b8";
-    ctx.lineWidth = hot ? 3.5 : cut ? 2.5 : 2;
+    ctx.lineWidth = hot ? edgeW * 1.75 : cut ? edgeW * 1.25 : edgeW;
     ctx.stroke();
     const mx = (a.x + b.x) / 2;
     const my = (a.y + b.y) / 2;
     ctx.fillStyle = "#334155";
-    ctx.font = "12px ui-monospace, Menlo, Consolas, monospace";
+    ctx.font = `${Math.max(11, fontPx - 1)}px ui-monospace, Menlo, Consolas, monospace`;
     ctx.fillText(String(e.w), mx + 4, my - 4);
   }
 
@@ -75,14 +71,14 @@ export function drawGraph(canvas, graph, opts = {}) {
     const cid = assignment && assignment[n] != null ? assignment[n] : n;
     const isSel = selected.has(n);
     ctx.beginPath();
-    ctx.arc(p.x, p.y, isSel ? 18 : 16, 0, Math.PI * 2);
+    ctx.arc(p.x, p.y, isSel ? nodeR + 2 : nodeR, 0, Math.PI * 2);
     ctx.fillStyle = clusterColor(cid, PALETTE);
     ctx.fill();
     ctx.strokeStyle = isSel ? "#b45309" : "#0f172a";
     ctx.lineWidth = isSel ? 3 : 1.5;
     ctx.stroke();
     ctx.fillStyle = "#fff";
-    ctx.font = "bold 13px system-ui, sans-serif";
+    ctx.font = `bold ${fontPx}px system-ui, sans-serif`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillText(n, p.x, p.y);
@@ -239,7 +235,6 @@ export function createChallengeLab(root, opts) {
       el("div", { className: "panel-body" }, [
         el("canvas", {
           className: "cluster-canvas",
-          style: "width:100%;height:300px;border-radius:8px;border:1px solid var(--line);",
         }),
       ]),
     ]);
@@ -248,7 +243,11 @@ export function createChallengeLab(root, opts) {
       el("div", { className: "panel-body metrics-body" }),
     ]);
     layout.append(left, right);
-    root.append(note, challengeBox, actions, layout);
+    if (opts.workspaceBeforeActions) {
+      root.append(note, challengeBox, layout, actions);
+    } else {
+      root.append(note, challengeBox, actions, layout);
+    }
 
     ctx.canvas = root.querySelector("canvas");
     ctx.metrics = root.querySelector(".metrics-body");
@@ -284,6 +283,19 @@ export function createChallengeLab(root, opts) {
   // First visit: load starter reference automatically
   opts.loadStarter(ctx);
   render();
+
+  // Redraw on resize so HiDPI backing store matches CSS size
+  if (typeof ResizeObserver !== "undefined") {
+    const ro = new ResizeObserver(() => {
+      if (ctx.canvas) opts.renderWorkspace(ctx);
+    });
+    ro.observe(root);
+  } else {
+    window.addEventListener("resize", () => {
+      if (ctx.canvas) opts.renderWorkspace(ctx);
+    });
+  }
+
   return ctx;
 }
 

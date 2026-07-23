@@ -52,7 +52,6 @@ Multilevel clustering coarsens, partitions, then refines
 ```
 export PYTHONPATH=../common
 python ../common/solvers.py examples/tiny_graph.json --mode multilevel
-
 ```
 
 ---

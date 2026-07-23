@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Smoke tests for learn_legalization common solvers (goldens pending JS alignment)."""
+"""Smoke tests aligned to legalization-core.js goldens."""
 from __future__ import annotations
 
 from pathlib import Path
@@ -15,40 +15,53 @@ def main() -> None:
     chip = g["chip"]
     cells = g["cells"]
     nets = g["nets"]
-    fixed = g["fixed_macros"]
-    starter_illegal = g["starter_illegal"]
-    starter_float = g["starter_float"]
+    ill = g["starter_illegal"]
+    flo = g["starter_float"]
+    rh = float(chip["rowH"])
 
-    ok0, _ = check_legality(starter_illegal, cells, chip, fixed)
-    assert not ok0, "starter_illegal should be illegal"
+    ok0, reason0 = check_legality(ill, cells, chip, {})
+    assert not ok0 and "overlap" in reason0, reason0
 
-    snapped = greedy_snap(starter_float, cells, chip, fixed_macros=fixed)
-    for cid, p in snapped.items():
-        assert abs(p["x"] - round(p["x"])) < 1e-6
-        assert p["y"] in chip["rows"] or any(abs(p["y"] - r) < 1e-6 for r in chip["rows"])
+    snapped = greedy_snap(flo, cells, chip, fixed_macros={})
+    assert snapped["A"] == {"x": 4.0, "y": 2.0}
+    assert snapped["B"] == {"x": 4.0, "y": 2.0}
+    ok_s, _ = check_legality(snapped, cells, chip, {})
+    assert not ok_s, "float snap should still overlap A/B"
 
-    cleared = overlap_remove(starter_illegal, cells, chip, fixed_macros=fixed)
-    ok1, reason1 = check_legality(cleared, cells, chip, fixed)
+    cleared = overlap_remove(ill, cells, chip, fixed_macros={})
+    ok1, reason1 = check_legality(cleared, cells, chip, {})
     assert ok1, reason1
+    assert total_displacement(ill, cleared) == 6
+    assert total_hpwl(nets, cleared, cells=cells, row_h=rh) == 32
+    assert cleared["B"] == {"x": 6.0, "y": 2.0}
+    assert cleared["C"] == {"x": 8.0, "y": 2.0}
 
-    ab = abacus_lite(starter_illegal, cells, chip, fixed_macros=fixed)
-    ok2, reason2 = check_legality(ab, cells, chip, fixed)
+    ab = abacus_lite(ill, cells, chip, fixed_macros={})
+    ok2, reason2 = check_legality(ab, cells, chip, {})
     assert ok2, reason2
+    assert total_displacement(ill, ab) == 4
+    assert total_hpwl(nets, ab, cells=cells, row_h=rh) == 38
+    assert ab["B"]["y"] == 0 and ab["C"]["y"] == 4
 
-    tr = tetris_lite(snapped, cells, chip, fixed_macros=fixed)
-    ok3, reason3 = check_legality(tr, cells, chip, fixed)
+    tr = tetris_lite(ill, cells, chip, fixed_macros={})
+    ok3, reason3 = check_legality(tr, cells, chip, {})
     assert ok3, reason3
+    assert total_displacement(ill, tr) == 6
+    assert total_hpwl(nets, tr, cells=cells, row_h=rh) == 32
 
-    disp = total_displacement(starter_float, snapped, fixed=fixed.keys())
-    assert disp >= 0
+    ab_m = abacus_lite(ill, cells, chip, fixed_macros=g["fixed_macros"])
+    ok4, reason4 = check_legality(ab_m, cells, chip, g["fixed_macros"])
+    assert ok4, reason4
+    assert ab_m["D"] == {"x": 8.0, "y": 4.0}
+    assert total_displacement(ill, ab_m) == 4
 
-    hpwl0 = total_hpwl(nets, starter_float)
-    hpwl1 = total_hpwl(nets, tr)
-    assert hpwl0 >= 0 and hpwl1 >= 0
+    cost1 = 38 + 1 * 4
+    cost5 = 38 + 5 * 4
+    assert cost1 == 42 and cost5 == 58
 
     print(
-        f"ok smoke: illegal starter fails; overlap_remove legal; "
-        f"abacus legal; tetris legal; disp={disp:.2f}; hpwl float={hpwl0:.2f} tetris={hpwl1:.2f}"
+        "ok goldens: snap still illegal; overlap/tetris disp=6 hpwl=32; "
+        "abacus disp=4 hpwl=38; macro D locked; cost 42/58"
     )
 
 

@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""Generate learn_legalization browser labs under platform/tools/."""
+"""Generate learn_legalization browser labs under platform/tools/.
+
+NOTE (2nd pass): Tool JS under platform/tools/<lab>/ is now **interactive**
+(hand-maintained via interactive-legalization-lab.js). Re-running this script
+would overwrite learner-driven labs with the older “Run algorithm” stubs —
+prefer editing the tool JS files directly, or rewrite LABS here before regen.
+"""
 from __future__ import annotations
 
 from pathlib import Path

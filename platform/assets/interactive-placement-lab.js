@@ -22,8 +22,8 @@ const DEFAULT_WORLD = { worldMin: -0.5, worldMax: 8.5 };
  */
 export function canvasToWorld(canvas, clientX, clientY, opts = {}) {
   const rect = canvas.getBoundingClientRect();
-  const w = canvas.clientWidth || rect.width || 420;
-  const h = canvas.clientHeight || rect.height || 300;
+  const w = canvas.clientWidth || rect.width || 640;
+  const h = canvas.clientHeight || rect.height || 480;
   const pad = 28;
   const worldMin = opts.worldMin ?? DEFAULT_WORLD.worldMin;
   const worldMax = opts.worldMax ?? DEFAULT_WORLD.worldMax;

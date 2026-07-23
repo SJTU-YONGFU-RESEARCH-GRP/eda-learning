@@ -3,22 +3,21 @@
 Interactive viewer:
 `http://127.0.0.1:8080/tools/algorithm-walkthrough/?algo=<lab-id>&step=1`
 
-| Lab id | Module | Status |
+| Lab id | Module | Frames |
 |--------|--------|--------|
-| `timing-graph` | Timing graph | **ALGOS ready** (5 steps) |
-| `arrival-required` | Arrival and required times | **ALGOS ready** (5 steps) |
-| `slack-setup-hold` | Slack, setup, and hold | **ALGOS ready** (5 steps) |
-| `critical-path` | Critical path | **ALGOS ready** (5 steps) |
-| `incremental-update` | Incremental timing update | **ALGOS ready** (5 steps) |
-| `false-multicycle-lite` | False and multicycle paths | **ALGOS ready** (5 steps) |
+| `timing-graph` | Timing graph | 5 PNGs |
+| `arrival-required` | Arrival and required times | 5 PNGs |
+| `slack-setup-hold` | Slack, setup, and hold | 5 PNGs |
+| `critical-path` | Critical path | 5 PNGs |
+| `incremental-update` | Incremental timing update | 5 PNGs |
+| `false-multicycle-lite` | False and multicycle paths | 5 PNGs |
 
-Capture (WSL, platform server on :8080):
+Each lab module has `assets/STEPS.md`, `assets/steps/*.png`, and full media (`slides.pptx` / `.pdf` / `audio/` / `video.mp4`).
+
+**Rebuild media in WSL:**
 
 ```bash
-for m in module01-01-timing-graph module01-03-arrival-required \
-  module02-01-slack-setup-hold module02-03-critical-path \
-  module03-01-incremental-update module03-03-false-multicycle-lite; do
-  python3 .cursor/skills/module-slides/scripts/capture_algorithm_walkthrough.py \
-    courses/learn_sta/$m --inject-transcript
-done
+cd /mnt/d/proj/designs/eda_learning
+bash courses/learn_sta/scripts/build_all_media.sh
+python3 platform/scripts/publish_course_platform.py learn_sta
 ```

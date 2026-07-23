@@ -5,11 +5,8 @@ slides:
   title: Spectral bisection
   subtitle: Spectral bisection uses the graph Laplacian and its Fiedler vector to
     propose a balanced cut
-  notes: 'Spectral bisection uses the graph Laplacian and its Fiedler vector to propose
+  notes: Spectral bisection uses the graph Laplacian and its Fiedler vector to propose
     a balanced cut. You’ll watch the order and the chosen split land on cutsize three.
-
-
-    <!-- algorithm-walkthrough -->'
 - type: image
   title: Build the Laplacian
   image: assets/steps/01-laplacian.png
@@ -38,11 +35,8 @@ slides:
   title: When spectral helps
   image: assets/steps/05-takeaway.png
   caption: When spectral helps
-  notes: 'Spectral is a strong initializer for bipartition. On larger chips it pairs
+  notes: Spectral is a strong initializer for bipartition. On larger chips it pairs
     with multilevel; here the tiny instance is exact enough to grade against goldens.
-
-
-    <!-- /algorithm-walkthrough -->'
 - type: bullets
   title: Browser lab track
   bullets:
@@ -63,9 +57,7 @@ slides:
   title: Implement track — try these
   code: 'export PYTHONPATH=../common
 
-    python ../common/solvers.py examples/tiny_graph.json --mode spectral
-
-    '
+    python ../common/solvers.py examples/tiny_graph.json --mode spectral'
   notes: ''
 - type: bullets
   title: Pitfalls to watch

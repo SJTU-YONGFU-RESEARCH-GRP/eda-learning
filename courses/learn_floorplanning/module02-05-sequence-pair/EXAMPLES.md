@@ -1,25 +1,33 @@
-# Examples — Sequence-pair representation
+# Examples — Sequence pair
 
-Track A (implement). Use the tiny outline first (`examples/tiny_modules.json`, W×H = 10×8).
+Track A (implement). Use `examples/tiny_modules.json` and `../../common/solvers.py`.
 
 ## Algorithm
 
-**sequence-pair packing (Γ+ / Γ−)**
+**longest-path pack from pos/neg**
+
+## Pseudocode
+
+```text
+INPUT: pos[], neg[] permutations of modules
+OUTPUT: (x,y) via constraint longest paths
+pos/neg order ⇒ horizontal & vertical constraints
+x ← longest path in H-graph; y ← V-graph
+GOLDEN pos=A B C E D; neg=D A B C E
+packs legally with non-negative coords
+```
 
 ## Starter prompts
 
-1. Restate the idea in five bullets (inputs → representation or loop → legality → metrics → output).
-2. Load modules A–E; confirm outline area = 80 and module areas sum correctly.
-3. Produce a packing (or assignment) and check: every module inside the outline, no pairwise overlap.
-4. Report deadspace = outlineArea − Σ(module areas) and packing density = Σ areas / outlineArea.
-5. Change one knob (aspect of soft A, a tree edge, a sequence swap, a pin side) and report what moved.
+1. Implement the pseudocode above (or call the matching `common/` helper).
+2. Print the metrics named in the GOLDEN line; match browser / Track A tests.
+3. Change one knob and report what moved.
 
 ## Expected artifacts
 
-- Coordinates (or representation) for each module
-- Legality boolean + deadspace / density
-- Short note: why this idea belongs on the floorplanning shelf
+- Outputs listed in the pseudocode OUTPUT line
+- Note tying the run to the pseudocode phases
 
 ## Stretch
 
-Add one hard macro at a fixed (x, y) or nest a 2-module sub-floorplan; keep the same metrics API.
+Scale the instance slightly; keep the same metrics API.

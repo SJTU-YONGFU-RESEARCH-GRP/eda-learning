@@ -14,7 +14,36 @@ Global legalize lite maps to Tetris shelf pack, displacement six, HPWL thirty-tw
 - Pick global Tetris when you want a fast pass and can afford extra movement
 - Pick detailed Abacus when displacement budget is tight
 - Report both pipelines side by side in regressions, legal first, then disp and HPWL
-- <!-- algorithm-walkthrough -->
+
+---
+
+## Pseudocode
+- Here the sketch is two named pipelines on the same seed
+- Global legalize lite means Tetris
+- Detailed legalize lite means Abacus
+- Pseudocode names both so regressions do not mix the labels
+- Open this module's examples file and find the Pseudocode section
+- That written sketch is what you implement on the implement track and what the browser
+
+---
+
+## Algorithm sketch
+- Both pipelines must end legal
+- Then compare displacement six versus four and HPWL thirty-two versus thirty-eight
+- Pick detailed when movement budget is tight; pick global when speed matters more
+
+---
+
+## Algorithm sketch — try these
+
+```
+INPUT: illegal / global positions
+global:   TetrisLite → disp=6 HPWL=32
+detailed: AbacusLite → disp=4 HPWL=38
+both must report legal=true
+CHOOSE detailed when disp budget is tight
+CHOOSE global when a fast shelf pack is enough
+```
 
 ---
 
@@ -45,13 +74,14 @@ Global legalize lite maps to Tetris shelf pack, displacement six, HPWL thirty-tw
 
 ## Browser lab track
 - In the browser lab track, open the **detailed-vs-global** lab from the tools shelf
-- Load the overlap or float starter, run the legalizer once
+- Open the interactive lab
+- Reveal golden is study-only
 - Work the challenges that lock the goldens
 
 ---
 
 ## Implement track
-- In the implement track, open this module's examples and the course `common/` solvers
+- In the implement track
 - Parse `tiny_legal.json`, run the algorithm with deterministic coordinates
 - Match the browser goldens before you claim the checklist
 

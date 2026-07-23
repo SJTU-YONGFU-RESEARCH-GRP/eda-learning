@@ -1,0 +1,11 @@
+file '/mnt/d/proj/designs/eda_learning/courses/learn_sta/module00-00-intro/frames/slide-1.png'
+duration 20.616
+file '/mnt/d/proj/designs/eda_learning/courses/learn_sta/module00-00-intro/frames/slide-2.png'
+duration 31.008
+file '/mnt/d/proj/designs/eda_learning/courses/learn_sta/module00-00-intro/frames/slide-3.png'
+duration 20.832
+file '/mnt/d/proj/designs/eda_learning/courses/learn_sta/module00-00-intro/frames/slide-4.png'
+duration 24.72
+file '/mnt/d/proj/designs/eda_learning/courses/learn_sta/module00-00-intro/frames/slide-5.png'
+duration 17.736
+file '/mnt/d/proj/designs/eda_learning/courses/learn_sta/module00-00-intro/frames/slide-5.png'

@@ -5,13 +5,10 @@ slides:
   title: Affinity metrics
   subtitle: Before you merge cells or coarsen a netlist, you need a score that says
     these two should stay together
-  notes: 'Before you merge cells or coarsen a netlist, you need a score that says
-    these two should stay together. That score is affinity. In this module you’ll
-    compare plain edge weight with shared-neighbor scoring on the same tiny graph—and
-    watch who wants to merge first.
-
-
-    <!-- algorithm-walkthrough -->'
+  notes: Before you merge cells or coarsen a netlist, you need a score that says these
+    two should stay together. That score is affinity. In this module you’ll compare
+    plain edge weight with shared-neighbor scoring on the same tiny graph—and watch
+    who wants to merge first.
 - type: image
   title: Start with a tiny weighted graph
   image: assets/steps/01-raw-graph.png
@@ -43,10 +40,7 @@ slides:
   caption: Why affinity matters in EDA
   notes: 'Affinity is the objective’s local preference: which cells belong together
     before global constraints. Bad affinity means bad merges, and harder refinement
-    later.
-
-
-    <!-- /algorithm-walkthrough -->'
+    later.'
 - type: bullets
   title: Browser lab track
   bullets:
@@ -82,9 +76,7 @@ slides:
 
     export PYTHONPATH=../common
 
-    python ../common/solvers.py examples/tiny_graph.json --mode affinity
-
-    '
+    python ../common/solvers.py examples/tiny_graph.json --mode affinity'
   notes: ''
 - type: bullets
   title: Pitfalls to watch

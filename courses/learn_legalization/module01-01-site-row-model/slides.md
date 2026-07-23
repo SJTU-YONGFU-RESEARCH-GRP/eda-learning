@@ -14,7 +14,37 @@ Legalization snaps cells to a discrete grid
 - Every cell sits on exactly one row with a lower-left coordinate aligned to site pitch one
 - Width tells you how many consecutive sites the rectangle covers
 - The golden packing is legal
-- <!-- algorithm-walkthrough -->
+
+---
+
+## Pseudocode
+- Pseudocode is the written sketch of the algorithm before you code it
+- For this module the sketch is the site and row model itself
+- Outputs are the rules every legal packing must obey
+- Open this module's examples file and find the Pseudocode section
+- That written sketch is what you implement on the implement track and what the browser
+
+---
+
+## Algorithm sketch
+- Read the sketch as a contract
+- Every cell lower-left sits on a site and a row bottom
+- Width tells how many consecutive sites the rectangle covers
+- Our teaching chip is twelve by six with three rows
+
+---
+
+## Algorithm sketch — try these
+
+```
+INPUT: chip W×H, siteW, rowH, rows Y[], widths w[c]
+OUTPUT: legal coordinate rules
+for each cell c:
+  x multiple of siteW; y in Y[]
+  occupies [x, x+w[c]) × [y, y+rowH)
+GOLDEN: W=12 H=6 siteW=1 rowH=2 Y={0,2,4}
+widths A–D=2 E–F=1 (total 10 ≤ 12)
+```
 
 ---
 
@@ -45,13 +75,14 @@ Legalization snaps cells to a discrete grid
 
 ## Browser lab track
 - In the browser lab track, open the **site-row-model** lab from the tools shelf
-- Load the overlap or float starter, run the legalizer once
+- Open the interactive lab
+- Reveal golden is study-only
 - Work the challenges that lock the goldens
 
 ---
 
 ## Implement track
-- In the implement track, open this module's examples and the course `common/` solvers
+- In the implement track
 - Parse `tiny_legal.json`, run the algorithm with deterministic coordinates
 - Match the browser goldens before you claim the checklist
 

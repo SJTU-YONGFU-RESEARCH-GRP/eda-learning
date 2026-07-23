@@ -4,11 +4,8 @@ slides:
 - type: title
   title: Hypergraph clustering
   subtitle: Netlists are hypergraphs, one net can touch many pins
-  notes: 'Netlists are hypergraphs—one net can touch many pins. You’ll watch greedy
+  notes: Netlists are hypergraphs—one net can touch many pins. You’ll watch greedy
     clustering on a tiny hypergraph where multi-pin net n1 pulls A–B–C together.
-
-
-    <!-- algorithm-walkthrough -->'
 - type: image
   title: Nets are hyperedges
   image: assets/steps/01-nets.png
@@ -37,11 +34,8 @@ slides:
   title: Why hypergraphs in EDA
   image: assets/steps/05-takeaway.png
   caption: Why hypergraphs in EDA
-  notes: 'Real nets touch many cells. Modeling them as hyperedges keeps the cut objective
+  notes: Real nets touch many cells. Modeling them as hyperedges keeps the cut objective
     honest. Browser view clique-expands only for drawing.
-
-
-    <!-- /algorithm-walkthrough -->'
 - type: bullets
   title: Browser lab track
   bullets:
@@ -62,9 +56,7 @@ slides:
   code: 'export PYTHONPATH=../common
 
     python ../common/solvers.py examples/tiny_hypergraph.json --mode hypergraph --k
-    2
-
-    '
+    2'
   notes: ''
 - type: bullets
   title: Pitfalls to watch

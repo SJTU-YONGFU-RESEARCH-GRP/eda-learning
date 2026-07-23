@@ -1,8 +1,91 @@
-title: "Incremental timing update"
-footer: "learn_sta — Incremental update"
+title: Incremental timing update
+footer: learn_sta — 01 incremental update
 slides:
-  - type: title
-    title: "Incremental timing update"
-    subtitle: "module03-01-incremental-update · learn_sta"
-    notes: |
-      Stub — replace via transcript_to_outline.py after revising transcript.md.
+- type: title
+  title: Incremental timing update
+  subtitle: Real timers cannot rebuild the chip after every buffer insert
+  notes: Real timers cannot rebuild the chip after every buffer insert. They invalidate
+    a cone and recompute. You will bump u1’s cell delay from 1.2 to 2.0 and see A(out)
+    move from 3.2 to 4.0 with setup slack 6.0.
+- type: bullets
+  title: Goldens to remember
+  bullets:
+  - 'Invalidated cone: u1/Y, u2/A, u2/Y, out'
+  - 'Clean: in, u1/A'
+  - ΔA(out)=+0.8
+  - Keep these numbers handy, the browser challenges and Track A tests use the same
+    instance
+  - <!-- algorithm-walkthrough -->
+  notes: 'Invalidated cone: u1/Y, u2/A, u2/Y, out. Clean: in, u1/A. ΔA(out)=+0.8.
+    Keep these numbers handy—the browser challenges and Track A tests use the same
+    instance.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: Start from a full analysis
+  image: assets/steps/01-base-tags.png
+  caption: Start from a full analysis
+  notes: Base arrival at out is 3.2 with setup slack 6.8. Incremental update never
+    starts from an empty graph—it starts from valid tags.
+- type: image
+  title: Edit one cell delay
+  image: assets/steps/02-local-edit.png
+  caption: Edit one cell delay
+  notes: Bump the u1 cell arc from 1.2 to 2.0. Only the fanout cone of u1/Y can change—everything
+    upstream of the edit stays put.
+- type: image
+  title: Invalidate the fanout cone
+  image: assets/steps/03-invalidate-cone.png
+  caption: Invalidate the fanout cone
+  notes: Mark u1/Y, u2/A, u2/Y, and out dirty. Do not touch in or u1/A—their arrivals
+    are still valid.
+- type: image
+  title: Recompute only the dirty pins
+  image: assets/steps/04-recompute.png
+  caption: Recompute only the dirty pins
+  notes: Replay topo order on dirty pins. Arrival at out becomes 4.0; setup slack
+    drops to 6.0. Same answer as a full rebuild, less work.
+- type: image
+  title: Why timers insist on incremental
+  image: assets/steps/05-why-incremental.png
+  caption: Why timers insist on incremental
+  notes: 'Place, CTS, and ECO change tiny regions millions of times. Full-chip rebuilds
+    every edit would not finish. Cone invalidate-and-repair is the habit.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab, open **incremental-update**
+  - Load the starter, run the analysis once, and read the metrics panel
+  - Orient yourself, challenge panel, canvas, Check, then mirror the same goldens
+    in code
+  notes: In the browser lab, open **incremental-update**. Load the starter, run the
+    analysis once, and read the metrics panel. Orient yourself—challenge panel, canvas,
+    Check—then mirror the same goldens in code.
+- type: bullets
+  title: Implement track
+  bullets:
+  - In the implement track
+  - Run `python3 common/test_propagate.py` (and the timing-graph test) until the goldens
+    print
+  notes: In the implement track, use `common/tiny_timing.json` with the helpers in
+    `common/graph.py` and `common/propagate.py`. Run `python3 common/test_propagate.py`
+    (and the timing-graph test) until the goldens print ok.
+- type: bullets
+  title: Pitfall
+  bullets:
+  - Do not mix setup and hold required maps
+  - Do not propagate before the graph is levelized
+  - After an edit or exception, recompute, stale tags lie
+  notes: Do not mix setup and hold required maps. Do not propagate before the graph
+    is levelized. After an edit or exception, recompute—stale tags lie.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Finish the checklist on at least one track, preferably both
+  - When your numbers match the goldens, take the quiz, then continue
+  notes: Finish the checklist on at least one track—preferably both. When your numbers
+    match the goldens, take the quiz, then continue.

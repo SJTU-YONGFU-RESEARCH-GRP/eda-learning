@@ -4,11 +4,8 @@ slides:
 - type: title
   title: Timing-aware clustering
   subtitle: Critical nets should stay uncut
-  notes: 'Critical nets should stay uncut. You’ll watch FM on criticality-weighted
+  notes: Critical nets should stay uncut. You’ll watch FM on criticality-weighted
     edges and land on cutsize three with weighted cut seven—protecting the A–B–C path.
-
-
-    <!-- algorithm-walkthrough -->'
 - type: image
   title: Mark critical edges
   image: assets/steps/01-criticality.png
@@ -37,11 +34,8 @@ slides:
   title: Timing as an objective
   image: assets/steps/05-takeaway.png
   caption: Timing as an objective
-  notes: 'Reweighting turns the same FM kernel into a timing-aware partitioner. Students
+  notes: Reweighting turns the same FM kernel into a timing-aware partitioner. Students
     compare plain vs weighted metrics on one seed.
-
-
-    <!-- /algorithm-walkthrough -->'
 - type: bullets
   title: Browser lab track
   bullets:
@@ -59,9 +53,7 @@ slides:
   code: 'export PYTHONPATH=../common
 
     python ../common/solvers.py examples/tiny_graph.json --mode timing --seed ../module02-05-kernighan-lin/examples/seed_partition.json
-    --criticality examples/criticality.json
-
-    '
+    --criticality examples/criticality.json'
   notes: ''
 - type: bullets
   title: Pitfalls to watch

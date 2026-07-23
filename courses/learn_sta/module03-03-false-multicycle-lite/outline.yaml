@@ -1,8 +1,92 @@
-title: "False and multicycle paths (engine view)"
-footer: "learn_sta — False / multicycle"
+title: False and multicycle paths (engine view)
+footer: learn_sta — 03 false multicycle lite
 slides:
-  - type: title
-    title: "False and multicycle paths (engine view)"
-    subtitle: "module03-03-false-multicycle-lite · learn_sta"
-    notes: |
-      Stub — replace via transcript_to_outline.py after revising transcript.md.
+- type: title
+  title: False and multicycle paths (engine view)
+  subtitle: Exceptions change which arcs propagate and how large the required window
+    is
+  notes: Exceptions change which arcs propagate and how large the required window
+    is. You consume them as engine data—not as a full SDC course. You will compare
+    normal slack 6.8, multicycle×2 slack 16.8, and a false-path that cuts the bridge
+    net.
+- type: bullets
+  title: Goldens to remember
+  bullets:
+  - Multicycle cycles=2 → R(out)=20, slack=16.8
+  - False-path disables u1/Y→u2/A so A(u2/A) falls to 0 in the lite model
+  - Keep these numbers handy, the browser challenges and Track A tests use the same
+    instance
+  - <!-- algorithm-walkthrough -->
+  notes: 'Multicycle cycles=2 → R(out)=20, slack=16.8. False-path disables u1/Y→u2/A
+    so A(u2/A) falls to 0 in the lite model. Keep these numbers handy—the browser
+    challenges and Track A tests use the same instance.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: Normal single-cycle setup
+  image: assets/steps/01-normal-check.png
+  caption: Normal single-cycle setup
+  notes: Without exceptions, required at out is one period (10) and setup slack is
+    6.8. That is the baseline the exceptions will change.
+- type: image
+  title: Multicycle widens the required window
+  image: assets/steps/02-multicycle.png
+  caption: Multicycle widens the required window
+  notes: A setup multicycle of 2 means required = 2 × period = 20. Slack becomes 16.8.
+    The graph did not change—only the endpoint budget did.
+- type: image
+  title: False path disables an arc
+  image: assets/steps/03-false-path.png
+  caption: False path disables an arc
+  notes: Marking the bridge net u1/Y→u2/A as false removes it from propagation. Downstream
+    pins no longer see the real wavefront—u2/A falls back to 0 in this lite engine.
+- type: image
+  title: Exceptions are engine data
+  image: assets/steps/04-engine-data.png
+  caption: Exceptions are engine data
+  notes: SDC authoring lives in learn_sdc. Here you only consume false-path and multicycle
+    as flags the timer reads—same idea as production engines.
+- type: image
+  title: Always recheck after exceptions
+  image: assets/steps/05-recheck.png
+  caption: Always recheck after exceptions
+  notes: 'Apply exceptions, then recompute tags and slack. Never keep a stale 6.8
+    after a multicycle or false-path change.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab, open **false-multicycle-lite**
+  - Load the starter, run the analysis once, and read the metrics panel
+  - Orient yourself, challenge panel, canvas, Check, then mirror the same goldens
+    in code
+  notes: In the browser lab, open **false-multicycle-lite**. Load the starter, run
+    the analysis once, and read the metrics panel. Orient yourself—challenge panel,
+    canvas, Check—then mirror the same goldens in code.
+- type: bullets
+  title: Implement track
+  bullets:
+  - In the implement track
+  - Run `python3 common/test_propagate.py` (and the timing-graph test) until the goldens
+    print
+  notes: In the implement track, use `common/tiny_timing.json` with the helpers in
+    `common/graph.py` and `common/propagate.py`. Run `python3 common/test_propagate.py`
+    (and the timing-graph test) until the goldens print ok.
+- type: bullets
+  title: Pitfall
+  bullets:
+  - Do not mix setup and hold required maps
+  - Do not propagate before the graph is levelized
+  - After an edit or exception, recompute, stale tags lie
+  notes: Do not mix setup and hold required maps. Do not propagate before the graph
+    is levelized. After an edit or exception, recompute—stale tags lie.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Finish the checklist on at least one track, preferably both
+  - When your numbers match the goldens, take the quiz, then continue
+  notes: Finish the checklist on at least one track—preferably both. When your numbers
+    match the goldens, take the quiz, then continue.

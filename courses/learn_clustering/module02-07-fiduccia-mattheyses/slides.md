@@ -54,7 +54,6 @@ FM refines a bipartition with single-vertex moves, locking
 # FM refinement on the shared bad seed
 export PYTHONPATH=../common
 python ../common/solvers.py examples/tiny_graph.json --mode fm --seed ../module02-05-kernighan-lin/examples/seed_partition.json
-
 ```
 
 ---

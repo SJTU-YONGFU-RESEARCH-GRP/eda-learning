@@ -60,7 +60,6 @@ ls examples
 # greedy merge to K=2 via reference solver
 export PYTHONPATH=../common
 python ../common/solvers.py examples/tiny_graph.json --k 2
-
 ```
 
 ---

@@ -60,7 +60,6 @@ ls examples
 # print both affinity rankings
 export PYTHONPATH=../common
 python ../common/solvers.py examples/tiny_graph.json --mode affinity
-
 ```
 
 ---

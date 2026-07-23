@@ -22,7 +22,7 @@ After this module you can: **Snap floating global-place coordinates to the neare
 1. Local: [http://127.0.0.1:8080/tools/greedy-snap/](http://127.0.0.1:8080/tools/greedy-snap/)
 2. Live: [https://universal-verification-methodology.github.io/learning/tools/greedy-snap/](https://universal-verification-methodology.github.io/learning/tools/greedy-snap/)
 3. Tools shelf: open `greedy-snap` from the platform tools index
-4. Load the **starter legalization**, run the algorithm, inspect legality and metrics.
+4. Open the lab, place/snap cells on the site/row grid (or use Apply helpers), then Check — Reveal golden is study-only.
 5. Check off Track B items in [CHECKLIST.md](CHECKLIST.md).
 
 > Concept labs teach legalization literacy on tiny site/row grids — not production OpenROAD legalizers.

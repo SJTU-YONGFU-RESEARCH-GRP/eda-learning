@@ -11,17 +11,19 @@ When the user asks for module media or “build the course,” complete this cha
 | Phase | Required outputs |
 |-------|------------------|
 | Author | Natural **algorithm-specific** `transcript.md`; sync `outline.yaml` |
-| Depth | Track A `common/` solvers + goldens; browser tool challenges |
+| Depth | Track A `common/` solvers + goldens; **`EXAMPLES.md` ## Pseudocode**; interactive browser challenges |
 | Captures | Lab snapshot / walkthrough `assets/steps/` (≈5 frames/lab) / real-shell as applicable |
 | Deck | `slides.pptx` + `slides.pdf` |
 | Narrate | `audio/full.mp3` + `video.mp4` |
-| Tools | Browser labs with **starter + challenges** under `platform/tools/` |
+| Tools | **Interactive** labs under `platform/tools/` — Check scores learner state; Reveal golden is study-only; **HiDPI canvases** via `canvas-hires.js` (≈480px tall) |
 | Docs | `MODULES.md` + **`WALKTHROUGHS.md`** for algorithm courses |
 | Publish | `publish_course_platform.py` → catalog + `data-render="lab"` shells |
 
 **Do not** stop after PPTX. **Do not** ship thin static lab HTML. Match **digital_learning** course page quality.
 
-**Do not** call a course ready with scaffold-only transcripts or zero walkthrough frames when clustering-depth is expected — see SKILL.md Content depth parity.
+**Do not** ship demo labs whose challenges only pass after “Show golden / Show arrival / Trace path.”
+
+**Do not** call a course ready with scaffold-only transcripts, missing pseudocode, or zero walkthrough frames when clustering-depth is expected — see SKILL.md Content depth parity.
 
 **Do** keep course + module `README.md` aligned with public [learn_unix](https://github.com/universal-verification-methodology/learn_unix) (Step 1b + `verify_course_readme.py`).
 
@@ -152,6 +154,8 @@ slides:
 | `image` | `title`, `image`, optional `caption`, `notes` |
 | `two_column` | `title`, `left` bullets, `right` image |
 | `code` | `title`, `code`, optional `source_file`, `notes` |
+
+**Code slide budget:** at most **12 lines** per slide after wrap (constant `CODE_SLIDE_MAX_LINES` in `pptx_theme.py`). Longer listings auto-split to titled parts `(1/N)` `(2/N)` — never crop. Prefer dense pseudocode without a blank after every line; bash try-these may keep blanks before `#` comment groups only.
 
 **Notes field** must match the transcript body for that slide (verify script enforces this).
 

@@ -1,85 +1,130 @@
 import {
-  OVERLAP_PLACEMENT,
   GOLDENS,
-  clonePositions,
-  drawLegalization,
+  OVERLAP_PLACEMENT,
+  createInteractiveLegalizationLab,
+  el,
+  positionsNear,
   tetrisLegalize,
-  abacusLegalize,
-  isLegal,
-  totalDisplacement,
-  totalHpwl,
-} from "../../assets/legalization-core.js";
-import { createChallengeLab, el, metricsBlock } from "../../assets/clustering-ui.js";
+} from "../../assets/interactive-legalization-lab.js";
 
 const root = document.getElementById("lab-root");
-let origin = clonePositions(OVERLAP_PLACEMENT);
-let pos = clonePositions(OVERLAP_PLACEMENT);
-let ran = false;
+const AFTER = tetrisLegalize(OVERLAP_PLACEMENT);
 
-function arm() {
-  origin = clonePositions(OVERLAP_PLACEMENT);
-  pos = clonePositions(OVERLAP_PLACEMENT);
-  ran = false;
-}
-
-function run() {
-  pos = tetrisLegalize(origin);
-  ran = true;
-}
-
-createChallengeLab(root, {
-  starterHtml: `<p><strong>Starter:</strong> overlap seed. Tetris snap+pack within rows →
-    legal, disp <strong>6</strong>, HPWL <strong>32</strong> (same as overlap removal).</p>`,
-  loadStarter() { arm(); run(); },
-  challenges: [
-    { id: "run", title: "Run Tetris", level: "Intro",
-      prompt: "Run algorithm on overlap starter.", hint: "Run algorithm.",
-      setup: arm, check: () => ran },
-    { id: "legal", title: "Result legal", level: "Intro",
-      prompt: "Tetris result is legal.", hint: "Run first.",
-      setup: arm, check: () => ran && isLegal(pos) && GOLDENS.tetrisLegal },
-    { id: "disp-6", title: "Displacement 6", level: "Intro",
-      prompt: "Total displacement is 6.", hint: "Run first.",
-      setup: arm, check: () => ran && totalDisplacement(origin, pos) === GOLDENS.tetrisDisp },
-    { id: "hpwl-32", title: "HPWL 32", level: "Practice",
-      prompt: "HPWL is 32.", hint: "Run first.",
-      setup: arm, check: () => ran && totalHpwl(pos) === GOLDENS.tetrisHpwl },
-    { id: "b-at-6", title: "B at x=6", level: "Practice",
-      prompt: "B ends at x=6, y=2.", hint: "Run Tetris.",
-      setup: arm, check: () => ran && pos.B.x === 6 && pos.B.y === 2 },
-    { id: "c-at-8", title: "C at x=8", level: "Practice",
-      prompt: "C ends at x=8, y=2.", hint: "Run Tetris.",
-      setup: arm, check: () => ran && pos.C.x === 8 && pos.C.y === 2 },
-    { id: "abacus-less", title: "Abacus disp smaller", level: "Practice",
-      prompt: "Abacus displacement (4) < Tetris (6).", hint: "Compare GOLDENS.",
-      setup: arm, check: () => GOLDENS.abacusDisp < GOLDENS.tetrisDisp },
-    { id: "same-overlap", title: "Matches overlap removal", level: "Stretch",
-      prompt: "Tetris disp equals overlapRemovalDisp.", hint: "GOLDENS.",
-      setup: arm, check: () => ran && totalDisplacement(origin, pos) === GOLDENS.overlapRemovalDisp },
-    { id: "abacus-fn", title: "Abacus disp 4", level: "Stretch",
-      prompt: "abacusLegalize on origin has disp 4.", hint: "Function check.",
-      setup: arm, check: () => totalDisplacement(origin, abacusLegalize(origin)) === 4 },
-    { id: "golden-tetris", title: "GOLDENS.tetrisDisp", level: "Stretch",
-      prompt: "Displacement equals GOLDENS.tetrisDisp (6).", hint: "Run first.",
-      setup: arm, check: () => ran && totalDisplacement(origin, pos) === GOLDENS.tetrisDisp },
-  ],
-  extraActions(ctx) {
+createInteractiveLegalizationLab(root, {
+  initialPositions: OVERLAP_PLACEMENT,
+  revealPositions: AFTER,
+  originPositions: OVERLAP_PLACEMENT,
+  starterHtml: `
+    <p><strong>Your job:</strong> Tetris / shelf pack keeps nearest-row assignment then
+    packs left-to-right. <strong>Apply Tetris</strong> → legal, disp
+    <strong>${GOLDENS.tetrisDisp}</strong>, HPWL <strong>${GOLDENS.tetrisHpwl}</strong>
+    (simpler than Abacus, higher displacement).</p>
+  `,
+  extraActions(ctx, api) {
     return [
-      el("button", { className: "btn btn-secondary", type: "button", text: "Load starter",
-        onClick: () => { arm(); ctx.rerender(); } }),
-      el("button", { className: "btn btn-primary", type: "button", text: "Run algorithm",
-        onClick: () => { run(); ctx.rerender(); } }),
+      el("button", {
+        className: "btn btn-primary",
+        type: "button",
+        text: "Apply Tetris",
+        onClick: () => {
+          api.setPositions(tetrisLegalize(OVERLAP_PLACEMENT));
+          api.setOrigin(OVERLAP_PLACEMENT);
+          api.setRevealed(false);
+          ctx.rerender();
+        },
+      }),
     ];
   },
-  renderWorkspace(ctx) {
-    drawLegalization(ctx.canvas, { positions: pos });
-    ctx.metrics.innerHTML = "";
-    ctx.metrics.append(metricsBlock([
-      `ran: ${ran}`,
-      `legal: ${ran ? isLegal(pos) : "—"}`,
-      `disp: ${ran ? totalDisplacement(origin, pos) : "—"}`,
-      `hpwl: ${ran ? totalHpwl(pos) : "—"}`,
-    ]));
-  },
+  challenges: [
+    {
+      id: "make-legal",
+      title: "Make legal",
+      level: "Intro",
+      prompt: "Produce a legal packing.",
+      hint: "Apply Tetris.",
+      check: (_c, api) => api.isLegal(),
+    },
+    {
+      id: "disp-6",
+      title: "Displacement 6",
+      level: "Intro",
+      prompt: "Displacement vs origin is 6.",
+      hint: "Reset → Apply Tetris.",
+      check: (_c, api) => api.isLegal() && api.displacement() === GOLDENS.tetrisDisp,
+    },
+    {
+      id: "hpwl-32",
+      title: "HPWL 32",
+      level: "Intro",
+      prompt: "HPWL is 32 after Tetris.",
+      hint: "Same as overlap-removal on this seed.",
+      check: (_c, api) => api.isLegal() && api.hpwl() === GOLDENS.tetrisHpwl,
+    },
+    {
+      id: "b-at-6-2",
+      title: "B at (6,2)",
+      level: "Practice",
+      prompt: "B ends at (6,2) — stays on middle row.",
+      hint: "Tetris does not move B to another row.",
+      check: (_c, api) => {
+        const b = api.getPositions().B;
+        return b && b.x === 6 && b.y === 2;
+      },
+    },
+    {
+      id: "c-at-8-2",
+      title: "C at (8,2)",
+      level: "Practice",
+      prompt: "C ends at (8,2).",
+      hint: "Apply Tetris.",
+      check: (_c, api) => {
+        const c = api.getPositions().C;
+        return c && c.x === 8 && c.y === 2;
+      },
+    },
+    {
+      id: "vs-abacus",
+      title: "Abacus disp is smaller",
+      level: "Practice",
+      prompt: "GOLDENS.abacusDisp (4) < tetrisDisp (6).",
+      hint: "Always true for this instance.",
+      check: () => GOLDENS.abacusDisp < GOLDENS.tetrisDisp,
+    },
+    {
+      id: "your-disp-6",
+      title: "Your disp is Tetris",
+      level: "Practice",
+      prompt: "Your packing has disp 6 (Tetris teaching result).",
+      hint: "Apply Tetris from starter.",
+      check: (_c, api) => api.displacement() === GOLDENS.tetrisDisp,
+    },
+    {
+      id: "match-tetris",
+      title: "Match Tetris result",
+      level: "Stretch",
+      prompt: "Match Apply Tetris coordinates.",
+      hint: "Reset → Apply Tetris.",
+      check: (_c, api) => positionsNear(api.getPositions(), AFTER),
+    },
+    {
+      id: "same-row-pack",
+      title: "A/B/C on middle row",
+      level: "Stretch",
+      prompt: "A, B, and C all remain on y=2.",
+      hint: "Tetris keeps nearest-row assignment.",
+      check: (_c, api) => {
+        const p = api.getPositions();
+        return p.A.y === 2 && p.B.y === 2 && p.C.y === 2;
+      },
+    },
+    {
+      id: "legal-no-reveal",
+      title: "Legal without reveal",
+      level: "Stretch",
+      prompt: "Legal with disp 6 and Reveal off.",
+      hint: "Hide golden; Apply Tetris.",
+      check: (_c, api) =>
+        api.isLegal() && !api.isRevealed() && api.displacement() === GOLDENS.tetrisDisp,
+    },
+  ],
 });
-

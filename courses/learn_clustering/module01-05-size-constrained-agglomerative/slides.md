@@ -52,7 +52,6 @@ Size caps change which merges are legal
 ```
 export PYTHONPATH=../common
 python ../common/solvers.py examples/tiny_graph.json --k 2 --capacity 2
-
 ```
 
 ---

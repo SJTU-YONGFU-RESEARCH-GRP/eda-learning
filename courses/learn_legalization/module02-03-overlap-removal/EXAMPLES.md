@@ -1,25 +1,43 @@
-# Examples — Overlap removal in rows
+# Examples — Overlap removal
 
-Track A (implement). Use the tiny legalization instance first (`examples/tiny_legal.json`).
+Track A (implement). Use `examples/tiny_legal.json` and `../../common/` solvers.
 
 ## Algorithm
 
-**in-row overlap removal by shifting**
+**per-row left pack after snap**
+
+## API
+
+```text
+# Python (courses/learn_legalization/common/)
+load_legal / greedy_snap / overlap_remove / abacus_lite / tetris_lite
+check_legality · total_displacement · total_hpwl
+```
+
+## Pseudocode
+
+```text
+INPUT: positions, widths, rows, fixed macros
+OUTPUT: legal packing (if capacity allows)
+snap all movables to sites/rows
+for each row y:
+  sort movables by x; left-pack (skip macros)
+report legal?, disp, HPWL
+GOLDEN: A@4 B@6 C@8 on y=2; disp=6; HPWL=32
+```
 
 ## Starter prompts
 
-1. Restate the idea in five bullets (inputs → row/site model → algorithm loop → legality → metrics).
-2. Load cells A–F on the 12-site × 6-height grid (3 rows, rowH=2, bottoms y=0,2,4).
-3. Pick `starter_float` or `starter_illegal` depending on the lab; confirm cell widths in sites.
-4. Produce legal site-aligned coordinates; report legality boolean and total displacement from float start.
-5. Change one knob (macro lock, pack order, snap rounding) and report HPWL or displacement delta.
+1. Implement the pseudocode above (or call the matching `common/` solver).
+2. Print legality, displacement, and HPWL; match the GOLDEN line.
+3. Change one knob (macro lock, λ, or packer) and report the delta.
 
 ## Expected artifacts
 
-- Legal (x, y) per cell on site grid
-- Legality boolean + displacement / HPWL summary
-- Short note: why this idea belongs on the legalization shelf
+- Legal (x, y) per cell (or intentional illegal before-state)
+- Legality + displacement / HPWL (and cost when relevant)
+- Note tying the run to the pseudocode phases
 
 ## Stretch
 
-Lock macro D at (8,4) or add a second fixed block; keep the same metrics API.
+Lock macro D at (8,4) or sweep λ; keep the same metrics API.

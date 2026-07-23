@@ -5,13 +5,10 @@ slides:
   title: Kernighan–Lin refinement
   subtitle: Kernighan–Lin improves an existing bipartition by swapping pairs across
     the cut
-  notes: 'Kernighan–Lin improves an existing bipartition by swapping pairs across
-    the cut. You’ll watch a full pass—gains, locking, a swap sequence, and rollback
-    to the best prefix. On the starter seed that cuts both heavy edges, KL drives
-    the cut from twelve down to three.
-
-
-    <!-- algorithm-walkthrough -->'
+  notes: Kernighan–Lin improves an existing bipartition by swapping pairs across the
+    cut. You’ll watch a full pass—gains, locking, a swap sequence, and rollback to
+    the best prefix. On the starter seed that cuts both heavy edges, KL drives the
+    cut from twelve down to three.
 - type: image
   title: 'Bad seed: cutsize 12'
   image: assets/steps/01-bad-seed.png
@@ -41,11 +38,8 @@ slides:
   title: Next pass finds nothing
   image: assets/steps/05-pass1-stop.png
   caption: Next pass finds nothing
-  notes: 'Pass one reports no improvement. KL stops at a local optimum for swap moves
+  notes: Pass one reports no improvement. KL stops at a local optimum for swap moves
     from this seed. Quality still depends on where you started.
-
-
-    <!-- /algorithm-walkthrough -->'
 - type: bullets
   title: Browser lab track
   bullets:
@@ -78,9 +72,7 @@ slides:
 
     export PYTHONPATH=../common
 
-    python ../common/solvers.py examples/tiny_graph.json --mode kl --seed examples/seed_partition.json
-
-    '
+    python ../common/solvers.py examples/tiny_graph.json --mode kl --seed examples/seed_partition.json'
   notes: ''
 - type: bullets
   title: Pitfalls to watch

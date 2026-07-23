@@ -4,11 +4,8 @@ slides:
 - type: title
   title: Multilevel clustering
   subtitle: Multilevel clustering coarsens, partitions, then refines
-  notes: 'Multilevel clustering coarsens, partitions, then refines. You’ll watch greedy
+  notes: Multilevel clustering coarsens, partitions, then refines. You’ll watch greedy
     coarsening to two clusters followed by FM polish—landing on cutsize three.
-
-
-    <!-- algorithm-walkthrough -->'
 - type: image
   title: Coarsen with greedy merge
   image: assets/steps/01-coarsen.png
@@ -37,11 +34,8 @@ slides:
   title: Multilevel mindset
   image: assets/steps/05-takeaway.png
   caption: Multilevel mindset
-  notes: 'Coarsen for global structure, refine for local cut. Real placers nest this
+  notes: Coarsen for global structure, refine for local cut. Real placers nest this
     inside V-cycles with hyperedges and tighter balance — this lab is the skeleton.
-
-
-    <!-- /algorithm-walkthrough -->'
 - type: bullets
   title: Browser lab track
   bullets:
@@ -60,9 +54,7 @@ slides:
   title: Implement track — try these
   code: 'export PYTHONPATH=../common
 
-    python ../common/solvers.py examples/tiny_graph.json --mode multilevel
-
-    '
+    python ../common/solvers.py examples/tiny_graph.json --mode multilevel'
   notes: ''
 - type: bullets
   title: Pitfalls to watch
