@@ -1,0 +1,23 @@
+---
+description: Ignore combined archive course trees; use catalog learn_* courses only
+alwaysApply: true
+---
+
+# Ignored course trees
+
+Do **not** edit, audit, scaffold, or run module-slides on these combined archive trees:
+
+- `courses/learn_digital_verilog`
+- `courses/learn_uvm2017_sv_verilator`
+- `courses/learn_verilog_systemverilog`
+- `courses/learn_verilator_iverilog`
+- `courses/learn_unix_git`
+- `courses/learn_uart_spi_i2c`
+- `courses/learn_uvm_pyuvm`
+- `courses/verification_planning_management`
+
+They are not part of the active 19-course product. Active path = the `learn_*` courses in `syllabus.md` / `platform/assets/catalog.json`.
+
+Policy note: `courses/IGNORED_TREES.md`.
+
+**Keep using:** `learn_unix`, `learn_git`, `learn_digital`, `learn_verilog`, `learn_systemverilog`, `learn_verilator`, `learn_iverilog`, `learn_uart`, `learn_spi`, `learn_i2c`, `learn_uvm2017`, `learn_verification_planning_management`, and the other catalog ids.

@@ -1,0 +1,238 @@
+.tool-layout {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 860px) {
+  .tool-layout.split {
+    grid-template-columns: 1fr 280px;
+    align-items: start;
+  }
+  .tool-layout.split-wide {
+    grid-template-columns: 1.2fr 1fr;
+    align-items: start;
+  }
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.panel-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.65rem 0.9rem;
+  border-bottom: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.panel-head h2 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 650;
+}
+
+.panel-body { padding: 0.9rem; }
+
+.challenge {
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 0.85rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.challenge h2 {
+  margin: 0 0 0.35rem;
+  font-size: 0.95rem;
+}
+
+.challenge p {
+  margin: 0 0 0.65rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.challenge-status {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 0.35rem 0.55rem;
+  border-radius: 6px;
+  display: inline-block;
+}
+.challenge-status.idle { background: var(--surface2); color: var(--muted); }
+.challenge-status.pass { background: var(--ok-bg); color: var(--ok); }
+.challenge-status.fail { background: var(--err-bg); color: var(--err); }
+
+.tool-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.term {
+  background: var(--term-bg);
+  color: var(--term-fg);
+  font-family: var(--mono);
+  font-size: 0.86rem;
+  line-height: 1.55;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid #2a3531;
+  box-shadow: var(--shadow);
+}
+
+.term-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.75rem;
+  background: #141a18;
+  color: var(--term-muted);
+  font-size: 0.75rem;
+}
+
+.term-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: #3a463f;
+}
+.term-dot.r { background: #c45c5c; }
+.term-dot.y { background: #c4a03a; }
+.term-dot.g { background: #3a9e6a; }
+
+.term-out {
+  margin: 0;
+  padding: 0.85rem 1rem 0.25rem;
+  min-height: 220px;
+  max-height: 360px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.term-line { margin: 0; }
+.term-line .prompt { color: var(--term-prompt); }
+.term-line .cmd { color: #fff; }
+.term-line .err { color: #ff8f8f; }
+.term-line .dim { color: var(--term-muted); }
+
+.term-form {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 1rem 0.85rem;
+  border-top: 1px solid #2a3531;
+}
+
+.term-form .prompt {
+  color: var(--term-prompt);
+  flex-shrink: 0;
+}
+
+.term-form input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 0.86rem;
+}
+
+.hint-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+.hint-list li { margin-bottom: 0.25rem; }
+.hint-list code {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  background: var(--surface2);
+  padding: 0.05rem 0.3rem;
+  border-radius: 4px;
+}
+
+.tree-view {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  line-height: 1.45;
+  margin: 0;
+  white-space: pre;
+  overflow: auto;
+  max-height: 420px;
+  color: var(--ink);
+}
+
+.kbd-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+}
+
+.kbd-row button {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  padding: 0.28rem 0.5rem;
+  border-radius: 5px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+}
+.kbd-row button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* First-run worked example (see tools.md → Starter example) */
+.starter-note {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.55rem 0.85rem;
+  margin-bottom: 1rem;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--signal);
+  border-radius: var(--radius);
+  background: var(--surface);
+  font-size: 0.92rem;
+  color: var(--ink);
+}
+.starter-note p {
+  margin: 0;
+  flex: 1 1 14rem;
+  color: var(--muted);
+}
+.starter-note strong {
+  color: var(--ink);
+}
+
+/* Challenge “Show hint” callout (shared across labs) */
+.chal-hint {
+  margin: 0.5rem 0 0.75rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 8px;
+  background: var(--warn-bg);
+  color: var(--ink);
+  border-left: 3px solid var(--signal);
+  font-size: 0.9rem;
+}
+.chal-hint strong {
+  color: var(--ink);
+}

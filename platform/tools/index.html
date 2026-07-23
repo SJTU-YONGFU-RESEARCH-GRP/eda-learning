@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tools — EDA Algorithms Platform</title>
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <p class="brand"><a href="../index.html">EDA Algorithms Platform</a></p>
+      <nav class="site-nav" aria-label="Site">
+        <a href="../index.html">Home</a>
+        <a href="index.html" class="is-active" aria-current="page">Tools</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main">
+    <div class="eyebrow">Tools</div>
+    <section class="hero">
+      <h1>Interactive labs</h1>
+      <p class="lead">Clustering / PD algorithm labs — concept shelf for <code>learn_clustering</code>.</p>
+    </section>
+    <section class="tools-stage" id="clustering">
+      <h2>Clustering &amp; refinement</h2>
+      <ul class="chapter-list">
+        <li>
+          <a href="affinity-metrics/index.html">Affinity metrics</a>
+          <div class="chapter-meta">Rank node pairs by edge-weight and shared-neighbor affinity.</div>
+        </li>
+        <li>
+          <a href="greedy-pair-merge/index.html">Greedy pair merge</a>
+          <div class="chapter-meta">Step heaviest-edge merges down to K clusters and watch cutsize.</div>
+        </li>
+        <li>
+          <a href="size-constrained-agglomerative/index.html">Size-constrained agglomerative</a>
+          <div class="chapter-meta">Greedy merge with capacity — capacity 2 blocks ABC and raises cut to 8.</div>
+        </li>
+        <li>
+          <a href="label-propagation/index.html">Label propagation</a>
+          <div class="chapter-meta">Async label updates until communities stabilize.</div>
+        </li>
+        <li>
+          <a href="spectral-bisection/index.html">Spectral bisection</a>
+          <div class="chapter-meta">Fiedler vector split of the Laplacian on the five-node graph.</div>
+        </li>
+        <li>
+          <a href="kernighan-lin/index.html">Kernighan–Lin</a>
+          <div class="chapter-meta">Pair-swap refinement with rollback from a bad seed (12→3).</div>
+        </li>
+        <li>
+          <a href="fiduccia-mattheyses/index.html">Fiduccia–Mattheyses</a>
+          <div class="chapter-meta">Single-vertex FM moves with rollback from a bad seed.</div>
+        </li>
+        <li>
+          <a href="multilevel-clustering/index.html">Multilevel clustering</a>
+          <div class="chapter-meta">Greedy coarsen, project bipartition, FM-refine to P0/P1.</div>
+        </li>
+        <li>
+          <a href="hypergraph-clustering/index.html">Hypergraph clustering</a>
+          <div class="chapter-meta">Pin co-occurrence greedy merge scored by hyperedge cut.</div>
+        </li>
+        <li>
+          <a href="congestion-aware-clustering/index.html">Congestion-aware clustering</a>
+          <div class="chapter-meta">Boost edges by λ·congestion, then FM (λ=0 vs λ=5 tradeoff).</div>
+        </li>
+        <li>
+          <a href="timing-aware-clustering/index.html">Timing-aware clustering</a>
+          <div class="chapter-meta">Criticality-weighted FM — plain 3, weighted cut 7.</div>
+        </li>
+      </ul>
+    </section>
+  </main>
+  <footer class="site-footer">EDA Algorithms Platform — client-side concept labs.</footer>
+  <script src="../assets/site.js"></script>
+</body>
+</html>

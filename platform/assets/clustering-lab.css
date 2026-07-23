@@ -1,0 +1,61 @@
+.cluster-canvas {
+  display: block;
+  background: #f7faf9;
+}
+.metrics-pre {
+  margin: 0;
+  font-family: var(--mono, ui-monospace, Menlo, Consolas, monospace);
+  font-size: 0.85rem;
+  line-height: 1.45;
+  white-space: pre-wrap;
+}
+.rank-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+}
+.rank-table th,
+.rank-table td {
+  border-bottom: 1px solid var(--line);
+  padding: 0.35rem 0.4rem;
+  text-align: left;
+}
+.tool-actions .btn {
+  cursor: pointer;
+}
+.chal-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+.chal-head h2 {
+  margin: 0;
+}
+.chal-progress {
+  font-family: var(--mono, ui-monospace, Menlo, Consolas, monospace);
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+.chal-pick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+.chal-pick select {
+  min-width: 16rem;
+  max-width: 100%;
+}
+.chal-hint {
+  margin: 0.35rem 0 0.65rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+.lab-extra-actions {
+  margin: 0.75rem 0 1rem;
+}

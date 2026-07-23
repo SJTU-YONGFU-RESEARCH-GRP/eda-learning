@@ -1,0 +1,51 @@
+# Module outline — machine source for themed PPTX (module-slides)
+title: "Module 03 — Absolute vs relative paths"
+footer: "learn_unix — paths"
+slides:
+  - type: title
+    title: "Absolute vs relative paths"
+    subtitle: "Module 03 · learn_unix"
+    notes: |
+      By the end of this short clip, you'll know when a path is absolute
+      and when it's relative — and why that matters after you change directories.
+
+  - type: bullets
+    title: "Absolute paths"
+    bullets:
+      - "Start from the filesystem root"
+      - "Do not depend on your current folder"
+      - "Same target no matter where you stand"
+    notes: |
+      An absolute path names the target from the root of the filesystem.
+      It does not care which directory you are in right now.
+
+  - type: bullets
+    title: "Browser lab track"
+    bullets:
+      - "Open the paths lab from the tools page"
+      - "Load the starter example"
+      - "Resolve a few relative cases after cd"
+    notes: |
+      In the browser lab track, open the absolute-versus-relative paths lab
+      from the tools page, load the starter, and try resolving a path after
+      you change the working directory.
+
+  - type: bullets
+    title: "Real terminal track"
+    bullets:
+      - "Enter this module's paths example"
+      - "Print the working directory"
+      - "Move with .. and watch the path change"
+    notes: |
+      In the real terminal track, go into this module's paths example folder,
+      print the working directory, then move up a level and notice how a
+      relative path would point somewhere new.
+
+  - type: bullets
+    title: "Your turn"
+    bullets:
+      - "Finish Track A or Track B checklist"
+      - "Explain abs vs rel in your own words"
+    notes: |
+      Pause the video, complete at least one track on the checklist, and
+      explain absolute versus relative paths in your own words.

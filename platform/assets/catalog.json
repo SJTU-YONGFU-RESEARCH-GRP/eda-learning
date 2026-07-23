@@ -1,0 +1,617 @@
+{
+  "site": {
+    "title": "EDA Algorithms Platform"
+  },
+  "labs": [
+    {
+      "id": "affinity-metrics",
+      "title": "Affinity metrics",
+      "section": "Clustering & refinement"
+    },
+    {
+      "id": "congestion-aware-clustering",
+      "title": "Congestion-aware clustering",
+      "section": "Clustering & refinement"
+    },
+    {
+      "id": "fiduccia-mattheyses",
+      "title": "Fiduccia\u2013Mattheyses",
+      "section": "Clustering & refinement"
+    },
+    {
+      "id": "greedy-pair-merge",
+      "title": "Greedy pair merge",
+      "section": "Clustering & refinement"
+    },
+    {
+      "id": "hypergraph-clustering",
+      "title": "Hypergraph clustering",
+      "section": "Clustering & refinement"
+    },
+    {
+      "id": "kernighan-lin",
+      "title": "Kernighan\u2013Lin",
+      "section": "Clustering & refinement"
+    },
+    {
+      "id": "label-propagation",
+      "title": "Label propagation",
+      "section": "Clustering & refinement"
+    },
+    {
+      "id": "multilevel-clustering",
+      "title": "Multilevel clustering",
+      "section": "Clustering & refinement"
+    },
+    {
+      "id": "size-constrained-agglomerative",
+      "title": "Size-constrained agglomerative",
+      "section": "Clustering & refinement"
+    },
+    {
+      "id": "spectral-bisection",
+      "title": "Spectral bisection",
+      "section": "Clustering & refinement"
+    },
+    {
+      "id": "timing-aware-clustering",
+      "title": "Timing-aware clustering",
+      "section": "Clustering & refinement"
+    }
+  ],
+  "courses": [
+    {
+      "id": "learn_eda",
+      "title": "EDA stack map",
+      "focus": "IR \u2192 synth \u2192 timing \u2192 P&R \u2192 DRC/LVS/PEX \u2192 which learn_* next",
+      "status": "planned",
+      "repo": "learn_eda",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_ir",
+      "title": "Design IR",
+      "focus": "Netlist / hierarchy IR for CAD algorithms",
+      "status": "planned",
+      "repo": "learn_ir",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_geometry",
+      "title": "Geometry engines",
+      "focus": "Edges, polygons, half-edges, scanline queries",
+      "status": "planned",
+      "repo": "learn_geometry",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_techlib",
+      "title": "Techlib / Liberty-lite",
+      "focus": "Cells, pins, timing arcs as data",
+      "status": "planned",
+      "repo": "learn_techlib",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_synthesis",
+      "title": "Logic synthesis",
+      "focus": "AIG, techmapping, rewrite, area/delay",
+      "status": "planned",
+      "repo": "learn_synthesis",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_retiming",
+      "title": "Retiming",
+      "focus": "Register move literacy",
+      "status": "planned",
+      "repo": "learn_retiming",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_equivalence",
+      "title": "Equivalence checking",
+      "focus": "Combinational / sequential equiv algorithms",
+      "status": "planned",
+      "repo": "learn_equivalence",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_sta",
+      "title": "Static timing analysis",
+      "focus": "Timing graph, slack, incremental update",
+      "status": "planned",
+      "repo": "learn_sta",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_sdc",
+      "title": "SDC constraints",
+      "focus": "Clocks, I/O, false/multicycle as engine data",
+      "status": "planned",
+      "repo": "learn_sdc",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_si",
+      "title": "Signal integrity",
+      "focus": "Crosstalk / noise-on-timing literacy",
+      "status": "planned",
+      "repo": "learn_si",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_partitioning",
+      "title": "Partitioning",
+      "focus": "KL / FM, multiway, cutsize",
+      "status": "planned",
+      "repo": "learn_partitioning",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_clustering",
+      "title": "Clustering for EDA",
+      "focus": "Affinity \u2192 merge \u2192 LP/spectral \u2192 KL/FM \u2192 multilevel \u2192 EDA objectives",
+      "status": "ready",
+      "repo": "learn_clustering",
+      "prereq": null,
+      "labs": [
+        {
+          "n": "01",
+          "slug": "intro",
+          "moduleId": "module00-00-intro",
+          "kind": "intro",
+          "title": "Welcome to clustering for EDA",
+          "toolId": null,
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "02",
+          "slug": "affinity-metrics",
+          "moduleId": "module01-01-affinity-metrics",
+          "kind": "lab",
+          "title": "Affinity metrics",
+          "toolId": "affinity-metrics",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "03",
+          "slug": "greedy-pair-merge",
+          "moduleId": "module01-03-greedy-pair-merge",
+          "kind": "lab",
+          "title": "Greedy pair merge",
+          "toolId": "greedy-pair-merge",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "04",
+          "slug": "size-constrained-agglomerative",
+          "moduleId": "module01-05-size-constrained-agglomerative",
+          "kind": "lab",
+          "title": "Size-constrained agglomerative clustering",
+          "toolId": "size-constrained-agglomerative",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "05",
+          "slug": "label-propagation",
+          "moduleId": "module02-01-label-propagation",
+          "kind": "lab",
+          "title": "Label propagation clustering",
+          "toolId": "label-propagation",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "06",
+          "slug": "spectral-bisection",
+          "moduleId": "module02-03-spectral-bisection",
+          "kind": "lab",
+          "title": "Spectral bisection",
+          "toolId": "spectral-bisection",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "07",
+          "slug": "kernighan-lin",
+          "moduleId": "module02-05-kernighan-lin",
+          "kind": "lab",
+          "title": "Kernighan\u2013Lin refinement",
+          "toolId": "kernighan-lin",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "08",
+          "slug": "fiduccia-mattheyses",
+          "moduleId": "module02-07-fiduccia-mattheyses",
+          "kind": "lab",
+          "title": "Fiduccia\u2013Mattheyses refinement",
+          "toolId": "fiduccia-mattheyses",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "09",
+          "slug": "multilevel-clustering",
+          "moduleId": "module03-01-multilevel-clustering",
+          "kind": "lab",
+          "title": "Multilevel clustering",
+          "toolId": "multilevel-clustering",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "10",
+          "slug": "hypergraph-clustering",
+          "moduleId": "module03-03-hypergraph-clustering",
+          "kind": "lab",
+          "title": "Hypergraph clustering",
+          "toolId": "hypergraph-clustering",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "11",
+          "slug": "congestion-aware-clustering",
+          "moduleId": "module04-01-congestion-aware-clustering",
+          "kind": "lab",
+          "title": "Congestion-aware clustering",
+          "toolId": "congestion-aware-clustering",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "12",
+          "slug": "timing-aware-clustering",
+          "moduleId": "module04-03-timing-aware-clustering",
+          "kind": "lab",
+          "title": "Timing-aware clustering",
+          "toolId": "timing-aware-clustering",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "13",
+          "slug": "offline-benchmark-compare",
+          "moduleId": "module05-01-offline-benchmark-compare",
+          "kind": "offline",
+          "title": "Offline benchmark compare",
+          "toolId": null,
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "14",
+          "slug": "wrap",
+          "moduleId": "module99-00-wrap",
+          "kind": "wrap",
+          "title": "Clustering path complete",
+          "toolId": null,
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "learn_floorplanning",
+      "title": "Floorplanning",
+      "focus": "Fixed-outline, slicing/NSG, macros",
+      "status": "planned",
+      "repo": "learn_floorplanning",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_placement",
+      "title": "Placement",
+      "focus": "Global place, HPWL, density",
+      "status": "planned",
+      "repo": "learn_placement",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_legalization",
+      "title": "Legalization",
+      "focus": "Snap to sites/rows, overlap removal",
+      "status": "planned",
+      "repo": "learn_legalization",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_congestion",
+      "title": "Congestion",
+      "focus": "Congestion estimation and inflators",
+      "status": "planned",
+      "repo": "learn_congestion",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_clock_tree",
+      "title": "Clock tree synthesis",
+      "focus": "H-tree / MMM, skew, clock buffering",
+      "status": "planned",
+      "repo": "learn_clock_tree",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_buffering",
+      "title": "Buffering",
+      "focus": "Van Ginneken-style / slew-driven insert",
+      "status": "planned",
+      "repo": "learn_buffering",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_global_routing",
+      "title": "Global routing",
+      "focus": "GCells, capacity, overflow",
+      "status": "planned",
+      "repo": "learn_global_routing",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_routing",
+      "title": "Detailed routing",
+      "focus": "Maze/A*, rip-up & reroute",
+      "status": "planned",
+      "repo": "learn_routing",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_compaction",
+      "title": "Compaction",
+      "focus": "Layout compaction literacy",
+      "status": "planned",
+      "repo": "learn_compaction",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_pattern_matching",
+      "title": "Pattern matching",
+      "focus": "DRC-style edge/region patterns",
+      "status": "planned",
+      "repo": "learn_pattern_matching",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_drc",
+      "title": "DRC",
+      "focus": "Rule deck \u2192 width/spacing/enclosure checkers",
+      "status": "planned",
+      "repo": "learn_drc",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_lvs",
+      "title": "LVS",
+      "focus": "Device recognition, net extract, graph compare",
+      "status": "planned",
+      "repo": "learn_lvs",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_pex",
+      "title": "PEX",
+      "focus": "R/C from geometry, network reduction",
+      "status": "planned",
+      "repo": "learn_pex",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_spice",
+      "title": "SPICE / circuit sim",
+      "focus": "MNA, Newton, sparse LU, transient",
+      "status": "planned",
+      "repo": "learn_spice",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_erc",
+      "title": "ERC",
+      "focus": "Electrical rule categories",
+      "status": "planned",
+      "repo": "learn_erc",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_antenna",
+      "title": "Antenna checks",
+      "focus": "Antenna ratio / charge accumulation",
+      "status": "planned",
+      "repo": "learn_antenna",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_power",
+      "title": "Power analysis",
+      "focus": "Switching/leakage, IR drop lite",
+      "status": "planned",
+      "repo": "learn_power",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_dft_insert",
+      "title": "DFT insert",
+      "focus": "Scan / DFT as netlist transforms",
+      "status": "planned",
+      "repo": "learn_dft_insert",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_signoff",
+      "title": "Signoff literacy",
+      "focus": "Corners, ECO loop, tapeout hooks",
+      "status": "planned",
+      "repo": "learn_signoff",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_yosys",
+      "title": "Yosys evidence",
+      "focus": "Synth CLI / reports vs toy engines",
+      "status": "planned",
+      "repo": "learn_yosys",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_openroad",
+      "title": "OpenROAD evidence",
+      "focus": "Place/CTS/route vs PD algorithm courses",
+      "status": "planned",
+      "repo": "learn_openroad",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_openlane",
+      "title": "OpenLane flow",
+      "focus": "RTL\u2192GDS flow literacy",
+      "status": "planned",
+      "repo": "learn_openlane",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_fpga_cad",
+      "title": "FPGA CAD",
+      "focus": "Packing/place/route differences",
+      "status": "planned",
+      "repo": "learn_fpga_cad",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_analog_layout",
+      "title": "Analog layout",
+      "focus": "Device-level layout algorithms",
+      "status": "planned",
+      "repo": "learn_analog_layout",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_ml_eda",
+      "title": "ML for EDA",
+      "focus": "ML-for-CAD literacy (not the spine)",
+      "status": "planned",
+      "repo": "learn_ml_eda",
+      "prereq": null,
+      "labs": []
+    },
+    {
+      "id": "learn_pdks",
+      "title": "PDK packaging",
+      "focus": "LEF/Liberty/tech as data engineering",
+      "status": "planned",
+      "repo": "learn_pdks",
+      "prereq": null,
+      "labs": []
+    }
+  ]
+}

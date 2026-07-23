@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Algorithm walkthrough — clustering</title>
+  <link rel="stylesheet" href="../../assets/site.css">
+  <link rel="stylesheet" href="../../assets/tools-shared.css">
+  <link rel="stylesheet" href="../../assets/clustering-lab.css">
+  <style>
+    body { background: #eef2f1; }
+    #walk-frame {
+      max-width: 960px;
+      margin: 1rem auto;
+      background: #fff;
+      border: 1px solid var(--line, #cbd5e1);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+    }
+    .walk-banner {
+      padding: 0.85rem 1.1rem;
+      background: #0f6b5c;
+      color: #fff;
+    }
+    .walk-banner .algo { font-size: 0.78rem; letter-spacing: 0.04em; text-transform: uppercase; opacity: 0.85; }
+    .walk-banner h1 { margin: 0.15rem 0 0; font-size: 1.35rem; font-weight: 700; }
+    .walk-banner .step-meta { margin-top: 0.35rem; font-size: 0.85rem; opacity: 0.9; }
+    .walk-body {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 0;
+      min-height: 340px;
+    }
+    @media (max-width: 800px) {
+      .walk-body { grid-template-columns: 1fr; }
+    }
+    .walk-canvas-wrap {
+      padding: 1rem;
+      border-right: 1px solid var(--line, #cbd5e1);
+      background: #f7faf9;
+    }
+    .walk-canvas-wrap canvas {
+      width: 100%;
+      height: 300px;
+      display: block;
+      border-radius: 8px;
+      border: 1px solid var(--line, #cbd5e1);
+      background: #fff;
+    }
+    .walk-explain {
+      padding: 1rem 1.15rem 1.25rem;
+    }
+    .walk-explain h2 {
+      margin: 0 0 0.5rem;
+      font-size: 1.05rem;
+    }
+    .walk-explain .caption {
+      margin: 0 0 0.75rem;
+      line-height: 1.45;
+      color: #1e293b;
+    }
+    .walk-explain ul {
+      margin: 0;
+      padding-left: 1.15rem;
+      color: #334155;
+      font-size: 0.95rem;
+    }
+    .walk-explain li { margin: 0.25rem 0; }
+    .walk-metrics {
+      margin-top: 0.85rem;
+      padding: 0.65rem 0.75rem;
+      background: #f1f5f4;
+      border-radius: 8px;
+      font-family: ui-monospace, Menlo, Consolas, monospace;
+      font-size: 0.82rem;
+      white-space: pre-wrap;
+      line-height: 1.4;
+    }
+    .walk-nav {
+      max-width: 960px;
+      margin: 0 auto 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+      padding: 0 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="walk-nav" id="nav"></div>
+    <div id="walk-frame" data-ready="0"></div>
+  </main>
+  <script type="module" src="walkthrough.js"></script>
+</body>
+</html>
