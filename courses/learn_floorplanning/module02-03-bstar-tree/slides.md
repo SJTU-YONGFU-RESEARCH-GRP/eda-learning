@@ -10,6 +10,35 @@ B-star stores packing adjacency: left child sits right-of the parent; right chil
 
 ---
 
+## Pseudocode
+- B-star packing walks the tree with a contour
+- Left child sits to the right of the parent
+- Open this module's examples file and find the Pseudocode section
+- That written sketch is what you implement on the implement track and what the browser
+
+---
+
+## Algorithm sketch
+- Golden tree roots A at the origin
+- B’s x equals A’s right edge; D’s y is at least A’s height
+- The packing must stay legal in the outline
+
+---
+
+## Algorithm sketch — try these
+
+```
+INPUT: binary tree (left=right-of, right=above)
+OUTPUT: packed (x,y) via contour
+root at (0,0)
+left child: x ← parent.x + parent.w
+right child: y ← above parent (contour)
+update horizontal contour after each place
+GOLDEN: A@0,0; B.x=A.x+A.w; D.y≥A.h; legal
+```
+
+---
+
 ## Root A at the origin
 ![Root A at the origin](assets/steps/01-root.png)
 

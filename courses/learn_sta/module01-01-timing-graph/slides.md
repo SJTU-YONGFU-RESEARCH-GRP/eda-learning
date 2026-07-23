@@ -14,7 +14,39 @@ Static timing starts with a directed timing graph
 - Goldens: six pins, five arcs, levels zero through five, path delay three point two
 - A cycle returns no levels
 - Keep these numbers handy, the browser challenges and Track A tests use the same instance
-- <!-- algorithm-walkthrough -->
+
+---
+
+## Pseudocode
+- Pseudocode for this lab is Kahn levelize on a pin and arc timing graph
+- Inputs are pins and delayed arcs
+- The loop peels indegree-zero pins and writes levels
+- Stop with failure if a cycle leaves pins unvisited
+- Open this module's examples file and find the Pseudocode section
+- That written sketch is what you implement on the implement track and what the browser
+
+---
+
+## Algorithm sketch
+- On the tiny chain the sketch returns levels zero through five with out at five
+- Six pins and five arcs are the shared instance
+- Adding out to in makes levelize fail, that is the cycle golden
+
+---
+
+## Algorithm sketch — try these
+
+```
+INPUT: pins, arcs (delay, kind cell|net)
+OUTPUT: levels[] or FAIL(cycle)
+indeg[v]←|preds|; Q←{v|indeg=0}; level[Q]=0
+while Q:
+  u←pop; for v in succ(u):
+    indeg[v]−=1; level[v]←max(level[v],level[u]+1)
+    if indeg[v]=0: push v
+FAIL if not all visited else return levels
+GOLDEN: 6 pins, 5 arcs; in:0 … out:5
+```
 
 ---
 

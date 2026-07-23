@@ -4,11 +4,47 @@ slides:
 - type: title
   title: Boundary pin / I/O assignment
   subtitle: Pins sit on outline edges
-  notes: 'Pins sit on outline edges. Golden assignment places P0 left, P1 bottom,
-    P2 right, P3 top—four sides covered so pinsValid is true. An empty list is invalid.
+  notes: Pins sit on outline edges. Golden assignment places P0 left, P1 bottom, P2
+    right, P3 top—four sides covered so pinsValid is true. An empty list is invalid.
+- type: bullets
+  title: Pseudocode
+  bullets:
+  - Pin assignment validates boundary I/O
+  - Pseudocode checks side and offset ranges and requires all four outline sides to
+    appear
+  - Open this module's examples file and find the Pseudocode section
+  - That written sketch is what you implement on the implement track and what the
+    browser
+  notes: 'Pin assignment validates boundary I/O. Pseudocode checks side and offset
+    ranges and requires all four outline sides to appear.
 
 
-    <!-- algorithm-walkthrough -->'
+    Open this module''s examples file and find the Pseudocode section. That written
+    sketch is what you implement on the implement track and what the browser challenges
+    measure.'
+- type: bullets
+  title: Algorithm sketch
+  bullets:
+  - Golden pins cover left, bottom, right, and top and return valid true
+  - An empty list fails validity
+  notes: Golden pins cover left, bottom, right, and top and return valid true. An
+    empty list fails validity.
+- type: code
+  title: Algorithm sketch — try these
+  code: 'INPUT: outline, pin list {side, offset}
+
+    OUTPUT: pinsValid?
+
+    each pin on left|right|top|bottom edge
+
+    offset in range for that side
+
+    require all four sides represented
+
+    GOLDEN 4 pins (one/side) → valid true
+
+    empty list → valid false'
+  notes: ''
 - type: image
   title: Packing without pins
   image: assets/steps/01-no-pins.png
@@ -37,11 +73,8 @@ slides:
   title: Pins feed place and route
   image: assets/steps/05-takeaway.png
   caption: Pins feed place and route
-  notes: 'Boundary pins shape terminal propagation and routing demand. After floorplan
+  notes: Boundary pins shape terminal propagation and routing demand. After floorplan
     shapes settle, pin assignment is the bridge to placement.
-
-
-    <!-- /algorithm-walkthrough -->'
 - type: bullets
   title: Browser lab track
   bullets:

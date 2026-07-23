@@ -5,11 +5,44 @@ slides:
   title: Soft module aspect sizing
   subtitle: Soft module A keeps area six but may reshape between aspect one half and
     two
-  notes: 'Soft module A keeps area six but may reshape between aspect one half and
+  notes: Soft module A keeps area six but may reshape between aspect one half and
     two. Reshape three by two into two by three, then pack legally—still area six.
+- type: bullets
+  title: Pseudocode
+  bullets:
+  - Soft sizing picks width and height for A under a fixed area and aspect bounds
+  - Open this module's examples file and find the Pseudocode section
+  - That written sketch is what you implement on the implement track and what the
+    browser
+  notes: 'Soft sizing picks width and height for A under a fixed area and aspect bounds,
+    then re-packs the hard modules around it.
 
 
-    <!-- algorithm-walkthrough -->'
+    Open this module''s examples file and find the Pseudocode section. That written
+    sketch is what you implement on the implement track and what the browser challenges
+    measure.'
+- type: bullets
+  title: Algorithm sketch
+  bullets:
+  - Hard golden keeps A at three by two
+  - Soft teaching pack uses two by three
+  - Area stays six; deadspace shape changes
+  notes: Hard golden keeps A at three by two. Soft teaching pack uses two by three.
+    Area stays six; deadspace shape changes.
+- type: code
+  title: Algorithm sketch — try these
+  code: 'INPUT: soft A area=6, aspect∈[0.5,2]
+
+    OUTPUT: (w,h) with w·h=area; pack rest
+
+    choose aspect; set w,h; re-pack / legalize
+
+    hard modules keep fixed w×h
+
+    GOLDEN hard A 3×2 vs soft A 2×3 pack
+
+    both area 6; whitespace shape differs'
+  notes: ''
 - type: image
   title: A is soft with area 6
   image: assets/steps/01-soft-a.png
@@ -38,11 +71,8 @@ slides:
   title: Softness is constrained freedom
   image: assets/steps/05-takeaway.png
   caption: Softness is constrained freedom
-  notes: 'Soft modules trade aspect for packing quality under area and aspect bounds.
+  notes: Soft modules trade aspect for packing quality under area and aspect bounds.
     Always re-check legality after a resize.
-
-
-    <!-- /algorithm-walkthrough -->'
 - type: bullets
   title: Browser lab track
   bullets:

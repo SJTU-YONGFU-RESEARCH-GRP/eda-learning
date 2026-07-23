@@ -14,7 +14,35 @@ Recursive bisection builds a multiway partition by repeatedly bipartitioning the
 - Each step is an ordinary bipartition on an induced subgraph
 - Quality compounds: a weak first cut leaves later bisectors fewer good options
 - Always report total cut across all part boundaries and the part-size vector
-- <!-- algorithm-walkthrough -->
+
+---
+
+## Pseudocode
+- Recursive bisection is a loop over parts
+- Open this module's examples file and find the Pseudocode section
+- That written sketch is what you implement on the implement track and what the browser
+
+---
+
+## Algorithm sketch
+- First split yields ABC versus DE at cut three
+- For k equals three the sketch bisects ABC next into A B versus C with D E untouched
+
+---
+
+## Algorithm sketch — try these
+
+```
+INPUT: G, target k parts
+OUTPUT: side[v] ∈ {0..k−1}
+parts ← {all nodes}
+while |parts| < k:
+  pick largest part P
+  bipartition P (spectral/KL/FM)
+  replace P with the two halves
+GOLDEN k=2: ABC|DE cut=3
+k=3 continues on ABC → AB|C|DE
+```
 
 ---
 
@@ -51,7 +79,7 @@ Recursive bisection builds a multiway partition by repeatedly bipartitioning the
 ---
 
 ## Implement track
-- In the implement track, open this module’s examples and the course `common/` solvers
+- In the implement track
 - Parse the tiny graph, run the algorithm with a deterministic seed
 - Match the browser goldens before you claim the checklist
 

@@ -15,7 +15,36 @@ Real timers cannot rebuild the chip after every buffer insert
 - Clean: in, u1/A
 - ΔA(out)=+0.8
 - Keep these numbers handy, the browser challenges and Track A tests use the same instance
-- <!-- algorithm-walkthrough -->
+
+---
+
+## Pseudocode
+- Incremental STA is cone invalidation plus selective recompute
+- After an arc delay edit
+- Open this module's examples file and find the Pseudocode section
+- That written sketch is what you implement on the implement track and what the browser
+
+---
+
+## Algorithm sketch
+- Bump the u1 cell delay from one point two to two
+- The golden cone is u1/Y, u2/A, u2/Y, and out
+- Arrival at out becomes four and setup slack six
+
+---
+
+## Algorithm sketch — try these
+
+```
+INPUT: G, edit u→v delay:=d', A_old
+OUTPUT: A_new, invalidated cone
+set delay(u,v)←d'
+inv ← BFS successors from v (incl. v)
+delete A[p] for p in inv
+recompute A in topo order for missing pins
+GOLDEN edit 1.2→2.0 on u1 cell:
+  inv={u1/Y,u2/A,u2/Y,out}; A[out]=4.0
+```
 
 ---
 

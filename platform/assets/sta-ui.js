@@ -140,11 +140,12 @@ export function drawTimingGraph(canvas, timing, opts = {}) {
   }
 
   // Pins
+  const pinR = Math.max(13, Math.min(20, Math.min(w, h) * 0.028));
   for (const p of timing.pins) {
     const P = pos[p.id];
     if (!P) continue;
     const hi = highlightPins.has(p.id);
-    const r = hi ? 16 : 13;
+    const r = hi ? pinR + 3 : pinR;
     ctx.beginPath();
     ctx.arc(P.x, P.y, r, 0, Math.PI * 2);
     ctx.fillStyle = KIND_FILL[p.kind] || KIND_FILL.default;
@@ -155,7 +156,7 @@ export function drawTimingGraph(canvas, timing, opts = {}) {
       ctx.stroke();
     }
     ctx.fillStyle = "#0f172a";
-    ctx.font = "11px system-ui, sans-serif";
+    ctx.font = `${Math.max(11, Math.min(14, pinR))}px system-ui, sans-serif`;
     ctx.textAlign = "center";
     ctx.fillText(p.id, P.x, P.y + r + 14);
     if (levels) {

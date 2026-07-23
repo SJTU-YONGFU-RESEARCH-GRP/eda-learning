@@ -1,34 +1,25 @@
-# Examples — Spread legalize lite
+# Examples — Spreading / overlap relief
 
-Track A (implement). Use `examples/tiny_place.json` and `../../common/solvers.py`.
+Track A (implement). Use the tiny 6-cell placement first.
 
 ## Algorithm
 
-**push pairs to min distance**
-
-## Pseudocode
-
-```text
-INPUT: positions, min_dist
-OUTPUT: spread positions
-while exists pair with dist < min_dist:
-  push the pair apart along their vector
-stop when all pairs clear min_dist
-NOTE: not row/site legalization
-GOLDEN min_dist=0.5 on overlap seed
-```
+**pairwise spread / overlap relief**
 
 ## Starter prompts
 
-1. Implement the pseudocode above (or call the matching `common/` helper).
-2. Print the metrics named in the GOLDEN line; match browser / Track A tests.
-3. Change one knob and report what moved.
+1. Restate the algorithm in five bullets (inputs → loop → stop → output).
+2. Run it on `examples/tiny_place.json` (same instance as the browser starter).
+3. Compute total HPWL after the run (and density overflow when relevant).
+4. Change one parameter (seed, iters, pad fix, capacity) and report what moved.
+5. Name one failure mode (overlap collapse, ignored pads, metric mismatch, …).
 
 ## Expected artifacts
 
-- Outputs listed in the pseudocode OUTPUT line
-- Note tying the run to the pseudocode phases
+- Cell coordinates (or assignment) after the run
+- HPWL before and after (plus density / overflow when used)
+- Short note: why this algorithm belongs on the placement shelf
 
 ## Stretch
 
-Scale the instance slightly; keep the same metrics API.
+Scale to ~100 cells; keep the same API as the tiny case.

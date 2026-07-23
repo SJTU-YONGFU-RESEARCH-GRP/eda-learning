@@ -15,13 +15,37 @@ slides:
   - Each step is an ordinary bipartition on an induced subgraph
   - 'Quality compounds: a weak first cut leaves later bisectors fewer good options'
   - Always report total cut across all part boundaries and the part-size vector
-  - <!-- algorithm-walkthrough -->
   notes: 'Each step is an ordinary bipartition on an induced subgraph. Quality compounds:
     a weak first cut leaves later bisectors fewer good options. Always report total
-    cut across all part boundaries and the part-size vector.
+    cut across all part boundaries and the part-size vector.'
+- type: bullets
+  title: Pseudocode
+  bullets:
+  - Recursive bisection is a loop over parts
+  - Open this module's examples file and find the Pseudocode section
+  - That written sketch is what you implement on the implement track and what the
+    browser
+  notes: 'Recursive bisection is a loop over parts: while you have fewer than k parts,
+    split the largest with a bipartitioner and replace it by the two halves.
 
 
-    <!-- algorithm-walkthrough -->'
+    Open this module''s examples file and find the Pseudocode section. That written
+    sketch is what you implement on the implement track and what the browser challenges
+    measure.'
+- type: bullets
+  title: Algorithm sketch
+  bullets:
+  - First split yields ABC versus DE at cut three
+  - For k equals three the sketch bisects ABC next into A B versus C with D E untouched
+  notes: First split yields ABC versus DE at cut three. For k equals three the sketch
+    bisects ABC next into A B versus C with D E untouched.
+- type: code
+  title: Algorithm sketch — try these
+  code: "INPUT: G, target k parts\nOUTPUT: side[v] ∈ {0..k−1}\nparts ← {all nodes}\n\
+    while |parts| < k:\n  pick largest part P\n  bipartition P (spectral/KL/FM)\n\
+    \  replace P with the two halves\nGOLDEN k=2: ABC|DE cut=3\nk=3 continues on ABC\
+    \ → AB|C|DE"
+  notes: ''
 - type: image
   title: 'Start: one part, k=4 target'
   image: assets/steps/01-start.png
@@ -50,11 +74,8 @@ slides:
   title: Recursive bisection tradeoff
   image: assets/steps/05-takeaway.png
   caption: Recursive bisection tradeoff
-  notes: 'k=4 costs cut 13 because splitting DE destroys the weight-5 edge. k=3 stops
+  notes: k=4 costs cut 13 because splitting DE destroys the weight-5 edge. k=3 stops
     earlier at AB|C|DE cut 8 — fewer splits can mean lower total cut.
-
-
-    <!-- /algorithm-walkthrough -->'
 - type: bullets
   title: Browser lab track
   bullets:
@@ -69,13 +90,13 @@ slides:
 - type: bullets
   title: Implement track
   bullets:
-  - In the implement track, open this module’s examples and the course `common/` solvers
+  - In the implement track
   - Parse the tiny graph, run the algorithm with a deterministic seed
   - Match the browser goldens before you claim the checklist
-  notes: In the implement track, open this module’s examples and the course `common/`
-    solvers. Parse the tiny graph, run the algorithm with a deterministic seed, and
-    print the assignment plus cutsize and balance. Match the browser goldens before
-    you claim the checklist.
+  notes: In the implement track, open this module's EXAMPLES.md Pseudocode section
+    and the course common solvers. Parse the tiny graph, run the algorithm with a
+    deterministic seed, and print the assignment plus cutsize and balance. Match the
+    browser goldens before you claim the checklist.
 - type: bullets
   title: Pitfalls
   bullets:

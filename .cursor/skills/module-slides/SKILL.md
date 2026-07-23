@@ -199,6 +199,7 @@ Before marking a course ready, compare to clustering:
 - [ ] `common/` has importable solvers / metrics, not only a README
 - [ ] Each algo lab `EXAMPLES.md` has real `## Pseudocode` (not empty scaffold)
 - [ ] Challenges score learner workspace state — no “Click Show …” demo checks
+- [ ] Lab canvases use `fitHiDpiCanvas` + ≈480px CSS height (not blurry 300px strips)
 - [ ] No lab still using the scaffold “Here’s the core idea in one breath: {algorithm}” filler
 
 **Do not** ship a course as ready if tools + video exist but walkthroughs / solvers / specific transcripts / pseudocode / interactive challenges are missing — list them under Deferred in the packaging report.

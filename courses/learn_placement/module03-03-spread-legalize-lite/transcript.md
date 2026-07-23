@@ -6,81 +6,27 @@
 
 ## Slide 1 — Spreading / overlap relief
 
-Spreading pushes overlapping or near pairs apart until a minimum pairwise distance holds. Start from the triple-overlap demo at one point, run the lite spreader, and confirm every pair clears the threshold without sending HPWL to infinity.
+Placement assigns cell coordinates to cut wirelength while keeping density under control. In this module you’ll implement **pairwise spread / overlap relief** end to end—not a sketch. By the end, you’ll run it on a tiny instance, report HPWL, and know what the algorithm actually does.
 
 ## Slide 2 — The idea
 
-While any pair sits closer than minDist, push them along their separation vector. Finish with a deterministic repair pass so the result is stable. Spreading is a legality proxy—not full row-site legalization.
-
-
-## Slide 3 — Pseudocode
-
-Spread lite pushes close pairs apart until every pairwise distance clears a minimum. It is overlap relief, not site legalization.
-
-Open this module's examples file and find the Pseudocode section. That written sketch is what you implement on the implement track and what the browser challenges measure.
-
-## Slide 4 — Algorithm sketch
-
-Start from the triple-overlap demo, run the spreader with minimum distance zero point five, and confirm pairs clear without exploding HPWL.
-
-```text
-INPUT: positions, min_dist
-OUTPUT: spread positions
-while exists pair with dist < min_dist:
-  push the pair apart along their vector
-stop when all pairs clear min_dist
-NOTE: not row/site legalization
-GOLDEN min_dist=0.5 on overlap seed
-```
-
+pairwise spread / overlap relief. You’ll take a placement instance, apply the update rule until a stop condition, and emit coordinates. Watch HPWL every time—and density overflow when the lab uses bins.
 
 <!-- algorithm-walkthrough -->
-
-## Slide 5 — Triple overlap at one point
-
-![Triple overlap at one point](assets/steps/01-triple-overlap.png)
-
-The overlap demo stacks A, B, and C on (4,4). Min pairwise distance is zero—illegal for any site-aware flow, perfect for a spreading lesson.
-
-## Slide 6 — Push near pairs apart
-
-![Push near pairs apart](assets/steps/02-push-apart.png)
-
-While any pair sits closer than minDist, push them along their separation vector. Repeated passes peel the triple stack into distinct points.
-
-## Slide 7 — After spread: min distance holds
-
-![After spread: min distance holds](assets/steps/03-after-spread.png)
-
-The lite spreader separates A, B, and C until every pair clears about zero point five. D, E, and F barely move.
-
-## Slide 8 — Spreading is a legality proxy
-
-![Spreading is a legality proxy](assets/steps/04-legality-proxy.png)
-
-Clearing min distance is not row legalization or site snapping. It is a teaching stand-in so overlap stops hiding behind pretty HPWL.
-
-## Slide 9 — Relieve overlap before celebrating WL
-
-![Relieve overlap before celebrating WL](assets/steps/05-takeaway.png)
-
-Start from the triple-overlap seed, spread to minDist zero point five, and confirm every pair clears the threshold. Then revisit wirelength.
-
 <!-- /algorithm-walkthrough -->
 
+## Slide 3 — Browser lab track
 
-## Slide 10 — Browser lab track
+In the browser lab track, open the **spread-legalize-lite** lab from the tools shelf. Load the starter placement, run the algorithm once, and read the metrics panel. Orient yourself, try one parameter change, then come back to implement the same loop yourself.
 
-In the browser lab track, open the **spread-legalize-lite** lab from the tools shelf. Load the starter placement, run the algorithm once, and read HPWL—and density when the panel shows it. Work the challenges that lock the goldens, then come back to implement the same loop yourself.
+## Slide 4 — Implement track
 
-## Slide 11 — Implement track
+In the implement track, open this module’s examples and build the full algorithm. Parse the tiny placement, run the core loop with clear stop rules, and print coordinates plus metrics. Prefer a deterministic seed so your golden answers stay stable.
 
-In the implement track, open this module's EXAMPLES.md Pseudocode section and the course common solvers. Parse `tiny_place.json`, run the algorithm with a deterministic seed, and print coordinates plus HPWL. Match the browser goldens before you claim the checklist.
+## Slide 5 — Pitfalls
 
-## Slide 12 — Pitfalls
+Common traps: celebrating HPWL while cells pile into one bin; ignoring fixed pads; mixing bbox and clique models in one report; and stopping before the best SA iterate is kept.
 
-Common traps: celebrating HPWL while cells pile into one bin; ignoring fixed pads A and D; mixing bbox and clique models in one report; keeping only the final SA iterate instead of the best; and forgetting that timing weights change the objective, not just the label.
+## Slide 6 — Your turn
 
-## Slide 13 — Your turn
-
-Complete the checklist for at least one track—preferably both. Implement until your metrics match the starter goldens. When you’re ready, take the short quiz, then continue to the next module.
+Complete the checklist for at least one track—preferably both. Implement until your metrics match the expected range on the starter placement. When you’re ready, take the short quiz, then continue to the next module.

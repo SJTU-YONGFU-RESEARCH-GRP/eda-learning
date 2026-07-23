@@ -5,12 +5,44 @@ slides:
   title: Sequence-pair representation
   subtitle: Sequence pair uses positive permutation A B C E D and negative D A B C
     E
-  notes: 'Sequence pair uses positive permutation A B C E D and negative D A B C E.
+  notes: Sequence pair uses positive permutation A B C E D and negative D A B C E.
     Longest-path packing from left-of and below constraints places all five modules
     legally.
+- type: bullets
+  title: Pseudocode
+  bullets:
+  - Sequence-pair pseudocode turns two permutations into horizontal and vertical constraints
+  - Open this module's examples file and find the Pseudocode section
+  - That written sketch is what you implement on the implement track and what the
+    browser
+  notes: 'Sequence-pair pseudocode turns two permutations into horizontal and vertical
+    constraints, then longest-path packs x and y.
 
 
-    <!-- algorithm-walkthrough -->'
+    Open this module''s examples file and find the Pseudocode section. That written
+    sketch is what you implement on the implement track and what the browser challenges
+    measure.'
+- type: bullets
+  title: Algorithm sketch
+  bullets:
+  - Golden pos is A B C E D and neg is D A B C E
+  - Evaluation must place all five modules legally with non-negative coordinates
+  notes: Golden pos is A B C E D and neg is D A B C E. Evaluation must place all five
+    modules legally with non-negative coordinates.
+- type: code
+  title: Algorithm sketch — try these
+  code: 'INPUT: pos[], neg[] permutations of modules
+
+    OUTPUT: (x,y) via constraint longest paths
+
+    pos/neg order ⇒ horizontal & vertical constraints
+
+    x ← longest path in H-graph; y ← V-graph
+
+    GOLDEN pos=A B C E D; neg=D A B C E
+
+    packs legally with non-negative coords'
+  notes: ''
 - type: image
   title: Two permutations encode geometry
   image: assets/steps/01-seqs.png
@@ -39,11 +71,8 @@ slides:
   title: SP neighbors are permutation moves
   image: assets/steps/05-takeaway.png
   caption: SP neighbors are permutation moves
-  notes: 'Annealing on sequence pair swaps or rotates entries in pos and neg. Feasibility
+  notes: Annealing on sequence pair swaps or rotates entries in pos and neg. Feasibility
     stays geometric; cost can be deadspace plus wirelength.
-
-
-    <!-- /algorithm-walkthrough -->'
 - type: bullets
   title: Browser lab track
   bullets:

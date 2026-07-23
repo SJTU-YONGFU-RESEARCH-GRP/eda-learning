@@ -12,13 +12,38 @@ slides:
   bullets:
   - Bucketed single-vertex gains, lock after each move
   - Two legal flips can equal one KL swap’s total gain on this instance
-  - <!-- algorithm-walkthrough -->
-  notes: 'Bucketed single-vertex gains, lock after each move, and enforce a balance
+  notes: Bucketed single-vertex gains, lock after each move, and enforce a balance
     tolerance so parts cannot empty. Two legal flips can equal one KL swap’s total
     gain on this instance—different move set, same destination quality.
+- type: bullets
+  title: Pseudocode
+  bullets:
+  - FM moves one vertex at a time
+  - Pseudocode ranks unlocked legal flips by gain
+  - Open this module's examples file and find the Pseudocode section
+  - That written sketch is what you implement on the implement track and what the
+    browser
+  notes: 'FM moves one vertex at a time. Pseudocode ranks unlocked legal flips by
+    gain, locks them into a sequence, then keeps the best positive prefix under a
+    balance filter.
 
 
-    <!-- algorithm-walkthrough -->'
+    Open this module''s examples file and find the Pseudocode section. That written
+    sketch is what you implement on the implement track and what the browser challenges
+    measure.'
+- type: bullets
+  title: Algorithm sketch
+  bullets:
+  - Same bad seed as KL
+  notes: 'Same bad seed as KL: FM flips D then A, keeps a prefix of two, and reaches
+    ABC versus DE at cut three.'
+- type: code
+  title: Algorithm sketch — try these
+  code: "INPUT: side[], balance_tol, max_passes\nOUTPUT: refined side[]\neach pass:\
+    \ while unlocked legal moves exist:\n  pick v with max gain among balance-ok flips\n\
+    \  lock v; flip on working copy\nkeep best positive-gain prefix; apply\nstop when\
+    \ a pass cannot improve\nGOLDEN BAD_SEED → flip D then A → cut 3"
+  notes: ''
 - type: image
   title: Same bad seed, different move set
   image: assets/steps/01-bad-seed.png
@@ -47,11 +72,8 @@ slides:
   title: Pass 1 confirms local optimum
   image: assets/steps/05-pass1-stop.png
   caption: Pass 1 confirms local optimum
-  notes: 'A second FM pass finds no improving move prefix. Stop. In real tools, FM
+  notes: A second FM pass finds no improving move prefix. Stop. In real tools, FM
     often runs inside multilevel V-cycles with tighter balance and hyperedges.
-
-
-    <!-- /algorithm-walkthrough -->'
 - type: bullets
   title: Browser lab track
   bullets:
@@ -65,13 +87,13 @@ slides:
 - type: bullets
   title: Implement track
   bullets:
-  - In the implement track, open this module’s examples and the course `common/` solvers
+  - In the implement track
   - Parse the tiny graph, run the algorithm with a deterministic seed
   - Match the browser goldens before you claim the checklist
-  notes: In the implement track, open this module’s examples and the course `common/`
-    solvers. Parse the tiny graph, run the algorithm with a deterministic seed, and
-    print the assignment plus cutsize and balance. Match the browser goldens before
-    you claim the checklist.
+  notes: In the implement track, open this module's EXAMPLES.md Pseudocode section
+    and the course common solvers. Parse the tiny graph, run the algorithm with a
+    deterministic seed, and print the assignment plus cutsize and balance. Match the
+    browser goldens before you claim the checklist.
 - type: bullets
   title: Pitfalls
   bullets:

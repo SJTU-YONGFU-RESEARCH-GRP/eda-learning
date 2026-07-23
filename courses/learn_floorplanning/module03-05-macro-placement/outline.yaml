@@ -4,12 +4,45 @@ slides:
 - type: title
   title: Hard macro / fixed-block placement
   subtitle: Macros are hard fixed rectangles
-  notes: 'Macros are hard fixed rectangles. In macro mode, D is pinned at zero comma
+  notes: Macros are hard fixed rectangles. In macro mode, D is pinned at zero comma
     zero with macro true, size three by one. A stacks above; B, C, and E pack to the
     right—still legal.
+- type: bullets
+  title: Pseudocode
+  bullets:
+  - Macro placement locks hard blocks first
+  - Free modules pack around those obstacles; legality fails if a macro drifts
+  - Open this module's examples file and find the Pseudocode section
+  - That written sketch is what you implement on the implement track and what the
+    browser
+  notes: 'Macro placement locks hard blocks first. Free modules pack around those
+    obstacles; legality fails if a macro drifts.
 
 
-    <!-- algorithm-walkthrough -->'
+    Open this module''s examples file and find the Pseudocode section. That written
+    sketch is what you implement on the implement track and what the browser challenges
+    measure.'
+- type: bullets
+  title: Algorithm sketch
+  bullets:
+  - Free golden has movable D at zero comma two
+  - Macro teaching pack pins D at zero comma zero with macro true and the rest legal
+  notes: Free golden has movable D at zero comma two. Macro teaching pack pins D at
+    zero comma zero with macro true and the rest legal.
+- type: code
+  title: Algorithm sketch — try these
+  code: 'INPUT: macros F locked (x,y), free modules
+
+    OUTPUT: legal pack; macros never move
+
+    place each f∈F at locked pose (macro flag)
+
+    pack free modules around F obstacles
+
+    fail if any macro drifts
+
+    GOLDEN free: D@(0,2); macro: D@(0,0)'
+  notes: ''
 - type: image
   title: Free golden has movable D
   image: assets/steps/01-free.png
@@ -38,11 +71,8 @@ slides:
   title: Macros first, then cells
   image: assets/steps/05-takeaway.png
   caption: Macros first, then cells
-  notes: 'Industrial flows often place large macros before standard cells. Treat fixed
+  notes: Industrial flows often place large macros before standard cells. Treat fixed
     rectangles as hard constraints, then optimize the rest.
-
-
-    <!-- /algorithm-walkthrough -->'
 - type: bullets
   title: Browser lab track
   bullets:

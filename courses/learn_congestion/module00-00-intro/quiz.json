@@ -1,0 +1,38 @@
+[
+  {
+    "id": "intro-q1",
+    "type": "mcq",
+    "prompt": "Congestion estimation typically sits\u2026",
+    "choices": [
+      "After place/legalize, before or with global routing",
+      "Before synthesis",
+      "Only inside SPICE",
+      "Instead of STA"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "intro-q2",
+    "type": "mcq",
+    "prompt": "Track B in this course means\u2026",
+    "choices": [
+      "Browser lab challenges on the platform",
+      "Vendor GUI certification",
+      "Only PDF reading",
+      "FPGA bitstream gen"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "intro-q3",
+    "type": "mcq",
+    "prompt": "A GCell is\u2026",
+    "choices": [
+      "A coarse routing tile on the chip grid",
+      "A Liberty cell arc",
+      "A scan flop",
+      "A PDK layer stack"
+    ],
+    "answer": 0
+  }
+]

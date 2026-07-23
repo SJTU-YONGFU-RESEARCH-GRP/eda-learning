@@ -1,57 +1,8 @@
-title: Welcome to placement for EDA
-footer: learn_placement — 00 intro
+title: "Welcome to placement for EDA"
+footer: "learn_placement — Welcome"
 slides:
-- type: title
-  title: Welcome to placement for EDA
-  subtitle: 'Physical design asks: where does each cell go so wires stay short and
-    density stays legal?'
-  notes: 'Physical design asks: where does each cell go so wires stay short and density
-    stays legal? That is placement. This course teaches global placement algorithms
-    as full implementations on a tiny six-cell instance—so you build literacy for
-    legalization, congestion, and routing later.'
-- type: bullets
-  title: What you’ll build
-  bullets:
-  - Simulated-annealing place
-  - Density bins and spreading teach legality proxies
-  - Timing-driven place weights critical nets
-  - One algorithm per lab
-  - Full implementations at course scale
-  notes: You’ll start with half-perimeter wirelength and net models, then force-directed,
-    quadratic, analytical, and simulated-annealing place. Density bins and spreading
-    teach legality proxies. Timing-driven place weights critical nets. One algorithm
-    per lab. Full implementations at course scale—not production throughput, but complete
-    and correct on the scoped instance.
-- type: bullets
-  title: Stable module ids
-  bullets:
-  - Module folders use hierarchical ids
-  - That way we can add algorithms later without renumbering everything
-  - Odd slots leave room for inserts
-  - Treat published ids as stable keys; display order lives in the module index
-  notes: 'Module folders use hierarchical ids: section, then algorithm slot—like module
-    two dash zero one for force-directed place. That way we can add algorithms later
-    without renumbering everything. Odd slots leave room for inserts. Treat published
-    ids as stable keys; display order lives in the module index.'
-- type: bullets
-  title: Two tracks
-  bullets:
-  - Every lab module offers two practice tracks
-  - 'Track A is implement: code the algorithm, run the tiny placement, report metrics'
-  - Track B is the browser lab shelf for visual intuition
-  - A good rhythm is browser first for the idea, then implement to harden it
-  - Intro and wrap modules have no lab
-  notes: 'Every lab module offers two practice tracks. Track A is implement: code
-    the algorithm, run the tiny placement, report metrics. Track B is the browser
-    lab shelf for visual intuition. A good rhythm is browser first for the idea, then
-    implement to harden it. Intro and wrap modules have no lab.'
-- type: bullets
-  title: How to move
-  bullets:
-  - For each module
-  - Keep HPWL as your habit
-  - When this intro checklist is done
-  notes: For each module, read the README for outcomes, pick a track—or both—then
-    work the checklist. Keep HPWL as your habit. When this intro checklist is done,
-    continue to half-perimeter wirelength—the shared language every later algorithm
-    will use.
+  - type: title
+    title: "Welcome to placement for EDA"
+    subtitle: "module00-00-intro · learn_placement"
+    notes: |
+      Stub — replace via transcript_to_outline.py after revising transcript.md.

@@ -4,12 +4,48 @@ slides:
 - type: title
   title: Fixed-outline constraints
   subtitle: Floorplanning on this course uses a fixed outline ten by eight
-  notes: 'Floorplanning on this course uses a fixed outline ten by eight. Modules
-    A through E must pack inside—no growing the chip. In this lab you’ll reject illegal
+  notes: Floorplanning on this course uses a fixed outline ten by eight. Modules A
+    through E must pack inside—no growing the chip. In this lab you’ll reject illegal
     packings before you ever talk about density.
+- type: bullets
+  title: Pseudocode
+  bullets:
+  - Fixed-outline legality is two loops in pseudocode
+  - Open this module's examples file and find the Pseudocode section
+  - That written sketch is what you implement on the implement track and what the
+    browser
+  notes: 'Fixed-outline legality is two loops in pseudocode: each module must sit
+    inside the outline, and every pair must not have positive-area overlap.
 
 
-    <!-- algorithm-walkthrough -->'
+    Open this module''s examples file and find the Pseudocode section. That written
+    sketch is what you implement on the implement track and what the browser challenges
+    measure.'
+- type: bullets
+  title: Algorithm sketch
+  bullets:
+  - Outline is ten by eight
+  - Golden packing of A through E is legal
+  - Bad seed with E at x nine overflows
+  - Overlap of C and E is the other failure mode
+  notes: Outline is ten by eight. Golden packing of A through E is legal. Bad seed
+    with E at x nine overflows. Overlap of C and E is the other failure mode.
+- type: code
+  title: Algorithm sketch — try these
+  code: 'INPUT: outline W×H, modules (x,y,w,h)
+
+    OUTPUT: legal? / failure reason
+
+    for each m: fail if outside [0,W]×[0,H]
+
+    for each pair: fail if interior overlap
+
+    edge-touch OK; positive-area overlap not
+
+    GOLDEN pack legal; E@x=9 overflow illegal
+
+    outline 10×8 (area 80); modules A–E'
+  notes: ''
 - type: image
   title: Fixed outline is 10×8
   image: assets/steps/01-outline.png
@@ -38,11 +74,8 @@ slides:
   title: Legality is the gate
   image: assets/steps/05-takeaway.png
   caption: Legality is the gate
-  notes: 'Never optimize density or wirelength on an illegal packing. Fix containment
+  notes: Never optimize density or wirelength on an illegal packing. Fix containment
     and overlap first—then the metrics in the next lab mean something.
-
-
-    <!-- /algorithm-walkthrough -->'
 - type: bullets
   title: Browser lab track
   bullets:

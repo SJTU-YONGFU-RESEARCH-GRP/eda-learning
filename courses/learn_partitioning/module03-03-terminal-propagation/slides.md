@@ -14,7 +14,34 @@ Pads and fixed I/O pin nodes to sides before free cells move
 - Fixed terminals never flip
 - Their neighbors inherit a pull toward the terminal’s part
 - Ignoring terminals produces pretty cuts that violate the floorplan interface
-- <!-- algorithm-walkthrough -->
+
+---
+
+## Pseudocode
+- Terminal propagation adds locked nodes to the bipartition sketch
+- Fixed terminals keep their sides and act as immovable anchors while free cells move
+- Open this module's examples file and find the Pseudocode section
+- That written sketch is what you implement on the implement track and what the browser
+
+---
+
+## Algorithm sketch
+- After locks are placed, run the same refiner on free cells only
+- Cutsize still counts every edge, including those that touch terminals
+
+---
+
+## Algorithm sketch — try these
+
+```
+INPUT: G, fixed terminals T with side
+OUTPUT: side for free cells
+lock every t∈T at its side
+partition free nodes (KL/FM/spectral)
+treat T as immovable during moves
+report cutsize with terminals included
+GOLDEN: fixed terminals steer free cells
+```
 
 ---
 
@@ -51,7 +78,7 @@ Pads and fixed I/O pin nodes to sides before free cells move
 ---
 
 ## Implement track
-- In the implement track, open this module’s examples and the course `common/` solvers
+- In the implement track
 - Parse the tiny graph, run the algorithm with a deterministic seed
 - Match the browser goldens before you claim the checklist
 

@@ -10,6 +10,33 @@ Macros are hard fixed rectangles
 
 ---
 
+## Pseudocode
+- Macro placement locks hard blocks first
+- Free modules pack around those obstacles; legality fails if a macro drifts
+- Open this module's examples file and find the Pseudocode section
+- That written sketch is what you implement on the implement track and what the browser
+
+---
+
+## Algorithm sketch
+- Free golden has movable D at zero comma two
+- Macro teaching pack pins D at zero comma zero with macro true and the rest legal
+
+---
+
+## Algorithm sketch — try these
+
+```
+INPUT: macros F locked (x,y), free modules
+OUTPUT: legal pack; macros never move
+place each f∈F at locked pose (macro flag)
+pack free modules around F obstacles
+fail if any macro drifts
+GOLDEN free: D@(0,2); macro: D@(0,0)
+```
+
+---
+
 ## Free golden has movable D
 ![Free golden has movable D](assets/steps/01-free.png)
 

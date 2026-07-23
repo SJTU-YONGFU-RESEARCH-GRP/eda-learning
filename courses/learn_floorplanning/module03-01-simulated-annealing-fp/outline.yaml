@@ -4,12 +4,49 @@ slides:
 - type: title
   title: Simulated annealing floorplan search
   subtitle: Toy cost adds one thousand when a packing is illegal
-  notes: 'Toy cost adds one thousand when a packing is illegal. The bad overflow seed
+  notes: Toy cost adds one thousand when a packing is illegal. The bad overflow seed
     sits near one thousand forty-four; the golden legal packing scores about thirty-six.
     Annealing should move toward legal, lower cost.
+- type: bullets
+  title: Pseudocode
+  bullets:
+  - Floorplan annealing uses a cost that heavily penalizes illegality
+  - Pseudocode proposes neighbors, accepts by Metropolis, and keeps the best legal
+    iterate
+  - Open this module's examples file and find the Pseudocode section
+  - That written sketch is what you implement on the implement track and what the
+    browser
+  notes: 'Floorplan annealing uses a cost that heavily penalizes illegality. Pseudocode
+    proposes neighbors, accepts by Metropolis, and keeps the best legal iterate.
 
 
-    <!-- algorithm-walkthrough -->'
+    Open this module''s examples file and find the Pseudocode section. That written
+    sketch is what you implement on the implement track and what the browser challenges
+    measure.'
+- type: bullets
+  title: Algorithm sketch
+  bullets:
+  - Bad overflow seed costs about one thousand forty-four
+  - Golden legal packing is about thirty-six
+  - One teaching improve step replaces bad with golden
+  notes: Bad overflow seed costs about one thousand forty-four. Golden legal packing
+    is about thirty-six. One teaching improve step replaces bad with golden.
+- type: code
+  title: Algorithm sketch — try these
+  code: 'INPUT: pack / representation, T schedule
+
+    OUTPUT: best legal low-cost pack
+
+    cost ← 1000·¬legal + deadspace + α·HPWL
+
+    propose neighbor (swap/move/perturb)
+
+    accept if Δ<0 or rand < e^(−Δ/T)
+
+    keep best; cool T
+
+    GOLDEN legal cost≈36; bad≈1044'
+  notes: ''
 - type: image
   title: Illegal packs pay 1000
   image: assets/steps/01-bad-cost.png
@@ -39,11 +76,8 @@ slides:
   title: SA needs a representation
   image: assets/steps/05-takeaway.png
   caption: SA needs a representation
-  notes: 'Annealing is only as good as the move set. Pair it with polish, B-star,
-    or sequence-pair edits—plus soft sizing and macros—in the labs that follow.
-
-
-    <!-- /algorithm-walkthrough -->'
+  notes: Annealing is only as good as the move set. Pair it with polish, B-star, or
+    sequence-pair edits—plus soft sizing and macros—in the labs that follow.
 - type: bullets
   title: Browser lab track
   bullets:

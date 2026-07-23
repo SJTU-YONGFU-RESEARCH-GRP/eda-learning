@@ -1,34 +1,25 @@
-# Examples — Density bins
+# Examples — Density bins and overflow
 
-Track A (implement). Use `examples/tiny_place.json` and `../../common/solvers.py`.
+Track A (implement). Use the tiny 6-cell placement first.
 
 ## Algorithm
 
-**bin counts + overflow vs capacity**
-
-## Pseudocode
-
-```text
-INPUT: positions, grid Gx×Gy, capacity C
-OUTPUT: overflow, per-bin counts
-assign each cell to a bin by (x,y)
-overflow ← Σ max(0, count[b]−C)
-report HPWL with overflow
-GOLDEN 2×2 C=1: starter&golden overflow=2
-C=2 on golden → overflow=1
-```
+**density bins and overflow**
 
 ## Starter prompts
 
-1. Implement the pseudocode above (or call the matching `common/` helper).
-2. Print the metrics named in the GOLDEN line; match browser / Track A tests.
-3. Change one knob and report what moved.
+1. Restate the algorithm in five bullets (inputs → loop → stop → output).
+2. Run it on `examples/tiny_place.json` (same instance as the browser starter).
+3. Compute total HPWL after the run (and density overflow when relevant).
+4. Change one parameter (seed, iters, pad fix, capacity) and report what moved.
+5. Name one failure mode (overlap collapse, ignored pads, metric mismatch, …).
 
 ## Expected artifacts
 
-- Outputs listed in the pseudocode OUTPUT line
-- Note tying the run to the pseudocode phases
+- Cell coordinates (or assignment) after the run
+- HPWL before and after (plus density / overflow when used)
+- Short note: why this algorithm belongs on the placement shelf
 
 ## Stretch
 
-Scale the instance slightly; keep the same metrics API.
+Scale to ~100 cells; keep the same API as the tiny case.

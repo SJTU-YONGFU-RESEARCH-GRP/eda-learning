@@ -7,10 +7,46 @@ slides:
     right child sits above on a contour'
   notes: 'B-star stores packing adjacency: left child sits right-of the parent; right
     child sits above on a contour. Root A at the origin; left chain B then C then
-    E; right child D above A.
+    E; right child D above A.'
+- type: bullets
+  title: Pseudocode
+  bullets:
+  - B-star packing walks the tree with a contour
+  - Left child sits to the right of the parent
+  - Open this module's examples file and find the Pseudocode section
+  - That written sketch is what you implement on the implement track and what the
+    browser
+  notes: 'B-star packing walks the tree with a contour. Left child sits to the right
+    of the parent; right child sits above using the contour height.
 
 
-    <!-- algorithm-walkthrough -->'
+    Open this module''s examples file and find the Pseudocode section. That written
+    sketch is what you implement on the implement track and what the browser challenges
+    measure.'
+- type: bullets
+  title: Algorithm sketch
+  bullets:
+  - Golden tree roots A at the origin
+  - B’s x equals A’s right edge; D’s y is at least A’s height
+  - The packing must stay legal in the outline
+  notes: Golden tree roots A at the origin. B’s x equals A’s right edge; D’s y is
+    at least A’s height. The packing must stay legal in the outline.
+- type: code
+  title: Algorithm sketch — try these
+  code: 'INPUT: binary tree (left=right-of, right=above)
+
+    OUTPUT: packed (x,y) via contour
+
+    root at (0,0)
+
+    left child: x ← parent.x + parent.w
+
+    right child: y ← above parent (contour)
+
+    update horizontal contour after each place
+
+    GOLDEN: A@0,0; B.x=A.x+A.w; D.y≥A.h; legal'
+  notes: ''
 - type: image
   title: Root A at the origin
   image: assets/steps/01-root.png
@@ -40,12 +76,9 @@ slides:
   title: B* is compact and mutable
   image: assets/steps/05-takeaway.png
   caption: B* is compact and mutable
-  notes: 'B-star stores adjacency for packing, not connectivity. Get left and right
+  notes: B-star stores adjacency for packing, not connectivity. Get left and right
     semantics right, keep the contour correct, and you have a fast neighbor generator
     for search.
-
-
-    <!-- /algorithm-walkthrough -->'
 - type: bullets
   title: Browser lab track
   bullets:

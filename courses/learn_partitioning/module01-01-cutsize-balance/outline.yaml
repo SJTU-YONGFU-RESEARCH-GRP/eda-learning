@@ -16,13 +16,49 @@ slides:
     cut
   - Balance ratio is the smaller part size over the larger
   - Never celebrate a zero cut that parks every node on one side
-  - <!-- algorithm-walkthrough -->
-  notes: 'For every edge, if the endpoints sit in different parts, add its weight
-    to the cut. Balance ratio is the smaller part size over the larger. Never celebrate
+  notes: For every edge, if the endpoints sit in different parts, add its weight to
+    the cut. Balance ratio is the smaller part size over the larger. Never celebrate
     a zero cut that parks every node on one side—that is not a usable partition.
+- type: bullets
+  title: Pseudocode
+  bullets:
+  - Before any refinement, write the metrics
+  - Pseudocode sums cut edges for cutsize and part sizes for balance
+  - Imbalance is the absolute size gap over total size
+  - Open this module's examples file and find the Pseudocode section
+  - That written sketch is what you implement on the implement track and what the
+    browser
+  notes: 'Before any refinement, write the metrics. Pseudocode sums cut edges for
+    cutsize and part sizes for balance. Imbalance is the absolute size gap over total
+    size.
 
 
-    <!-- algorithm-walkthrough -->'
+    Open this module''s examples file and find the Pseudocode section. That written
+    sketch is what you implement on the implement track and what the browser challenges
+    measure.'
+- type: bullets
+  title: Algorithm sketch
+  bullets:
+  - Bad seed AE versus BCD cuts both heavy edges for cutsize twelve
+  - Golden ABC versus DE drops the cut to three with sizes three and two
+  notes: Bad seed AE versus BCD cuts both heavy edges for cutsize twelve. Golden ABC
+    versus DE drops the cut to three with sizes three and two.
+- type: code
+  title: Algorithm sketch — try these
+  code: 'INPUT: assignment side[v], weighted edges
+
+    OUTPUT: cutsize, sizes, imbalance
+
+    cut ← Σ w(u,v) where side[u]≠side[v]
+
+    size[p] ← Σ node_size on side p
+
+    imbalance ← |s0−s1| / (s0+s1)
+
+    GOLDEN bad AE|BCD: cut=12, sizes 2|3
+
+    GOLDEN ABC|DE: cut=3, sizes 3|2'
+  notes: ''
 - type: image
   title: Same graph, two bipartitions
   image: assets/steps/01-graph.png
@@ -51,11 +87,8 @@ slides:
   title: Cutsize + balance literacy
   image: assets/steps/05-takeaway.png
   caption: Cutsize + balance literacy
-  notes: 'Two partitions can share the same balance but differ wildly in cut. EDA
-    flows optimize cut under balance constraints — never balance alone.
-
-
-    <!-- /algorithm-walkthrough -->'
+  notes: Two partitions can share the same balance but differ wildly in cut. EDA flows
+    optimize cut under balance constraints — never balance alone.
 - type: bullets
   title: Browser lab track
   bullets:
@@ -69,13 +102,13 @@ slides:
 - type: bullets
   title: Implement track
   bullets:
-  - In the implement track, open this module’s examples and the course `common/` solvers
+  - In the implement track
   - Parse the tiny graph, run the algorithm with a deterministic seed
   - Match the browser goldens before you claim the checklist
-  notes: In the implement track, open this module’s examples and the course `common/`
-    solvers. Parse the tiny graph, run the algorithm with a deterministic seed, and
-    print the assignment plus cutsize and balance. Match the browser goldens before
-    you claim the checklist.
+  notes: In the implement track, open this module's EXAMPLES.md Pseudocode section
+    and the course common solvers. Parse the tiny graph, run the algorithm with a
+    deterministic seed, and print the assignment plus cutsize and balance. Match the
+    browser goldens before you claim the checklist.
 - type: bullets
   title: Pitfalls
   bullets:

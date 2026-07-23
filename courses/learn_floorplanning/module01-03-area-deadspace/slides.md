@@ -10,6 +10,35 @@ With a legal packing in hand, score the whitespace
 
 ---
 
+## Pseudocode
+- Deadspace pseudocode is arithmetic after legality
+- Sum module areas, subtract from outline area, and divide for density
+- Open this module's examples file and find the Pseudocode section
+- That written sketch is what you implement on the implement track and what the browser
+
+---
+
+## Algorithm sketch
+- On the golden packing area is twenty-three
+- Do not celebrate density on illegal packs
+
+---
+
+## Algorithm sketch — try these
+
+```
+INPUT: outline W×H, modules areas
+OUTPUT: area_sum, deadspace, density
+area_sum ← Σ w[m]·h[m]
+deadspace ← W·H − area_sum
+density ← area_sum / (W·H)
+only report density on legal packs
+GOLDEN: area=23; outline=80; dead=57
+density=0.2875
+```
+
+---
+
 ## Module areas sum to 23
 ![Module areas sum to 23](assets/steps/01-areas.png)
 

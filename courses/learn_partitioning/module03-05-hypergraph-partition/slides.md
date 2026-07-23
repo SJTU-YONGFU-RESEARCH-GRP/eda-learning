@@ -14,7 +14,33 @@ Netlists are hypergraphs: one net can touch many cells
 - Optimize hyperedge cut, not only pairwise edge cut
 - Multi-pin nets dominate affinity in real designs
 - Use clique expansion only for drawing or as a heuristic substrate
-- <!-- algorithm-walkthrough -->
+
+---
+
+## Pseudocode
+- Hypergraph cut counts a net once if it spans more than one part
+- Pseudocode is a span check per hyperedge
+- Open this module's examples file and find the Pseudocode section
+- That written sketch is what you implement on the implement track and what the browser
+
+---
+
+## Algorithm sketch
+- On the starter hypergraph, golden ABC versus DE leaves a single cut net
+- Expanding to a clique can tell a different numeric story, report which model you used
+
+---
+
+## Algorithm sketch — try these
+
+```
+INPUT: hyperedges e={pins…}, side[]
+OUTPUT: hyperedge_cut
+cut ← count edges with |{side[p]:p∈e}| > 1
+(optional) expand to pairwise clique for KL/FM
+GOLDEN ABC|DE: one cut net on starter H
+pairwise clique expansion can differ
+```
 
 ---
 
@@ -51,7 +77,7 @@ Netlists are hypergraphs: one net can touch many cells
 ---
 
 ## Implement track
-- In the implement track, open this module’s examples and the course `common/` solvers
+- In the implement track
 - Parse the tiny graph, run the algorithm with a deterministic seed
 - Match the browser goldens before you claim the checklist
 

@@ -10,6 +10,35 @@ Toy cost adds one thousand when a packing is illegal
 
 ---
 
+## Pseudocode
+- Floorplan annealing uses a cost that heavily penalizes illegality
+- Pseudocode proposes neighbors, accepts by Metropolis, and keeps the best legal iterate
+- Open this module's examples file and find the Pseudocode section
+- That written sketch is what you implement on the implement track and what the browser
+
+---
+
+## Algorithm sketch
+- Bad overflow seed costs about one thousand forty-four
+- Golden legal packing is about thirty-six
+- One teaching improve step replaces bad with golden
+
+---
+
+## Algorithm sketch — try these
+
+```
+INPUT: pack / representation, T schedule
+OUTPUT: best legal low-cost pack
+cost ← 1000·¬legal + deadspace + α·HPWL
+propose neighbor (swap/move/perturb)
+accept if Δ<0 or rand < e^(−Δ/T)
+keep best; cool T
+GOLDEN legal cost≈36; bad≈1044
+```
+
+---
+
 ## Illegal packs pay 1000
 ![Illegal packs pay 1000](assets/steps/01-bad-cost.png)
 

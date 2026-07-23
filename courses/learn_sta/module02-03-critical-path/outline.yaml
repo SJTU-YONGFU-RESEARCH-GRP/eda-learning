@@ -15,13 +15,38 @@ slides:
   - Always match A(u)+d to A(v)
   - Keep these numbers handy, the browser challenges and Track A tests use the same
     instance
-  - <!-- algorithm-walkthrough -->
-  notes: 'Critical path has six pins. Path delay equals A(out)=3.2. Always match A(u)+d
+  notes: Critical path has six pins. Path delay equals A(out)=3.2. Always match A(u)+d
     to A(v). Keep these numbers handy—the browser challenges and Track A tests use
     the same instance.
+- type: bullets
+  title: Pseudocode
+  bullets:
+  - Critical path pseudocode walks backward from the sink
+  - Breaking ties toward larger arrival
+  - Open this module's examples file and find the Pseudocode section
+  - That written sketch is what you implement on the implement track and what the
+    browser
+  notes: 'Critical path pseudocode walks backward from the sink. At each pin pick
+    a predecessor arc whose arrival plus delay exactly rebuilds the pin’s arrival,
+    breaking ties toward larger arrival.
 
 
-    <!-- algorithm-walkthrough -->'
+    Open this module''s examples file and find the Pseudocode section. That written
+    sketch is what you implement on the implement track and what the browser challenges
+    measure.'
+- type: bullets
+  title: Algorithm sketch
+  bullets:
+  - The golden path is six pins from in through both cells to out
+  - Path delay must equal arrival at out, three point two on this instance
+  notes: The golden path is six pins from in through both cells to out. Path delay
+    must equal arrival at out—three point two on this instance.
+- type: code
+  title: Algorithm sketch — try these
+  code: "INPUT: G, A[], sink\nOUTPUT: pin path (source→…→sink)\npath←[sink]; cur←sink\n\
+    while cur has preds:\n  pick u→cur with A[u]+delay == A[cur]\n  (tie-break: largest\
+    \ A[u])\n  prepend u; cur←u\nreturn path\nGOLDEN: in→u1/A→u1/Y→u2/A→u2/Y→out"
+  notes: ''
 - type: image
   title: Start from the worst endpoint
   image: assets/steps/01-worst-sink.png
@@ -50,11 +75,8 @@ slides:
   title: Slack and path travel together
   image: assets/steps/05-slack-path.png
   caption: Slack and path travel together
-  notes: 'Reports pair worst slack with its path. Next labs edit delays and exceptions—always
+  notes: Reports pair worst slack with its path. Next labs edit delays and exceptions—always
     re-trace after the tags change.
-
-
-    <!-- /algorithm-walkthrough -->'
 - type: bullets
   title: Browser lab track
   bullets:

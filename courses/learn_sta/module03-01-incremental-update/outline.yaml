@@ -15,13 +15,40 @@ slides:
   - ΔA(out)=+0.8
   - Keep these numbers handy, the browser challenges and Track A tests use the same
     instance
-  - <!-- algorithm-walkthrough -->
   notes: 'Invalidated cone: u1/Y, u2/A, u2/Y, out. Clean: in, u1/A. ΔA(out)=+0.8.
     Keep these numbers handy—the browser challenges and Track A tests use the same
-    instance.
+    instance.'
+- type: bullets
+  title: Pseudocode
+  bullets:
+  - Incremental STA is cone invalidation plus selective recompute
+  - After an arc delay edit
+  - Open this module's examples file and find the Pseudocode section
+  - That written sketch is what you implement on the implement track and what the
+    browser
+  notes: 'Incremental STA is cone invalidation plus selective recompute. After an
+    arc delay edit, BFS the fanout from the arc’s sink, clear those arrivals, then
+    refill in topo order.
 
 
-    <!-- algorithm-walkthrough -->'
+    Open this module''s examples file and find the Pseudocode section. That written
+    sketch is what you implement on the implement track and what the browser challenges
+    measure.'
+- type: bullets
+  title: Algorithm sketch
+  bullets:
+  - Bump the u1 cell delay from one point two to two
+  - The golden cone is u1/Y, u2/A, u2/Y, and out
+  - Arrival at out becomes four and setup slack six
+  notes: Bump the u1 cell delay from one point two to two. The golden cone is u1/Y,
+    u2/A, u2/Y, and out. Arrival at out becomes four and setup slack six.
+- type: code
+  title: Algorithm sketch — try these
+  code: "INPUT: G, edit u→v delay:=d', A_old\nOUTPUT: A_new, invalidated cone\nset\
+    \ delay(u,v)←d'\ninv ← BFS successors from v (incl. v)\ndelete A[p] for p in inv\n\
+    recompute A in topo order for missing pins\nGOLDEN edit 1.2→2.0 on u1 cell:\n\
+    \  inv={u1/Y,u2/A,u2/Y,out}; A[out]=4.0"
+  notes: ''
 - type: image
   title: Start from a full analysis
   image: assets/steps/01-base-tags.png
@@ -50,11 +77,8 @@ slides:
   title: Why timers insist on incremental
   image: assets/steps/05-why-incremental.png
   caption: Why timers insist on incremental
-  notes: 'Place, CTS, and ECO change tiny regions millions of times. Full-chip rebuilds
+  notes: Place, CTS, and ECO change tiny regions millions of times. Full-chip rebuilds
     every edit would not finish. Cone invalidate-and-repair is the habit.
-
-
-    <!-- /algorithm-walkthrough -->'
 - type: bullets
   title: Browser lab track
   bullets:

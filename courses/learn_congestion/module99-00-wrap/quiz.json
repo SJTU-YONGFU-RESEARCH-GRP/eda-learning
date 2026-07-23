@@ -1,0 +1,38 @@
+[
+  {
+    "id": "wrap-q1",
+    "type": "mcq",
+    "prompt": "RUDY estimates demand by\u2026",
+    "choices": [
+      "Spreading net HPWL density over GCells under the bbox",
+      "Running A* on every net",
+      "Legalizing to sites",
+      "Building BDDs"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "wrap-q2",
+    "type": "mcq",
+    "prompt": "A natural next course after congestion is\u2026",
+    "choices": [
+      "learn_global_routing or learn_clock_tree",
+      "learn_unix only",
+      "learn_spice first always",
+      "Skip to ML-EDA"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "wrap-q3",
+    "type": "mcq",
+    "prompt": "Cell inflation responds to congestion by\u2026",
+    "choices": [
+      "Scaling widths in hot GCells for the next place pass",
+      "Deleting nets",
+      "Changing the PDK",
+      "Disabling RUDY"
+    ],
+    "answer": 0
+  }
+]

@@ -10,6 +10,30 @@ Hierarchy packs cluster AB on the left and cluster CDE on the right with x offse
 
 ---
 
+## Pseudocode
+- Hierarchical floorplan packs inside clusters first
+- Open this module's examples file and find the Pseudocode section
+- That written sketch is what you implement on the implement track and what the browser
+
+---
+
+## Algorithm sketch
+- Teaching golden places cluster A B on the left and C D E on the right starting at x equals
+
+---
+
+## Algorithm sketch — try these
+
+```
+INPUT: clusters of modules
+OUTPUT: top-level pack of cluster bboxes
+pack each cluster internally (slice/B*/SA)
+pack cluster bboxes in outline
+GOLDEN teaching: AB left; CDE right @x=5
+```
+
+---
+
 ## Two clusters: AB and CDE
 ![Two clusters: AB and CDE](assets/steps/01-clusters.png)
 

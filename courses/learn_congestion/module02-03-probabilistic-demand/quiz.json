@@ -1,0 +1,38 @@
+[
+  {
+    "id": "probabilistic-demand-q1",
+    "type": "mcq",
+    "prompt": "This lab\u2019s primary algorithm is best described as\u2026",
+    "choices": [
+      "probabilistic L-shape routing demand",
+      "Detailed maze routing with rip-up",
+      "Abacus row packing",
+      "Liberty timing arcs"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "probabilistic-demand-q2",
+    "type": "mcq",
+    "prompt": "Our toy chip GCell grid is\u2026",
+    "choices": [
+      "4\u00d72 over 12\u00d78",
+      "2\u00d72 over 8\u00d78",
+      "3 rows of sites",
+      "16\u00d716 GCells"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "probabilistic-demand-q3",
+    "type": "mcq",
+    "prompt": "Overflow on a GCell is\u2026",
+    "choices": [
+      "max(0, demand \u2212 capacity)",
+      "demand \u00d7 capacity",
+      "HPWL only",
+      "Always zero after legalization"
+    ],
+    "answer": 0
+  }
+]

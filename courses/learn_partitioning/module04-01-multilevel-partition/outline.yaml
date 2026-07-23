@@ -15,13 +15,46 @@ slides:
   - The coarse partition is cheap
   - Projection gives a feasible fine assignment that FM or KL can polish
   - A bug in coarsening poisons every finer level
-  - <!-- algorithm-walkthrough -->
-  notes: 'Coarsening shrinks the search space. The coarse partition is cheap. Projection
+  notes: Coarsening shrinks the search space. The coarse partition is cheap. Projection
     gives a feasible fine assignment that FM or KL can polish. A bug in coarsening
     poisons every finer level—debug the hierarchy before tuning refine passes.
+- type: bullets
+  title: Pseudocode
+  bullets:
+  - Multilevel is a V-cycle in pseudocode
+  - Open this module's examples file and find the Pseudocode section
+  - That written sketch is what you implement on the implement track and what the
+    browser
+  notes: 'Multilevel is a V-cycle in pseudocode: coarsen, partition the tiny graph,
+    project labels upward, and refine at each level.
 
 
-    <!-- algorithm-walkthrough -->'
+    Open this module''s examples file and find the Pseudocode section. That written
+    sketch is what you implement on the implement track and what the browser challenges
+    measure.'
+- type: bullets
+  title: Algorithm sketch
+  bullets:
+  - On TINY_GRAPH the projected seed is already ABC versus DE at cut three
+  - Refine keeps that cut, multilevel beats polishing the cut-twelve bad seed alone
+  notes: On TINY_GRAPH the projected seed is already ABC versus DE at cut three. Refine
+    keeps that cut—multilevel beats polishing the cut-twelve bad seed alone.
+- type: code
+  title: Algorithm sketch — try these
+  code: 'INPUT: G, coarsen until tiny
+
+    OUTPUT: fine side[]
+
+    coarsen: match/cluster heavy edges
+
+    partition coarse (spectral/KL/FM)
+
+    project labels to finer level
+
+    refine with FM/KL at each uncoarsen
+
+    GOLDEN project ABC|DE cut=3; refine keeps 3'
+  notes: ''
 - type: image
   title: Coarsen with greedy merge
   image: assets/steps/01-coarsen.png
@@ -50,11 +83,8 @@ slides:
   title: Multilevel V-cycle mindset
   image: assets/steps/05-takeaway.png
   caption: Multilevel V-cycle mindset
-  notes: 'Coarsen for global structure, project, refine locally. Real placers nest
+  notes: Coarsen for global structure, project, refine locally. Real placers nest
     this in repeated V-cycles with hyperedges and balance — this lab is the skeleton.
-
-
-    <!-- /algorithm-walkthrough -->'
 - type: bullets
   title: Browser lab track
   bullets:
@@ -69,13 +99,13 @@ slides:
 - type: bullets
   title: Implement track
   bullets:
-  - In the implement track, open this module’s examples and the course `common/` solvers
+  - In the implement track
   - Parse the tiny graph, run the algorithm with a deterministic seed
   - Match the browser goldens before you claim the checklist
-  notes: In the implement track, open this module’s examples and the course `common/`
-    solvers. Parse the tiny graph, run the algorithm with a deterministic seed, and
-    print the assignment plus cutsize and balance. Match the browser goldens before
-    you claim the checklist.
+  notes: In the implement track, open this module's EXAMPLES.md Pseudocode section
+    and the course common solvers. Parse the tiny graph, run the algorithm with a
+    deterministic seed, and print the assignment plus cutsize and balance. Match the
+    browser goldens before you claim the checklist.
 - type: bullets
   title: Pitfalls
   bullets:

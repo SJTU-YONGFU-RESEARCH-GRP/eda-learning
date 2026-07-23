@@ -15,7 +15,36 @@ Slack turns tags into a pass or fail
 - Hold lite: A−0 = 3.2
 - Positive means the check passes
 - Keep these numbers handy, the browser challenges and Track A tests use the same instance
-- <!-- algorithm-walkthrough -->
+
+---
+
+## Pseudocode
+- Slack pseudocode is arithmetic on tags you already have
+- Setup slack is required minus arrival
+- Hold lite uses required hold zero at the sink and arrival minus that required
+- Open this module's examples file and find the Pseudocode section
+- That written sketch is what you implement on the implement track and what the browser
+
+---
+
+## Algorithm sketch
+- On the tiny chain with period ten
+- Shrink the period to three and setup fails first
+
+---
+
+## Algorithm sketch — try these
+
+```
+INPUT: A[], R_setup[], R_hold[] (lite)
+OUTPUT: setup_slack, hold_slack, meet?
+setup_slack(p) ← R_setup[p] − A[p]
+hold_slack(p)  ← A[p] − R_hold[p]
+R_hold[sink] ← 0 in this lite model
+meet_setup if setup_slack(sink)≥0
+meet_hold  if hold_slack(sink)≥0
+GOLDEN: setup(out)=6.8; hold(out)=3.2
+```
 
 ---
 

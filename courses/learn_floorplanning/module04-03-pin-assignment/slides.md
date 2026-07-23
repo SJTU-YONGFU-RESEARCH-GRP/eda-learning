@@ -10,6 +10,34 @@ Pins sit on outline edges
 
 ---
 
+## Pseudocode
+- Pin assignment validates boundary I/O
+- Pseudocode checks side and offset ranges and requires all four outline sides to appear
+- Open this module's examples file and find the Pseudocode section
+- That written sketch is what you implement on the implement track and what the browser
+
+---
+
+## Algorithm sketch
+- Golden pins cover left, bottom, right, and top and return valid true
+- An empty list fails validity
+
+---
+
+## Algorithm sketch — try these
+
+```
+INPUT: outline, pin list {side, offset}
+OUTPUT: pinsValid?
+each pin on left|right|top|bottom edge
+offset in range for that side
+require all four sides represented
+GOLDEN 4 pins (one/side) → valid true
+empty list → valid false
+```
+
+---
+
 ## Packing without pins
 ![Packing without pins](assets/steps/01-no-pins.png)
 

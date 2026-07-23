@@ -14,7 +14,31 @@ Spectral bipartition reads connectivity from the graph Laplacian
 - Build L equals D minus A, take the second eigenvector, sort nodes
 - Reject lopsided splits
 - The continuous membership becomes a hard bipartition only after the sweep chooses the best
-- <!-- algorithm-walkthrough -->
+
+---
+
+## Pseudocode
+- Spectral bipartition reads the Fiedler vector of the Laplacian
+- Open this module's examples file and find the Pseudocode section
+- That written sketch is what you implement on the implement track and what the browser
+
+---
+
+## Algorithm sketch
+- On the starter graph the winning split is D E versus A B C with cutsize three
+
+---
+
+## Algorithm sketch — try these
+
+```
+INPUT: weighted undirected G
+OUTPUT: side[] bipartition
+L ← Laplacian; take Fiedler eigenvector
+order ← nodes sorted by Fiedler value
+sweep balanced prefixes; pick min cutsize
+GOLDEN: DE|ABC (or ABC|DE) cut=3
+```
 
 ---
 
@@ -51,7 +75,7 @@ Spectral bipartition reads connectivity from the graph Laplacian
 ---
 
 ## Implement track
-- In the implement track, open this module’s examples and the course `common/` solvers
+- In the implement track
 - Parse the tiny graph, run the algorithm with a deterministic seed
 - Match the browser goldens before you claim the checklist
 

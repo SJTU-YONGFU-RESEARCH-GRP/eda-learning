@@ -14,13 +14,47 @@ slides:
   - Multiway objectives count every edge that leaves its part
   - Balance becomes a k-way size vector
   - Teaching point
-  - <!-- algorithm-walkthrough -->
   notes: 'Multiway objectives count every edge that leaves its part. Balance becomes
     a k-way size vector. Teaching point: recursive and direct multiway can disagree
-    on cut even when both look balanced.
+    on cut even when both look balanced.'
+- type: bullets
+  title: Pseudocode
+  bullets:
+  - Multiway compares two constructors in pseudocode
+  - Both must report the same cutsize metric
+  - Open this module's examples file and find the Pseudocode section
+  - That written sketch is what you implement on the implement track and what the
+    browser
+  notes: 'Multiway compares two constructors in pseudocode: recursive bisection to
+    k, versus a naive round-robin labeling. Both must report the same cutsize metric.
 
 
-    <!-- algorithm-walkthrough -->'
+    Open this module''s examples file and find the Pseudocode section. That written
+    sketch is what you implement on the implement track and what the browser challenges
+    measure.'
+- type: bullets
+  title: Algorithm sketch
+  bullets:
+  - Recursive k equals three lands A B, C, and D E with cut eight
+  - Alphabetical round-robin shreds heavy edges and scores about eighteen
+  notes: Recursive k equals three lands A B, C, and D E with cut eight. Alphabetical
+    round-robin shreds heavy edges and scores about eighteen.
+- type: code
+  title: Algorithm sketch — try these
+  code: 'INPUT: G, k
+
+    OUTPUT: k-way assignment + cutsize
+
+    method A: recursive_bisection(G,k)
+
+    method B: round-robin / block assign labels
+
+    cut ← Σ w where side[u]≠side[v]
+
+    GOLDEN k=3 recursive: AB|C|DE cut=8
+
+    round-robin alphabetic: cut≈18 (worse)'
+  notes: ''
 - type: image
   title: k-way vs naive assignment
   image: assets/steps/01-problem.png
@@ -50,10 +84,7 @@ slides:
   image: assets/steps/05-takeaway.png
   caption: Multiway literacy
   notes: 'Direct k-way FM exists in production tools, but recursive bisection is the
-    teaching baseline: global structure emerges from local 2-way splits.
-
-
-    <!-- /algorithm-walkthrough -->'
+    teaching baseline: global structure emerges from local 2-way splits.'
 - type: bullets
   title: Browser lab track
   bullets:
@@ -67,13 +98,13 @@ slides:
 - type: bullets
   title: Implement track
   bullets:
-  - In the implement track, open this module’s examples and the course `common/` solvers
+  - In the implement track
   - Parse the tiny graph, run the algorithm with a deterministic seed
   - Match the browser goldens before you claim the checklist
-  notes: In the implement track, open this module’s examples and the course `common/`
-    solvers. Parse the tiny graph, run the algorithm with a deterministic seed, and
-    print the assignment plus cutsize and balance. Match the browser goldens before
-    you claim the checklist.
+  notes: In the implement track, open this module's EXAMPLES.md Pseudocode section
+    and the course common solvers. Parse the tiny graph, run the algorithm with a
+    deterministic seed, and print the assignment plus cutsize and balance. Match the
+    browser goldens before you claim the checklist.
 - type: bullets
   title: Pitfalls
   bullets:

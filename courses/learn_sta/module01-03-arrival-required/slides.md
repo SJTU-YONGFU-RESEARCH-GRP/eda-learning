@@ -14,7 +14,36 @@ Once the graph is levelized, you propagate tags
 - Forward: A(in)=0, A(u1/Y)=1.2, A(out)=3.2
 - Backward setup: R(out)=10, R(in)=6.8
 - Keep these numbers handy, the browser challenges and Track A tests use the same instance
-- <!-- algorithm-walkthrough -->
+
+---
+
+## Pseudocode
+- Arrival and required need two written passes
+- Forward topo takes a max over predecessors for arrival
+- Reverse topo takes a min over successors for setup required from the period at sinks
+- Open this module's examples file and find the Pseudocode section
+- That written sketch is what you implement on the implement track and what the browser
+
+---
+
+## Algorithm sketch
+- Goldens on the chain
+- Arrival is latest; required is earliest
+
+---
+
+## Algorithm sketch — try these
+
+```
+INPUT: DAG G, period, arrival seeds
+OUTPUT: A[], R_setup[]
+for p in topo(G):
+  A[p]← max over u→p of A[u]+delay   (sources: seed/0)
+for sinks: R[p]←period×cycles
+for p in reverse_topo:
+  R[p]← min over p→v of R[v]−delay
+GOLDEN: A[out]=3.2; R[out]=10; R[in]=6.8
+```
 
 ---
 

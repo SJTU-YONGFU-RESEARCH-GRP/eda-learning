@@ -15,7 +15,36 @@ When slack is bad, or even when it is good, you still need the path
 - Path delay equals A(out)=3.2
 - Always match A(u)+d to A(v)
 - Keep these numbers handy, the browser challenges and Track A tests use the same instance
-- <!-- algorithm-walkthrough -->
+
+---
+
+## Pseudocode
+- Critical path pseudocode walks backward from the sink
+- Breaking ties toward larger arrival
+- Open this module's examples file and find the Pseudocode section
+- That written sketch is what you implement on the implement track and what the browser
+
+---
+
+## Algorithm sketch
+- The golden path is six pins from in through both cells to out
+- Path delay must equal arrival at out, three point two on this instance
+
+---
+
+## Algorithm sketch — try these
+
+```
+INPUT: G, A[], sink
+OUTPUT: pin path (source→…→sink)
+path←[sink]; cur←sink
+while cur has preds:
+  pick u→cur with A[u]+delay == A[cur]
+  (tie-break: largest A[u])
+  prepend u; cur←u
+return path
+GOLDEN: in→u1/A→u1/Y→u2/A→u2/Y→out
+```
 
 ---
 

@@ -5,12 +5,42 @@ slides:
   title: Hierarchical floorplanning
   subtitle: Hierarchy packs cluster AB on the left and cluster CDE on the right with
     x offset five
-  notes: 'Hierarchy packs cluster AB on the left and cluster CDE on the right with
+  notes: Hierarchy packs cluster AB on the left and cluster CDE on the right with
     x offset five. Local pack, then place clusters—legal overall with clusters separated
     in x.
+- type: bullets
+  title: Pseudocode
+  bullets:
+  - Hierarchical floorplan packs inside clusters first
+  - Open this module's examples file and find the Pseudocode section
+  - That written sketch is what you implement on the implement track and what the
+    browser
+  notes: 'Hierarchical floorplan packs inside clusters first, then packs the cluster
+    bounding boxes in the outline.
 
 
-    <!-- algorithm-walkthrough -->'
+    Open this module''s examples file and find the Pseudocode section. That written
+    sketch is what you implement on the implement track and what the browser challenges
+    measure.'
+- type: bullets
+  title: Algorithm sketch
+  bullets:
+  - Teaching golden places cluster A B on the left and C D E on the right starting
+    at x equals
+  notes: Teaching golden places cluster A B on the left and C D E on the right starting
+    at x equals five.
+- type: code
+  title: Algorithm sketch — try these
+  code: 'INPUT: clusters of modules
+
+    OUTPUT: top-level pack of cluster bboxes
+
+    pack each cluster internally (slice/B*/SA)
+
+    pack cluster bboxes in outline
+
+    GOLDEN teaching: AB left; CDE right @x=5'
+  notes: ''
 - type: image
   title: 'Two clusters: AB and CDE'
   image: assets/steps/01-clusters.png
@@ -39,11 +69,8 @@ slides:
   title: Hierarchy reuses the same engines
   image: assets/steps/05-takeaway.png
   caption: Hierarchy reuses the same engines
-  notes: 'Each level can use slicing, B-star, or SA. The teaching golden is simply
+  notes: Each level can use slicing, B-star, or SA. The teaching golden is simply
     AB left and CDE right at offset five.
-
-
-    <!-- /algorithm-walkthrough -->'
 - type: bullets
   title: Browser lab track
   bullets:

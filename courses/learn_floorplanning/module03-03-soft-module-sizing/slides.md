@@ -10,6 +10,33 @@ Soft module A keeps area six but may reshape between aspect one half and two
 
 ---
 
+## Pseudocode
+- Soft sizing picks width and height for A under a fixed area and aspect bounds
+- Open this module's examples file and find the Pseudocode section
+- That written sketch is what you implement on the implement track and what the browser
+
+---
+
+## Algorithm sketch
+- Hard golden keeps A at three by two
+- Soft teaching pack uses two by three
+- Area stays six; deadspace shape changes
+
+---
+
+## Algorithm sketch — try these
+
+```
+INPUT: soft A area=6, aspect∈[0.5,2]
+OUTPUT: (w,h) with w·h=area; pack rest
+choose aspect; set w,h; re-pack / legalize
+hard modules keep fixed w×h
+GOLDEN hard A 3×2 vs soft A 2×3 pack
+both area 6; whitespace shape differs
+```
+
+---
+
 ## A is soft with area 6
 ![A is soft with area 6](assets/steps/01-soft-a.png)
 

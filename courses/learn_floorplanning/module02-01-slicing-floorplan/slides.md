@@ -10,6 +10,35 @@ Slicing floorplans use through-cuts
 
 ---
 
+## Pseudocode
+- Slicing polish is a postfix stack
+- Modules push rectangles; H stacks vertically; V places side by side
+- The sketch names the operators so evaluation stays deterministic
+- Open this module's examples file and find the Pseudocode section
+- That written sketch is what you implement on the implement track and what the browser
+
+---
+
+## Algorithm sketch
+- Golden tokens A D H B V C V E V pack to a nine by three bbox inside the ten by eight
+
+---
+
+## Algorithm sketch — try these
+
+```
+INPUT: polish tokens (modules + H/V)
+OUTPUT: packing (x,y,w,h) per module
+stack-eval postfix:
+  module → push rect
+  H: pop a,b; stack vertically
+  V: pop a,b; place side by side
+GOLDEN: A D H B V C V E V
+bbox 9×3; legal in 10×8
+```
+
+---
+
 ## Polish expression encodes cuts
 ![Polish expression encodes cuts](assets/steps/01-polish.png)
 

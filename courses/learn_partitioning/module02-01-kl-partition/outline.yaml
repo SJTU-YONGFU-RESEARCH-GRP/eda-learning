@@ -15,14 +15,41 @@ slides:
   - Score each unlocked pair by swap gain
   - 'Here the winning prefix is one swap: A with D, gain nine'
   - Pass one then finds nothing and KL stops at a local optimum for swap moves
-  - <!-- algorithm-walkthrough -->
   notes: 'Score each unlocked pair by swap gain, lock pairs as you go, then keep only
     the prefix with best cumulative gain. Here the winning prefix is one swap: A with
     D, gain nine. Pass one then finds nothing and KL stops at a local optimum for
-    swap moves.
+    swap moves.'
+- type: bullets
+  title: Pseudocode
+  bullets:
+  - KL pseudocode builds a locked swap sequence each pass
+  - Pair gain uses D-values minus twice the edge between the pair
+  - Open this module's examples file and find the Pseudocode section
+  - That written sketch is what you implement on the implement track and what the
+    browser
+  notes: 'KL pseudocode builds a locked swap sequence each pass, then rolls back to
+    the best positive prefix. Pair gain uses D-values minus twice the edge between
+    the pair.
 
 
-    <!-- algorithm-walkthrough -->'
+    Open this module''s examples file and find the Pseudocode section. That written
+    sketch is what you implement on the implement track and what the browser challenges
+    measure.'
+- type: bullets
+  title: Algorithm sketch
+  bullets:
+  - From the cutsize-twelve bad seed the winning prefix is one swap, A with D
+  - The sketch lands on ABC versus DE at cut three, then the next pass stops
+  notes: From the cutsize-twelve bad seed the winning prefix is one swap, A with D.
+    The sketch lands on ABC versus DE at cut three, then the next pass stops.
+- type: code
+  title: Algorithm sketch — try these
+  code: "INPUT: bipartition side[], max_passes\nOUTPUT: refined side[]\neach pass:\
+    \ unlock all; compute D-values\nrepeat |V|/2: pick unlocked pair max swap gain\n\
+    \  lock pair; update working sides + D\nkeep prefix with best cumulative gain\
+    \ (>0)\napply prefix; stop if no improving pass\nGOLDEN BAD_SEED cut 12 → ABC|DE\
+    \ cut 3"
+  notes: ''
 - type: image
   title: 'Bad seed: cutsize 12'
   image: assets/steps/01-bad-seed.png
@@ -51,11 +78,8 @@ slides:
   title: Next pass finds nothing
   image: assets/steps/05-pass1-stop.png
   caption: Next pass finds nothing
-  notes: 'Pass 1 reports improved=false. KL stops when a full pass cannot improve
-    — local optimum for swap moves from this seed.
-
-
-    <!-- /algorithm-walkthrough -->'
+  notes: Pass 1 reports improved=false. KL stops when a full pass cannot improve —
+    local optimum for swap moves from this seed.
 - type: bullets
   title: Browser lab track
   bullets:
@@ -69,13 +93,13 @@ slides:
 - type: bullets
   title: Implement track
   bullets:
-  - In the implement track, open this module’s examples and the course `common/` solvers
+  - In the implement track
   - Parse the tiny graph, run the algorithm with a deterministic seed
   - Match the browser goldens before you claim the checklist
-  notes: In the implement track, open this module’s examples and the course `common/`
-    solvers. Parse the tiny graph, run the algorithm with a deterministic seed, and
-    print the assignment plus cutsize and balance. Match the browser goldens before
-    you claim the checklist.
+  notes: In the implement track, open this module's EXAMPLES.md Pseudocode section
+    and the course common solvers. Parse the tiny graph, run the algorithm with a
+    deterministic seed, and print the assignment plus cutsize and balance. Match the
+    browser goldens before you claim the checklist.
 - type: bullets
   title: Pitfalls
   bullets:

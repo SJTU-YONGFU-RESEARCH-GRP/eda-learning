@@ -15,7 +15,33 @@ A multilevel V-cycle coarsens the graph, partitions the tiny problem, projects t
 - The coarse partition is cheap
 - Projection gives a feasible fine assignment that FM or KL can polish
 - A bug in coarsening poisons every finer level
-- <!-- algorithm-walkthrough -->
+
+---
+
+## Pseudocode
+- Multilevel is a V-cycle in pseudocode
+- Open this module's examples file and find the Pseudocode section
+- That written sketch is what you implement on the implement track and what the browser
+
+---
+
+## Algorithm sketch
+- On TINY_GRAPH the projected seed is already ABC versus DE at cut three
+- Refine keeps that cut, multilevel beats polishing the cut-twelve bad seed alone
+
+---
+
+## Algorithm sketch — try these
+
+```
+INPUT: G, coarsen until tiny
+OUTPUT: fine side[]
+coarsen: match/cluster heavy edges
+partition coarse (spectral/KL/FM)
+project labels to finer level
+refine with FM/KL at each uncoarsen
+GOLDEN project ABC|DE cut=3; refine keeps 3
+```
 
 ---
 
@@ -52,7 +78,7 @@ A multilevel V-cycle coarsens the graph, partitions the tiny problem, projects t
 ---
 
 ## Implement track
-- In the implement track, open this module’s examples and the course `common/` solvers
+- In the implement track
 - Parse the tiny graph, run the algorithm with a deterministic seed
 - Match the browser goldens before you claim the checklist
 

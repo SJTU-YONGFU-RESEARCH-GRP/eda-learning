@@ -4,12 +4,50 @@ slides:
 - type: title
   title: Area, packing density, whitespace/deadspace
   subtitle: With a legal packing in hand, score the whitespace
-  notes: 'With a legal packing in hand, score the whitespace. Module areas sum to
-    twenty-three; the outline is eighty; deadspace is fifty-seven; density is zero
-    point two eight seven five.
+  notes: With a legal packing in hand, score the whitespace. Module areas sum to twenty-three;
+    the outline is eighty; deadspace is fifty-seven; density is zero point two eight
+    seven five.
+- type: bullets
+  title: Pseudocode
+  bullets:
+  - Deadspace pseudocode is arithmetic after legality
+  - Sum module areas, subtract from outline area, and divide for density
+  - Open this module's examples file and find the Pseudocode section
+  - That written sketch is what you implement on the implement track and what the
+    browser
+  notes: 'Deadspace pseudocode is arithmetic after legality. Sum module areas, subtract
+    from outline area, and divide for density.
 
 
-    <!-- algorithm-walkthrough -->'
+    Open this module''s examples file and find the Pseudocode section. That written
+    sketch is what you implement on the implement track and what the browser challenges
+    measure.'
+- type: bullets
+  title: Algorithm sketch
+  bullets:
+  - On the golden packing area is twenty-three
+  - Do not celebrate density on illegal packs
+  notes: On the golden packing area is twenty-three, outline eighty, deadspace fifty-seven,
+    density about zero point two eight seven five. Do not celebrate density on illegal
+    packs.
+- type: code
+  title: Algorithm sketch — try these
+  code: 'INPUT: outline W×H, modules areas
+
+    OUTPUT: area_sum, deadspace, density
+
+    area_sum ← Σ w[m]·h[m]
+
+    deadspace ← W·H − area_sum
+
+    density ← area_sum / (W·H)
+
+    only report density on legal packs
+
+    GOLDEN: area=23; outline=80; dead=57
+
+    density=0.2875'
+  notes: ''
 - type: image
   title: Module areas sum to 23
   image: assets/steps/01-areas.png
@@ -41,10 +79,7 @@ slides:
   image: assets/steps/05-takeaway.png
   caption: Report area trio every time
   notes: 'Habit: print module area, outline area, deadspace, and density with every
-    packing. Representations later change geometry; this trio stays the scoreboard.
-
-
-    <!-- /algorithm-walkthrough -->'
+    packing. Representations later change geometry; this trio stays the scoreboard.'
 - type: bullets
   title: Browser lab track
   bullets:

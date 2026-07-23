@@ -4,12 +4,38 @@ slides:
 - type: title
   title: Slicing tree / polish expression packing
   subtitle: Slicing floorplans use through-cuts
-  notes: 'Slicing floorplans use through-cuts. The golden polish A D H B V C V E V
+  notes: Slicing floorplans use through-cuts. The golden polish A D H B V C V E V
     stacks A under D, then attaches B, C, and E with vertical cuts—bounding box nine
     by three.
+- type: bullets
+  title: Pseudocode
+  bullets:
+  - Slicing polish is a postfix stack
+  - Modules push rectangles; H stacks vertically; V places side by side
+  - The sketch names the operators so evaluation stays deterministic
+  - Open this module's examples file and find the Pseudocode section
+  - That written sketch is what you implement on the implement track and what the
+    browser
+  notes: 'Slicing polish is a postfix stack. Modules push rectangles; H stacks vertically;
+    V places side by side. The sketch names the operators so evaluation stays deterministic.
 
 
-    <!-- algorithm-walkthrough -->'
+    Open this module''s examples file and find the Pseudocode section. That written
+    sketch is what you implement on the implement track and what the browser challenges
+    measure.'
+- type: bullets
+  title: Algorithm sketch
+  bullets:
+  - Golden tokens A D H B V C V E V pack to a nine by three bbox inside the ten by
+    eight
+  notes: Golden tokens A D H B V C V E V pack to a nine by three bbox inside the ten
+    by eight outline.
+- type: code
+  title: Algorithm sketch — try these
+  code: "INPUT: polish tokens (modules + H/V)\nOUTPUT: packing (x,y,w,h) per module\n\
+    stack-eval postfix:\n  module → push rect\n  H: pop a,b; stack vertically\n  V:\
+    \ pop a,b; place side by side\nGOLDEN: A D H B V C V E V\nbbox 9×3; legal in 10×8"
+  notes: ''
 - type: image
   title: Polish expression encodes cuts
   image: assets/steps/01-polish.png
@@ -38,12 +64,9 @@ slides:
   title: Slicing cannot make wheels
   image: assets/steps/05-takeaway.png
   caption: Slicing cannot make wheels
-  notes: 'Not every packing is slicing. Wheel topologies need non-slicing codes like
+  notes: Not every packing is slicing. Wheel topologies need non-slicing codes like
     B-star or sequence pair—next labs. For slicing, polish plus H/V evaluation is
     enough.
-
-
-    <!-- /algorithm-walkthrough -->'
 - type: bullets
   title: Browser lab track
   bullets:

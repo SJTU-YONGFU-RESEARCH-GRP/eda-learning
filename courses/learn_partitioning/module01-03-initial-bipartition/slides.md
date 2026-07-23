@@ -15,7 +15,35 @@ Refinement needs a legal starting cut
 - Greedy prefers keeping heavy edges internal when it can
 - Grow expands a frontier from a seed until the part hits its size budget
 - All three must report cutsize and balance so you can compare seeds fairly
-- <!-- algorithm-walkthrough -->
+
+---
+
+## Pseudocode
+- Initial bipartition is three named constructors in pseudocode
+- Open this module's examples file and find the Pseudocode section
+- That written sketch is what you implement on the implement track and what the browser
+
+---
+
+## Algorithm sketch
+- Grow from D yields DE versus ABC at cut three
+- Random seed seven recovers the bad AE versus BCD cut of twelve
+- Always print cutsize and balance before KL or FM
+
+---
+
+## Algorithm sketch — try these
+
+```
+INPUT: graph G, method ∈ {random,greedy,grow}
+OUTPUT: legal side[v] ∈ {0,1}
+random(seed): shuffle; split by half
+greedy: keep heaviest edges internal when able
+grow(seed): expand frontier until size budget
+report cutsize + balance for every seed
+GOLDEN: grow(D)→DE|ABC cut=3
+random(7)→AE|BCD cut=12
+```
 
 ---
 
@@ -52,7 +80,7 @@ Refinement needs a legal starting cut
 ---
 
 ## Implement track
-- In the implement track, open this module’s examples and the course `common/` solvers
+- In the implement track
 - Parse the tiny graph, run the algorithm with a deterministic seed
 - Match the browser goldens before you claim the checklist
 

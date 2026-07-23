@@ -15,14 +15,50 @@ slides:
   - Greedy prefers keeping heavy edges internal when it can
   - Grow expands a frontier from a seed until the part hits its size budget
   - All three must report cutsize and balance so you can compare seeds fairly
-  - <!-- algorithm-walkthrough -->
-  notes: 'Random shuffles then splits by half. Greedy prefers keeping heavy edges
-    internal when it can. Grow expands a frontier from a seed until the part hits
-    its size budget. All three must report cutsize and balance so you can compare
-    seeds fairly.
+  notes: Random shuffles then splits by half. Greedy prefers keeping heavy edges internal
+    when it can. Grow expands a frontier from a seed until the part hits its size
+    budget. All three must report cutsize and balance so you can compare seeds fairly.
+- type: bullets
+  title: Pseudocode
+  bullets:
+  - Initial bipartition is three named constructors in pseudocode
+  - Open this module's examples file and find the Pseudocode section
+  - That written sketch is what you implement on the implement track and what the
+    browser
+  notes: 'Initial bipartition is three named constructors in pseudocode: random split,
+    greedy heavy-edge keep, and grow from a seed until the size budget.
 
 
-    <!-- algorithm-walkthrough -->'
+    Open this module''s examples file and find the Pseudocode section. That written
+    sketch is what you implement on the implement track and what the browser challenges
+    measure.'
+- type: bullets
+  title: Algorithm sketch
+  bullets:
+  - Grow from D yields DE versus ABC at cut three
+  - Random seed seven recovers the bad AE versus BCD cut of twelve
+  - Always print cutsize and balance before KL or FM
+  notes: Grow from D yields DE versus ABC at cut three. Random seed seven recovers
+    the bad AE versus BCD cut of twelve. Always print cutsize and balance before KL
+    or FM.
+- type: code
+  title: Algorithm sketch — try these
+  code: 'INPUT: graph G, method ∈ {random,greedy,grow}
+
+    OUTPUT: legal side[v] ∈ {0,1}
+
+    random(seed): shuffle; split by half
+
+    greedy: keep heaviest edges internal when able
+
+    grow(seed): expand frontier until size budget
+
+    report cutsize + balance for every seed
+
+    GOLDEN: grow(D)→DE|ABC cut=3
+
+    random(7)→AE|BCD cut=12'
+  notes: ''
 - type: image
   title: Need a legal starting split
   image: assets/steps/01-empty.png
@@ -51,11 +87,8 @@ slides:
   title: Seed quality sets the ceiling
   image: assets/steps/05-takeaway.png
   caption: Seed quality sets the ceiling
-  notes: 'All three methods produce legal bipartitions, but cutsize ranges 3–13 on
+  notes: All three methods produce legal bipartitions, but cutsize ranges 3–13 on
     the same graph. Better seeds mean less work for KL/FM downstream.
-
-
-    <!-- /algorithm-walkthrough -->'
 - type: bullets
   title: Browser lab track
   bullets:
@@ -70,13 +103,13 @@ slides:
 - type: bullets
   title: Implement track
   bullets:
-  - In the implement track, open this module’s examples and the course `common/` solvers
+  - In the implement track
   - Parse the tiny graph, run the algorithm with a deterministic seed
   - Match the browser goldens before you claim the checklist
-  notes: In the implement track, open this module’s examples and the course `common/`
-    solvers. Parse the tiny graph, run the algorithm with a deterministic seed, and
-    print the assignment plus cutsize and balance. Match the browser goldens before
-    you claim the checklist.
+  notes: In the implement track, open this module's EXAMPLES.md Pseudocode section
+    and the course common solvers. Parse the tiny graph, run the algorithm with a
+    deterministic seed, and print the assignment plus cutsize and balance. Match the
+    browser goldens before you claim the checklist.
 - type: bullets
   title: Pitfalls
   bullets:

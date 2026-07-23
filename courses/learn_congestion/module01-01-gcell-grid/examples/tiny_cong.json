@@ -1,0 +1,126 @@
+{
+  "chip": {
+    "W": 12,
+    "H": 8
+  },
+  "gcell": {
+    "nx": 4,
+    "ny": 2,
+    "cellW": 3,
+    "cellH": 4
+  },
+  "capacity": 2.0,
+  "cells": [
+    {
+      "id": "A",
+      "width": 2,
+      "height": 1
+    },
+    {
+      "id": "B",
+      "width": 2,
+      "height": 1
+    },
+    {
+      "id": "C",
+      "width": 2,
+      "height": 1
+    },
+    {
+      "id": "D",
+      "width": 2,
+      "height": 1
+    },
+    {
+      "id": "E",
+      "width": 1,
+      "height": 1
+    },
+    {
+      "id": "F",
+      "width": 1,
+      "height": 1
+    }
+  ],
+  "nets": [
+    [
+      "A",
+      "B"
+    ],
+    [
+      "C",
+      "D"
+    ],
+    [
+      "A",
+      "C"
+    ],
+    [
+      "B",
+      "D"
+    ],
+    [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    [
+      "E",
+      "F"
+    ]
+  ],
+  "placement": {
+    "A": {
+      "x": 1,
+      "y": 1
+    },
+    "B": {
+      "x": 8,
+      "y": 1
+    },
+    "C": {
+      "x": 1,
+      "y": 5
+    },
+    "D": {
+      "x": 8,
+      "y": 5
+    },
+    "E": {
+      "x": 5,
+      "y": 3
+    },
+    "F": {
+      "x": 6,
+      "y": 3
+    }
+  },
+  "congested_seed": {
+    "A": {
+      "x": 4,
+      "y": 2
+    },
+    "B": {
+      "x": 5,
+      "y": 2
+    },
+    "C": {
+      "x": 4,
+      "y": 3
+    },
+    "D": {
+      "x": 5,
+      "y": 3
+    },
+    "E": {
+      "x": 4.5,
+      "y": 2.5
+    },
+    "F": {
+      "x": 5.5,
+      "y": 2.5
+    }
+  },
+  "notes": "4\u00d72 GCells over 12\u00d78 chip. placement=spread; congested_seed=center cluster."
+}

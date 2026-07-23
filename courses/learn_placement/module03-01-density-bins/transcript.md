@@ -6,81 +6,27 @@
 
 ## Slide 1 — Density bins and overflow
 
-Density bins count cells on a grid and sum overflow above capacity. On a two-by-two grid with capacity one, both starter and golden still overflow by two—compact HPWL does not automatically mean legal density. Raise capacity to two on golden and overflow drops to one.
+Placement assigns cell coordinates to cut wirelength while keeping density under control. In this module you’ll implement **density bins and overflow** end to end—not a sketch. By the end, you’ll run it on a tiny instance, report HPWL, and know what the algorithm actually does.
 
 ## Slide 2 — The idea
 
-Assign each cell to a bin by coordinates, count occupants, then overflow equals sum of max(zero, count minus capacity). Report HPWL and overflow together. A pretty wirelength with piled bins fails the density half of placement.
-
-
-## Slide 3 — Pseudocode
-
-Density bins count occupants per grid cell and sum overflow above capacity. Pseudocode always pairs that number with HPWL.
-
-Open this module's examples file and find the Pseudocode section. That written sketch is what you implement on the implement track and what the browser challenges measure.
-
-## Slide 4 — Algorithm sketch
-
-On a two-by-two grid with capacity one, both starter and golden still overflow by two. Raise capacity to two on golden and overflow drops to one.
-
-```text
-INPUT: positions, grid Gx×Gy, capacity C
-OUTPUT: overflow, per-bin counts
-assign each cell to a bin by (x,y)
-overflow ← Σ max(0, count[b]−C)
-report HPWL with overflow
-GOLDEN 2×2 C=1: starter&golden overflow=2
-C=2 on golden → overflow=1
-```
-
+density bins and overflow. You’ll take a placement instance, apply the update rule until a stop condition, and emit coordinates. Watch HPWL every time—and density overflow when the lab uses bins.
 
 <!-- algorithm-walkthrough -->
-
-## Slide 5 — Partition the die into bins
-
-![Partition the die into bins](assets/steps/01-grid-idea.png)
-
-Density bins count cells on a regular grid. Default teaching grid is two-by-two over [0,8]×[0,8]. Capacity one means each bin may hold one cell before overflow.
-
-## Slide 6 — Starter overflows by two
-
-![Starter overflows by two](assets/steps/02-starter-overflow.png)
-
-On the spread starter with capacity one, two bins hold two cells each. Overflow sums to two even though HPWL is already fifty-two.
-
-## Slide 7 — Golden also overflows at cap one
-
-![Golden also overflows at cap one](assets/steps/03-golden-still-overflow.png)
-
-Compact HPWL fourteen still piles three cells into one bin. Overflow remains two at capacity one—pretty wirelength is not automatic legality.
-
-## Slide 8 — Raise capacity to ease overflow
-
-![Raise capacity to ease overflow](assets/steps/04-raise-capacity.png)
-
-With capacity two on the golden placement, overflow drops to one. Capacity is part of the spec—quote it with the overflow number.
-
-## Slide 9 — HPWL and density travel together
-
-![HPWL and density travel together](assets/steps/05-takeaway.png)
-
-Always report wirelength and bin overflow. A placement that wins HPWL while stacking bins fails the density half of the story.
-
 <!-- /algorithm-walkthrough -->
 
+## Slide 3 — Browser lab track
 
-## Slide 10 — Browser lab track
+In the browser lab track, open the **density-bins** lab from the tools shelf. Load the starter placement, run the algorithm once, and read the metrics panel. Orient yourself, try one parameter change, then come back to implement the same loop yourself.
 
-In the browser lab track, open the **density-bins** lab from the tools shelf. Load the starter placement, run the algorithm once, and read HPWL—and density when the panel shows it. Work the challenges that lock the goldens, then come back to implement the same loop yourself.
+## Slide 4 — Implement track
 
-## Slide 11 — Implement track
+In the implement track, open this module’s examples and build the full algorithm. Parse the tiny placement, run the core loop with clear stop rules, and print coordinates plus metrics. Prefer a deterministic seed so your golden answers stay stable.
 
-In the implement track, open this module's EXAMPLES.md Pseudocode section and the course common solvers. Parse `tiny_place.json`, run the algorithm with a deterministic seed, and print coordinates plus HPWL. Match the browser goldens before you claim the checklist.
+## Slide 5 — Pitfalls
 
-## Slide 12 — Pitfalls
+Common traps: celebrating HPWL while cells pile into one bin; ignoring fixed pads; mixing bbox and clique models in one report; and stopping before the best SA iterate is kept.
 
-Common traps: celebrating HPWL while cells pile into one bin; ignoring fixed pads A and D; mixing bbox and clique models in one report; keeping only the final SA iterate instead of the best; and forgetting that timing weights change the objective, not just the label.
+## Slide 6 — Your turn
 
-## Slide 13 — Your turn
-
-Complete the checklist for at least one track—preferably both. Implement until your metrics match the starter goldens. When you’re ready, take the short quiz, then continue to the next module.
+Complete the checklist for at least one track—preferably both. Implement until your metrics match the expected range on the starter placement. When you’re ready, take the short quiz, then continue to the next module.

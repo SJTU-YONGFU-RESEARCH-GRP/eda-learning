@@ -14,13 +14,43 @@ slides:
   - Reject lopsided splits
   - The continuous membership becomes a hard bipartition only after the sweep chooses
     the best
-  - <!-- algorithm-walkthrough -->
-  notes: 'Build L equals D minus A, take the second eigenvector, sort nodes, and try
+  notes: Build L equals D minus A, take the second eigenvector, sort nodes, and try
     balanced prefixes. Reject lopsided splits. The continuous membership becomes a
     hard bipartition only after the sweep chooses the best legal cut.
+- type: bullets
+  title: Pseudocode
+  bullets:
+  - Spectral bipartition reads the Fiedler vector of the Laplacian
+  - Open this module's examples file and find the Pseudocode section
+  - That written sketch is what you implement on the implement track and what the
+    browser
+  notes: 'Spectral bipartition reads the Fiedler vector of the Laplacian, sorts nodes,
+    then sweeps balanced prefixes for the cheapest cut.
 
 
-    <!-- algorithm-walkthrough -->'
+    Open this module''s examples file and find the Pseudocode section. That written
+    sketch is what you implement on the implement track and what the browser challenges
+    measure.'
+- type: bullets
+  title: Algorithm sketch
+  bullets:
+  - On the starter graph the winning split is D E versus A B C with cutsize three
+  notes: On the starter graph the winning split is D E versus A B C with cutsize three—the
+    same golden communities KL and FM refine toward.
+- type: code
+  title: Algorithm sketch — try these
+  code: 'INPUT: weighted undirected G
+
+    OUTPUT: side[] bipartition
+
+    L ← Laplacian; take Fiedler eigenvector
+
+    order ← nodes sorted by Fiedler value
+
+    sweep balanced prefixes; pick min cutsize
+
+    GOLDEN: DE|ABC (or ABC|DE) cut=3'
+  notes: ''
 - type: image
   title: Build the Laplacian
   image: assets/steps/01-laplacian.png
@@ -49,11 +79,8 @@ slides:
   title: When spectral helps
   image: assets/steps/05-takeaway.png
   caption: When spectral helps
-  notes: 'Spectral is a strong initializer for bipartition. On larger chips it pairs
+  notes: Spectral is a strong initializer for bipartition. On larger chips it pairs
     with multilevel; here the tiny instance grades against golden cut 3.
-
-
-    <!-- /algorithm-walkthrough -->'
 - type: bullets
   title: Browser lab track
   bullets:
@@ -67,13 +94,13 @@ slides:
 - type: bullets
   title: Implement track
   bullets:
-  - In the implement track, open this module’s examples and the course `common/` solvers
+  - In the implement track
   - Parse the tiny graph, run the algorithm with a deterministic seed
   - Match the browser goldens before you claim the checklist
-  notes: In the implement track, open this module’s examples and the course `common/`
-    solvers. Parse the tiny graph, run the algorithm with a deterministic seed, and
-    print the assignment plus cutsize and balance. Match the browser goldens before
-    you claim the checklist.
+  notes: In the implement track, open this module's EXAMPLES.md Pseudocode section
+    and the course common solvers. Parse the tiny graph, run the algorithm with a
+    deterministic seed, and print the assignment plus cutsize and balance. Match the
+    browser goldens before you claim the checklist.
 - type: bullets
   title: Pitfalls
   bullets:

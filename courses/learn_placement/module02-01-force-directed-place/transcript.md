@@ -6,81 +6,27 @@
 
 ## Slide 1 — Force-directed placement
 
-Force-directed place pulls each free cell toward the average of its net neighbors, plus a weak center pull. From the starter HPWL of fifty-two, a few lite iterations land near eighteen point seven—better wirelength, still above the golden fourteen.
+Placement assigns cell coordinates to cut wirelength while keeping density under control. In this module you’ll implement **force-directed (spring) placement** end to end—not a sketch. By the end, you’ll run it on a tiny instance, report HPWL, and know what the algorithm actually does.
 
 ## Slide 2 — The idea
 
-Each iteration: for free cells, blend current position toward the neighbor average with a small alpha. Fixed pads stay put. Too much alpha collapses the design; too little barely moves. Report HPWL before and after with the same net model.
-
-
-## Slide 3 — Pseudocode
-
-Force-directed place blends each free cell toward its neighbor average with step alpha. Fixed pads do not move.
-
-Open this module's examples file and find the Pseudocode section. That written sketch is what you implement on the implement track and what the browser challenges measure.
-
-## Slide 4 — Algorithm sketch
-
-From starter fifty-two, default lite iterations land near eighteen point seven—better wirelength, still above compact fourteen.
-
-```text
-INPUT: positions, nets, α, iters, fixed pads
-OUTPUT: updated positions + HPWL
-each iter, for free cell c:
-  tgt ← avg neighbor coords (+ weak center)
-  pos[c] ← (1−α)·pos[c] + α·tgt
-pads stay fixed
-GOLDEN starter 52 → ≈18.7 after defaults
-```
-
+force-directed (spring) placement. You’ll take a placement instance, apply the update rule until a stop condition, and emit coordinates. Watch HPWL every time—and density overflow when the lab uses bins.
 
 <!-- algorithm-walkthrough -->
-
-## Slide 5 — Start from HPWL fifty-two
-
-![Start from HPWL fifty-two](assets/steps/01-starter.png)
-
-Force-directed place pulls free cells toward the average of their net neighbors, plus a weak center pull. Begin on the spread starter at HPWL fifty-two.
-
-## Slide 6 — Neighbors pull cells inward
-
-![Neighbors pull cells inward](assets/steps/02-mid-iters.png)
-
-After a couple of lite iterations, A–D drift toward the center while E and F follow their neighbors. Wirelength is already dropping.
-
-## Slide 7 — After force: about eighteen point seven
-
-![After force: about eighteen point seven](assets/steps/03-after-force.png)
-
-Default five iterations land near eighteen point seven—clearly better than fifty-two, still above the compact golden fourteen.
-
-## Slide 8 — Force vs golden compact
-
-![Force vs golden compact](assets/steps/04-vs-golden.png)
-
-Golden fourteen is tighter still. Force is a cheap continuous move—good teaching progress without claiming the absolute minimum.
-
-## Slide 9 — Alpha trades speed vs collapse
-
-![Alpha trades speed vs collapse](assets/steps/05-takeaway.png)
-
-Too much alpha stacks cells; too little barely moves. Lock the iteration count and alpha so your eighteen point seven golden stays stable.
-
 <!-- /algorithm-walkthrough -->
 
+## Slide 3 — Browser lab track
 
-## Slide 10 — Browser lab track
+In the browser lab track, open the **force-directed-place** lab from the tools shelf. Load the starter placement, run the algorithm once, and read the metrics panel. Orient yourself, try one parameter change, then come back to implement the same loop yourself.
 
-In the browser lab track, open the **force-directed-place** lab from the tools shelf. Load the starter placement, run the algorithm once, and read HPWL—and density when the panel shows it. Work the challenges that lock the goldens, then come back to implement the same loop yourself.
+## Slide 4 — Implement track
 
-## Slide 11 — Implement track
+In the implement track, open this module’s examples and build the full algorithm. Parse the tiny placement, run the core loop with clear stop rules, and print coordinates plus metrics. Prefer a deterministic seed so your golden answers stay stable.
 
-In the implement track, open this module's EXAMPLES.md Pseudocode section and the course common solvers. Parse `tiny_place.json`, run the algorithm with a deterministic seed, and print coordinates plus HPWL. Match the browser goldens before you claim the checklist.
+## Slide 5 — Pitfalls
 
-## Slide 12 — Pitfalls
+Common traps: celebrating HPWL while cells pile into one bin; ignoring fixed pads; mixing bbox and clique models in one report; and stopping before the best SA iterate is kept.
 
-Common traps: celebrating HPWL while cells pile into one bin; ignoring fixed pads A and D; mixing bbox and clique models in one report; keeping only the final SA iterate instead of the best; and forgetting that timing weights change the objective, not just the label.
+## Slide 6 — Your turn
 
-## Slide 13 — Your turn
-
-Complete the checklist for at least one track—preferably both. Implement until your metrics match the starter goldens. When you’re ready, take the short quiz, then continue to the next module.
+Complete the checklist for at least one track—preferably both. Implement until your metrics match the expected range on the starter placement. When you’re ready, take the short quiz, then continue to the next module.

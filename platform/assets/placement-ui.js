@@ -121,11 +121,12 @@ export function drawPlacement(canvas, cells, positions, nets, opts = {}) {
   }
 
   const list = cells || CELLS;
+  const cellR = Math.max(14, Math.min(22, scale * 0.35));
   for (const id of list) {
     const p = positions[id];
     if (!p) continue;
     const m = map(p);
-    const r = hiCells.has(id) ? 15 : 13;
+    const r = hiCells.has(id) ? cellR + 2 : cellR;
     ctx.beginPath();
     ctx.arc(m.x, m.y, r, 0, Math.PI * 2);
     ctx.fillStyle = cellColor(id);
@@ -134,7 +135,7 @@ export function drawPlacement(canvas, cells, positions, nets, opts = {}) {
     ctx.lineWidth = hiCells.has(id) ? 2.5 : 1.5;
     ctx.stroke();
     ctx.fillStyle = "#fff";
-    ctx.font = "bold 12px system-ui, sans-serif";
+    ctx.font = `bold ${Math.max(12, Math.min(16, cellR))}px system-ui, sans-serif`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillText(id, m.x, m.y);

@@ -13,13 +13,47 @@ slides:
   - Optimize hyperedge cut, not only pairwise edge cut
   - Multi-pin nets dominate affinity in real designs
   - Use clique expansion only for drawing or as a heuristic substrate
-  - <!-- algorithm-walkthrough -->
-  notes: 'Optimize hyperedge cut, not only pairwise edge cut. Multi-pin nets dominate
+  notes: Optimize hyperedge cut, not only pairwise edge cut. Multi-pin nets dominate
     affinity in real designs. Use clique expansion only for drawing or as a heuristic
     substrate—not as the reported objective unless the lab says so.
+- type: bullets
+  title: Pseudocode
+  bullets:
+  - Hypergraph cut counts a net once if it spans more than one part
+  - Pseudocode is a span check per hyperedge
+  - Open this module's examples file and find the Pseudocode section
+  - That written sketch is what you implement on the implement track and what the
+    browser
+  notes: 'Hypergraph cut counts a net once if it spans more than one part. Pseudocode
+    is a span check per hyperedge—not a sum of clique pairs unless you expand deliberately.
 
 
-    <!-- algorithm-walkthrough -->'
+    Open this module''s examples file and find the Pseudocode section. That written
+    sketch is what you implement on the implement track and what the browser challenges
+    measure.'
+- type: bullets
+  title: Algorithm sketch
+  bullets:
+  - On the starter hypergraph, golden ABC versus DE leaves a single cut net
+  - Expanding to a clique can tell a different numeric story, report which model you
+    used
+  notes: On the starter hypergraph, golden ABC versus DE leaves a single cut net.
+    Expanding to a clique can tell a different numeric story—report which model you
+    used.
+- type: code
+  title: Algorithm sketch — try these
+  code: 'INPUT: hyperedges e={pins…}, side[]
+
+    OUTPUT: hyperedge_cut
+
+    cut ← count edges with |{side[p]:p∈e}| > 1
+
+    (optional) expand to pairwise clique for KL/FM
+
+    GOLDEN ABC|DE: one cut net on starter H
+
+    pairwise clique expansion can differ'
+  notes: ''
 - type: image
   title: Nets are hyperedges
   image: assets/steps/01-nets.png
@@ -48,11 +82,8 @@ slides:
   title: Why hypergraphs in partition
   image: assets/steps/05-takeaway.png
   caption: Why hypergraphs in partition
-  notes: 'Real netlists are hypergraphs. Modeling nets honestly changes the cut objective
+  notes: Real netlists are hypergraphs. Modeling nets honestly changes the cut objective
     — clique expansion is for moves, hyper cut is for scoring.
-
-
-    <!-- /algorithm-walkthrough -->'
 - type: bullets
   title: Browser lab track
   bullets:
@@ -67,13 +98,13 @@ slides:
 - type: bullets
   title: Implement track
   bullets:
-  - In the implement track, open this module’s examples and the course `common/` solvers
+  - In the implement track
   - Parse the tiny graph, run the algorithm with a deterministic seed
   - Match the browser goldens before you claim the checklist
-  notes: In the implement track, open this module’s examples and the course `common/`
-    solvers. Parse the tiny graph, run the algorithm with a deterministic seed, and
-    print the assignment plus cutsize and balance. Match the browser goldens before
-    you claim the checklist.
+  notes: In the implement track, open this module's EXAMPLES.md Pseudocode section
+    and the course common solvers. Parse the tiny graph, run the algorithm with a
+    deterministic seed, and print the assignment plus cutsize and balance. Match the
+    browser goldens before you claim the checklist.
 - type: bullets
   title: Pitfalls
   bullets:

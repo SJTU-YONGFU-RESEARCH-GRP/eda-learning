@@ -9,38 +9,50 @@
   },
   {
     "slide": 3,
-    "duration": 12.096
+    "duration": 21.0
   },
   {
     "slide": 4,
-    "duration": 11.208
+    "duration": 5.8
   },
   {
     "slide": 5,
-    "duration": 11.448
+    "duration": 5.0
   },
   {
     "slide": 6,
-    "duration": 9.432
+    "duration": 12.096
   },
   {
     "slide": 7,
-    "duration": 9.216
+    "duration": 11.208
   },
   {
     "slide": 8,
-    "duration": 17.088
+    "duration": 11.448
   },
   {
     "slide": 9,
-    "duration": 16.8
+    "duration": 9.432
   },
   {
     "slide": 10,
-    "duration": 17.736
+    "duration": 9.216
   },
   {
     "slide": 11,
+    "duration": 17.088
+  },
+  {
+    "slide": 12,
+    "duration": 18.264
+  },
+  {
+    "slide": 13,
+    "duration": 17.736
+  },
+  {
+    "slide": 14,
     "duration": 12.984
   }
 ]

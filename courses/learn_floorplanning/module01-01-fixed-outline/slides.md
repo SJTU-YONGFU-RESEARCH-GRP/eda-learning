@@ -10,6 +10,35 @@ Floorplanning on this course uses a fixed outline ten by eight
 
 ---
 
+## Pseudocode
+- Fixed-outline legality is two loops in pseudocode
+- Open this module's examples file and find the Pseudocode section
+- That written sketch is what you implement on the implement track and what the browser
+
+---
+
+## Algorithm sketch
+- Outline is ten by eight
+- Golden packing of A through E is legal
+- Bad seed with E at x nine overflows
+- Overlap of C and E is the other failure mode
+
+---
+
+## Algorithm sketch — try these
+
+```
+INPUT: outline W×H, modules (x,y,w,h)
+OUTPUT: legal? / failure reason
+for each m: fail if outside [0,W]×[0,H]
+for each pair: fail if interior overlap
+edge-touch OK; positive-area overlap not
+GOLDEN pack legal; E@x=9 overflow illegal
+outline 10×8 (area 80); modules A–E
+```
+
+---
+
 ## Fixed outline is 10×8
 ![Fixed outline is 10×8](assets/steps/01-outline.png)
 

@@ -1,0 +1,29 @@
+# GCell grid model
+
+**Module id:** module01-01-gcell-grid
+**Lab:** gcell-grid
+**Tracks:** A (implement) · B (browser lab)
+
+## Slide 1 — Why GCells
+
+After legalization you have legal cell sites, but routers still think in coarser tiles called GCells. Our toy chip is twelve by eight. We overlay a four by two grid: each GCell is three wide and four tall. Congestion literacy starts by naming which tile owns a point.
+
+## Slide 2 — The idea
+
+Index with lower-left origin. Column i is floor of x over cell width, clamped to zero through three. Row j is floor of y over cell height, clamped to zero or one. Cell A at one comma one lands in GCell zero comma zero. Cell D at eight comma five lands in two comma one. Memorize that mapping—every estimator reuses it.
+
+## Slide 3 — Browser lab track
+
+Open the **gcell-grid** lab. Move a cell and read the GCell index in the metrics panel. Paint the grid lines so the four-by-two tiling is obvious. Then encode the same clamp-and-floor rule in Track A.
+
+## Slide 4 — Implement track
+
+Parse `tiny_cong.json`. Print nx, ny, cellW, cellH. Write `cell_gcell(x, y)` returning (i, j). Assert A→(0,0) and D→(2,1) on the spread placement. No demand yet—this module is pure geometry.
+
+## Slide 5 — Pitfalls
+
+Using upper-left image coordinates instead of chip lower-left. Forgetting to clamp points on the right or top edge into the last tile. Mixing site columns from legalization with GCell columns—different grids.
+
+## Slide 6 — Your turn
+
+Finish the checklist. Be able to sketch the eight GCells from memory. Next: capacity versus demand—the supply side of the map.

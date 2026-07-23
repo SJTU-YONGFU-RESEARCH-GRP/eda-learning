@@ -15,13 +15,52 @@ slides:
   - Positive means the check passes
   - Keep these numbers handy, the browser challenges and Track A tests use the same
     instance
-  - <!-- algorithm-walkthrough -->
   notes: 'Setup: R−A = 10−3.2 = 6.8. Hold lite: A−0 = 3.2. Positive means the check
     passes. Keep these numbers handy—the browser challenges and Track A tests use
-    the same instance.
+    the same instance.'
+- type: bullets
+  title: Pseudocode
+  bullets:
+  - Slack pseudocode is arithmetic on tags you already have
+  - Setup slack is required minus arrival
+  - Hold lite uses required hold zero at the sink and arrival minus that required
+  - Open this module's examples file and find the Pseudocode section
+  - That written sketch is what you implement on the implement track and what the
+    browser
+  notes: 'Slack pseudocode is arithmetic on tags you already have. Setup slack is
+    required minus arrival. Hold lite uses required hold zero at the sink and arrival
+    minus that required.
 
 
-    <!-- algorithm-walkthrough -->'
+    Open this module''s examples file and find the Pseudocode section. That written
+    sketch is what you implement on the implement track and what the browser challenges
+    measure.'
+- type: bullets
+  title: Algorithm sketch
+  bullets:
+  - On the tiny chain with period ten
+  - Shrink the period to three and setup fails first
+  notes: On the tiny chain with period ten, setup slack at out is six point eight
+    and hold slack is three point two. Shrink the period to three and setup fails
+    first.
+- type: code
+  title: Algorithm sketch — try these
+  code: 'INPUT: A[], R_setup[], R_hold[] (lite)
+
+    OUTPUT: setup_slack, hold_slack, meet?
+
+    setup_slack(p) ← R_setup[p] − A[p]
+
+    hold_slack(p)  ← A[p] − R_hold[p]
+
+    R_hold[sink] ← 0 in this lite model
+
+    meet_setup if setup_slack(sink)≥0
+
+    meet_hold  if hold_slack(sink)≥0
+
+    GOLDEN: setup(out)=6.8; hold(out)=3.2'
+  notes: ''
 - type: image
   title: Setup slack is required minus arrival
   image: assets/steps/01-setup-formula.png
@@ -50,11 +89,8 @@ slides:
   title: Period changes setup, not hold lite
   image: assets/steps/05-period-knob.png
   caption: Period changes setup, not hold lite
-  notes: 'If the period were tighter, setup required would drop and setup slack would
+  notes: If the period were tighter, setup required would drop and setup slack would
     shrink. Hold in this lite model stays tied to arrival versus zero.
-
-
-    <!-- /algorithm-walkthrough -->'
 - type: bullets
   title: Browser lab track
   bullets:

@@ -10,6 +10,32 @@ Sequence pair uses positive permutation A B C E D and negative D A B C E
 
 ---
 
+## Pseudocode
+- Sequence-pair pseudocode turns two permutations into horizontal and vertical constraints
+- Open this module's examples file and find the Pseudocode section
+- That written sketch is what you implement on the implement track and what the browser
+
+---
+
+## Algorithm sketch
+- Golden pos is A B C E D and neg is D A B C E
+- Evaluation must place all five modules legally with non-negative coordinates
+
+---
+
+## Algorithm sketch — try these
+
+```
+INPUT: pos[], neg[] permutations of modules
+OUTPUT: (x,y) via constraint longest paths
+pos/neg order ⇒ horizontal & vertical constraints
+x ← longest path in H-graph; y ← V-graph
+GOLDEN pos=A B C E D; neg=D A B C E
+packs legally with non-negative coords
+```
+
+---
+
 ## Two permutations encode geometry
 ![Two permutations encode geometry](assets/steps/01-seqs.png)
 
