@@ -1,73 +1,163 @@
 import {
-  drawFloorplan,
   isLegalPacking,
   packHierarchical,
 } from "../../assets/floorplanning-core.js";
-import { createChallengeLab, el, metricsBlock } from "../../assets/clustering-ui.js";
+import {
+  createInteractiveFloorplanLab,
+  emptyPack,
+  el,
+  packHasAll,
+} from "../../assets/floorplanning-lab.js";
 
 const root = document.getElementById("lab-root");
-let pack = {};
 let ran = false;
-function arm() { pack = {}; ran = false; }
-function run() { pack = packHierarchical(); ran = true; }
 
-createChallengeLab(root, {
-  starterHtml: `<p><strong>Starter hierarchy:</strong> cluster AB on the left,
-    cluster CDE on the right (offset x=5). Two-level pack then place.</p>`,
-  loadStarter() { run(); },
-  challenges: [
-    { id: "run", title: "Pack hierarchy", level: "Intro",
-      prompt: "Run Pack hierarchy.", hint: "Click the button.",
-      setup: arm, check: () => ran },
-    { id: "legal", title: "Legal", level: "Intro",
-      prompt: "Hierarchical packing is legal.", hint: "Pack first.",
-      setup: arm, check: () => ran && isLegalPacking(pack) },
-    { id: "A-left", title: "A on left", level: "Intro",
-      prompt: "A.x < 5 (left cluster).", hint: "AB cluster.",
-      setup: arm, check: () => ran && pack.A.x < 5 },
-    { id: "C-right", title: "C on right", level: "Practice",
-      prompt: "C.x >= 5 (right cluster).", hint: "Offset 5.",
-      setup: arm, check: () => ran && pack.C.x >= 5 },
-    { id: "five", title: "Five modules", level: "Practice",
-      prompt: "Five modules placed.", hint: "A–E.",
-      setup: arm, check: () => ran && Object.keys(pack).length === 5 },
-    { id: "E-right", title: "E on right", level: "Practice",
-      prompt: "E.x >= 5.", hint: "CDE cluster.",
-      setup: arm, check: () => ran && pack.E.x >= 5 },
-    { id: "B-left", title: "B on left", level: "Practice",
-      prompt: "B.x < 5.", hint: "AB cluster.",
-      setup: arm, check: () => ran && pack.B.x < 5 },
-    { id: "D-right", title: "D on right", level: "Stretch",
-      prompt: "D.x >= 5.", hint: "CDE.",
-      setup: arm, check: () => ran && pack.D.x >= 5 },
-    { id: "gap", title: "Clusters separated", level: "Stretch",
-      prompt: "max(A,B).x+w <= min(C,D,E).x (no cluster overlap in x).",
-      hint: "Left ends at 5.", setup: arm,
-      check: () => {
-        if (!ran) return false;
-        const leftMax = Math.max(pack.A.x + pack.A.w, pack.B.x + pack.B.w);
-        const rightMin = Math.min(pack.C.x, pack.D.x, pack.E.x);
-        return leftMax <= rightMin;
-      } },
-    { id: "nonneg", title: "Non-negative", level: "Stretch",
-      prompt: "All coords ≥ 0.", hint: "Hierarchy pack.",
-      setup: arm, check: () => ran && Object.values(pack).every((r) => r.x >= 0 && r.y >= 0) },
-  ],
-  extraActions(ctx) {
+createInteractiveFloorplanLab(root, {
+  initialPack: emptyPack(),
+  revealPack: packHierarchical(),
+  starterHtml: `
+    <p><strong>Your job:</strong> either click <strong>Pack hierarchy</strong>
+    (AB left, CDE right @ x=5) or place clusters yourself so left modules have x&lt;5
+    and right modules have x≥5.</p>
+  `,
+  extraActions(ctx, api) {
     return [
-      el("button", { className: "btn btn-primary", type: "button", text: "Pack hierarchy",
-        onClick: () => { run(); ctx.rerender(); } }),
+      el("button", {
+        className: "btn btn-primary",
+        type: "button",
+        text: "Pack hierarchy",
+        onClick: () => {
+          api.setPack(packHierarchical());
+          api.setRevealed(false);
+          ran = true;
+          ctx.rerender();
+        },
+      }),
     ];
   },
-  renderWorkspace(ctx) {
-    drawFloorplan(ctx.canvas, { pack });
-    ctx.metrics.innerHTML = "";
-    ctx.metrics.append(metricsBlock([
-      `ran: ${ran}`,
-      `legal: ${ran ? isLegalPacking(pack) : "—"}`,
-      `left: AB`,
-      `right: CDE @x=5`,
-    ]));
+  onChallengeSetup(_ctx, api) {
+    ran = false;
+    api.setPack({});
   },
+  onLoadStarter(api) {
+    ran = false;
+    api.setPack({});
+  },
+  challenges: [
+    {
+      id: "run",
+      title: "Run hierarchy packer",
+      level: "Intro",
+      prompt: "Click Pack hierarchy (or place an equivalent).",
+      hint: "Primary packer button.",
+      check: (_c, api) => ran || (packHasAll(api.getPack()) && isLegalPacking(api.getPack())),
+    },
+    {
+      id: "a-left",
+      title: "A on left",
+      level: "Intro",
+      prompt: "A.x &lt; 5 in your packing.",
+      hint: "Left cluster AB.",
+      check: (_c, api) => api.getPack().A && api.getPack().A.x < 5,
+    },
+    {
+      id: "c-right",
+      title: "C on right",
+      level: "Intro",
+      prompt: "C.x ≥ 5.",
+      hint: "Right cluster offset.",
+      check: (_c, api) => api.getPack().C && api.getPack().C.x >= 5,
+    },
+    {
+      id: "five",
+      title: "Five modules",
+      level: "Practice",
+      prompt: "All five modules placed.",
+      hint: "Pack hierarchy or place all.",
+      check: (_c, api) => packHasAll(api.getPack()),
+    },
+    {
+      id: "legal",
+      title: "Legal hierarchy",
+      level: "Practice",
+      prompt: "Legal packing with AB left and CDE right.",
+      hint: "A,B x&lt;5; C,D,E x≥5.",
+      check: (_c, api) => {
+        const p = api.getPack();
+        return (
+          packHasAll(p) &&
+          isLegalPacking(p) &&
+          p.A.x < 5 &&
+          p.B.x < 5 &&
+          p.C.x >= 5 &&
+          p.D.x >= 5 &&
+          p.E.x >= 5
+        );
+      },
+    },
+    {
+      id: "gap",
+      title: "Clusters separated",
+      level: "Practice",
+      prompt: "Left cluster max x+w ≤ right cluster min x.",
+      hint: "No cluster overlap in x.",
+      check: (_c, api) => {
+        const p = api.getPack();
+        if (!packHasAll(p)) return false;
+        const leftMax = Math.max(p.A.x + p.A.w, p.B.x + p.B.w);
+        const rightMin = Math.min(p.C.x, p.D.x, p.E.x);
+        return leftMax <= rightMin && isLegalPacking(p);
+      },
+    },
+    {
+      id: "e-right",
+      title: "E on right",
+      level: "Practice",
+      prompt: "E.x ≥ 5.",
+      hint: "CDE cluster.",
+      check: (_c, api) => api.getPack().E && api.getPack().E.x >= 5,
+    },
+    {
+      id: "b-left",
+      title: "B on left",
+      level: "Stretch",
+      prompt: "B.x &lt; 5.",
+      hint: "AB cluster.",
+      check: (_c, api) => api.getPack().B && api.getPack().B.x < 5,
+    },
+    {
+      id: "match-hier",
+      title: "Match teaching hierarchy",
+      level: "Stretch",
+      prompt: "Positions match packHierarchical().",
+      hint: "Click Pack hierarchy.",
+      check: (_c, api) => {
+        const p = api.getPack();
+        const g = packHierarchical();
+        return (
+          packHasAll(p) &&
+          ["A", "B", "C", "D", "E"].every(
+            (id) => p[id].x === g[id].x && p[id].y === g[id].y
+          )
+        );
+      },
+    },
+    {
+      id: "no-reveal",
+      title: "Without reveal",
+      level: "Stretch",
+      prompt: "Legal separated clusters with Reveal hidden.",
+      hint: "Pack hierarchy or place yourself.",
+      check: (_c, api) => {
+        const p = api.getPack();
+        return (
+          !api.isRevealed() &&
+          packHasAll(p) &&
+          isLegalPacking(p) &&
+          p.A.x < 5 &&
+          p.C.x >= 5
+        );
+      },
+    },
+  ],
 });
-

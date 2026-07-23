@@ -43,20 +43,23 @@ Shared helpers: `platform/assets/partitioning-core.js` (imports graph utils / KL
 
 ## Floorplanning
 
-| Tool | Starter (reference) | Challenges | Status |
-|------|---------------------|------------|--------|
-| `fixed-outline` | Bad overflow vs golden legal 10×8 | **10** | **Shipped** |
-| `area-deadspace` | Area 23, outline 80, deadspace 57, density 0.2875 | **10** | **Shipped** |
-| `slicing-floorplan` | Polish `A D H B V C V E V` → BB 9×3 | **10** | **Shipped** |
-| `bstar-tree` | A root; left B→C→E; right D above | **10** | **Shipped** |
-| `sequence-pair` | pos `A B C E D` / neg `D A B C E` | **10** | **Shipped** |
-| `simulated-annealing-fp` | Bad cost ≥1000 → improve to golden | **10** | **Shipped** |
-| `soft-module-sizing` | Soft A 3×2 → reshape 2×3 area 6 | **10** | **Shipped** |
-| `macro-placement` | Macro D fixed (0,0) then pack rest | **10** | **Shipped** |
-| `hierarchical-floorplan` | Clusters AB \| CDE @ x=5 | **10** | **Shipped** |
-| `pin-assignment` | Golden pins on all four sides | **10** | **Shipped** |
+Interactive labs: **you place / edit**, then Check. Workspace starts empty or seeded — **not** the golden.
+**Reveal golden (study)** is optional and does not clear challenges.
 
-Shared helpers: `platform/assets/floorplanning-core.js`.
+| Tool | Learner actions | Challenges | Status |
+|------|-----------------|------------|--------|
+| `fixed-outline` | Place A–E on 10×8 grid; legality | **10** | **Shipped** |
+| `area-deadspace` | Legal pack → read 23 / 80 / 57 / 0.2875 | **10** | **Shipped** |
+| `slicing-floorplan` | Build polish tokens → Evaluate | **10** | **Shipped** |
+| `bstar-tree` | Pack B*-tree (then inspect) | **10** | **Shipped** |
+| `sequence-pair` | Build pos/neg → Pack | **10** | **Shipped** |
+| `simulated-annealing-fp` | Fix bad seed / swap until cost &lt; 1000 | **10** | **Shipped** |
+| `soft-module-sizing` | Reshape A 3×2↔2×3, then pack | **10** | **Shipped** |
+| `macro-placement` | D locked; place around macro | **10** | **Shipped** |
+| `hierarchical-floorplan` | Pack hierarchy or place AB \| CDE | **10** | **Shipped** |
+| `pin-assignment` | Add pins on four sides | **10** | **Shipped** |
+
+Shared helpers: `platform/assets/floorplanning-core.js`, `platform/assets/floorplanning-lab.js`.
 
 ## Placement
 

@@ -195,7 +195,9 @@ export function createChallengeLab(root, opts) {
     const note = el("div", { className: "starter-note" });
     note.innerHTML =
       opts.starterHtml +
-      `<p><button type="button" class="btn btn-secondary" id="lab-starter">Load starter example</button></p>`;
+      `<p><button type="button" class="btn btn-secondary" id="lab-starter">${
+        opts.starterButtonLabel || "Load starter example"
+      }</button></p>`;
 
     const challengeBox = el("div", { className: "challenge" });
     challengeBox.innerHTML = `
@@ -207,7 +209,12 @@ export function createChallengeLab(root, opts) {
         <label for="lab-chal-sel">Pick one</label>
         <select id="lab-chal-sel">${options}</select>
       </div>
-      <p class="chal-prompt">${state.challengeOn ? escapeHtml(ch.prompt) : "Pick a challenge and click <strong>Start</strong>. The starter example above stays available as a reference — reload it anytime."}</p>
+      <p class="chal-prompt">${
+        state.challengeOn
+          ? escapeHtml(ch.prompt)
+          : opts.idlePromptHtml ||
+            "Pick a challenge and click <strong>Start</strong>. The starter example above stays available as a reference — reload it anytime."
+      }</p>
       ${
         state.challengeOn && state.challengeHint
           ? `<p class="chal-hint"><strong>Hint:</strong> ${escapeHtml(ch.hint || "")}</p>`

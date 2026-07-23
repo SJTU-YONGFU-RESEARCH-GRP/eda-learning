@@ -1,72 +1,187 @@
 import {
   GOLDEN_PACK,
   GOLDEN_PINS,
-  clonePack,
-  drawFloorplan,
+  OUTLINE,
   pinsValid,
 } from "../../assets/floorplanning-core.js";
-import { createChallengeLab, el, metricsBlock } from "../../assets/clustering-ui.js";
+import {
+  createInteractiveFloorplanLab,
+  el,
+} from "../../assets/floorplanning-lab.js";
 
 const root = document.getElementById("lab-root");
-let pack = clonePack(GOLDEN_PACK);
-let pins = [];
-let mode = "none";
 
-function arm() { pins = []; mode = "none"; }
-
-createChallengeLab(root, {
-  starterHtml: `<p><strong>Starter:</strong> golden packing with no pins.
-    Assign golden pins so each side (left/right/top/bottom) has coverage.</p>`,
-  loadStarter() { pack = clonePack(GOLDEN_PACK); pins = []; mode = "none"; },
-  challenges: [
-    { id: "assign", title: "Assign pins", level: "Intro",
-      prompt: "Click Assign golden pins.", hint: "Button.",
-      setup: arm, check: () => mode === "pins" && pins.length === 4 },
-    { id: "valid", title: "Pins valid", level: "Intro",
-      prompt: "pinsValid returns true.", hint: "Assign first.",
-      setup: arm, check: () => mode === "pins" && pinsValid(pins) },
-    { id: "four-sides", title: "Four sides", level: "Intro",
-      prompt: "Exactly four distinct sides used.", hint: "One pin per side.",
-      setup: arm, check: () => mode === "pins" && new Set(pins.map((p) => p.side)).size === 4 },
-    { id: "count-4", title: "Four pins", level: "Practice",
-      prompt: "Pin count is 4.", hint: "GOLDEN_PINS.",
-      setup: arm, check: () => mode === "pins" && pins.length === 4 },
-    { id: "has-left", title: "Has left", level: "Practice",
-      prompt: "A pin is on the left side.", hint: "P0.",
-      setup: arm, check: () => mode === "pins" && pins.some((p) => p.side === "left") },
-    { id: "has-top", title: "Has top", level: "Practice",
-      prompt: "A pin is on the top side.", hint: "P3.",
-      setup: arm, check: () => mode === "pins" && pins.some((p) => p.side === "top") },
-    { id: "P0-left", title: "P0 left", level: "Practice",
-      prompt: "P0 is on left.", hint: "GOLDEN_PINS[0].",
-      setup: arm, check: () => mode === "pins" && pins.find((p) => p.id === "P0")?.side === "left" },
-    { id: "offsets", title: "Offsets in range", level: "Stretch",
-      prompt: "All pin offsets are within outline edges.", hint: "pinsValid.",
-      setup: arm, check: () => mode === "pins" && pinsValid(pins) },
-    { id: "clear-invalid", title: "Empty invalid", level: "Stretch",
-      prompt: "Empty pin list is not valid (needs 4 sides).", hint: "Clear pins.",
-      setup: arm, check: () => mode === "none" && !pinsValid(pins) },
-    { id: "ids", title: "Ids P0–P3", level: "Stretch",
-      prompt: "Pin ids are P0,P1,P2,P3.", hint: "Assign golden.",
-      setup: arm,
-      check: () => mode === "pins" && pins.map((p) => p.id).sort().join() === "P0,P1,P2,P3" },
-  ],
-  extraActions(ctx) {
+createInteractiveFloorplanLab(root, {
+  initialPack: GOLDEN_PACK,
+  initialPins: [],
+  revealPack: GOLDEN_PACK,
+  starterHtml: `
+    <p><strong>Your job:</strong> assign I/O pins on outline edges.
+    Use <strong>Add pin on side</strong> buttons (cycles offsets) or
+    <strong>Assign golden pins</strong> then edit. Empty pins are invalid —
+    cover left, right, top, and bottom.</p>
+  `,
+  extraMetrics: (api) => {
+    const pins = api.getPins();
     return [
-      el("button", { className: "btn btn-secondary", type: "button", text: "Clear pins",
-        onClick: () => { pins = []; mode = "none"; ctx.rerender(); } }),
-      el("button", { className: "btn btn-primary", type: "button", text: "Assign golden pins",
-        onClick: () => { pins = GOLDEN_PINS.map((p) => ({ ...p })); mode = "pins"; ctx.rerender(); } }),
+      `pins: ${pins.map((p) => `${p.id}@${p.side}:${p.offset}`).join(", ") || "—"}`,
+      `valid: ${pinsValid(pins)}`,
+      `sides: ${[...new Set(pins.map((p) => p.side))].join(",") || "—"}`,
     ];
   },
-  renderWorkspace(ctx) {
-    drawFloorplan(ctx.canvas, { pack, pins });
-    ctx.metrics.innerHTML = "";
-    ctx.metrics.append(metricsBlock([
-      `mode: ${mode}`,
-      `pins: ${pins.map((p) => `${p.id}@${p.side}`).join(", ") || "—"}`,
-      `valid: ${pinsValid(pins)}`,
-    ]));
+  extraActions(ctx, api) {
+    const addSide = (side) => () => {
+      const pins = api.getPins();
+      const lim = side === "left" || side === "right" ? OUTLINE.h : OUTLINE.w;
+      const id = `P${pins.length}`;
+      const offset = Math.min(2 + pins.length, lim);
+      api.setPins([...pins, { id, side, offset }]);
+      api.setRevealed(false);
+      ctx.rerender();
+    };
+    return [
+      el("button", {
+        className: "btn btn-secondary",
+        type: "button",
+        text: "+ left",
+        onClick: addSide("left"),
+      }),
+      el("button", {
+        className: "btn btn-secondary",
+        type: "button",
+        text: "+ right",
+        onClick: addSide("right"),
+      }),
+      el("button", {
+        className: "btn btn-secondary",
+        type: "button",
+        text: "+ top",
+        onClick: addSide("top"),
+      }),
+      el("button", {
+        className: "btn btn-secondary",
+        type: "button",
+        text: "+ bottom",
+        onClick: addSide("bottom"),
+      }),
+      el("button", {
+        className: "btn btn-ghost",
+        type: "button",
+        text: "Clear pins",
+        onClick: () => {
+          api.setPins([]);
+          api.setRevealed(false);
+          ctx.rerender();
+        },
+      }),
+      el("button", {
+        className: "btn btn-primary",
+        type: "button",
+        text: "Assign golden pins",
+        onClick: () => {
+          api.setPins(GOLDEN_PINS.map((p) => ({ ...p })));
+          api.setRevealed(false);
+          ctx.rerender();
+        },
+      }),
+    ];
   },
+  onChallengeSetup(_ctx, api) {
+    api.setPins([]);
+  },
+  challenges: [
+    {
+      id: "empty-invalid",
+      title: "Empty is invalid",
+      level: "Intro",
+      prompt: "With no pins, pinsValid is false.",
+      hint: "Clear pins if needed.",
+      check: (_c, api) => api.getPins().length === 0 && !pinsValid(api.getPins()),
+    },
+    {
+      id: "add-four-sides",
+      title: "Cover four sides",
+      level: "Intro",
+      prompt: "Add at least one pin on each of left, right, top, bottom.",
+      hint: "Click + left/right/top/bottom once each.",
+      check: (_c, api) => {
+        const sides = new Set(api.getPins().map((p) => p.side));
+        return sides.has("left") && sides.has("right") && sides.has("top") && sides.has("bottom");
+      },
+    },
+    {
+      id: "valid",
+      title: "Make pinsValid true",
+      level: "Intro",
+      prompt: "Produce a pin set where pinsValid returns true.",
+      hint: "Four sides with in-range offsets — golden works.",
+      check: (_c, api) => pinsValid(api.getPins()),
+    },
+    {
+      id: "count-4",
+      title: "Exactly four pins",
+      level: "Practice",
+      prompt: "Valid set with exactly four pins.",
+      hint: "One per side.",
+      check: (_c, api) => api.getPins().length === 4 && pinsValid(api.getPins()),
+    },
+    {
+      id: "has-left",
+      title: "Has left pin",
+      level: "Practice",
+      prompt: "Valid pins including a left-side pin.",
+      hint: "+ left or golden.",
+      check: (_c, api) =>
+        pinsValid(api.getPins()) && api.getPins().some((p) => p.side === "left"),
+    },
+    {
+      id: "has-top",
+      title: "Has top pin",
+      level: "Practice",
+      prompt: "Valid pins including a top-side pin.",
+      hint: "+ top.",
+      check: (_c, api) =>
+        pinsValid(api.getPins()) && api.getPins().some((p) => p.side === "top"),
+    },
+    {
+      id: "golden-set",
+      title: "Match golden pin ids",
+      level: "Practice",
+      prompt: "Assign golden pins (P0–P3 on the four sides).",
+      hint: "Assign golden pins button.",
+      check: (_c, api) => {
+        const pins = api.getPins();
+        const ids = pins.map((p) => p.id).sort().join();
+        return ids === "P0,P1,P2,P3" && pinsValid(pins);
+      },
+    },
+    {
+      id: "p0-left",
+      title: "P0 on left",
+      level: "Stretch",
+      prompt: "Golden-style: P0 is on the left side.",
+      hint: "Assign golden pins.",
+      check: (_c, api) => api.getPins().find((p) => p.id === "P0")?.side === "left",
+    },
+    {
+      id: "clear-again",
+      title: "Clear breaks validity",
+      level: "Stretch",
+      prompt: "After Clear pins, valid is false.",
+      hint: "Clear pins button.",
+      check: (_c, api) => api.getPins().length === 0 && !pinsValid([]),
+    },
+    {
+      id: "rebuild-valid",
+      title: "Rebuild without peeking pack",
+      level: "Stretch",
+      prompt: "Valid four-side pin set (Reveal irrelevant).",
+      hint: "Add one pin per side.",
+      check: (_c, api) => {
+        const pins = api.getPins();
+        const sides = new Set(pins.map((p) => p.side));
+        return pinsValid(pins) && sides.size === 4;
+      },
+    },
+  ],
 });
-

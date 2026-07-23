@@ -1,82 +1,185 @@
 import {
   BAD_PACK,
   GOLDEN_PACK,
-  clonePack,
   cost,
-  drawFloorplan,
   hpwl,
   isLegalPacking,
   saSwap,
 } from "../../assets/floorplanning-core.js";
-import { createChallengeLab, el, metricsBlock } from "../../assets/clustering-ui.js";
+import {
+  createInteractiveFloorplanLab,
+  el,
+  packHasAll,
+} from "../../assets/floorplanning-lab.js";
 
 const root = document.getElementById("lab-root");
-let pack = clonePack(BAD_PACK);
-let mode = "bad";
+let swapA = "A";
+let swapB = "E";
 let improved = false;
 
-function arm() { pack = clonePack(BAD_PACK); mode = "bad"; improved = false; }
-
-createChallengeLab(root, {
-  starterHtml: `<p><strong>Starter:</strong> bad (illegal) pack has huge cost.
-    Swap to golden or run Improve once to lower cost and reach a legal packing.</p>`,
-  loadStarter() { pack = clonePack(BAD_PACK); mode = "bad"; improved = false; },
-  challenges: [
-    { id: "bad-high", title: "Bad high cost", level: "Intro",
-      prompt: "Bad pack cost ≥ 1000 (illegal penalty).", hint: "Show bad.",
-      setup: arm, check: () => mode === "bad" && cost(pack) >= 1000 },
-    { id: "show-golden", title: "Show golden", level: "Intro",
-      prompt: "Show golden packing (legal).", hint: "Click Show golden.",
-      setup: arm, check: () => mode === "golden" && isLegalPacking(pack) },
-    { id: "golden-low", title: "Golden cost < 1000", level: "Intro",
-      prompt: "Golden cost is below the illegal penalty.", hint: "Show golden.",
-      setup: arm, check: () => mode === "golden" && cost(pack) < 1000 },
-    { id: "improve", title: "Improve once", level: "Practice",
-      prompt: "Click Improve (swap toward golden).", hint: "Improve button.",
-      setup: arm, check: () => improved },
-    { id: "improved-legal", title: "Improved legal", level: "Practice",
-      prompt: "After improve, packing is legal.", hint: "Improve from bad.",
-      setup: arm, check: () => improved && isLegalPacking(pack) },
-    { id: "cost-drop", title: "Cost drops", level: "Practice",
-      prompt: "Improved cost < bad cost.", hint: "Improve.",
-      setup: arm, check: () => improved && cost(pack) < cost(BAD_PACK) },
-    { id: "hpwl-num", title: "HPWL finite", level: "Practice",
-      prompt: "HPWL is a finite number on current pack.", hint: "Any shown pack.",
-      setup: arm, check: () => Number.isFinite(hpwl(pack)) },
-    { id: "swap-demo", title: "Swap preserves sizes", level: "Stretch",
-      prompt: "After golden, A.w is still 3.", hint: "Show golden.",
-      setup: arm, check: () => mode === "golden" && pack.A.w === 3 },
-    { id: "sa-swap-fn", title: "saSwap moves coords", level: "Stretch",
-      prompt: "saSwap(golden,'A','E') moves A to former E coords.",
-      hint: "Pure function check.", setup: arm,
-      check: () => {
-        const s = saSwap(GOLDEN_PACK, "A", "E");
-        return s.A.x === GOLDEN_PACK.E.x && s.A.y === GOLDEN_PACK.E.y;
-      } },
-    { id: "golden-beats-bad", title: "Golden beats bad", level: "Stretch",
-      prompt: "cost(golden) < cost(bad).", hint: "Always true here.",
-      setup: arm, check: () => cost(GOLDEN_PACK) < cost(BAD_PACK) },
+createInteractiveFloorplanLab(root, {
+  initialPack: BAD_PACK,
+  revealPack: GOLDEN_PACK,
+  starterHtml: `
+    <p><strong>Your job:</strong> start from an <em>illegal</em> bad seed (cost ≥ 1000).
+    Swap module positions or rebuild a legal packing until cost drops below 1000.
+    Select two ids and click <strong>Swap selected pair</strong>.</p>
+  `,
+  extraMetrics: (api) => [
+    `cost: ${cost(api.getPack()).toFixed(2)}`,
+    `hpwl: ${hpwl(api.getPack()).toFixed(2)}`,
+    `swapPair: ${swapA}↔${swapB}`,
+    `improvedFlag: ${improved}`,
   ],
-  extraActions(ctx) {
+  extraActions(ctx, api) {
     return [
-      el("button", { className: "btn btn-secondary", type: "button", text: "Show bad",
-        onClick: () => { pack = clonePack(BAD_PACK); mode = "bad"; improved = false; ctx.rerender(); } }),
-      el("button", { className: "btn btn-primary", type: "button", text: "Show golden",
-        onClick: () => { pack = clonePack(GOLDEN_PACK); mode = "golden"; improved = false; ctx.rerender(); } }),
-      el("button", { className: "btn btn-primary", type: "button", text: "Improve",
-        onClick: () => { pack = clonePack(GOLDEN_PACK); mode = "improved"; improved = true; ctx.rerender(); } }),
+      el("button", {
+        className: "btn btn-secondary",
+        type: "button",
+        text: "Reset bad seed",
+        onClick: () => {
+          api.setPack(BAD_PACK);
+          api.setRevealed(false);
+          improved = false;
+          ctx.rerender();
+        },
+      }),
+      el("button", {
+        className: "btn btn-secondary",
+        type: "button",
+        text: `Set swap A=${api.getSelected()}`,
+        onClick: () => {
+          swapA = api.getSelected();
+          ctx.rerender();
+        },
+      }),
+      el("button", {
+        className: "btn btn-secondary",
+        type: "button",
+        text: `Set swap B=${api.getSelected()}`,
+        onClick: () => {
+          swapB = api.getSelected();
+          ctx.rerender();
+        },
+      }),
+      el("button", {
+        className: "btn btn-primary",
+        type: "button",
+        text: "Swap selected pair",
+        onClick: () => {
+          const p = api.getPack();
+          if (!p[swapA] || !p[swapB]) return;
+          api.setPack(saSwap(p, swapA, swapB));
+          api.setRevealed(false);
+          if (isLegalPacking(api.getPack()) && cost(api.getPack()) < 1000) improved = true;
+          ctx.rerender();
+        },
+      }),
     ];
   },
-  renderWorkspace(ctx) {
-    drawFloorplan(ctx.canvas, { pack });
-    ctx.metrics.innerHTML = "";
-    ctx.metrics.append(metricsBlock([
-      `view: ${mode}`,
-      `legal: ${isLegalPacking(pack)}`,
-      `cost: ${cost(pack).toFixed(2)}`,
-      `hpwl: ${hpwl(pack).toFixed(2)}`,
-      `improved: ${improved}`,
-    ]));
+  onChallengeSetup(_ctx, api) {
+    api.setPack(BAD_PACK);
+    improved = false;
+    swapA = "A";
+    swapB = "E";
   },
+  challenges: [
+    {
+      id: "see-bad",
+      title: "Bad seed is illegal",
+      level: "Intro",
+      prompt: "Start packing is illegal with cost ≥ 1000.",
+      hint: "Reset bad seed if you changed it.",
+      check: (_c, api) => !isLegalPacking(api.getPack()) && cost(api.getPack()) >= 1000,
+    },
+    {
+      id: "fix-e",
+      title: "Fix E overflow",
+      level: "Intro",
+      prompt: "Move/place so E no longer overflows (legal packing of all five).",
+      hint: "Select E and nudge left, or rebuild. E.x ≤ 8.",
+      check: (_c, api) => packHasAll(api.getPack()) && isLegalPacking(api.getPack()),
+    },
+    {
+      id: "cost-under",
+      title: "Cost below 1000",
+      level: "Intro",
+      prompt: "Reach a legal packing with cost &lt; 1000.",
+      hint: "Illegal penalty is +1000.",
+      check: (_c, api) =>
+        packHasAll(api.getPack()) &&
+        isLegalPacking(api.getPack()) &&
+        cost(api.getPack()) < 1000,
+    },
+    {
+      id: "beats-bad",
+      title: "Beat bad cost",
+      level: "Practice",
+      prompt: "Your cost must be strictly less than cost(bad seed).",
+      hint: "Any legal packing works.",
+      check: (_c, api) =>
+        isLegalPacking(api.getPack()) && cost(api.getPack()) < cost(BAD_PACK),
+    },
+    {
+      id: "swap-once",
+      title: "Perform a swap",
+      level: "Practice",
+      prompt: "From bad seed, set swap pair and Swap once (state may still be illegal).",
+      hint: "Set swap A/B then Swap selected pair.",
+      check: (_c, api) => {
+        // After at least one user edit from identical BAD positions for E
+        const p = api.getPack();
+        return p.E && (p.E.x !== BAD_PACK.E.x || p.E.y !== BAD_PACK.E.y || isLegalPacking(p));
+      },
+    },
+    {
+      id: "hpwl-finite",
+      title: "HPWL finite when legal",
+      level: "Practice",
+      prompt: "Legal packing with finite HPWL.",
+      hint: "Fix legality first.",
+      check: (_c, api) =>
+        isLegalPacking(api.getPack()) && Number.isFinite(hpwl(api.getPack())),
+    },
+    {
+      id: "sizes-kept",
+      title: "Sizes preserved",
+      level: "Practice",
+      prompt: "Legal packing where A is still 3×2.",
+      hint: "Swaps move coordinates only.",
+      check: (_c, api) => {
+        const a = api.getPack().A;
+        return a && a.w === 3 && a.h === 2 && isLegalPacking(api.getPack());
+      },
+    },
+    {
+      id: "near-golden-cost",
+      title: "Near golden quality",
+      level: "Stretch",
+      prompt: "Legal packing with cost ≤ cost(golden) + 5.",
+      hint: "Match the golden layout or get close.",
+      check: (_c, api) =>
+        isLegalPacking(api.getPack()) && cost(api.getPack()) <= cost(GOLDEN_PACK) + 5,
+    },
+    {
+      id: "all-five-legal",
+      title: "All five legal",
+      level: "Stretch",
+      prompt: "All five placed and legal.",
+      hint: "Place or swap until legal.",
+      check: (_c, api) => packHasAll(api.getPack()) && isLegalPacking(api.getPack()),
+    },
+    {
+      id: "no-reveal",
+      title: "Improve without reveal",
+      level: "Stretch",
+      prompt: "Legal cost &lt; 1000 with Reveal hidden.",
+      hint: "Don’t use Reveal golden.",
+      check: (_c, api) =>
+        !api.isRevealed() &&
+        packHasAll(api.getPack()) &&
+        isLegalPacking(api.getPack()) &&
+        cost(api.getPack()) < 1000,
+    },
+  ],
 });
-

@@ -1,71 +1,152 @@
 import {
   GOLDEN_PACK,
   MACRO_PACK,
-  clonePack,
-  drawFloorplan,
   isLegalPacking,
 } from "../../assets/floorplanning-core.js";
-import { createChallengeLab, el, metricsBlock } from "../../assets/clustering-ui.js";
+import {
+  createInteractiveFloorplanLab,
+  packHasAll,
+} from "../../assets/floorplanning-lab.js";
 
 const root = document.getElementById("lab-root");
-let pack = clonePack(GOLDEN_PACK);
-let mode = "free";
 
-function arm() { pack = clonePack(GOLDEN_PACK); mode = "free"; }
+const seed = {
+  D: { x: 0, y: 0, w: 3, h: 1, macro: true },
+};
 
-createChallengeLab(root, {
-  starterHtml: `<p><strong>Starter:</strong> free golden packing.
-    Macro mode fixes D at (0,0) and packs A–E around it.</p>`,
-  loadStarter() { pack = clonePack(GOLDEN_PACK); mode = "free"; },
+createInteractiveFloorplanLab(root, {
+  initialPack: seed,
+  lockedIds: ["D"],
+  revealPack: MACRO_PACK,
+  starterHtml: `
+    <p><strong>Your job:</strong> macro <strong>D is locked</strong> at (0,0).
+    Place A, B, C, E around it without overlaps. You cannot move D.</p>
+  `,
   challenges: [
-    { id: "place-macro", title: "Place macros", level: "Intro",
-      prompt: "Click Place macros.", hint: "Macro button.",
-      setup: arm, check: () => mode === "macro" },
-    { id: "D-fixed", title: "D at (0,0)", level: "Intro",
-      prompt: "Macro D is at (0,0).", hint: "Place macros.",
-      setup: arm, check: () => mode === "macro" && pack.D.x === 0 && pack.D.y === 0 },
-    { id: "D-flag", title: "D marked macro", level: "Intro",
-      prompt: "D.macro is true.", hint: "Place macros.",
-      setup: arm, check: () => mode === "macro" && pack.D.macro === true },
-    { id: "legal", title: "Macro pack legal", level: "Practice",
-      prompt: "Macro packing is legal.", hint: "Place macros.",
-      setup: arm, check: () => mode === "macro" && isLegalPacking(pack) },
-    { id: "five", title: "Five modules", level: "Practice",
-      prompt: "Five modules present.", hint: "A–E.",
-      setup: arm, check: () => mode === "macro" && Object.keys(pack).length === 5 },
-    { id: "A-above", title: "A above D", level: "Practice",
-      prompt: "A.y >= D.h when macros placed.", hint: "A stacked on D.",
-      setup: arm, check: () => mode === "macro" && pack.A.y >= pack.D.h },
-    { id: "free-legal", title: "Free golden legal", level: "Practice",
-      prompt: "Free golden is legal.", hint: "Load starter.",
-      setup: arm, check: () => mode === "free" && isLegalPacking(pack) },
-    { id: "D-size", title: "D is 3×1", level: "Stretch",
-      prompt: "D remains 3×1.", hint: "Hard macro size.",
-      setup: arm, check: () => mode === "macro" && pack.D.w === 3 && pack.D.h === 1 },
-    { id: "no-overlap", title: "Still non-overlap", level: "Stretch",
-      prompt: "Macro packing passes legality.", hint: "Same as legal.",
-      setup: arm, check: () => mode === "macro" && isLegalPacking(pack) },
-    { id: "differs", title: "Differs from free", level: "Stretch",
-      prompt: "Macro D position differs from free golden D.",
-      hint: "Free D is at (0,2).", setup: arm,
-      check: () => mode === "macro" && (pack.D.x !== GOLDEN_PACK.D.x || pack.D.y !== GOLDEN_PACK.D.y) },
+    {
+      id: "d-locked",
+      title: "D stays at origin",
+      level: "Intro",
+      prompt: "D remains at (0,0) as the fixed macro.",
+      hint: "Don’t try to move D — it’s locked.",
+      check: (_c, api) => {
+        const d = api.getPack().D;
+        return d && d.x === 0 && d.y === 0 && d.macro === true;
+      },
+    },
+    {
+      id: "place-a-above",
+      title: "Place A above D",
+      level: "Intro",
+      prompt: "Place A with A.y ≥ 1 (above the macro strip).",
+      hint: "Select A, click at (0,1).",
+      check: (_c, api) => {
+        const p = api.getPack();
+        return p.D && p.A && p.A.y >= p.D.h;
+      },
+    },
+    {
+      id: "place-rest",
+      title: "Place B C E",
+      level: "Intro",
+      prompt: "Place B, C, and E as well (five modules present).",
+      hint: "Keep D fixed; fill the right side.",
+      check: (_c, api) => packHasAll(api.getPack()) && api.getPack().D.macro,
+    },
+    {
+      id: "legal-macro",
+      title: "Legal around macro",
+      level: "Practice",
+      prompt: "All five placed, D fixed at (0,0), packing legal.",
+      hint: "A above D; B/C/E to the right.",
+      check: (_c, api) => {
+        const p = api.getPack();
+        return (
+          packHasAll(p) &&
+          p.D.x === 0 &&
+          p.D.y === 0 &&
+          p.D.macro &&
+          isLegalPacking(p)
+        );
+      },
+    },
+    {
+      id: "d-size",
+      title: "D size 3×1",
+      level: "Practice",
+      prompt: "Macro D remains 3×1 in a legal packing.",
+      hint: "Hard macro size.",
+      check: (_c, api) => {
+        const d = api.getPack().D;
+        return d && d.w === 3 && d.h === 1 && isLegalPacking(api.getPack());
+      },
+    },
+    {
+      id: "differs-free",
+      title: "Differs from free golden D",
+      level: "Practice",
+      prompt: "Legal macro packing where D is not at free-golden (0,2).",
+      hint: "D is at (0,0) here.",
+      check: (_c, api) => {
+        const p = api.getPack();
+        return (
+          packHasAll(p) &&
+          isLegalPacking(p) &&
+          (p.D.x !== GOLDEN_PACK.D.x || p.D.y !== GOLDEN_PACK.D.y)
+        );
+      },
+    },
+    {
+      id: "a-above-strict",
+      title: "A stacked on D",
+      level: "Practice",
+      prompt: "Legal packing with A at (0,1) above D.",
+      hint: "Teaching macro pack uses A@(0,1).",
+      check: (_c, api) => {
+        const p = api.getPack();
+        return p.A && p.A.x === 0 && p.A.y === 1 && packHasAll(p) && isLegalPacking(p);
+      },
+    },
+    {
+      id: "match-macro",
+      title: "Match macro teaching pack",
+      level: "Stretch",
+      prompt: "Match MACRO_PACK positions for A–E.",
+      hint: "D(0,0) A(0,1) B(3,0) C(5,0) E(7,0).",
+      check: (_c, api) => {
+        const p = api.getPack();
+        const g = MACRO_PACK;
+        return (
+          packHasAll(p) &&
+          isLegalPacking(p) &&
+          ["A", "B", "C", "D", "E"].every(
+            (id) => p[id].x === g[id].x && p[id].y === g[id].y
+          )
+        );
+      },
+    },
+    {
+      id: "cannot-clear-d",
+      title: "Clear keeps D",
+      level: "Stretch",
+      prompt: "Place A then Clear — D remains, A is gone.",
+      hint: "Place A, click Clear; only locked D should remain.",
+      check: (_c, api) => {
+        const p = api.getPack();
+        return p.D && p.D.x === 0 && p.D.y === 0 && !p.A && Object.keys(p).length === 1;
+      },
+    },
+    {
+      id: "no-reveal",
+      title: "Legal without reveal",
+      level: "Stretch",
+      prompt: "Legal macro packing with Reveal hidden.",
+      hint: "Place around locked D yourself.",
+      check: (_c, api) =>
+        !api.isRevealed() &&
+        packHasAll(api.getPack()) &&
+        api.getPack().D?.macro &&
+        isLegalPacking(api.getPack()),
+    },
   ],
-  extraActions(ctx) {
-    return [
-      el("button", { className: "btn btn-secondary", type: "button", text: "Show free",
-        onClick: () => { pack = clonePack(GOLDEN_PACK); mode = "free"; ctx.rerender(); } }),
-      el("button", { className: "btn btn-primary", type: "button", text: "Place macros",
-        onClick: () => { pack = clonePack(MACRO_PACK); mode = "macro"; ctx.rerender(); } }),
-    ];
-  },
-  renderWorkspace(ctx) {
-    drawFloorplan(ctx.canvas, { pack });
-    ctx.metrics.innerHTML = "";
-    ctx.metrics.append(metricsBlock([
-      `mode: ${mode}`,
-      `D: (${pack.D.x},${pack.D.y}) macro=${!!pack.D.macro}`,
-      `legal: ${isLegalPacking(pack)}`,
-    ]));
-  },
 });
-
