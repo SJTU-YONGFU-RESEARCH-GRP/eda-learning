@@ -1,0 +1,70 @@
+{
+  "name": "tiny_sta_chain",
+  "clock": {
+    "name": "clk",
+    "period": 10.0
+  },
+  "pins": [
+    {
+      "id": "in",
+      "kind": "port"
+    },
+    {
+      "id": "u1/A",
+      "kind": "cell_in",
+      "cell": "u1"
+    },
+    {
+      "id": "u1/Y",
+      "kind": "cell_out",
+      "cell": "u1"
+    },
+    {
+      "id": "u2/A",
+      "kind": "cell_in",
+      "cell": "u2"
+    },
+    {
+      "id": "u2/Y",
+      "kind": "cell_out",
+      "cell": "u2"
+    },
+    {
+      "id": "out",
+      "kind": "port"
+    }
+  ],
+  "arcs": [
+    {
+      "from": "in",
+      "to": "u1/A",
+      "delay": 0.0,
+      "kind": "net"
+    },
+    {
+      "from": "u1/A",
+      "to": "u1/Y",
+      "delay": 1.2,
+      "kind": "cell"
+    },
+    {
+      "from": "u1/Y",
+      "to": "u2/A",
+      "delay": 0.3,
+      "kind": "net"
+    },
+    {
+      "from": "u2/A",
+      "to": "u2/Y",
+      "delay": 1.5,
+      "kind": "cell"
+    },
+    {
+      "from": "u2/Y",
+      "to": "out",
+      "delay": 0.2,
+      "kind": "net"
+    }
+  ],
+  "notes": "Toy chain for arrival/required/slack goldens; not a liberty model."
+}

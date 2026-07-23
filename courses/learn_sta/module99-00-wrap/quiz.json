@@ -1,0 +1,39 @@
+{
+  "id": "module99-00-wrap",
+  "title": "Wrap check",
+  "items": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "prompt": "After a local buffer insert, the STA idea you reach for first is\u2026",
+      "choices": [
+        "Rebuild the entire chip from scratch only",
+        "Incremental invalidate / recompute of the affected cone",
+        "Delete all clocks",
+        "Ignore slack forever"
+      ],
+      "answer": 1,
+      "explain": "Incremental update recomputes only what the edit touched."
+    },
+    {
+      "id": "q2",
+      "type": "true_false",
+      "prompt": "Setup and hold slack use the same formula with the same clock edge pair.",
+      "answer": false,
+      "explain": "Setup and hold use different edge relationships and inequalities."
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "prompt": "A natural next course after STA is\u2026",
+      "choices": [
+        "Only analog layout",
+        "learn_sdc (constraints as engine data)",
+        "SPICE device models first",
+        "Ignore the digital flow"
+      ],
+      "answer": 1,
+      "explain": "SDC teaches clocks and exceptions the timer consumes."
+    }
+  ]
+}

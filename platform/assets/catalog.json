@@ -9,6 +9,11 @@
       "section": "Clustering & refinement"
     },
     {
+      "id": "analytical-place",
+      "title": "Analytical Place",
+      "section": "Placement"
+    },
+    {
       "id": "area-deadspace",
       "title": "Area Deadspace",
       "section": "Floorplanning"
@@ -29,6 +34,11 @@
       "section": "Partitioning"
     },
     {
+      "id": "density-bins",
+      "title": "Density Bins",
+      "section": "Placement"
+    },
+    {
       "id": "fiduccia-mattheyses",
       "title": "Fiduccia\u2013Mattheyses",
       "section": "Clustering & refinement"
@@ -44,6 +54,11 @@
       "section": "Partitioning"
     },
     {
+      "id": "force-directed-place",
+      "title": "Force Directed Place",
+      "section": "Placement"
+    },
+    {
       "id": "greedy-pair-merge",
       "title": "Greedy pair merge",
       "section": "Clustering & refinement"
@@ -52,6 +67,11 @@
       "id": "hierarchical-floorplan",
       "title": "Hierarchical Floorplan",
       "section": "Floorplanning"
+    },
+    {
+      "id": "hpwl-metrics",
+      "title": "Hpwl Metrics",
+      "section": "Placement"
     },
     {
       "id": "hypergraph-clustering",
@@ -104,14 +124,29 @@
       "section": "Partitioning"
     },
     {
+      "id": "net-models",
+      "title": "Net Models",
+      "section": "Placement"
+    },
+    {
       "id": "pin-assignment",
       "title": "Pin Assignment",
       "section": "Floorplanning"
     },
     {
+      "id": "quadratic-place",
+      "title": "Quadratic Place",
+      "section": "Placement"
+    },
+    {
       "id": "recursive-bisection",
       "title": "Recursive Bisection",
       "section": "Partitioning"
+    },
+    {
+      "id": "sa-placement",
+      "title": "Sa Placement",
+      "section": "Placement"
     },
     {
       "id": "sequence-pair",
@@ -149,6 +184,11 @@
       "section": "Partitioning"
     },
     {
+      "id": "spread-legalize-lite",
+      "title": "Spread Legalize Lite",
+      "section": "Placement"
+    },
+    {
       "id": "terminal-propagation",
       "title": "Terminal Propagation",
       "section": "Partitioning"
@@ -157,6 +197,16 @@
       "id": "timing-aware-clustering",
       "title": "Timing-aware clustering",
       "section": "Clustering & refinement"
+    },
+    {
+      "id": "timing-driven-place",
+      "title": "Timing Driven Place",
+      "section": "Placement"
+    },
+    {
+      "id": "timing-graph",
+      "title": "Timing Graph",
+      "section": "Static timing analysis"
     }
   ],
   "courses": [
@@ -226,11 +276,147 @@
     {
       "id": "learn_sta",
       "title": "Static timing analysis",
-      "focus": "Timing graph, slack, incremental update",
-      "status": "planned",
+      "focus": "Timing graph \u2192 arrival/required \u2192 slack \u2192 critical path \u2192 incremental update",
+      "status": "scaffold",
       "repo": "learn_sta",
       "prereq": null,
-      "labs": []
+      "labs": [
+        {
+          "n": "01",
+          "slug": "intro",
+          "moduleId": "module00-00-intro",
+          "kind": "intro",
+          "title": "Welcome to static timing analysis",
+          "toolId": null,
+          "status": "shipped",
+          "media": {
+            "video": false,
+            "pdf": false,
+            "pptx": false,
+            "quiz": true
+          }
+        },
+        {
+          "n": "02",
+          "slug": "timing-graph",
+          "moduleId": "module01-01-timing-graph",
+          "kind": "lab",
+          "title": "Timing graph",
+          "toolId": "timing-graph",
+          "status": "shipped",
+          "media": {
+            "video": false,
+            "pdf": false,
+            "pptx": false,
+            "quiz": true
+          }
+        },
+        {
+          "n": "03",
+          "slug": "arrival-required",
+          "moduleId": "module01-03-arrival-required",
+          "kind": "lab",
+          "title": "Arrival and required times",
+          "toolId": "arrival-required",
+          "status": "planned",
+          "media": {
+            "video": false,
+            "pdf": false,
+            "pptx": false,
+            "quiz": true
+          }
+        },
+        {
+          "n": "04",
+          "slug": "slack-setup-hold",
+          "moduleId": "module02-01-slack-setup-hold",
+          "kind": "lab",
+          "title": "Slack, setup, and hold",
+          "toolId": "slack-setup-hold",
+          "status": "planned",
+          "media": {
+            "video": false,
+            "pdf": false,
+            "pptx": false,
+            "quiz": true
+          }
+        },
+        {
+          "n": "05",
+          "slug": "critical-path",
+          "moduleId": "module02-03-critical-path",
+          "kind": "lab",
+          "title": "Critical path",
+          "toolId": "critical-path",
+          "status": "planned",
+          "media": {
+            "video": false,
+            "pdf": false,
+            "pptx": false,
+            "quiz": true
+          }
+        },
+        {
+          "n": "06",
+          "slug": "incremental-update",
+          "moduleId": "module03-01-incremental-update",
+          "kind": "lab",
+          "title": "Incremental timing update",
+          "toolId": "incremental-update",
+          "status": "planned",
+          "media": {
+            "video": false,
+            "pdf": false,
+            "pptx": false,
+            "quiz": true
+          }
+        },
+        {
+          "n": "07",
+          "slug": "false-multicycle-lite",
+          "moduleId": "module03-03-false-multicycle-lite",
+          "kind": "lab",
+          "title": "False and multicycle paths (engine view)",
+          "toolId": "false-multicycle-lite",
+          "status": "planned",
+          "media": {
+            "video": false,
+            "pdf": false,
+            "pptx": false,
+            "quiz": true
+          }
+        },
+        {
+          "n": "08",
+          "slug": "offline-benchmark-compare",
+          "moduleId": "module05-01-offline-benchmark-compare",
+          "kind": "offline",
+          "title": "Offline benchmark compare",
+          "toolId": null,
+          "status": "planned",
+          "media": {
+            "video": false,
+            "pdf": false,
+            "pptx": false,
+            "quiz": true
+          }
+        },
+        {
+          "n": "09",
+          "slug": "wrap",
+          "moduleId": "module99-00-wrap",
+          "kind": "wrap",
+          "title": "STA path complete",
+          "toolId": null,
+          "status": "shipped",
+          "media": {
+            "video": false,
+            "pdf": false,
+            "pptx": false,
+            "quiz": true
+          }
+        }
+      ]
     },
     {
       "id": "learn_sdc",
@@ -882,12 +1068,193 @@
     },
     {
       "id": "learn_placement",
-      "title": "Placement",
-      "focus": "Global place, HPWL, density",
-      "status": "planned",
+      "title": "Placement for EDA",
+      "focus": "HPWL/net models \u2192 force/quadratic/analytical/SA \u2192 density \u2192 timing-driven",
+      "status": "ready",
       "repo": "learn_placement",
       "prereq": null,
-      "labs": []
+      "labs": [
+        {
+          "n": "01",
+          "slug": "intro",
+          "moduleId": "module00-00-intro",
+          "kind": "intro",
+          "title": "Welcome to placement for EDA",
+          "toolId": null,
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "02",
+          "slug": "hpwl-metrics",
+          "moduleId": "module01-01-hpwl-metrics",
+          "kind": "lab",
+          "title": "Half-perimeter wirelength",
+          "toolId": "hpwl-metrics",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "03",
+          "slug": "net-models",
+          "moduleId": "module01-03-net-models",
+          "kind": "lab",
+          "title": "Net models for wirelength",
+          "toolId": "net-models",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "04",
+          "slug": "force-directed-place",
+          "moduleId": "module02-01-force-directed-place",
+          "kind": "lab",
+          "title": "Force-directed placement",
+          "toolId": "force-directed-place",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "05",
+          "slug": "quadratic-place",
+          "moduleId": "module02-03-quadratic-place",
+          "kind": "lab",
+          "title": "Quadratic placement",
+          "toolId": "quadratic-place",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "06",
+          "slug": "analytical-place",
+          "moduleId": "module02-05-analytical-place",
+          "kind": "lab",
+          "title": "Analytical / density-aware place",
+          "toolId": "analytical-place",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "07",
+          "slug": "sa-placement",
+          "moduleId": "module02-07-sa-placement",
+          "kind": "lab",
+          "title": "Simulated annealing placement",
+          "toolId": "sa-placement",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "08",
+          "slug": "density-bins",
+          "moduleId": "module03-01-density-bins",
+          "kind": "lab",
+          "title": "Density bins and overflow",
+          "toolId": "density-bins",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "09",
+          "slug": "spread-legalize-lite",
+          "moduleId": "module03-03-spread-legalize-lite",
+          "kind": "lab",
+          "title": "Spreading / overlap relief",
+          "toolId": "spread-legalize-lite",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "10",
+          "slug": "timing-driven-place",
+          "moduleId": "module04-01-timing-driven-place",
+          "kind": "lab",
+          "title": "Timing-driven placement",
+          "toolId": "timing-driven-place",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "11",
+          "slug": "offline-benchmark-compare",
+          "moduleId": "module05-01-offline-benchmark-compare",
+          "kind": "offline",
+          "title": "Offline benchmark compare",
+          "toolId": null,
+          "status": "planned",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "12",
+          "slug": "wrap",
+          "moduleId": "module99-00-wrap",
+          "kind": "wrap",
+          "title": "Placement path complete",
+          "toolId": null,
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        }
+      ]
     },
     {
       "id": "learn_legalization",

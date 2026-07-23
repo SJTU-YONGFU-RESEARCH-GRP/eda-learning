@@ -1,0 +1,39 @@
+{
+  "id": "module00-00-intro",
+  "title": "Intro check",
+  "items": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "prompt": "This course focuses primarily on\u2026",
+      "choices": [
+        "Vendor GUI click-paths",
+        "Full implementations of STA algorithms on tiny netlists",
+        "Foundry PDK certification",
+        "Writing UVM agents"
+      ],
+      "answer": 1,
+      "explain": "Algorithm / toy-engine literacy on scoped timing graphs."
+    },
+    {
+      "id": "q2",
+      "type": "true_false",
+      "prompt": "STA replaces all need for simulation vectors by proving functional correctness.",
+      "answer": false,
+      "explain": "STA checks timing under delay models; it does not prove function."
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "prompt": "A good study rhythm is\u2026",
+      "choices": [
+        "Only memorize folder names",
+        "Browser intuition then implement metrics on tiny netlists",
+        "Skip checklists entirely",
+        "Start with multicycle exceptions before the timing graph"
+      ],
+      "answer": 1,
+      "explain": "Track B then Track A hardens the idea."
+    }
+  ]
+}

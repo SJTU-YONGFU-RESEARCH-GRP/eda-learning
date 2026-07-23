@@ -1,0 +1,8 @@
+title: "Welcome to static timing analysis"
+footer: "learn_sta — Welcome"
+slides:
+  - type: title
+    title: "Welcome to static timing analysis"
+    subtitle: "module00-00-intro · learn_sta"
+    notes: |
+      Stub — replace via transcript_to_outline.py after revising transcript.md.

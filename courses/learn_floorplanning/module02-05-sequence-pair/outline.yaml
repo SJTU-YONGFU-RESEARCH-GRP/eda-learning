@@ -1,66 +1,73 @@
-title: Sequence pairs
+title: Sequence-pair representation
 footer: learn_floorplanning — 05 sequence pair
 slides:
 - type: title
-  title: Sequence pairs
-  subtitle: A sequence pair is two permutations of the modules, often called the positive
-    and negative sequences, Γ-plus and Γ-minus
-  notes: A sequence pair is two permutations of the modules—often called the positive
-    and negative sequences, Γ-plus and Γ-minus. Together they encode relative left-right
-    and above-below order. From the pair you can pack coordinates with longest-path
-    style constraints on a constraint graph.
-- type: bullets
-  title: The idea
-  bullets:
-  - If module A appears before B in both sequences, A is left of B
-  - If A appears before B in Γ-plus but after B in Γ-minus
-  - Horizontal and vertical constraint graphs yield x and y via longest paths
-  - Soft sizing and rotation can be layered on later; first get hard rectangles right
-  notes: If module A appears before B in both sequences, A is left of B. If A appears
-    before B in Γ-plus but after B in Γ-minus, A is above B—under the standard Murata
-    interpretation. Horizontal and vertical constraint graphs yield x and y via longest
-    paths. Soft sizing and rotation can be layered on later; first get hard rectangles
-    right.
+  title: Sequence-pair representation
+  subtitle: Sequence pair uses positive permutation A B C E D and negative D A B C
+    E
+  notes: 'Sequence pair uses positive permutation A B C E D and negative D A B C E.
+    Longest-path packing from left-of and below constraints places all five modules
+    legally.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: Two permutations encode geometry
+  image: assets/steps/01-seqs.png
+  caption: Two permutations encode geometry
+  notes: Sequence pair uses a positive and a negative permutation of the same modules.
+    Ours are pos A B C E D and neg D A B C E—five ids each, same set.
+- type: image
+  title: Horizontal constraints set x
+  image: assets/steps/02-h-rules.png
+  caption: Horizontal constraints set x
+  notes: Module i is left of j when i appears before j in both sequences. Longest-path
+    packing pushes each block as far left as those constraints allow.
+- type: image
+  title: Vertical constraints set y
+  image: assets/steps/03-v-rules.png
+  caption: Vertical constraints set y
+  notes: Module i is below j when i precedes j in pos but follows in neg. That fills
+    y coordinates without overlaps for a feasible pair.
+- type: image
+  title: Golden SP packs legally
+  image: assets/steps/04-legal.png
+  caption: Golden SP packs legally
+  notes: Evaluating the golden sequences places all five modules with non-negative
+    coordinates and a legal packing inside the outline.
+- type: image
+  title: SP neighbors are permutation moves
+  image: assets/steps/05-takeaway.png
+  caption: SP neighbors are permutation moves
+  notes: 'Annealing on sequence pair swaps or rotates entries in pos and neg. Feasibility
+    stays geometric; cost can be deadspace plus wirelength.
+
+
+    <!-- /algorithm-walkthrough -->'
 - type: bullets
   title: Browser lab track
   bullets:
-  - Open **sequence-pair**
-  - Load starter Γ-plus and Γ-minus
-  - Highlight one pair of modules and read the implied relation, left-of or above
-  - Pack and inspect deadspace under the fixed outline
-  - Swap two symbols in one sequence and watch relations flip
-  - Then implement packing from sequences in Track A
-  notes: Open **sequence-pair**. Load starter Γ-plus and Γ-minus. Highlight one pair
-    of modules and read the implied relation—left-of or above. Pack and inspect deadspace
-    under the fixed outline. Swap two symbols in one sequence and watch relations
-    flip. Then implement packing from sequences in Track A.
+  - Open sequence-pair and Pack sequence pair
+  - Confirm five modules, non-negative coordinates
+  notes: Open sequence-pair and Pack sequence pair. Confirm five modules, non-negative
+    coordinates, and legality true on the golden permutations.
 - type: bullets
   title: Implement track
   bullets:
-  - Represent Γ-plus and Γ-minus as lists of module ids
-  - Build constraint edges, compute coordinates
-  - Report deadspace
-  - Keep permutations as permutations, no duplicate ids
-  - Deterministic packing helps goldens
-  notes: Represent Γ-plus and Γ-minus as lists of module ids. Build constraint edges,
-    compute coordinates, and check legality on the ten-by-eight outline. Report deadspace.
-    Keep permutations as permutations—no duplicate ids. Deterministic packing helps
-    goldens.
+  - Implement longest-path SP packing
+  - Assert pos and neg are the same five ids, and the golden pair packs legally
+  notes: Implement longest-path SP packing. Assert pos and neg are the same five ids,
+    and the golden pair packs legally.
 - type: bullets
   title: Pitfalls
   bullets:
-  - Mixing up which sequence pair condition means “left of” versus “above” yields
-    mirrored
-  - Forgetting transitive longest-path compaction leaves unnecessary whitespace
-  - And sequence pairs can encode non-slicing packings
-  notes: Mixing up which sequence pair condition means “left of” versus “above” yields
-    mirrored nonsense. Forgetting transitive longest-path compaction leaves unnecessary
-    whitespace. And sequence pairs can encode non-slicing packings—don’t force a slicing
-    tree interpretation onto them.
+  - Mismatched id sets between pos and neg
+  notes: Mismatched id sets between pos and neg; swapping the horizontal/vertical
+    rules; negative coordinates from a buggy DP.
 - type: bullets
   title: Your turn
   bullets:
-  - Pack A–E from a sequence pair and verify legality
-  - Next you’ll search the space of representations with simulated annealing
-  notes: Pack A–E from a sequence pair and verify legality. Next you’ll search the
-    space of representations with simulated annealing.
+  - Pack the golden sequences legally
+  - 'Next: simulated annealing that prefers legal low-cost neighbors'
+  notes: 'Pack the golden sequences legally. Next: simulated annealing that prefers
+    legal low-cost neighbors.'

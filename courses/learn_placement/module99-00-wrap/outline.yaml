@@ -1,0 +1,50 @@
+title: Placement path complete
+footer: learn_placement — 00 wrap
+slides:
+- type: title
+  title: Placement path complete
+  subtitle: You’ve walked the placement path, from HPWL and net models, through force,
+    quadratic, analytical
+  notes: You’ve walked the placement path—from HPWL and net models, through force,
+    quadratic, analytical, and SA search, into density bins, spreading, and timing-weighted
+    objectives, plus an offline compare habit. This wrap names what you can do now
+    and where to go next.
+- type: bullets
+  title: What you can do now
+  bullets:
+  - You can compute HPWL, compare net models
+  - You know why density bins matter and how spreading relieves overlap
+  - You can weight critical nets
+  - You are not shipping a foundry placer
+  notes: You can compute HPWL, compare net models, and run global-place loops that
+    improve wirelength. You know why density bins matter and how spreading relieves
+    overlap. You can weight critical nets. You are not shipping a foundry placer—you
+    are building algorithm literacy for the PD stack.
+- type: bullets
+  title: Close the gaps
+  bullets:
+  - If you mainly watched browser labs
+  - If you mainly coded, re-open any skipped visual labs
+  - Either track works for self-study
+  notes: If you mainly watched browser labs, go back and finish at least one full
+    implementation in foundations and one in global place. If you mainly coded, re-open
+    any skipped visual labs. Either track works for self-study; both together stick
+    best before legalization or congestion.
+- type: bullets
+  title: Next
+  bullets:
+  - Complete the quiz for this part
+  - Natural next steps are learn legalization, for snapping and overlap removal
+  notes: Natural next steps are learn legalization—for snapping and overlap removal—and
+    learn congestion, where density maps feed routing capacity. Keep your tiny-placement
+    harness—you’ll reuse the I/O format.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Review the wrap checklist
+  - Name three algorithms and one strength each
+  - Say which idea you’d use when a net is timing-critical
+  - When you’re ready, take the short quiz, then open the next course README
+  notes: Review the wrap checklist. Name three algorithms and one strength each. Say
+    which idea you’d use when a net is timing-critical. When you’re ready, take the
+    short quiz, then open the next course README.

@@ -1,53 +1,59 @@
 ---
 marp: true
-title: Simulated annealing search
+title: Simulated annealing floorplan search
 paginate: true
 ---
 
-# Simulated annealing search
+# Simulated annealing floorplan search
 
-Representations give you a packing
+Toy cost adds one thousand when a packing is illegal
 
 ---
 
-## The idea
-- Pick a representation you already trust: slicing, B*, or sequence pair
-- Define moves that stay in that encoding
-- At temperature T, accept worse costs with probability related to exp of minus delta over T
-- Cool on a schedule
-- Always re-pack and re-score after a move
-- Illegal overflow should cost heavily so the search prefers legal packings
+## Illegal packs pay 1000
+![Illegal packs pay 1000](assets/steps/01-bad-cost.png)
+
+---
+
+## Golden cost stays under 1000
+![Golden cost stays under 1000](assets/steps/02-golden-cost.png)
+
+---
+
+## Neighbors swap module positions
+![Neighbors swap module positions](assets/steps/03-neighbor.png)
+
+---
+
+## Improve: bad → golden
+![Improve: bad → golden](assets/steps/04-improve.png)
+
+---
+
+## SA needs a representation
+![SA needs a representation](assets/steps/05-takeaway.png)
 
 ---
 
 ## Browser lab track
-- Open **simulated-annealing-fp**
-- Run a short anneal on the starter instance
-- Watch cost and temperature
-- Pause, inspect the current packing, then continue
-- Try a hotter start versus a greedy low temperature
-- Then implement a tiny SA loop yourself with a fixed seed
+- Open simulated-annealing-fp
+- Show bad, note cost at least one thousand
+- Show golden or Improve, cost drops below one thousand and legality becomes true
 
 ---
 
 ## Implement track
-- Wire SA around one representation
-- Log temperature, cost, and best packing
-- Use a deterministic RNG seed
-- Stop after a modest iteration budget on the toy outline
-- Export the best coordinates and deadspace
+- Implement cost with an illegality penalty, plus deadspace and HPWL terms
+- Assert cost(golden) is less than cost(bad), and saSwap only exchanges coordinates
 
 ---
 
 ## Pitfalls
-- Moves that don’t change the packing waste iterations
-- A cost that ignores overflow will “optimize” illegal layouts
-- Cooling too fast freezes a bad packing
-- Also don’t compare costs across different outline penalties without documenting the
+- Accepting illegal states without penalty
 
 ---
 
 ## Your turn
-- Get SA to improve deadspace or wirelength proxy from a random start while staying legal
-- Next: soft modules, resize aspect under area constraints
+- Demonstrate one improve step from bad to golden
+- Next: soft module A reshaped from three by two to two by three
 

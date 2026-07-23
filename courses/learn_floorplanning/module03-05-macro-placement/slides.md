@@ -1,50 +1,59 @@
 ---
 marp: true
-title: Hard macros
+title: Hard macro / fixed-block placement
 paginate: true
 ---
 
-# Hard macros
+# Hard macro / fixed-block placement
 
-Hard macros are fixed-size blocks, memories, analog IP, pre-placed covers
+Macros are hard fixed rectangles
 
 ---
 
-## The idea
-- Mark macros as hard: width and height immutable
-- If position is fixed, lock (x, y) and forbid moves that shift them
-- Other modules pack in the remaining free space
-- Cost still includes overflow and deadspace
-- Legality checks apply unchanged, macros are just immovable obstacles
+## Free golden has movable D
+![Free golden has movable D](assets/steps/01-free.png)
+
+---
+
+## Fix macro D at (0,0)
+![Fix macro D at (0,0)](assets/steps/02-fix-d.png)
+
+---
+
+## Pack A–E around the macro
+![Pack A–E around the macro](assets/steps/03-pack-rest.png)
+
+---
+
+## Macro packing is legal
+![Macro packing is legal](assets/steps/04-legal.png)
+
+---
+
+## Macros first, then cells
+![Macros first, then cells](assets/steps/05-takeaway.png)
 
 ---
 
 ## Browser lab track
-- Open **macro-placement**
-- Lock one module as a fixed hard block
-- Try to pack the others around it
-- Force an overlap and watch the checker
-- Unlock and compare freedom
-- Then encode fixed blocks in your Track A data model
+- Open macro-placement
+- Compare free golden D at zero comma two with Place macros: D at zero comma zero
+- Confirm legality and the macro flag
 
 ---
 
 ## Implement track
-- Extend `tiny_modules.json` with a `fixed: true` and optional `x`, `y` on one module
-- Pack the rest with your chosen representation, treating the macro as an obstacle
-- Fail loudly if a move would shift a fixed macro
-- Report legality and deadspace
+- Fix D, pack the rest, assert D at (0,0), D.macro true, and is_legal_packing true
+- Note the free golden differs
 
 ---
 
 ## Pitfalls
-- Silently moving a “fixed” macro during SA is a trust-breaking bug
-- Also don’t shrink hard macros when soft sizing runs
-- Overlapping two macros at init means the instance is already illegal
+- Moving macros after fixing them
 
 ---
 
 ## Your turn
-- Produce a legal packing with at least one fixed hard macro
-- Next: hierarchical floorplans that nest sub-packings inside parent regions
+- Ship the legal macro packing
+- Next: hierarchical AB left and CDE right at offset five
 

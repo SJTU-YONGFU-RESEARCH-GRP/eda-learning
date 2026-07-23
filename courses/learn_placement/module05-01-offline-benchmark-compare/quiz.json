@@ -1,0 +1,33 @@
+{
+  "id": "module05-01-offline-benchmark-compare",
+  "title": "Offline check",
+  "items": [
+    {
+      "id": "q1",
+      "type": "true_false",
+      "prompt": "Fair compares require the same input instance and the same reported metrics.",
+      "answer": true,
+      "explain": "Otherwise you compare different problems."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "prompt": "If an external tool is missing you should\u2026",
+      "choices": [
+        "Invent golden numbers",
+        "Still run your harness and document the gap",
+        "Delete your metrics",
+        "Skip the module forever"
+      ],
+      "answer": 1,
+      "explain": "Honesty about tooling beats fake goldens."
+    },
+    {
+      "id": "q3",
+      "type": "true_false",
+      "prompt": "An educational placer that is slower than OpenROAD is automatically wrong.",
+      "answer": false,
+      "explain": "Speed differs; look for improving HPWL and controlled density."
+    }
+  ]
+}

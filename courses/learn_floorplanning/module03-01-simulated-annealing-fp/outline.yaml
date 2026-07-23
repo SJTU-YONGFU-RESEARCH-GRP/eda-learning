@@ -1,70 +1,74 @@
-title: Simulated annealing search
+title: Simulated annealing floorplan search
 footer: learn_floorplanning — 01 simulated annealing fp
 slides:
 - type: title
-  title: Simulated annealing search
-  subtitle: Representations give you a packing
-  notes: Representations give you a packing. Search finds a good one under a fixed
-    outline. Simulated annealing perturbs the representation—swap modules, rotate,
-    change a tree edge or sequence—and accepts uphill moves early so you escape local
-    minima. Cost usually mixes outline overflow, deadspace, and a wirelength proxy.
-- type: bullets
-  title: The idea
-  bullets:
-  - 'Pick a representation you already trust: slicing, B*, or sequence pair'
-  - Define moves that stay in that encoding
-  - At temperature T, accept worse costs with probability related to exp of minus
-    delta over T
-  - Cool on a schedule
-  - Always re-pack and re-score after a move
-  - Illegal overflow should cost heavily so the search prefers legal packings
-  notes: 'Pick a representation you already trust: slicing, B*, or sequence pair.
-    Define moves that stay in that encoding. At temperature T, accept worse costs
-    with probability related to exp of minus delta over T. Cool on a schedule. Always
-    re-pack and re-score after a move. Illegal overflow should cost heavily so the
-    search prefers legal packings.'
+  title: Simulated annealing floorplan search
+  subtitle: Toy cost adds one thousand when a packing is illegal
+  notes: 'Toy cost adds one thousand when a packing is illegal. The bad overflow seed
+    sits near one thousand forty-four; the golden legal packing scores about thirty-six.
+    Annealing should move toward legal, lower cost.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: Illegal packs pay 1000
+  image: assets/steps/01-bad-cost.png
+  caption: Illegal packs pay 1000
+  notes: Our toy cost adds one thousand when the packing is illegal. The bad overflow
+    seed therefore sits at cost about one thousand forty-four—dominated by the penalty.
+- type: image
+  title: Golden cost stays under 1000
+  image: assets/steps/02-golden-cost.png
+  caption: Golden cost stays under 1000
+  notes: The golden legal packing drops below the penalty floor. Cost is about thirty-six—deadspace
+    and a small HPWL proxy, no illegality tax.
+- type: image
+  title: Neighbors swap module positions
+  image: assets/steps/03-neighbor.png
+  caption: Neighbors swap module positions
+  notes: A simple SA move swaps the lower-left corners of two modules while keeping
+    sizes. Accept improving moves; accept worsening ones with temperature probability.
+- type: image
+  title: 'Improve: bad → golden'
+  image: assets/steps/04-improve.png
+  caption: 'Improve: bad → golden'
+  notes: One teaching “improve” step replaces the illegal seed with the golden packing.
+    Cost falls below one thousand and legality flips to true—exactly what a cooling
+    schedule should prefer.
+- type: image
+  title: SA needs a representation
+  image: assets/steps/05-takeaway.png
+  caption: SA needs a representation
+  notes: 'Annealing is only as good as the move set. Pair it with polish, B-star,
+    or sequence-pair edits—plus soft sizing and macros—in the labs that follow.
+
+
+    <!-- /algorithm-walkthrough -->'
 - type: bullets
   title: Browser lab track
   bullets:
-  - Open **simulated-annealing-fp**
-  - Run a short anneal on the starter instance
-  - Watch cost and temperature
-  - Pause, inspect the current packing, then continue
-  - Try a hotter start versus a greedy low temperature
-  - Then implement a tiny SA loop yourself with a fixed seed
-  notes: Open **simulated-annealing-fp**. Run a short anneal on the starter instance.
-    Watch cost and temperature. Pause, inspect the current packing, then continue.
-    Try a hotter start versus a greedy low temperature. Then implement a tiny SA loop
-    yourself with a fixed seed.
+  - Open simulated-annealing-fp
+  - Show bad, note cost at least one thousand
+  - Show golden or Improve, cost drops below one thousand and legality becomes true
+  notes: Open simulated-annealing-fp. Show bad, note cost at least one thousand. Show
+    golden or Improve—cost drops below one thousand and legality becomes true.
 - type: bullets
   title: Implement track
   bullets:
-  - Wire SA around one representation
-  - Log temperature, cost, and best packing
-  - Use a deterministic RNG seed
-  - Stop after a modest iteration budget on the toy outline
-  - Export the best coordinates and deadspace
-  notes: Wire SA around one representation. Log temperature, cost, and best packing.
-    Use a deterministic RNG seed. Stop after a modest iteration budget on the toy
-    outline—this is literacy, not overnight runs. Export the best coordinates and
-    deadspace.
+  - Implement cost with an illegality penalty, plus deadspace and HPWL terms
+  - Assert cost(golden) is less than cost(bad), and saSwap only exchanges coordinates
+  notes: Implement cost with an illegality penalty, plus deadspace and HPWL terms.
+    Assert cost(golden) is less than cost(bad), and saSwap only exchanges coordinates.
 - type: bullets
   title: Pitfalls
   bullets:
-  - Moves that don’t change the packing waste iterations
-  - A cost that ignores overflow will “optimize” illegal layouts
-  - Cooling too fast freezes a bad packing
-  - Also don’t compare costs across different outline penalties without documenting
-    the
-  notes: Moves that don’t change the packing waste iterations. A cost that ignores
-    overflow will “optimize” illegal layouts. Cooling too fast freezes a bad packing;
-    cooling too slow teaches nothing on a five-module toy. Also don’t compare costs
-    across different outline penalties without documenting the weights.
+  - Accepting illegal states without penalty
+  notes: Accepting illegal states without penalty; forgetting to rescore after a swap;
+    cooling so fast you never escape the bad seed.
 - type: bullets
   title: Your turn
   bullets:
-  - Get SA to improve deadspace or wirelength proxy from a random start while staying
-    legal
-  - 'Next: soft modules, resize aspect under area constraints'
-  notes: 'Get SA to improve deadspace or wirelength proxy from a random start while
-    staying legal. Next: soft modules—resize aspect under area constraints.'
+  - Demonstrate one improve step from bad to golden
+  - 'Next: soft module A reshaped from three by two to two by three'
+  notes: 'Demonstrate one improve step from bad to golden. Next: soft module A reshaped
+    from three by two to two by three.'

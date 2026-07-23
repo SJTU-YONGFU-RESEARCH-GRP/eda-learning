@@ -1,26 +1,42 @@
 [
   {
     "slide": 1,
-    "duration": 16.488
+    "duration": 12.12
   },
   {
     "slide": 2,
-    "duration": 21.288
+    "duration": 10.776
   },
   {
     "slide": 3,
-    "duration": 17.112
+    "duration": 9.312
   },
   {
     "slide": 4,
-    "duration": 16.128
+    "duration": 10.224
   },
   {
     "slide": 5,
-    "duration": 14.136
+    "duration": 9.072
   },
   {
     "slide": 6,
-    "duration": 7.656
+    "duration": 9.168
+  },
+  {
+    "slide": 7,
+    "duration": 10.224
+  },
+  {
+    "slide": 8,
+    "duration": 10.032
+  },
+  {
+    "slide": 9,
+    "duration": 7.056
+  },
+  {
+    "slide": 10,
+    "duration": 8.256
   }
 ]

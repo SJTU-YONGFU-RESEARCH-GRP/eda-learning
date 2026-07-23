@@ -1,0 +1,46 @@
+{
+  "id": "module03-03-false-multicycle-lite",
+  "title": "False / multicycle check",
+  "items": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "prompt": "This lab\u2019s primary algorithm is\u2026",
+      "choices": [
+        "false-path and multicycle exceptions as STA engine data",
+        "Vendor place-and-route GUI only",
+        "SPICE transient analysis",
+        "Scan-chain stitching"
+      ],
+      "answer": 0,
+      "explain": "Focus: false-path and multicycle exceptions as STA engine data."
+    },
+    {
+      "id": "q2",
+      "type": "true_false",
+      "prompt": "You can safely propagate arrivals before the timing graph is levelized.",
+      "answer": false,
+      "explain": "Levelization (or equivalent topo order) comes first."
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "prompt": "After running the algorithm you should report\u2026",
+      "choices": [
+        "Only a screenshot of the UI",
+        "Tagged times and/or slack / path metrics for the starter",
+        "Only runtime",
+        "Nothing \u2014 intuition is enough"
+      ],
+      "answer": 1,
+      "explain": "Tags + metrics are the contract."
+    },
+    {
+      "id": "q4",
+      "type": "true_false",
+      "prompt": "Track A asks you to implement false-path and multicycle exceptions as STA engine data on a tiny netlist.",
+      "answer": true,
+      "explain": "Implement track hardens the idea."
+    }
+  ]
+}

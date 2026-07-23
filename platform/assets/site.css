@@ -563,6 +563,10 @@ span.btn.is-disabled {
   border-style: dashed;
   box-shadow: none;
 }
+.ladder-node.is-scaffold {
+  border-style: solid;
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+}
 .ladder-node.is-progress { border-color: var(--signal); }
 .ladder-node.is-complete { border-color: var(--ok); background: var(--ok-bg); }
 .ladder-id {

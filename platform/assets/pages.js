@@ -387,20 +387,30 @@
               const c = byId[id];
               if (!c) return "";
               const stats = D.courseStats(c);
-              const ready = c.status === "ready";
-              const href = ready ? `${id}/index.html` : "#courses-map";
+              // Open any course that has published shells (ready / scaffold / labs[]).
+              const open =
+                c.status === "ready" ||
+                c.status === "scaffold" ||
+                (Array.isArray(c.labs) && c.labs.length > 0);
+              const href = open ? `${id}/index.html` : "#courses-map";
               const cls = [
                 "ladder-node",
-                ready ? "is-ready" : "is-placeholder",
+                open ? "is-ready" : "is-placeholder",
+                c.status === "scaffold" ? "is-scaffold" : "",
                 stats.pct === 100 && stats.total ? "is-complete" : "",
                 stats.done > 0 && stats.pct < 100 ? "is-progress" : "",
               ]
                 .filter(Boolean)
                 .join(" ");
+              const meta = !open
+                ? "Soon"
+                : c.status === "scaffold"
+                  ? `In progress · ${stats.pct}%`
+                  : `${stats.pct}%`;
               return `<a class="${cls}" href="${href}">
                 <span class="ladder-id">${escape(id)}</span>
                 <span class="ladder-title">${escape(c.title)}</span>
-                <span class="ladder-meta">${ready ? `${stats.pct}%` : "Soon"}</span>
+                <span class="ladder-meta">${meta}</span>
               </a>`;
             })
             .join("");

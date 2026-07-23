@@ -1,59 +1,74 @@
-title: Hierarchical floorplans
+title: Hierarchical floorplanning
 footer: learn_floorplanning — 01 hierarchical floorplan
 slides:
 - type: title
-  title: Hierarchical floorplans
-  subtitle: Large designs floorplan recursively
-  notes: 'Large designs floorplan recursively: clusters become soft or hard regions,
-    each with its own sub-floorplan, then compose into the chip outline. Hierarchy
-    reuses the same packing ideas at every level and mirrors how partitioning and
-    clustering fed you the blocks.'
-- type: bullets
-  title: The idea
-  bullets:
-  - Pick a parent region inside the outline
-  - Floorplan a subset of modules inside that region as if it were its own fixed outline
-  - Place sibling regions, then recurse
-  - Top-level deadspace still uses the chip outline area
-  - Keep region outlines legal with respect to their parent
-  notes: Pick a parent region inside the outline. Floorplan a subset of modules inside
-    that region as if it were its own fixed outline. Place sibling regions, then recurse.
-    Top-level deadspace still uses the chip outline area; local deadspace can be reported
-    per region. Keep region outlines legal with respect to their parent.
+  title: Hierarchical floorplanning
+  subtitle: Hierarchy packs cluster AB on the left and cluster CDE on the right with
+    x offset five
+  notes: 'Hierarchy packs cluster AB on the left and cluster CDE on the right with
+    x offset five. Local pack, then place clusters—legal overall with clusters separated
+    in x.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: 'Two clusters: AB and CDE'
+  image: assets/steps/01-clusters.png
+  caption: 'Two clusters: AB and CDE'
+  notes: Hierarchy packs locally first. Left cluster holds A and B; right cluster
+    holds C, D, and E. Each cluster is a mini-floorplan.
+- type: image
+  title: Left cluster packs at x<5
+  image: assets/steps/02-left.png
+  caption: Left cluster packs at x<5
+  notes: AB occupies the left side with A at the origin and B at x equals three. Everything
+    in this cluster stays left of x equals five.
+- type: image
+  title: Right cluster offsets by 5
+  image: assets/steps/03-right.png
+  caption: Right cluster offsets by 5
+  notes: CDE packs in local coordinates, then shifts by five in x. C, D, and E all
+    land at x greater than or equal to five—no cluster overlap.
+- type: image
+  title: Hierarchy is legal overall
+  image: assets/steps/04-legal.png
+  caption: Hierarchy is legal overall
+  notes: 'Placing the two cluster bounding boxes yields a legal chip packing. Hierarchy
+    scales: recurse inside clusters, then assemble.'
+- type: image
+  title: Hierarchy reuses the same engines
+  image: assets/steps/05-takeaway.png
+  caption: Hierarchy reuses the same engines
+  notes: 'Each level can use slicing, B-star, or SA. The teaching golden is simply
+    AB left and CDE right at offset five.
+
+
+    <!-- /algorithm-walkthrough -->'
 - type: bullets
   title: Browser lab track
   bullets:
-  - Open **hierarchical-floorplan**
-  - 'Load a two-level starter: a parent outline and two child groups'
-  - Pack inside each child, then place children in the parent
-  - Inspect metrics at both levels
-  - Then implement nested packing in Track A
-  notes: 'Open **hierarchical-floorplan**. Load a two-level starter: a parent outline
-    and two child groups. Pack inside each child, then place children in the parent.
-    Inspect metrics at both levels. Then implement nested packing in Track A.'
+  - Open hierarchical-floorplan and Pack hierarchy
+  - Confirm A and B have x less than five, C D E have x at least five, and legality
+    true
+  notes: Open hierarchical-floorplan and Pack hierarchy. Confirm A and B have x less
+    than five, C D E have x at least five, and legality true.
 - type: bullets
   title: Implement track
   bullets:
-  - Partition A–E into two groups
-  - Floorplan each group into a sub-rectangle
-  - Verify no group overflows its region and regions don’t overlap
-  - Report global deadspace
-  notes: Partition A–E into two groups. Floorplan each group into a sub-rectangle,
-    then place those rectangles in the ten-by-eight outline. Verify no group overflows
-    its region and regions don’t overlap. Report global deadspace.
+  - Implement pack_hierarchical
+  - Assert leftMax x+w is at most rightMin x, five modules present, and legality true
+  notes: Implement pack_hierarchical. Assert leftMax x+w is at most rightMin x, five
+    modules present, and legality true.
 - type: bullets
   title: Pitfalls
   bullets:
-  - Optimizing children while ignoring parent legality leaves you with beautiful
-  - Don’t double-count module area across levels
-  - Align coordinates to a single global origin when composing
-  notes: Optimizing children while ignoring parent legality leaves you with beautiful
-    sub-floorplans that don’t compose. Don’t double-count module area across levels.
-    Align coordinates to a single global origin when composing.
+  - Overlapping cluster bounding boxes
+  notes: Overlapping cluster bounding boxes; forgetting the offset; applying different
+    legality rules at each level.
 - type: bullets
   title: Your turn
   bullets:
-  - Ship one hierarchical packing for the tiny instance
-  - 'Next: assign I/O pins to the chip boundary'
-  notes: 'Ship one hierarchical packing for the tiny instance. Next: assign I/O pins
-    to the chip boundary.'
+  - Accept the AB | CDE packing
+  - 'Next: assign pins P0 through P3 on all four outline sides'
+  notes: 'Accept the AB | CDE packing. Next: assign pins P0 through P3 on all four
+    outline sides.'

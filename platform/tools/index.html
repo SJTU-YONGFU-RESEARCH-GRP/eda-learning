@@ -21,7 +21,7 @@
     <div class="eyebrow">Tools</div>
     <section class="hero">
       <h1>Interactive labs</h1>
-      <p class="lead">Clustering and partitioning algorithm labs — concept shelf for <code>learn_clustering</code> and <code>learn_partitioning</code>.</p>
+      <p class="lead">Clustering, partitioning, and placement algorithm labs — concept shelf for <code>learn_clustering</code>, <code>learn_partitioning</code>, and <code>learn_placement</code>.</p>
     </section>
     <section class="tools-stage" id="clustering">
       <h2>Clustering &amp; refinement</h2>
@@ -114,6 +114,57 @@
         <li>
           <a href="multilevel-partition/index.html">Multilevel partition</a>
           <div class="chapter-meta">V-cycle stages: coarsen → project → refine → P0/P1.</div>
+        </li>
+      </ul>
+    </section>
+    <section class="tools-stage" id="placement">
+      <h2>Placement</h2>
+      <ul class="chapter-list">
+        <li>
+          <a href="hpwl-metrics/index.html">HPWL metrics</a>
+          <div class="chapter-meta">Half-perimeter wirelength on a tiny 6-cell netlist (starter 52 vs golden 14).</div>
+        </li>
+        <li>
+          <a href="net-models/index.html">Net models</a>
+          <div class="chapter-meta">Clique vs star HPWL on the 4-pin net (16 vs 8 on golden).</div>
+        </li>
+        <li>
+          <a href="force-directed-place/index.html">Force-directed place</a>
+          <div class="chapter-meta">Spring-style force iterations that cut starter HPWL 52→≈18.7.</div>
+        </li>
+        <li>
+          <a href="quadratic-place/index.html">Quadratic place</a>
+          <div class="chapter-meta">Pad-constrained quadratic lite (A,D fixed) → HPWL 48.</div>
+        </li>
+        <li>
+          <a href="analytical-place/index.html">Analytical place</a>
+          <div class="chapter-meta">Wirelength stage plus density spreading (analytical lite ≈48.1).</div>
+        </li>
+        <li>
+          <a href="sa-placement/index.html">SA placement</a>
+          <div class="chapter-meta">Few simulated-annealing moves; accept/reject on HPWL (seed 42 → ≈49.6).</div>
+        </li>
+        <li>
+          <a href="density-bins/index.html">Density bins</a>
+          <div class="chapter-meta">2×2 bin counts and overflow vs capacity.</div>
+        </li>
+        <li>
+          <a href="spread-legalize-lite/index.html">Spread / legalize lite</a>
+          <div class="chapter-meta">Push overlapping cells apart to a minimum distance of 0.5.</div>
+        </li>
+        <li>
+          <a href="timing-driven-place/index.html">Timing-driven place</a>
+          <div class="chapter-meta">Critical-net weighted HPWL (starter 116 vs golden 30).</div>
+        </li>
+      </ul>
+    </section>
+    <section class="tools-stage" id="sta">
+      <h2>Static timing analysis</h2>
+      <p class="lead">Timing graph, arrival/required, slack — tiny netlists.</p>
+      <ul class="chapter-grid">
+        <li>
+          <a href="timing-graph/index.html">Timing graph</a>
+          <div class="chapter-meta">6 pins, 5 arcs; levelize 0…5; path Σ 3.2.</div>
         </li>
       </ul>
     </section>

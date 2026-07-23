@@ -58,6 +58,30 @@ Shared helpers: `platform/assets/partitioning-core.js` (imports graph utils / KL
 
 Shared helpers: `platform/assets/floorplanning-core.js`.
 
+## Placement
+
+| Tool | Starter (reference) | Challenges | Status |
+|------|---------------------|------------|--------|
+| `hpwl-metrics` | Starter HPWL **52**; golden **14** | **10** | **Shipped** |
+| `net-models` | Golden ABCD bbox 4; clique **16**; star-from-A **8** | **10** | **Shipped** |
+| `force-directed-place` | Starter 52 → force ≈ **18.7** | **10** | **Shipped** |
+| `quadratic-place` | Pads A,D fixed → HPWL **48** | **10** | **Shipped** |
+| `analytical-place` | Force/quad + density spread → ≈ **48.1** | **10** | **Shipped** |
+| `sa-placement` | Seed 42 best ≈ **49.6** (acc 44 / rej 16) | **10** | **Shipped** |
+| `density-bins` | 2×2 cap1 overflow **2**; golden cap2 overflow **1** | **10** | **Shipped** |
+| `spread-legalize-lite` | Overlap minDist 0 → spread ≥ **0.5** | **10** | **Shipped** |
+| `timing-driven-place` | Timing HPWL **116** → golden **30** (net4×5) | **10** | **Shipped** |
+
+Shared helpers: `platform/assets/placement-core.js`, `platform/assets/placement-ui.js` (reuses `createChallengeLab` from `clustering-ui.js`).
+
+## Static timing analysis (STA)
+
+| Tool | Starter (reference) | Challenges | Status |
+|------|---------------------|------------|--------|
+| `timing-graph` | 6 pins / 5 arcs; levels 0…5; path Σ 3.2; cycle fails | **10** | **Shipped** |
+
+Shared helpers: `platform/assets/sta-core.js`, `platform/assets/sta-ui.js`.
+
 ## Algorithm walkthroughs (PPT / transcript)
 
 Step-by-step teaching frames (graph + caption + bullets):

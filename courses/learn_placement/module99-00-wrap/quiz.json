@@ -1,0 +1,39 @@
+{
+  "id": "module99-00-wrap",
+  "title": "Wrap check",
+  "items": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "prompt": "Timing-critical nets are handled most directly by\u2026",
+      "choices": [
+        "Ignoring weights until routing",
+        "Timing-weighted HPWL / criticality weights",
+        "Always SA with seed 1 only",
+        "Increasing HPWL on purpose"
+      ],
+      "answer": 1,
+      "explain": "Weights pull critical nets shorter in the objective."
+    },
+    {
+      "id": "q2",
+      "type": "true_false",
+      "prompt": "Force-directed and quadratic place improve an existing seed under an HPWL-related pull.",
+      "answer": true,
+      "explain": "They move free cells toward wirelength-friendly positions."
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "prompt": "A natural next course after placement is\u2026",
+      "choices": [
+        "Only analog layout",
+        "Legalization or congestion",
+        "SPICE device models first",
+        "Ignore the PD stack"
+      ],
+      "answer": 1,
+      "explain": "Those courses reuse HPWL, density, and legality instincts."
+    }
+  ]
+}

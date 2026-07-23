@@ -1,60 +1,74 @@
-title: Soft module sizing
+title: Soft module aspect sizing
 footer: learn_floorplanning — 03 soft module sizing
 slides:
 - type: title
-  title: Soft module sizing
-  subtitle: Hard modules have fixed width and height
-  notes: Hard modules have fixed width and height. Soft modules keep a fixed area
-    but may change aspect ratio within bounds—minimum and maximum width over height.
-    Floorplanning often sizes soft blocks while packing so the outline fills with
-    less deadspace.
-- type: bullets
-  title: The idea
-  bullets:
-  - For soft module A with area a
-  - Re-pack after each sizing move
-  - On our starter, A is soft; B through E stay hard
-  - Deadspace uses the same formula
-  notes: 'For soft module A with area a, choose width w and set height to a over w,
-    subject to aspect_min ≤ w/h ≤ aspect_max. Re-pack after each sizing move. On our
-    starter, A is soft; B through E stay hard. Deadspace uses the same formula: outline
-    area minus sum of areas—areas stay constant if only aspect changes.'
+  title: Soft module aspect sizing
+  subtitle: Soft module A keeps area six but may reshape between aspect one half and
+    two
+  notes: 'Soft module A keeps area six but may reshape between aspect one half and
+    two. Reshape three by two into two by three, then pack legally—still area six.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: A is soft with area 6
+  image: assets/steps/01-soft-a.png
+  caption: A is soft with area 6
+  notes: 'Module A is soft: area stays six, but aspect can move between one half and
+    two. Hard modules B through E keep fixed shapes.'
+- type: image
+  title: Reshape A to 2×3
+  image: assets/steps/02-reshape.png
+  caption: Reshape A to 2×3
+  notes: Reshape soft A to two by three—still area six. The soft packing moves neighbors
+    so the outline stay legal.
+- type: image
+  title: Soft packing stays legal
+  image: assets/steps/03-legal.png
+  caption: Soft packing stays legal
+  notes: After reshape, the soft packing remains legal inside ten by eight. Softness
+    is not a license to overflow—legality still gates acceptance.
+- type: image
+  title: Hard vs soft views
+  image: assets/steps/04-compare.png
+  caption: Hard vs soft views
+  notes: Compare the hard three-by-two golden with the soft two-by-three packing.
+    Same area budget for A; different whitespace shape.
+- type: image
+  title: Softness is constrained freedom
+  image: assets/steps/05-takeaway.png
+  caption: Softness is constrained freedom
+  notes: 'Soft modules trade aspect for packing quality under area and aspect bounds.
+    Always re-check legality after a resize.
+
+
+    <!-- /algorithm-walkthrough -->'
 - type: bullets
   title: Browser lab track
   bullets:
-  - Open **soft-module-sizing**
-  - Select module A, drag aspect within bounds
-  - Confirm area of A stays constant while density of the packing geometry changes
-  - Then implement aspect moves in Track A
-  notes: Open **soft-module-sizing**. Select module A, drag aspect within bounds,
-    and watch the packing reshape under the fixed outline. Confirm area of A stays
-    constant while density of the packing geometry changes. Then implement aspect
-    moves in Track A.
+  - Open soft-module-sizing
+  - Show hard three-by-two, then Reshape A to two by three
+  - Confirm area six and legality true on the soft packing
+  notes: Open soft-module-sizing. Show hard three-by-two, then Reshape A to two by
+    three. Confirm area six and legality true on the soft packing.
 - type: bullets
   title: Implement track
   bullets:
-  - Extend your packer so A’s (w, h) can vary under aspect constraints at constant
-    area
-  - Combine with a simple search, even greedy aspect tries help
-  - Report legality and deadspace before and after
-  - Reject sizes outside aspect bounds
-  notes: Extend your packer so A’s (w, h) can vary under aspect constraints at constant
-    area. Combine with a simple search—even greedy aspect tries help. Report legality
-    and deadspace before and after. Reject sizes outside aspect bounds.
+  - Implement resize_soft that preserves area, then pack
+  - Assert soft A ends at two by three with area six and a legal outline fit
+  notes: Implement resize_soft that preserves area, then pack. Assert soft A ends
+    at two by three with area six and a legal outline fit.
 - type: bullets
   title: Pitfalls
   bullets:
-  - Using aspect limits on w/h but updating only w without fixing h = area/w breaks
-    the area
-  - Allowing zero width is nonsense, enforce positive sizes
-  - Soft sizing cannot fix an area budget that already exceeds the outline
-  notes: Using aspect limits on w/h but updating only w without fixing h = area/w
-    breaks the area invariant. Allowing zero width is nonsense—enforce positive sizes.
-    Soft sizing cannot fix an area budget that already exceeds the outline.
+  - Changing area when reshaping; ignoring aspect bounds; leaving hard modules soft
+    by mistake
+  notes: Changing area when reshaping; ignoring aspect bounds; leaving hard modules
+    soft by mistake.
 - type: bullets
   title: Your turn
   bullets:
-  - Improve a legal packing by resizing A within bounds
-  - 'Next: hard macros that refuse to move or resize'
-  notes: 'Improve a legal packing by resizing A within bounds. Next: hard macros that
-    refuse to move or resize.'
+  - Accept a legal soft packing with A at two by three
+  - 'Next: fix macro D at the origin'
+  notes: 'Accept a legal soft packing with A at two by three. Next: fix macro D at
+    the origin.'

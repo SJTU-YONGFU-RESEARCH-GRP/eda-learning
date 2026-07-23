@@ -1,0 +1,94 @@
+title: Net models for wirelength
+footer: learn_placement — 03 net models
+slides:
+- type: title
+  title: Net models for wirelength
+  subtitle: Multi-pin nets need a model before you optimize
+  notes: Multi-pin nets need a model before you optimize. Bounding-box HPWL is the
+    usual report. Clique sums every pairwise HPWL; star sums spokes from a hub. On
+    the golden four-pin net ABCD, bbox HPWL is four, clique is sixteen, and star-from-A
+    is eight—same pins, different numbers.
+- type: bullets
+  title: The idea
+  bullets:
+  - Bbox is cheap and standard
+  - Clique overestimates affinity on multi-pin nets
+  - Star depends on the hub choice
+  - Use one model for the reported objective and say which
+  - <!-- algorithm-walkthrough -->
+  notes: 'Bbox is cheap and standard. Clique overestimates affinity on multi-pin nets.
+    Star depends on the hub choice. Use one model for the reported objective and say
+    which—mixing them in one table is how goldens quietly disagree.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: Bbox HPWL is the default report
+  image: assets/steps/01-bbox-default.png
+  caption: Bbox HPWL is the default report
+  notes: On the golden four-pin net A–B–C–D, the bounding box is two by two, so bbox
+    HPWL is four. That is the cheap, standard teaching metric.
+- type: image
+  title: Clique sums every pair
+  image: assets/steps/02-clique-model.png
+  caption: Clique sums every pair
+  notes: Clique wirelength adds HPWL of every pairwise edge among the four pins. On
+    golden ABCD that sum is sixteen—four times the bbox number.
+- type: image
+  title: Star depends on the hub
+  image: assets/steps/03-star-model.png
+  caption: Star depends on the hub
+  notes: Star sums spokes from a hub to every other pin. With hub A on golden ABCD,
+    star HPWL is eight—between bbox four and clique sixteen.
+- type: image
+  title: Same pins, three numbers
+  image: assets/steps/04-compare-models.png
+  caption: Same pins, three numbers
+  notes: Bbox four, star-from-A eight, clique sixteen. Pick one model for the reported
+    objective and say which—mixing models is how goldens quietly disagree.
+- type: image
+  title: Name the model you optimize
+  image: assets/steps/05-takeaway.png
+  caption: Name the model you optimize
+  notes: 'Use one wirelength model in the objective and in the report. The rest of
+    the course quotes bbox HPWL unless a lab explicitly asks for clique or star.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab track, open the **net-models** lab from the tools shelf
+  - Load the starter placement, run the algorithm once
+  - Work the challenges that lock the goldens
+  notes: In the browser lab track, open the **net-models** lab from the tools shelf.
+    Load the starter placement, run the algorithm once, and read HPWL—and density
+    when the panel shows it. Work the challenges that lock the goldens, then come
+    back to implement the same loop yourself.
+- type: bullets
+  title: Implement track
+  bullets:
+  - In the implement track, open this module’s examples and the course `common/` solvers
+  - Parse `tiny_place.json`, run the algorithm with a deterministic seed
+  - Match the browser goldens before you claim the checklist
+  notes: In the implement track, open this module’s examples and the course `common/`
+    solvers. Parse `tiny_place.json`, run the algorithm with a deterministic seed,
+    and print coordinates plus HPWL. Match the browser goldens before you claim the
+    checklist.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Common traps
+  notes: 'Common traps: celebrating HPWL while cells pile into one bin; ignoring fixed
+    pads A and D; mixing bbox and clique models in one report; keeping only the final
+    SA iterate instead of the best; and forgetting that timing weights change the
+    objective, not just the label.'
+- type: bullets
+  title: Your turn
+  bullets:
+  - Complete the checklist for at least one track, preferably both
+  - Implement until your metrics match the starter goldens
+  - When you’re ready, take the short quiz, then continue to the next module
+  notes: Complete the checklist for at least one track—preferably both. Implement
+    until your metrics match the starter goldens. When you’re ready, take the short
+    quiz, then continue to the next module.

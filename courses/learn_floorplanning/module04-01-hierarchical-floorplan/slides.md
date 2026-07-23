@@ -1,49 +1,58 @@
 ---
 marp: true
-title: Hierarchical floorplans
+title: Hierarchical floorplanning
 paginate: true
 ---
 
-# Hierarchical floorplans
+# Hierarchical floorplanning
 
-Large designs floorplan recursively
+Hierarchy packs cluster AB on the left and cluster CDE on the right with x offset five
 
 ---
 
-## The idea
-- Pick a parent region inside the outline
-- Floorplan a subset of modules inside that region as if it were its own fixed outline
-- Place sibling regions, then recurse
-- Top-level deadspace still uses the chip outline area
-- Keep region outlines legal with respect to their parent
+## Two clusters: AB and CDE
+![Two clusters: AB and CDE](assets/steps/01-clusters.png)
+
+---
+
+## Left cluster packs at x<5
+![Left cluster packs at x<5](assets/steps/02-left.png)
+
+---
+
+## Right cluster offsets by 5
+![Right cluster offsets by 5](assets/steps/03-right.png)
+
+---
+
+## Hierarchy is legal overall
+![Hierarchy is legal overall](assets/steps/04-legal.png)
+
+---
+
+## Hierarchy reuses the same engines
+![Hierarchy reuses the same engines](assets/steps/05-takeaway.png)
 
 ---
 
 ## Browser lab track
-- Open **hierarchical-floorplan**
-- Load a two-level starter: a parent outline and two child groups
-- Pack inside each child, then place children in the parent
-- Inspect metrics at both levels
-- Then implement nested packing in Track A
+- Open hierarchical-floorplan and Pack hierarchy
+- Confirm A and B have x less than five, C D E have x at least five, and legality true
 
 ---
 
 ## Implement track
-- Partition A–E into two groups
-- Floorplan each group into a sub-rectangle
-- Verify no group overflows its region and regions don’t overlap
-- Report global deadspace
+- Implement pack_hierarchical
+- Assert leftMax x+w is at most rightMin x, five modules present, and legality true
 
 ---
 
 ## Pitfalls
-- Optimizing children while ignoring parent legality leaves you with beautiful
-- Don’t double-count module area across levels
-- Align coordinates to a single global origin when composing
+- Overlapping cluster bounding boxes
 
 ---
 
 ## Your turn
-- Ship one hierarchical packing for the tiny instance
-- Next: assign I/O pins to the chip boundary
+- Accept the AB | CDE packing
+- Next: assign pins P0 through P3 on all four outline sides
 

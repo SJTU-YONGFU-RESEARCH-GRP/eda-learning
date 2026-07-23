@@ -1,0 +1,95 @@
+title: Spreading / overlap relief
+footer: learn_placement — 03 spread legalize lite
+slides:
+- type: title
+  title: Spreading / overlap relief
+  subtitle: Spreading pushes overlapping or near pairs apart until a minimum pairwise
+    distance holds
+  notes: Spreading pushes overlapping or near pairs apart until a minimum pairwise
+    distance holds. Start from the triple-overlap demo at one point, run the lite
+    spreader, and confirm every pair clears the threshold without sending HPWL to
+    infinity.
+- type: bullets
+  title: The idea
+  bullets:
+  - While any pair sits closer than minDist, push them along their separation vector
+  - Finish with a deterministic repair pass so the result is stable
+  - Spreading is a legality proxy, not full row-site legalization
+  - <!-- algorithm-walkthrough -->
+  notes: 'While any pair sits closer than minDist, push them along their separation
+    vector. Finish with a deterministic repair pass so the result is stable. Spreading
+    is a legality proxy—not full row-site legalization.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: Triple overlap at one point
+  image: assets/steps/01-triple-overlap.png
+  caption: Triple overlap at one point
+  notes: The overlap demo stacks A, B, and C on (4,4). Min pairwise distance is zero—illegal
+    for any site-aware flow, perfect for a spreading lesson.
+- type: image
+  title: Push near pairs apart
+  image: assets/steps/02-push-apart.png
+  caption: Push near pairs apart
+  notes: While any pair sits closer than minDist, push them along their separation
+    vector. Repeated passes peel the triple stack into distinct points.
+- type: image
+  title: 'After spread: min distance holds'
+  image: assets/steps/03-after-spread.png
+  caption: 'After spread: min distance holds'
+  notes: The lite spreader separates A, B, and C until every pair clears about zero
+    point five. D, E, and F barely move.
+- type: image
+  title: Spreading is a legality proxy
+  image: assets/steps/04-legality-proxy.png
+  caption: Spreading is a legality proxy
+  notes: Clearing min distance is not row legalization or site snapping. It is a teaching
+    stand-in so overlap stops hiding behind pretty HPWL.
+- type: image
+  title: Relieve overlap before celebrating WL
+  image: assets/steps/05-takeaway.png
+  caption: Relieve overlap before celebrating WL
+  notes: 'Start from the triple-overlap seed, spread to minDist zero point five, and
+    confirm every pair clears the threshold. Then revisit wirelength.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab track, open the **spread-legalize-lite** lab from the tools
+    shelf
+  - Load the starter placement, run the algorithm once
+  - Work the challenges that lock the goldens
+  notes: In the browser lab track, open the **spread-legalize-lite** lab from the
+    tools shelf. Load the starter placement, run the algorithm once, and read HPWL—and
+    density when the panel shows it. Work the challenges that lock the goldens, then
+    come back to implement the same loop yourself.
+- type: bullets
+  title: Implement track
+  bullets:
+  - In the implement track, open this module’s examples and the course `common/` solvers
+  - Parse `tiny_place.json`, run the algorithm with a deterministic seed
+  - Match the browser goldens before you claim the checklist
+  notes: In the implement track, open this module’s examples and the course `common/`
+    solvers. Parse `tiny_place.json`, run the algorithm with a deterministic seed,
+    and print coordinates plus HPWL. Match the browser goldens before you claim the
+    checklist.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Common traps
+  notes: 'Common traps: celebrating HPWL while cells pile into one bin; ignoring fixed
+    pads A and D; mixing bbox and clique models in one report; keeping only the final
+    SA iterate instead of the best; and forgetting that timing weights change the
+    objective, not just the label.'
+- type: bullets
+  title: Your turn
+  bullets:
+  - Complete the checklist for at least one track, preferably both
+  - Implement until your metrics match the starter goldens
+  - When you’re ready, take the short quiz, then continue to the next module
+  notes: Complete the checklist for at least one track—preferably both. Implement
+    until your metrics match the starter goldens. When you’re ready, take the short
+    quiz, then continue to the next module.

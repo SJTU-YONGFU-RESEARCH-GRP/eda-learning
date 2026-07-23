@@ -12,7 +12,16 @@ import {
 } from "../../assets/clustering-core.js";
 import { drawGraph, el } from "../../assets/clustering-ui.js";
 import { drawFloorplan } from "../../assets/floorplanning-core.js";
+import {
+  CELLS as PLACE_CELLS,
+  NETS as PLACE_NETS,
+  STARTER_PLACEMENT,
+} from "../../assets/placement-core.js";
+import { drawPlacement } from "../../assets/placement-ui.js";
+import { drawTimingGraph } from "../../assets/sta-ui.js";
 import { FLOORPLAN_ALGOS } from "./floorplanning-algos.js";
+import { PLACEMENT_ALGO_IDS, PLACEMENT_ALGOS } from "./placement-algos.js";
+import { STA_ALGOS } from "./sta-algos.js";
 
 const graph = cloneGraph();
 
@@ -1646,7 +1655,12 @@ const CLUSTER_ALGOS = {
   },
 };
 
-export const ALGOS = { ...CLUSTER_ALGOS, ...FLOORPLAN_ALGOS };
+export const ALGOS = {
+  ...CLUSTER_ALGOS,
+  ...FLOORPLAN_ALGOS,
+  ...STA_ALGOS,
+  ...PLACEMENT_ALGOS,
+};
 
 function qs() {
   const u = new URL(location.href);
@@ -1719,6 +1733,24 @@ function render() {
     drawFloorplan(canvas, {
       pack: s.pack || {},
       pins: s.pins || [],
+    });
+  } else if (pack.kind === "sta" || s.timing != null) {
+    drawTimingGraph(canvas, s.timing || {}, {
+      levels: s.levels || null,
+      highlightPins: s.highlightPins || [],
+      highlightArcs: s.highlightArcs || [],
+    });
+  } else if (
+    pack.kind === "placement" ||
+    s.positions != null ||
+    PLACEMENT_ALGO_IDS.has(algo)
+  ) {
+    drawPlacement(canvas, PLACE_CELLS, s.positions || STARTER_PLACEMENT, PLACE_NETS, {
+      highlightNets: s.highlightNets || [],
+      highlightCells: s.highlightCells || [],
+      grid: s.grid ?? 2,
+      showNets: s.showNets,
+      showBBox: s.showBBox,
     });
   } else {
     drawGraph(canvas, TINY_GRAPH, {

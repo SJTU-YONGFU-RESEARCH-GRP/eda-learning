@@ -1,51 +1,58 @@
 ---
 marp: true
-title: Slicing floorplans
+title: Slicing tree / polish expression packing
 paginate: true
 ---
 
-# Slicing floorplans
+# Slicing tree / polish expression packing
 
-A slicing floorplan is built by recursively cutting a rectangle with through-cuts
+Slicing floorplans use through-cuts
 
 ---
 
-## The idea
-- An H operator stacks left and right children as bottom and top (or as specified by your
-- A V operator places them side by side
-- Evaluating the tree bottom-up yields the size of each composite rectangle
-- Polish expressions are postfix: operands then H or V
-- Not every packing is slicing
+## Polish expression encodes cuts
+![Polish expression encodes cuts](assets/steps/01-polish.png)
+
+---
+
+## A D H stacks height 3
+![A D H stacks height 3](assets/steps/02-stack-ad.png)
+
+---
+
+## V attaches B on the right
+![V attaches B on the right](assets/steps/03-attach-b.png)
+
+---
+
+## Full polish packs BB 9×3
+![Full polish packs BB 9×3](assets/steps/04-full.png)
+
+---
+
+## Slicing cannot make wheels
+![Slicing cannot make wheels](assets/steps/05-takeaway.png)
 
 ---
 
 ## Browser lab track
-- Open **slicing-floorplan**
-- Load a starter polish expression or tree
-- Step through cuts and watch rectangles subdivide
-- Read deadspace on the fixed outline
-- Change one operator from H to V and see the packing reshape
-- Then implement tree evaluation yourself
+- Open slicing-floorplan and Evaluate polish
+- Confirm bounding width nine, height three, and a legal packing inside ten by eight
 
 ---
 
 ## Implement track
-- Define a small tree or polish string over modules A–E
-- Evaluate composite widths and heights, then assign (x, y) under the ten-by-eight outline
-- Reject trees whose root size exceeds the outline
-- Report legality and deadspace
-- Keep operator conventions documented in comments
+- Implement postfix evaluation for H and V
+- On the golden token list, assert width nine, height three, and is_legal_packing true
 
 ---
 
 ## Pitfalls
-- Swapping H and V conventions silently flips the packing
-- Forgetting that composite size is max-along-cut versus sum-along-cut is the classic bug
-- Also: a polish string that is not a valid slicing expression will crash a naive evaluator
+- Swapping H/V meanings
 
 ---
 
 ## Your turn
-- Pack a legal slicing floorplan for the starter modules
-- Quiz when ready
+- Ship a legal polish pack with BB nine by three
+- Next: B-star trees for non-slicing adjacency
 

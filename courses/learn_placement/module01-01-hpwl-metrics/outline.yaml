@@ -1,0 +1,97 @@
+title: Half-perimeter wirelength
+footer: learn_placement — 01 hpwl metrics
+slides:
+- type: title
+  title: Half-perimeter wirelength
+  subtitle: Half-perimeter wirelength is the teaching yardstick for placement
+  notes: Half-perimeter wirelength is the teaching yardstick for placement. For each
+    net, take the bounding box of its pins and add width plus height. On the starter
+    six-cell instance the spread-out seed scores total HPWL fifty-two. The compact
+    golden placement drops that to fourteen. You will compute both numbers every time
+    you look at a placement.
+- type: bullets
+  title: The idea
+  bullets:
+  - For every net
+  - Sum over nets for total HPWL
+  - Never celebrate a tiny total that piles every cell on one point
+  - <!-- algorithm-walkthrough -->
+  notes: 'For every net, find min and max x and y among its pins, then add (maxX minus
+    minX) plus (maxY minus minY). Sum over nets for total HPWL. Never celebrate a
+    tiny total that piles every cell on one point—that is not a usable placement,
+    only a collapsed metric.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: Starter placement is spread out
+  image: assets/steps/01-starter-spread.png
+  caption: Starter placement is spread out
+  notes: 'Six cells A–F sit on a rough eight-by-eight canvas. The spread-out seed
+    pulls nets long: total half-perimeter wirelength is fifty-two. This is the shared
+    starter for every placement lab.'
+- type: image
+  title: 'One net: bbox width plus height'
+  image: assets/steps/02-one-net.png
+  caption: 'One net: bbox width plus height'
+  notes: Net A–B alone has pins at (0,0) and (8,0). Width is eight, height is zero,
+    so HPWL is eight. Every net uses the same bbox rule before you sum.
+- type: image
+  title: Sum six nets to fifty-two
+  image: assets/steps/03-sum-nets.png
+  caption: Sum six nets to fifty-two
+  notes: 'Four two-pin nets at eight each, the four-pin ABCD net at sixteen, and E–F
+    at four: eight times four plus sixteen plus four equals fifty-two. That is the
+    starter golden.'
+- type: image
+  title: Golden placement drops to fourteen
+  image: assets/steps/04-golden-compact.png
+  caption: Golden placement drops to fourteen
+  notes: 'The compact reference tucks A–D into a two-by-two block near the center.
+    Same nets, shorter boxes: total HPWL falls from fifty-two to fourteen.'
+- type: image
+  title: HPWL is the teaching yardstick
+  image: assets/steps/05-takeaway.png
+  caption: HPWL is the teaching yardstick
+  notes: 'Report total HPWL before and after every move. Fifty-two versus fourteen
+    is the starter story—but a tiny total with stacked cells is not a usable placement.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab track, open the **hpwl-metrics** lab from the tools shelf
+  - Load the starter placement, run the algorithm once
+  - Work the challenges that lock the goldens
+  notes: In the browser lab track, open the **hpwl-metrics** lab from the tools shelf.
+    Load the starter placement, run the algorithm once, and read HPWL—and density
+    when the panel shows it. Work the challenges that lock the goldens, then come
+    back to implement the same loop yourself.
+- type: bullets
+  title: Implement track
+  bullets:
+  - In the implement track, open this module’s examples and the course `common/` solvers
+  - Parse `tiny_place.json`, run the algorithm with a deterministic seed
+  - Match the browser goldens before you claim the checklist
+  notes: In the implement track, open this module’s examples and the course `common/`
+    solvers. Parse `tiny_place.json`, run the algorithm with a deterministic seed,
+    and print coordinates plus HPWL. Match the browser goldens before you claim the
+    checklist.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Common traps
+  notes: 'Common traps: celebrating HPWL while cells pile into one bin; ignoring fixed
+    pads A and D; mixing bbox and clique models in one report; keeping only the final
+    SA iterate instead of the best; and forgetting that timing weights change the
+    objective, not just the label.'
+- type: bullets
+  title: Your turn
+  bullets:
+  - Complete the checklist for at least one track, preferably both
+  - Implement until your metrics match the starter goldens
+  - When you’re ready, take the short quiz, then continue to the next module
+  notes: Complete the checklist for at least one track—preferably both. Implement
+    until your metrics match the starter goldens. When you’re ready, take the short
+    quiz, then continue to the next module.

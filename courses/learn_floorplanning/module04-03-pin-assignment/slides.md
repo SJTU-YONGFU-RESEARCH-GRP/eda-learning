@@ -1,49 +1,59 @@
 ---
 marp: true
-title: Boundary pins
+title: Boundary pin / I/O assignment
 paginate: true
 ---
 
-# Boundary pins
+# Boundary pin / I/O assignment
 
-Chips talk to the outside world through I/O pins on the outline edges, north, east, south, west
+Pins sit on outline edges
 
 ---
 
-## The idea
-- Each pin gets an edge and a position along that edge
-- Modules that connect to a pin prefer shorter Manhattan stubs toward that side
-- You can score a packing with a simple pin-to-module wirelength proxy
-- Fixed outline still governs module legality
+## Packing without pins
+![Packing without pins](assets/steps/01-no-pins.png)
+
+---
+
+## Assign one pin per side
+![Assign one pin per side](assets/steps/02-assign.png)
+
+---
+
+## Coverage makes pinsValid true
+![Coverage makes pinsValid true](assets/steps/03-valid.png)
+
+---
+
+## Empty set is invalid
+![Empty set is invalid](assets/steps/04-empty-bad.png)
+
+---
+
+## Pins feed place and route
+![Pins feed place and route](assets/steps/05-takeaway.png)
 
 ---
 
 ## Browser lab track
-- Open **pin-assignment**
-- Place a few pins on the four edges
-- Connect them to modules A–E with a toy netlist
-- Watch the wirelength proxy as you move pins or modules
-- Then implement edge assignment and scoring in Track A
+- Open pin-assignment
+- Assign golden pins, confirm four sides and valid true
+- Clear pins and watch validity fail
 
 ---
 
 ## Implement track
-- Add a pin list: id, side, offset
-- Assign sides for a handful of I/Os
-- Score sum of distances from module centers (or abutment points) to pin locations
-- Keep modules legal under the outline while you tweak assignments
-- Print the assignment table and score
+- Implement pinsValid requiring all four sides and in-range offsets
+- Assert golden pins pass and the empty list fails
 
 ---
 
 ## Pitfalls
-- Putting pins inside the outline instead of on the boundary breaks the model
-- Crowding every pin onto one edge creates congestion you won’t see if you only watch
-- Don’t forget that pin order on an edge can matter for packaging, even on a toy
+- Putting pins inside modules
 
 ---
 
 ## Your turn
-- Assign boundary pins and report a wirelength proxy beside deadspace
-- Then continue to offline compare, and finally the wrap
+- Ship a valid four-side assignment
+- Offline compare is next; then the wrap points to learn_placement
 

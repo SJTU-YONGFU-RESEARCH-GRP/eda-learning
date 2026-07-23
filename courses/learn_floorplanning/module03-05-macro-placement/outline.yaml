@@ -1,63 +1,73 @@
-title: Hard macros
+title: Hard macro / fixed-block placement
 footer: learn_floorplanning — 05 macro placement
 slides:
 - type: title
-  title: Hard macros
-  subtitle: Hard macros are fixed-size blocks, memories, analog IP, pre-placed covers
-  notes: Hard macros are fixed-size blocks—memories, analog IP, pre-placed covers.
-    Sometimes their (x, y) is fixed too. Floorplanning must pack softer or movable
-    modules around them without overlap and without leaving the outline. Treating
-    macros as ordinary free rectangles loses the constraint.
-- type: bullets
-  title: The idea
-  bullets:
-  - 'Mark macros as hard: width and height immutable'
-  - If position is fixed, lock (x, y) and forbid moves that shift them
-  - Other modules pack in the remaining free space
-  - Cost still includes overflow and deadspace
-  - Legality checks apply unchanged, macros are just immovable obstacles
-  notes: 'Mark macros as hard: width and height immutable. If position is fixed, lock
-    (x, y) and forbid moves that shift them. Other modules pack in the remaining free
-    space. Cost still includes overflow and deadspace; wirelength may prefer soft
-    blocks near related macros. Legality checks apply unchanged—macros are just immovable
-    obstacles.'
+  title: Hard macro / fixed-block placement
+  subtitle: Macros are hard fixed rectangles
+  notes: 'Macros are hard fixed rectangles. In macro mode, D is pinned at zero comma
+    zero with macro true, size three by one. A stacks above; B, C, and E pack to the
+    right—still legal.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: Free golden has movable D
+  image: assets/steps/01-free.png
+  caption: Free golden has movable D
+  notes: In the free golden packing, D sits at zero comma two above A. Nothing is
+    flagged as a hard macro yet.
+- type: image
+  title: Fix macro D at (0,0)
+  image: assets/steps/02-fix-d.png
+  caption: Fix macro D at (0,0)
+  notes: Macro mode pins hard block D at the origin and marks it macro true. Soft
+    and standard cells must pack around that fixed rectangle.
+- type: image
+  title: Pack A–E around the macro
+  image: assets/steps/03-pack-rest.png
+  caption: Pack A–E around the macro
+  notes: A stacks above D; B, C, and E fill to the right. The macro packing differs
+    from the free golden—D no longer sits at zero comma two.
+- type: image
+  title: Macro packing is legal
+  image: assets/steps/04-legal.png
+  caption: Macro packing is legal
+  notes: 'Despite the fixed block, the packing stays legal: no overflow, no overlaps.
+    Fixed macros constrain search but do not excuse illegality.'
+- type: image
+  title: Macros first, then cells
+  image: assets/steps/05-takeaway.png
+  caption: Macros first, then cells
+  notes: 'Industrial flows often place large macros before standard cells. Treat fixed
+    rectangles as hard constraints, then optimize the rest.
+
+
+    <!-- /algorithm-walkthrough -->'
 - type: bullets
   title: Browser lab track
   bullets:
-  - Open **macro-placement**
-  - Lock one module as a fixed hard block
-  - Try to pack the others around it
-  - Force an overlap and watch the checker
-  - Unlock and compare freedom
-  - Then encode fixed blocks in your Track A data model
-  notes: Open **macro-placement**. Lock one module as a fixed hard block. Try to pack
-    the others around it. Force an overlap and watch the checker. Unlock and compare
-    freedom. Then encode fixed blocks in your Track A data model.
+  - Open macro-placement
+  - 'Compare free golden D at zero comma two with Place macros: D at zero comma zero'
+  - Confirm legality and the macro flag
+  notes: 'Open macro-placement. Compare free golden D at zero comma two with Place
+    macros: D at zero comma zero. Confirm legality and the macro flag.'
 - type: bullets
   title: Implement track
   bullets:
-  - 'Extend `tiny_modules.json` with a `fixed: true` and optional `x`, `y` on one
-    module'
-  - Pack the rest with your chosen representation, treating the macro as an obstacle
-  - Fail loudly if a move would shift a fixed macro
-  - Report legality and deadspace
-  notes: 'Extend `tiny_modules.json` with a `fixed: true` and optional `x`, `y` on
-    one module. Pack the rest with your chosen representation, treating the macro
-    as an obstacle. Fail loudly if a move would shift a fixed macro. Report legality
-    and deadspace.'
+  - Fix D, pack the rest, assert D at (0,0), D.macro true, and is_legal_packing true
+  - Note the free golden differs
+  notes: Fix D, pack the rest, assert D at (0,0), D.macro true, and is_legal_packing
+    true. Note the free golden differs.
 - type: bullets
   title: Pitfalls
   bullets:
-  - Silently moving a “fixed” macro during SA is a trust-breaking bug
-  - Also don’t shrink hard macros when soft sizing runs
-  - Overlapping two macros at init means the instance is already illegal
-  notes: Silently moving a “fixed” macro during SA is a trust-breaking bug. Also don’t
-    shrink hard macros when soft sizing runs. Overlapping two macros at init means
-    the instance is already illegal—detect that before search.
+  - Moving macros after fixing them
+  notes: Moving macros after fixing them; shrinking macro size; allowing overlaps
+    against the fixed block.
 - type: bullets
   title: Your turn
   bullets:
-  - Produce a legal packing with at least one fixed hard macro
-  - 'Next: hierarchical floorplans that nest sub-packings inside parent regions'
-  notes: 'Produce a legal packing with at least one fixed hard macro. Next: hierarchical
-    floorplans that nest sub-packings inside parent regions.'
+  - Ship the legal macro packing
+  - 'Next: hierarchical AB left and CDE right at offset five'
+  notes: 'Ship the legal macro packing. Next: hierarchical AB left and CDE right at
+    offset five.'

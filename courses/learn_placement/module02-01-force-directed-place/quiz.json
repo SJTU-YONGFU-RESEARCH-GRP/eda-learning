@@ -1,0 +1,46 @@
+{
+  "id": "module02-01-force-directed-place",
+  "title": "Force-directed check",
+  "items": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "prompt": "This lab\u2019s primary algorithm is\u2026",
+      "choices": [
+        "force-directed (spring) placement",
+        "Vendor place-and-route GUI only",
+        "SPICE transient analysis",
+        "Scan-chain stitching"
+      ],
+      "answer": 0,
+      "explain": "Focus: force-directed (spring) placement."
+    },
+    {
+      "id": "q2",
+      "type": "true_false",
+      "prompt": "HPWL alone is enough; density can always be ignored in this course.",
+      "answer": false,
+      "explain": "Density labs report overflow; global place must not silently pile cells."
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "prompt": "After running the algorithm you should report\u2026",
+      "choices": [
+        "Only a screenshot of the UI",
+        "Coordinates plus HPWL (and density when relevant)",
+        "Only runtime",
+        "Nothing \u2014 intuition is enough"
+      ],
+      "answer": 1,
+      "explain": "Coordinates + metrics are the contract."
+    },
+    {
+      "id": "q4",
+      "type": "true_false",
+      "prompt": "Track A asks you to implement force-directed (spring) placement on the tiny placement.",
+      "answer": true,
+      "explain": "Implement track hardens the idea."
+    }
+  ]
+}

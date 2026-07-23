@@ -63,6 +63,25 @@ COURSE_META = {
         "first_lab": "cutsize-balance",
         "first_n": "02",
     },
+    "learn_placement": {
+        "title": "Placement for EDA",
+        "focus": "HPWL/net models → force/quadratic/analytical/SA → density → timing-driven",
+        "prereq": None,
+        "status": "ready",
+        "repo": "learn_placement",
+        "modules_md": ROOT / "courses" / "learn_placement" / "docs" / "MODULES.md",
+        "course_root": ROOT / "courses" / "learn_placement",
+        "lead": (
+            "Global placement for physical design — tiny instances, full algorithms, "
+            "HPWL and density you can trust. Clips and decks load from "
+            "<code>courses/learn_placement</code> "
+            "(<code>moduleSS-AA-slug/video.mp4</code>). Open the matching browser tool, then mark the lab done."
+        ),
+        "tools_href": "../../tools/index.html#placement",
+        "tools_label": "Placement tools",
+        "first_lab": "hpwl-metrics",
+        "first_n": "02",
+    },
     "learn_floorplanning": {
         "title": "Floorplanning",
         "focus": "Fixed-outline → slicing/B*/SP → SA → soft modules → macros → hierarchy → pins",
@@ -80,6 +99,25 @@ COURSE_META = {
         "tools_href": "../../tools/index.html#floorplanning",
         "tools_label": "Floorplanning tools",
         "first_lab": "fixed-outline",
+        "first_n": "02",
+    },
+    "learn_sta": {
+        "title": "Static timing analysis",
+        "focus": "Timing graph → arrival/required → slack → critical path → incremental update",
+        "prereq": None,
+        "status": "scaffold",
+        "repo": "learn_sta",
+        "modules_md": ROOT / "courses" / "learn_sta" / "docs" / "MODULES.md",
+        "course_root": ROOT / "courses" / "learn_sta",
+        "lead": (
+            "Static timing analysis for digital design — tiny timing graphs, full algorithms, "
+            "arrivals and slack you can trust. Clips and decks load from "
+            "<code>courses/learn_sta</code> "
+            "(<code>moduleSS-AA-slug/video.mp4</code>). Open the matching browser tool, then mark the lab done."
+        ),
+        "tools_href": "../../tools/index.html#sta",
+        "tools_label": "STA tools",
+        "first_lab": "timing-graph",
         "first_n": "02",
     },
 }
@@ -315,6 +353,9 @@ def parse_modules(modules_md: Path, course_root: Path) -> list[dict]:
 
         if "**ref**" in status_raw or status_raw in ("ref", "shipped", "s"):
             lab_status = "shipped"
+        elif kind in ("intro", "wrap") and folder.is_dir():
+            # Intro/wrap shells are navigable once the module folder exists.
+            lab_status = "shipped"
         elif status_raw in ("—", "-", ""):
             lab_status = "shipped" if has_pptx else "planned"
         else:
@@ -394,6 +435,18 @@ PARTITION_TOOL_IDS = {
     "multilevel-partition",
 }
 
+PLACEMENT_TOOL_IDS = {
+    "hpwl-metrics",
+    "net-models",
+    "force-directed-place",
+    "quadratic-place",
+    "analytical-place",
+    "sa-placement",
+    "density-bins",
+    "spread-legalize-lite",
+    "timing-driven-place",
+}
+
 FLOORPLAN_TOOL_IDS = {
     "fixed-outline",
     "area-deadspace",
@@ -405,6 +458,15 @@ FLOORPLAN_TOOL_IDS = {
     "macro-placement",
     "hierarchical-floorplan",
     "pin-assignment",
+}
+
+STA_TOOL_IDS = {
+    "timing-graph",
+    "arrival-required",
+    "slack-setup-hold",
+    "critical-path",
+    "incremental-update",
+    "false-multicycle-lite",
 }
 
 
@@ -423,8 +485,12 @@ def sync_tools_from_dirs(cat: dict) -> None:
                 break
         if child.name in PARTITION_TOOL_IDS:
             section = "Partitioning"
+        elif child.name in PLACEMENT_TOOL_IDS:
+            section = "Placement"
         elif child.name in FLOORPLAN_TOOL_IDS:
             section = "Floorplanning"
+        elif child.name in STA_TOOL_IDS:
+            section = "Static timing analysis"
         else:
             section = "Clustering & refinement"
         labs.append({"id": child.name, "title": title, "section": section})

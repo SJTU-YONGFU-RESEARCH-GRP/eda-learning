@@ -1,63 +1,76 @@
-title: B*-tree floorplans
+title: B*-tree floorplan representation
 footer: learn_floorplanning — 03 bstar tree
 slides:
 - type: title
-  title: B*-tree floorplans
-  subtitle: B*-trees are a popular compacted floorplan representation
-  notes: B*-trees are a popular compacted floorplan representation. Each node is a
-    module. The left child sits to the right of its parent; the right child sits above—under
-    the usual contour packing rules. From the tree you reconstruct coordinates without
-    storing every x and y explicitly.
-- type: bullets
-  title: The idea
-  bullets:
-  - Root at the lower-left
-  - Walking left children grows the packing rightward
-  - Packing is typically done with a horizontal contour so y coordinates stay compacted
-  - Perturbing the tree, rotate, move, swap, yields neighboring packings for annealing
-    later
-  notes: Root at the lower-left. Walking left children grows the packing rightward;
-    right children grow upward along a contour of previously placed blocks. Packing
-    is typically done with a horizontal contour so y coordinates stay compacted. Perturbing
-    the tree—rotate, move, swap—yields neighboring packings for annealing later.
+  title: B*-tree floorplan representation
+  subtitle: 'B-star stores packing adjacency: left child sits right-of the parent;
+    right child sits above on a contour'
+  notes: 'B-star stores packing adjacency: left child sits right-of the parent; right
+    child sits above on a contour. Root A at the origin; left chain B then C then
+    E; right child D above A.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: Root A at the origin
+  image: assets/steps/01-root.png
+  caption: Root A at the origin
+  notes: B-star packing places the root at the lower left. A lands at zero comma zero
+    with size three by two. Left children go right-of; right children go above via
+    the contour.
+- type: image
+  title: Left chain B→C→E
+  image: assets/steps/02-left-chain.png
+  caption: Left chain B→C→E
+  notes: 'The left spine walks rightward: B at x equals three, then C, then E. Contour
+    heights track the skyline so later modules sit tightly.'
+- type: image
+  title: Right child D above A
+  image: assets/steps/03-right-d.png
+  caption: Right child D above A
+  notes: D is the right child of A, so it packs above A on the contour. Its y is at
+    least two—A's height—keeping the tree geometry honest.
+- type: image
+  title: Full B* pack is legal
+  image: assets/steps/04-legal.png
+  caption: Full B* pack is legal
+  notes: All five modules are placed. The packing is legal inside ten by eight. Perturbing
+    the tree—swap, rotate, move—will feed simulated annealing later.
+- type: image
+  title: B* is compact and mutable
+  image: assets/steps/05-takeaway.png
+  caption: B* is compact and mutable
+  notes: 'B-star stores adjacency for packing, not connectivity. Get left and right
+    semantics right, keep the contour correct, and you have a fast neighbor generator
+    for search.
+
+
+    <!-- /algorithm-walkthrough -->'
 - type: bullets
   title: Browser lab track
   bullets:
-  - Open **bstar-tree**
-  - Load a starter tree over A–E
-  - 'Step placement: parent, left child, right child'
-  - Watch modules land left/right/above as the contour updates
-  - Inspect outline legality and deadspace
-  - Then code the same left/right packing rules
-  notes: 'Open **bstar-tree**. Load a starter tree over A–E. Step placement: parent,
-    left child, right child. Watch modules land left/right/above as the contour updates.
-    Inspect outline legality and deadspace. Then code the same left/right packing
-    rules.'
+  - Open bstar-tree and Pack B*-tree
+  - Confirm A at zero comma zero, B at x equals three, D above A
+  notes: Open bstar-tree and Pack B*-tree. Confirm A at zero comma zero, B at x equals
+    three, D above A, and a legal five-module packing.
 - type: bullets
   title: Implement track
   bullets:
-  - Build a B*-tree for the tiny modules
-  - Implement contour-based packing to emit (x, y, w, h)
-  - Verify non-overlap and outline containment
-  - Print the tree in a readable parenthesized form so goldens are reviewable
-  - Prefer deterministic child ordering for tests
-  notes: Build a B*-tree for the tiny modules. Implement contour-based packing to
-    emit (x, y, w, h). Verify non-overlap and outline containment. Print the tree
-    in a readable parenthesized form so goldens are reviewable. Prefer deterministic
-    child ordering for tests.
+  - Build the golden tree and contour-pack it
+  - Assert A at (0,0), B.x equals A.x plus A.w, D.y at least A.h, and legality true
+  notes: Build the golden tree and contour-pack it. Assert A at (0,0), B.x equals
+    A.x plus A.w, D.y at least A.h, and legality true.
 - type: bullets
   title: Pitfalls
   bullets:
-  - Getting left/right geometry backwards is the number-one bug
-  - Contour updates that forget deleted segments leave modules floating or overlapping
-  - Don’t confuse B*-tree adjacency with netlist adjacency
-  notes: Getting left/right geometry backwards is the number-one bug. Contour updates
-    that forget deleted segments leave modules floating or overlapping. Don’t confuse
-    B*-tree adjacency with netlist adjacency—the tree is a packing code, not connectivity.
+  - Reversing left/right geometry; stale contour segments; treating the tree as a
+    netlist
+  notes: Reversing left/right geometry; stale contour segments; treating the tree
+    as a netlist.
 - type: bullets
   title: Your turn
   bullets:
-  - Produce a legal B*-tree packing inside the outline
-  - 'Next: sequence pairs, another classic encoding with positive and negative sequences'
-  notes: 'Produce a legal B*-tree packing inside the outline. Next: sequence pairs—another
-    classic encoding with positive and negative sequences.'
+  - Produce the legal B-star packing
+  - 'Next: sequence-pair permutations as another encoding'
+  notes: 'Produce the legal B-star packing. Next: sequence-pair permutations as another
+    encoding.'

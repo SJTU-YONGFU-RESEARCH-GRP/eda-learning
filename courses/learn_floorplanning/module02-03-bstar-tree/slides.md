@@ -1,50 +1,58 @@
 ---
 marp: true
-title: B*-tree floorplans
+title: B*-tree floorplan representation
 paginate: true
 ---
 
-# B*-tree floorplans
+# B*-tree floorplan representation
 
-B*-trees are a popular compacted floorplan representation
+B-star stores packing adjacency: left child sits right-of the parent; right child sits above on a contour
 
 ---
 
-## The idea
-- Root at the lower-left
-- Walking left children grows the packing rightward
-- Packing is typically done with a horizontal contour so y coordinates stay compacted
-- Perturbing the tree, rotate, move, swap, yields neighboring packings for annealing later
+## Root A at the origin
+![Root A at the origin](assets/steps/01-root.png)
+
+---
+
+## Left chain B→C→E
+![Left chain B→C→E](assets/steps/02-left-chain.png)
+
+---
+
+## Right child D above A
+![Right child D above A](assets/steps/03-right-d.png)
+
+---
+
+## Full B* pack is legal
+![Full B* pack is legal](assets/steps/04-legal.png)
+
+---
+
+## B* is compact and mutable
+![B* is compact and mutable](assets/steps/05-takeaway.png)
 
 ---
 
 ## Browser lab track
-- Open **bstar-tree**
-- Load a starter tree over A–E
-- Step placement: parent, left child, right child
-- Watch modules land left/right/above as the contour updates
-- Inspect outline legality and deadspace
-- Then code the same left/right packing rules
+- Open bstar-tree and Pack B*-tree
+- Confirm A at zero comma zero, B at x equals three, D above A
 
 ---
 
 ## Implement track
-- Build a B*-tree for the tiny modules
-- Implement contour-based packing to emit (x, y, w, h)
-- Verify non-overlap and outline containment
-- Print the tree in a readable parenthesized form so goldens are reviewable
-- Prefer deterministic child ordering for tests
+- Build the golden tree and contour-pack it
+- Assert A at (0,0), B.x equals A.x plus A.w, D.y at least A.h, and legality true
 
 ---
 
 ## Pitfalls
-- Getting left/right geometry backwards is the number-one bug
-- Contour updates that forget deleted segments leave modules floating or overlapping
-- Don’t confuse B*-tree adjacency with netlist adjacency
+- Reversing left/right geometry; stale contour segments; treating the tree as a netlist
 
 ---
 
 ## Your turn
-- Produce a legal B*-tree packing inside the outline
-- Next: sequence pairs, another classic encoding with positive and negative sequences
+- Produce the legal B-star packing
+- Next: sequence-pair permutations as another encoding
 

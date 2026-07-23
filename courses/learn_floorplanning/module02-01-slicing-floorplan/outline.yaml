@@ -1,70 +1,74 @@
-title: Slicing floorplans
+title: Slicing tree / polish expression packing
 footer: learn_floorplanning — 01 slicing floorplan
 slides:
 - type: title
-  title: Slicing floorplans
-  subtitle: A slicing floorplan is built by recursively cutting a rectangle with through-cuts
-  notes: A slicing floorplan is built by recursively cutting a rectangle with through-cuts—horizontal
-    or vertical—until each leaf is a module. The cut tree, or its polish expression
-    with operators H and V, is a compact encoding. In this lab you’ll pack modules
-    from a slicing tree or polish string into concrete coordinates.
-- type: bullets
-  title: The idea
-  bullets:
-  - An H operator stacks left and right children as bottom and top (or as specified
-    by your
-  - A V operator places them side by side
-  - Evaluating the tree bottom-up yields the size of each composite rectangle
-  - 'Polish expressions are postfix: operands then H or V'
-  - Not every packing is slicing
-  notes: 'An H operator stacks left and right children as bottom and top (or as specified
-    by your convention). A V operator places them side by side. Evaluating the tree
-    bottom-up yields the size of each composite rectangle; placing top-down assigns
-    origins. Polish expressions are postfix: operands then H or V. Not every packing
-    is slicing—wheels need non-slicing representations—but slicing is a strong first
-    model.'
+  title: Slicing tree / polish expression packing
+  subtitle: Slicing floorplans use through-cuts
+  notes: 'Slicing floorplans use through-cuts. The golden polish A D H B V C V E V
+    stacks A under D, then attaches B, C, and E with vertical cuts—bounding box nine
+    by three.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: Polish expression encodes cuts
+  image: assets/steps/01-polish.png
+  caption: Polish expression encodes cuts
+  notes: A slicing floorplan is a tree of through-cuts. Postfix polish A D H B V C
+    V E V stacks A under D, then places B, C, and E to the right with vertical cuts.
+- type: image
+  title: A D H stacks height 3
+  image: assets/steps/02-stack-ad.png
+  caption: A D H stacks height 3
+  notes: A is three by two; D is three by one. An H cut stacks D above A into a three
+    by three block at the lower left.
+- type: image
+  title: V attaches B on the right
+  image: assets/steps/03-attach-b.png
+  caption: V attaches B on the right
+  notes: Next V places B beside the A–D stack. Bounding width becomes five; height
+    stays three.
+- type: image
+  title: Full polish packs BB 9×3
+  image: assets/steps/04-full.png
+  caption: Full polish packs BB 9×3
+  notes: Adding C and E with more V cuts finishes the golden polish. Bounding box
+    is nine by three—legal inside the ten-by-eight outline.
+- type: image
+  title: Slicing cannot make wheels
+  image: assets/steps/05-takeaway.png
+  caption: Slicing cannot make wheels
+  notes: 'Not every packing is slicing. Wheel topologies need non-slicing codes like
+    B-star or sequence pair—next labs. For slicing, polish plus H/V evaluation is
+    enough.
+
+
+    <!-- /algorithm-walkthrough -->'
 - type: bullets
   title: Browser lab track
   bullets:
-  - Open **slicing-floorplan**
-  - Load a starter polish expression or tree
-  - Step through cuts and watch rectangles subdivide
-  - Read deadspace on the fixed outline
-  - Change one operator from H to V and see the packing reshape
-  - Then implement tree evaluation yourself
-  notes: Open **slicing-floorplan**. Load a starter polish expression or tree. Step
-    through cuts and watch rectangles subdivide. Read deadspace on the fixed outline.
-    Change one operator from H to V and see the packing reshape. Then implement tree
-    evaluation yourself.
+  - Open slicing-floorplan and Evaluate polish
+  - Confirm bounding width nine, height three, and a legal packing inside ten by eight
+  notes: Open slicing-floorplan and Evaluate polish. Confirm bounding width nine,
+    height three, and a legal packing inside ten by eight.
 - type: bullets
   title: Implement track
   bullets:
-  - Define a small tree or polish string over modules A–E
-  - Evaluate composite widths and heights, then assign (x, y) under the ten-by-eight
-    outline
-  - Reject trees whose root size exceeds the outline
-  - Report legality and deadspace
-  - Keep operator conventions documented in comments
-  notes: Define a small tree or polish string over modules A–E. Evaluate composite
-    widths and heights, then assign (x, y) under the ten-by-eight outline. Reject
-    trees whose root size exceeds the outline. Report legality and deadspace. Keep
-    operator conventions documented in comments.
+  - Implement postfix evaluation for H and V
+  - On the golden token list, assert width nine, height three, and is_legal_packing
+    true
+  notes: Implement postfix evaluation for H and V. On the golden token list, assert
+    width nine, height three, and is_legal_packing true.
 - type: bullets
   title: Pitfalls
   bullets:
-  - Swapping H and V conventions silently flips the packing
-  - Forgetting that composite size is max-along-cut versus sum-along-cut is the classic
-    bug
-  - 'Also: a polish string that is not a valid slicing expression will crash a naive
-    evaluator'
-  notes: 'Swapping H and V conventions silently flips the packing. Forgetting that
-    composite size is max-along-cut versus sum-along-cut is the classic bug. Also:
-    a polish string that is not a valid slicing expression will crash a naive evaluator—validate
-    arity as you parse.'
+  - Swapping H/V meanings
+  notes: Swapping H/V meanings; leaving polish operands on the stack; assuming every
+    packing is slicing—wheels need other reps.
 - type: bullets
   title: Your turn
   bullets:
-  - Pack a legal slicing floorplan for the starter modules
-  - Quiz when ready
-  notes: Pack a legal slicing floorplan for the starter modules. Quiz when ready,
-    then meet B*-trees—which can represent non-slicing packings more naturally.
+  - Ship a legal polish pack with BB nine by three
+  - 'Next: B-star trees for non-slicing adjacency'
+  notes: 'Ship a legal polish pack with BB nine by three. Next: B-star trees for non-slicing
+    adjacency.'

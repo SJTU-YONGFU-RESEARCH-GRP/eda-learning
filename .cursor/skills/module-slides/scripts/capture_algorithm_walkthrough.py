@@ -64,6 +64,16 @@ LAB_TO_ALGO: dict[str, tuple[str, int]] = {
     "macro-placement": ("macro-placement", 5),
     "hierarchical-floorplan": ("hierarchical-floorplan", 5),
     "pin-assignment": ("pin-assignment", 5),
+    "timing-graph": ("timing-graph", 5),
+    "hpwl-metrics": ("hpwl-metrics", 5),
+    "net-models": ("net-models", 5),
+    "force-directed-place": ("force-directed-place", 5),
+    "quadratic-place": ("quadratic-place", 5),
+    "analytical-place": ("analytical-place", 5),
+    "sa-placement": ("sa-placement", 5),
+    "density-bins": ("density-bins", 5),
+    "spread-legalize-lite": ("spread-legalize-lite", 5),
+    "timing-driven-place": ("timing-driven-place", 5),
 }
 
 BEGIN_MARK = "<!-- algorithm-walkthrough -->"

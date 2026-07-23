@@ -1,0 +1,39 @@
+{
+  "id": "module00-00-intro",
+  "title": "Intro check",
+  "items": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "prompt": "This course focuses primarily on\u2026",
+      "choices": [
+        "Vendor GUI click-paths",
+        "Full implementations of placement algorithms on tiny instances",
+        "Foundry PDK certification",
+        "Writing UVM agents"
+      ],
+      "answer": 1,
+      "explain": "Algorithm / toy-engine literacy on scoped placements."
+    },
+    {
+      "id": "q2",
+      "type": "true_false",
+      "prompt": "A good placement usually ignores density as long as HPWL is zero.",
+      "answer": false,
+      "explain": "Density keeps cells legal for legalization and routing; piled cells with tiny HPWL are not usable."
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "prompt": "A good study rhythm is\u2026",
+      "choices": [
+        "Only memorize folder names",
+        "Browser intuition then implement metrics on the tiny placement",
+        "Skip checklists entirely",
+        "Start with SA before HPWL"
+      ],
+      "answer": 1,
+      "explain": "Track B then Track A hardens the idea."
+    }
+  ]
+}
