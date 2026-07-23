@@ -1,0 +1,96 @@
+title: Kernighan–Lin bipartition
+footer: learn_partitioning — 01 kl partition
+slides:
+- type: title
+  title: Kernighan–Lin bipartition
+  subtitle: Kernighan–Lin improves an existing bipartition by swapping pairs across
+    the cut
+  notes: Kernighan–Lin improves an existing bipartition by swapping pairs across the
+    cut. You’ll watch a full pass—gains, locking, a swap sequence, and rollback to
+    the best prefix. On the starter seed that cuts both heavy edges, KL drives the
+    cut from twelve down to three.
+- type: bullets
+  title: The idea
+  bullets:
+  - Score each unlocked pair by swap gain
+  - 'Here the winning prefix is one swap: A with D, gain nine'
+  - Pass one then finds nothing and KL stops at a local optimum for swap moves
+  - <!-- algorithm-walkthrough -->
+  notes: 'Score each unlocked pair by swap gain, lock pairs as you go, then keep only
+    the prefix with best cumulative gain. Here the winning prefix is one swap: A with
+    D, gain nine. Pass one then finds nothing and KL stops at a local optimum for
+    swap moves.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: 'Bad seed: cutsize 12'
+  image: assets/steps/01-bad-seed.png
+  caption: 'Bad seed: cutsize 12'
+  notes: Start from a terrible bipartition AE|BCD. Both heavy edges A–B and D–E are
+    cut, so cutsize is 12. KL will search improving swaps.
+- type: image
+  title: Score pairwise swaps by gain
+  image: assets/steps/02-gain-idea.png
+  caption: Score pairwise swaps by gain
+  notes: KL considers swapping one vertex from each side. Gain estimates how much
+    the cut shrinks. The best unlocked pair here is A↔D with gain 9.
+- type: image
+  title: 'Accept prefix: only A↔D'
+  image: assets/steps/03-accept-swap.png
+  caption: 'Accept prefix: only A↔D'
+  notes: 'Pass 0 builds a sequence of candidate swaps, then keeps the prefix with
+    best cumulative gain. Here best_k=1: perform A↔D once.'
+- type: image
+  title: Refined partition ABC|DE
+  image: assets/steps/04-final.png
+  caption: Refined partition ABC|DE
+  notes: After the swap, A joins B,C and D joins E. Heavy edges are internal; only
+    the weak C–D/C–E bridge remains cut.
+- type: image
+  title: Next pass finds nothing
+  image: assets/steps/05-pass1-stop.png
+  caption: Next pass finds nothing
+  notes: 'Pass 1 reports improved=false. KL stops when a full pass cannot improve
+    — local optimum for swap moves from this seed.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab track, open the **kl-partition** lab from the tools shelf
+  - Load the starter graph, run the algorithm once
+  - Work the challenges that lock the goldens
+  notes: In the browser lab track, open the **kl-partition** lab from the tools shelf.
+    Load the starter graph, run the algorithm once, and read cutsize and balance in
+    the metrics panel. Work the challenges that lock the goldens, then come back to
+    implement the same loop yourself.
+- type: bullets
+  title: Implement track
+  bullets:
+  - In the implement track, open this module’s examples and the course `common/` solvers
+  - Parse the tiny graph, run the algorithm with a deterministic seed
+  - Match the browser goldens before you claim the checklist
+  notes: In the implement track, open this module’s examples and the course `common/`
+    solvers. Parse the tiny graph, run the algorithm with a deterministic seed, and
+    print the assignment plus cutsize and balance. Match the browser goldens before
+    you claim the checklist.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Common traps
+  - For multilevel flows, verify coarsening before you blame the refiner
+  notes: 'Common traps: optimizing cut while ignoring balance; reporting pairwise
+    cut when the instance is a hypergraph; flipping locked terminals; and stopping
+    before rollback to the best KL or FM prefix. For multilevel flows, verify coarsening
+    before you blame the refiner.'
+- type: bullets
+  title: Your turn
+  bullets:
+  - Complete the checklist for at least one track, preferably both
+  - Implement until your metrics match the starter goldens
+  - When you’re ready, take the short quiz, then continue to the next module
+  notes: Complete the checklist for at least one track—preferably both. Implement
+    until your metrics match the starter goldens. When you’re ready, take the short
+    quiz, then continue to the next module.

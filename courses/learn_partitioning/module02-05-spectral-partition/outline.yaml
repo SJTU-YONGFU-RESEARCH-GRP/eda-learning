@@ -1,0 +1,94 @@
+title: Spectral bipartition
+footer: learn_partitioning — 05 spectral partition
+slides:
+- type: title
+  title: Spectral bipartition
+  subtitle: Spectral bipartition reads connectivity from the graph Laplacian
+  notes: Spectral bipartition reads connectivity from the graph Laplacian. The Fiedler
+    vector gives a soft ordering of nodes; a balanced sweep of that order picks the
+    cut. On the starter graph the winning split is DE versus ABC with cutsize three.
+- type: bullets
+  title: The idea
+  bullets:
+  - Build L equals D minus A, take the second eigenvector, sort nodes
+  - Reject lopsided splits
+  - The continuous membership becomes a hard bipartition only after the sweep chooses
+    the best
+  - <!-- algorithm-walkthrough -->
+  notes: 'Build L equals D minus A, take the second eigenvector, sort nodes, and try
+    balanced prefixes. Reject lopsided splits. The continuous membership becomes a
+    hard bipartition only after the sweep chooses the best legal cut.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: Build the Laplacian
+  image: assets/steps/01-laplacian.png
+  caption: Build the Laplacian
+  notes: Spectral methods read connectivity from the graph Laplacian L = D − A. The
+    Fiedler vector (second eigenvector) encodes a soft cut.
+- type: image
+  title: Sort by Fiedler value
+  image: assets/steps/02-fiedler-order.png
+  caption: Sort by Fiedler value
+  notes: After iteration, nodes order low→high as E, D, C, B, A. E is most negative;
+    A is most positive — natural bipartition candidates.
+- type: image
+  title: Sweep prefixes for best cut
+  image: assets/steps/03-sweep-cut.png
+  caption: Sweep prefixes for best cut
+  notes: Try every balanced prefix of the order as side 0. The winning split is {D,E}
+    vs {A,B,C} with cutsize 3.
+- type: image
+  title: Result ABC|DE
+  image: assets/steps/04-final.png
+  caption: Result ABC|DE
+  notes: Spectral recovers the same communities as unconstrained greedy and grow-from-D.
+    Global eigenvectors find the cut without greedy merges.
+- type: image
+  title: When spectral helps
+  image: assets/steps/05-takeaway.png
+  caption: When spectral helps
+  notes: 'Spectral is a strong initializer for bipartition. On larger chips it pairs
+    with multilevel; here the tiny instance grades against golden cut 3.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab track, open the **spectral-partition** lab from the tools shelf
+  - Load the starter graph, run the algorithm once
+  - Work the challenges that lock the goldens
+  notes: In the browser lab track, open the **spectral-partition** lab from the tools
+    shelf. Load the starter graph, run the algorithm once, and read cutsize and balance
+    in the metrics panel. Work the challenges that lock the goldens, then come back
+    to implement the same loop yourself.
+- type: bullets
+  title: Implement track
+  bullets:
+  - In the implement track, open this module’s examples and the course `common/` solvers
+  - Parse the tiny graph, run the algorithm with a deterministic seed
+  - Match the browser goldens before you claim the checklist
+  notes: In the implement track, open this module’s examples and the course `common/`
+    solvers. Parse the tiny graph, run the algorithm with a deterministic seed, and
+    print the assignment plus cutsize and balance. Match the browser goldens before
+    you claim the checklist.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Common traps
+  - For multilevel flows, verify coarsening before you blame the refiner
+  notes: 'Common traps: optimizing cut while ignoring balance; reporting pairwise
+    cut when the instance is a hypergraph; flipping locked terminals; and stopping
+    before rollback to the best KL or FM prefix. For multilevel flows, verify coarsening
+    before you blame the refiner.'
+- type: bullets
+  title: Your turn
+  bullets:
+  - Complete the checklist for at least one track, preferably both
+  - Implement until your metrics match the starter goldens
+  - When you’re ready, take the short quiz, then continue to the next module
+  notes: Complete the checklist for at least one track—preferably both. Implement
+    until your metrics match the starter goldens. When you’re ready, take the short
+    quiz, then continue to the next module.

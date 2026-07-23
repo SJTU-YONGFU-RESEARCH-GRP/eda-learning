@@ -1,0 +1,57 @@
+# Deploy platform/ to GitHub Pages (no gh-pages branch).
+#
+# One-time repo setup:
+#   Settings → Pages → Build and deployment → Source: GitHub Actions
+# Then push to main (or run this workflow manually).
+#
+# Live site:
+#   https://sjtu-yongfu-research-grp.github.io/eda-learning/
+
+name: Deploy platform to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "platform/**"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      # Local authoring links (../../courses/…) — never ship to Pages.
+      - name: Drop local-only course-media
+        run: rm -rf platform/course-media
+
+      - name: Upload platform artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: platform
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,7 +1,7 @@
 # Module 03-01: Multilevel clustering
 
 **Module id:** `module03-01-multilevel-clustering`  
-**Kind:** `lab` · Primary lab: `multilevel-clustering` · **Shipped**
+**Kind:** `lab` · Primary lab: `multilevel-clustering` · **Planned**
 
 [← Fiduccia–Mattheyses](../module02-07-fiduccia-mattheyses/README.md) · [Course README](../README.md) · [Hypergraph →](../module03-03-hypergraph-clustering/README.md)
 
@@ -19,11 +19,11 @@ After this module you can: **Implement a full V-cycle: coarsen, initial partitio
 
 ### Track B — Browser lab (online)
 
-1. Local: [http://127.0.0.1:8080/tools/multilevel-clustering/index.html](http://127.0.0.1:8080/tools/multilevel-clustering/index.html)
-2. Live: [https://universal-verification-methodology.github.io/learning/tools/multilevel-clustering/](https://universal-verification-methodology.github.io/learning/tools/multilevel-clustering/)
-3. Tools shelf: open `multilevel-clustering` from the platform tools index
-4. Load the **starter graph**, run the algorithm, inspect metrics.
-5. Check off Track B items in [CHECKLIST.md](CHECKLIST.md).
+Track B for `multilevel-clustering` is **planned**. Use Track A until the tool ships.
+
+1. When available locally: http://127.0.0.1:8080/tools/multilevel-clustering/index.html
+2. Check off Track B items in [CHECKLIST.md](CHECKLIST.md) once the lab is live.
+
 
 > Concept labs teach algorithm literacy on tiny instances — not production PDK flows.
 

@@ -44,6 +44,44 @@ COURSE_META = {
         "first_lab": "affinity-metrics",
         "first_n": "02",
     },
+    "learn_partitioning": {
+        "title": "Partitioning for EDA",
+        "focus": "Cutsize/balance → initial cut → KL/FM/spectral → multiway → terminals → multilevel",
+        "prereq": None,
+        "status": "ready",
+        "repo": "learn_partitioning",
+        "modules_md": ROOT / "courses" / "learn_partitioning" / "docs" / "MODULES.md",
+        "course_root": ROOT / "courses" / "learn_partitioning",
+        "lead": (
+            "Bipartition and multiway partitioning for physical design — tiny graphs, full algorithms, "
+            "cut and balance you can trust. Clips and decks load from "
+            "<code>courses/learn_partitioning</code> "
+            "(<code>moduleSS-AA-slug/video.mp4</code>). Open the matching browser tool, then mark the lab done."
+        ),
+        "tools_href": "../../tools/index.html#partitioning",
+        "tools_label": "Partitioning tools",
+        "first_lab": "cutsize-balance",
+        "first_n": "02",
+    },
+    "learn_floorplanning": {
+        "title": "Floorplanning",
+        "focus": "Fixed-outline → slicing/B*/SP → SA → soft modules → macros → hierarchy → pins",
+        "prereq": None,
+        "status": "ready",
+        "repo": "learn_floorplanning",
+        "modules_md": ROOT / "courses" / "learn_floorplanning" / "docs" / "MODULES.md",
+        "course_root": ROOT / "courses" / "learn_floorplanning",
+        "lead": (
+            "Fixed-outline floorplanning for physical design — tiny modules, full representations, "
+            "legality and deadspace you can trust. Clips and decks load from "
+            "<code>courses/learn_floorplanning</code> "
+            "(<code>moduleSS-AA-slug/video.mp4</code>). Open the matching browser tool, then mark the lab done."
+        ),
+        "tools_href": "../../tools/index.html#floorplanning",
+        "tools_label": "Floorplanning tools",
+        "first_lab": "fixed-outline",
+        "first_n": "02",
+    },
 }
 
 COURSE_INDEX = """<!DOCTYPE html>
@@ -343,6 +381,33 @@ def link_course_media(repo: str) -> None:
         print(f"WARN symlink failed ({exc})", file=sys.stderr)
 
 
+PARTITION_TOOL_IDS = {
+    "cutsize-balance",
+    "initial-bipartition",
+    "kl-partition",
+    "fm-partition",
+    "spectral-partition",
+    "recursive-bisection",
+    "multiway-partition",
+    "terminal-propagation",
+    "hypergraph-partition",
+    "multilevel-partition",
+}
+
+FLOORPLAN_TOOL_IDS = {
+    "fixed-outline",
+    "area-deadspace",
+    "slicing-floorplan",
+    "bstar-tree",
+    "sequence-pair",
+    "simulated-annealing-fp",
+    "soft-module-sizing",
+    "macro-placement",
+    "hierarchical-floorplan",
+    "pin-assignment",
+}
+
+
 def sync_tools_from_dirs(cat: dict) -> None:
     tools_root = PLATFORM / "tools"
     labs = []
@@ -356,7 +421,13 @@ def sync_tools_from_dirs(cat: dict) -> None:
             if old.get("id") == child.name:
                 title = old.get("title", title)
                 break
-        labs.append({"id": child.name, "title": title, "section": "Clustering & refinement"})
+        if child.name in PARTITION_TOOL_IDS:
+            section = "Partitioning"
+        elif child.name in FLOORPLAN_TOOL_IDS:
+            section = "Floorplanning"
+        else:
+            section = "Clustering & refinement"
+        labs.append({"id": child.name, "title": title, "section": section})
     cat["labs"] = labs
 
 

@@ -1,7 +1,7 @@
 # Module 02-03: Spectral bisection
 
 **Module id:** `module02-03-spectral-bisection`  
-**Kind:** `lab` · Primary lab: `spectral-bisection` · **Shipped**
+**Kind:** `lab` · Primary lab: `spectral-bisection` · **Planned**
 
 [← Label propagation](../module02-01-label-propagation/README.md) · [Course README](../README.md) · [Kernighan–Lin →](../module02-05-kernighan-lin/README.md)
 
@@ -19,11 +19,11 @@ After this module you can: **Build the Laplacian, take the Fiedler vector, and b
 
 ### Track B — Browser lab (online)
 
-1. Local: [http://127.0.0.1:8080/tools/spectral-bisection/index.html](http://127.0.0.1:8080/tools/spectral-bisection/index.html)
-2. Live: [https://universal-verification-methodology.github.io/learning/tools/spectral-bisection/](https://universal-verification-methodology.github.io/learning/tools/spectral-bisection/)
-3. Tools shelf: open `spectral-bisection` from the platform tools index
-4. Load the **starter graph**, run the algorithm, inspect metrics.
-5. Check off Track B items in [CHECKLIST.md](CHECKLIST.md).
+Track B for `spectral-bisection` is **planned**. Use Track A until the tool ships.
+
+1. When available locally: http://127.0.0.1:8080/tools/spectral-bisection/index.html
+2. Check off Track B items in [CHECKLIST.md](CHECKLIST.md) once the lab is live.
+
 
 > Concept labs teach algorithm literacy on tiny instances — not production PDK flows.
 

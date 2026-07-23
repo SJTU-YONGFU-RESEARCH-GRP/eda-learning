@@ -1,0 +1,52 @@
+title: Partitioning path complete
+footer: learn_partitioning — 00 wrap
+slides:
+- type: title
+  title: Partitioning path complete
+  subtitle: You’ve walked the partitioning path, from metrics and initial cuts, through
+    KL, FM, spectral
+  notes: You’ve walked the partitioning path—from metrics and initial cuts, through
+    KL, FM, spectral, and recursive multiway work, into terminals, hypergraphs, and
+    multilevel V-cycles, plus an offline compare habit. This wrap names what you can
+    do now and where to go next.
+- type: bullets
+  title: What you can do now
+  bullets:
+  - You can form legal bipartitions, refine them with KL or FM
+  - You know when a graph model is enough and when a hyperedge model is required
+  - You can respect fixed terminals and sketch a multilevel V-cycle
+  - You are not shipping a foundry tool, you are building algorithm literacy for the
+    PD stack
+  notes: You can form legal bipartitions, refine them with KL or FM, and explain cut
+    versus balance trade-offs. You know when a graph model is enough and when a hyperedge
+    model is required. You can respect fixed terminals and sketch a multilevel V-cycle.
+    You are not shipping a foundry tool—you are building algorithm literacy for the
+    PD stack.
+- type: bullets
+  title: Close the gaps
+  bullets:
+  - If you mainly watched browser labs
+  - If you mainly coded, re-open any skipped visual labs
+  - Either track works for self-study
+  notes: If you mainly watched browser labs, go back and finish at least one full
+    implementation in foundations and one in classic bipartition. If you mainly coded,
+    re-open any skipped visual labs. Either track works for self-study; both together
+    stick best before floorplanning or placement.
+- type: bullets
+  title: Next
+  bullets:
+  - Complete the quiz for this part
+  - Learn floorplanning or placement, where partitioned blocks become shapes and density
+  notes: Natural next steps are learn clustering—for coarsening affinities that feed
+    multilevel flows—and learn floorplanning or placement, where partitioned blocks
+    become shapes and density. Keep your tiny-graph harness—you’ll reuse the I/O format.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Review the wrap checklist
+  - Name three algorithms and one strength each
+  - Say which idea you’d use when pads are fixed on the chip boundary
+  - When you’re ready, take the short quiz, then open the next course README
+  notes: Review the wrap checklist. Name three algorithms and one strength each. Say
+    which idea you’d use when pads are fixed on the chip boundary. When you’re ready,
+    take the short quiz, then open the next course README.

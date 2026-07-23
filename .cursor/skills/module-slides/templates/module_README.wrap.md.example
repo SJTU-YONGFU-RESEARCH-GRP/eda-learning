@@ -1,0 +1,36 @@
+# Module NN: <Wrap title>
+
+**Kind:** `wrap`
+
+[← <prev title>](../moduleNN-prev/README.md) · [Course README](../README.md) · End →
+
+## You can now
+
+- <outcome 1>
+- <outcome 2>
+- <outcome 3>
+
+## Dual-track recap
+
+If you mainly used **browser labs**, spend a short session on Track A for a few key modules so real practice feels natural.
+If you mainly used **Track A**, skim any skipped browser labs for visual challenges.
+
+## Next course
+
+→ **<next_course_id>** (syllabus: parent [`syllabus.md`](../../../syllabus.md))
+
+## Checklist
+
+- [ ] I completed Track A and/or Track B for the lab modules I care about
+- [ ] I can explain the core ideas of this path in my own words
+- [ ] I know which next course to open
+
+## Media
+
+| Artifact | Path |
+|----------|------|
+| Transcript | [transcript.md](transcript.md) |
+| Outline | [outline.yaml](outline.yaml) |
+| Slides | [slides.pptx](slides.pptx) · [slides.pdf](slides.pdf) |
+| Video | [video.mp4](video.mp4) |
+| Quiz | [quiz.json](quiz.json) |

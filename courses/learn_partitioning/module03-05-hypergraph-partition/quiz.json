@@ -1,0 +1,46 @@
+{
+  "id": "module03-05-hypergraph-partition",
+  "title": "Hypergraph check",
+  "items": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "prompt": "This lab\u2019s primary algorithm is\u2026",
+      "choices": [
+        "hypergraph / netlist cut bipartition",
+        "Vendor place-and-route GUI only",
+        "SPICE transient analysis",
+        "Scan-chain stitching"
+      ],
+      "answer": 0,
+      "explain": "Focus: hypergraph / netlist cut bipartition."
+    },
+    {
+      "id": "q2",
+      "type": "true_false",
+      "prompt": "Cutsize alone is enough; balance can be ignored in this course.",
+      "answer": false,
+      "explain": "Every partition lab reports cut and balance together."
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "prompt": "After running the algorithm you should report\u2026",
+      "choices": [
+        "Only a screenshot of the UI",
+        "Part assignment plus cutsize and balance",
+        "Only runtime",
+        "Nothing \u2014 intuition is enough"
+      ],
+      "answer": 1,
+      "explain": "Assignment + metrics are the contract."
+    },
+    {
+      "id": "q4",
+      "type": "true_false",
+      "prompt": "Track A asks you to implement hypergraph / netlist cut bipartition on a tiny graph.",
+      "answer": true,
+      "explain": "Implement track hardens the idea."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "id": "module00-00-intro",
+  "title": "Intro check",
+  "items": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "prompt": "This course focuses primarily on\u2026",
+      "choices": [
+        "Vendor GUI click-paths",
+        "Full implementations of partitioning algorithms on tiny instances",
+        "Foundry PDK certification",
+        "Writing UVM agents"
+      ],
+      "answer": 1,
+      "explain": "Algorithm / toy-engine literacy on scoped graphs."
+    },
+    {
+      "id": "q2",
+      "type": "true_false",
+      "prompt": "A good partition usually ignores balance as long as cutsize is zero.",
+      "answer": false,
+      "explain": "Balance keeps parts usable for floorplan and place; empty cuts with one empty part are useless."
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "prompt": "A good study rhythm is\u2026",
+      "choices": [
+        "Only memorize folder names",
+        "Browser intuition then implement metrics on tiny graphs",
+        "Skip checklists entirely",
+        "Start with multilevel before cutsize"
+      ],
+      "answer": 1,
+      "explain": "Track B then Track A hardens the idea."
+    }
+  ]
+}

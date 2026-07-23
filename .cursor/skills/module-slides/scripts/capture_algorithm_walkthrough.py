@@ -44,6 +44,16 @@ LAB_TO_ALGO: dict[str, tuple[str, int]] = {
     "hypergraph-clustering": ("hypergraph-clustering", 5),
     "congestion-aware-clustering": ("congestion-aware-clustering", 5),
     "timing-aware-clustering": ("timing-aware-clustering", 5),
+    "cutsize-balance": ("cutsize-balance", 5),
+    "initial-bipartition": ("initial-bipartition", 5),
+    "kl-partition": ("kl-partition", 5),
+    "fm-partition": ("fm-partition", 5),
+    "spectral-partition": ("spectral-partition", 5),
+    "recursive-bisection": ("recursive-bisection", 5),
+    "multiway-partition": ("multiway-partition", 5),
+    "terminal-propagation": ("terminal-propagation", 5),
+    "hypergraph-partition": ("hypergraph-partition", 5),
+    "multilevel-partition": ("multilevel-partition", 5),
 }
 
 BEGIN_MARK = "<!-- algorithm-walkthrough -->"

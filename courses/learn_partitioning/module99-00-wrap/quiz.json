@@ -1,0 +1,39 @@
+{
+  "id": "module99-00-wrap",
+  "title": "Wrap check",
+  "items": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "prompt": "Fixed I/O pads are handled most directly by\u2026",
+      "choices": [
+        "Ignoring them until routing",
+        "Terminal propagation / fixed-node constraints",
+        "Always spectral bipartition only",
+        "Increasing cutsize on purpose"
+      ],
+      "answer": 1,
+      "explain": "Terminals pin nodes to parts and shape legal cuts."
+    },
+    {
+      "id": "q2",
+      "type": "true_false",
+      "prompt": "KL and FM improve an existing bipartition under a balance rule.",
+      "answer": true,
+      "explain": "They move or swap nodes to reduce cut while staying legal."
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "prompt": "A natural next course after partitioning is\u2026",
+      "choices": [
+        "Only analog layout",
+        "Clustering, floorplanning, or placement",
+        "SPICE device models first",
+        "Ignore the PD stack"
+      ],
+      "answer": 1,
+      "explain": "Those courses reuse cut, balance, and multilevel instincts."
+    }
+  ]
+}

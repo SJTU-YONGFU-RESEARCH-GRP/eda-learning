@@ -21,7 +21,7 @@
     <div class="eyebrow">Tools</div>
     <section class="hero">
       <h1>Interactive labs</h1>
-      <p class="lead">Clustering / PD algorithm labs — concept shelf for <code>learn_clustering</code>.</p>
+      <p class="lead">Clustering and partitioning algorithm labs — concept shelf for <code>learn_clustering</code> and <code>learn_partitioning</code>.</p>
     </section>
     <section class="tools-stage" id="clustering">
       <h2>Clustering &amp; refinement</h2>
@@ -69,6 +69,51 @@
         <li>
           <a href="timing-aware-clustering/index.html">Timing-aware clustering</a>
           <div class="chapter-meta">Criticality-weighted FM — plain 3, weighted cut 7.</div>
+        </li>
+      </ul>
+    </section>
+    <section class="tools-stage" id="partitioning">
+      <h2>Partitioning</h2>
+      <ul class="chapter-list">
+        <li>
+          <a href="cutsize-balance/index.html">Cutsize &amp; balance</a>
+          <div class="chapter-meta">Report cutsize and balance ratio for bad vs golden bipartitions.</div>
+        </li>
+        <li>
+          <a href="initial-bipartition/index.html">Initial bipartition</a>
+          <div class="chapter-meta">Random, greedy, and grow seeds before refinement.</div>
+        </li>
+        <li>
+          <a href="kl-partition/index.html">KL partition</a>
+          <div class="chapter-meta">Kernighan–Lin from a bad seed (12→3 via A↔D).</div>
+        </li>
+        <li>
+          <a href="fm-partition/index.html">FM partition</a>
+          <div class="chapter-meta">Fiduccia–Mattheyses single-vertex moves from a bad seed.</div>
+        </li>
+        <li>
+          <a href="spectral-partition/index.html">Spectral partition</a>
+          <div class="chapter-meta">Fiedler-vector spectral bipartition → ABC|DE cut 3.</div>
+        </li>
+        <li>
+          <a href="recursive-bisection/index.html">Recursive bisection</a>
+          <div class="chapter-meta">Bisect the largest part until k regions (k=3 → AB|C|DE).</div>
+        </li>
+        <li>
+          <a href="multiway-partition/index.html">Multiway partition</a>
+          <div class="chapter-meta">Recursive k-way vs naive round-robin (cut 8 vs 18).</div>
+        </li>
+        <li>
+          <a href="terminal-propagation/index.html">Terminal propagation</a>
+          <div class="chapter-meta">Fixed terminals constrain free nodes via affinity.</div>
+        </li>
+        <li>
+          <a href="hypergraph-partition/index.html">Hypergraph partition</a>
+          <div class="chapter-meta">Hyperedge-cut FM on a tiny netlist (seed 6 → cut 1).</div>
+        </li>
+        <li>
+          <a href="multilevel-partition/index.html">Multilevel partition</a>
+          <div class="chapter-meta">V-cycle stages: coarsen → project → refine → P0/P1.</div>
         </li>
       </ul>
     </section>

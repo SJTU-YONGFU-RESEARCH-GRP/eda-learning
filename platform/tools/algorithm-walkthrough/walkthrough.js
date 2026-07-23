@@ -878,6 +878,770 @@ export const ALGOS = {
       },
     ],
   },
+
+  "cutsize-balance": {
+    title: "Cutsize & balance",
+    module: "module01-01-cutsize-balance",
+    steps: [
+      {
+        id: "graph",
+        title: "Same graph, two bipartitions",
+        caption:
+          "TINY_GRAPH has five cells. Partition quality is measured by cutsize (sum of cut edge weights) and balance (how even the two sides are).",
+        bullets: [
+          "Cutsize = wire crossing the partition",
+          "Balance ratio = min side / max side",
+          "Both metrics matter in floorplanning",
+        ],
+        metrics: ["5 nodes, 6 edges", "Target: legal 2-way split"],
+        assignment: null,
+        highlightPairs: ["A|B", "D|E"],
+      },
+      {
+        id: "bad-seed",
+        title: "Bad seed: cutsize 12",
+        caption:
+          "Seed AE|BCD cuts both heavy edges A–B(5) and D–E(5). Cutsize is 12 — a terrible wire cost even though the split is legal.",
+        bullets: [
+          "Parts: A,E vs B,C,D",
+          "Heavy internal edges become cut edges",
+          "Same graph used across partitioning labs",
+        ],
+        metrics: [`seed: ${JSON.stringify(BAD_SEED)}`, "cutsize: 12", "parts: AE|BCD"],
+        assignment: { ...BAD_SEED },
+        highlightPairs: ["A|B", "D|E"],
+      },
+      {
+        id: "bad-balance",
+        title: "Bad seed balance: ratio 2/3",
+        caption:
+          "Side sizes are 2 vs 3, so balance ratio = 2/3 and imbalance |2−3|/5 = 0.2. The split is moderately balanced — cutsize, not balance, is the problem.",
+        bullets: [
+          "ratio = min/max of side sizes",
+          "imbalance = |s0−s1| / n",
+          "Balance alone does not rank partitions",
+        ],
+        metrics: ["sizes: 2 vs 3", "ratio: 0.6667", "imbalance: 0.2"],
+        assignment: { ...BAD_SEED },
+      },
+      {
+        id: "golden",
+        title: "Golden ABC|DE: cutsize 3",
+        caption:
+          "Golden bipartition ABC|DE keeps A–B and D–E internal. Only weak bridges C–D(2) and C–E(1) are cut — cutsize drops to 3 with the same 2/3 ratio.",
+        bullets: [
+          "Heavy edges stay inside communities",
+          "Same balance ratio as bad seed",
+          "Cutsize distinguishes quality",
+        ],
+        metrics: ["parts: ABC|DE", "cutsize: 3", "ratio: 2/3 (unchanged)"],
+        assignment: { A: "0", B: "0", C: "0", D: "1", E: "1" },
+        highlightPairs: ["C|D", "C|E"],
+      },
+      {
+        id: "takeaway",
+        title: "Cutsize + balance literacy",
+        caption:
+          "Two partitions can share the same balance but differ wildly in cut. EDA flows optimize cut under balance constraints — never balance alone.",
+        bullets: [
+          "Bad: AE|BCD cut 12, ratio 2/3",
+          "Golden: ABC|DE cut 3, ratio 2/3",
+          "Refinement labs repair bad seeds later",
+        ],
+        metrics: ["12 → 3 cut improvement", "ratio stays 2/3"],
+        assignment: { A: "0", B: "0", C: "0", D: "1", E: "1" },
+        highlightPairs: ["A|B", "D|E"],
+      },
+    ],
+  },
+
+  "initial-bipartition": {
+    title: "Initial bipartition",
+    module: "module01-03-initial-bipartition",
+    steps: [
+      {
+        id: "empty",
+        title: "Need a legal starting split",
+        caption:
+          "Refinement (KL/FM) needs a bipartition seed. Common builders: random, greedy heaviest-edge, or grow-from-node BFS. All must end with exactly two sides.",
+        bullets: [
+          "Random: shuffle + half/half",
+          "Greedy: anchor heaviest edge",
+          "Grow: BFS by heaviest neighbor",
+        ],
+        metrics: ["5 nodes → target ~2 vs 3 per side"],
+        assignment: null,
+        highlightPairs: [],
+      },
+      {
+        id: "random-lucky",
+        title: "Random seed=1: lucky ABC|DE",
+        caption:
+          "Random (seed=1) lands on ABC|DE with cutsize 3 — the golden communities by luck. Random seeds can also be terrible (seed=4 → cut 13).",
+        bullets: [
+          "Reproducible with fixed RNG seed",
+          "Lucky draw matches golden",
+          "Unlucky seeds need refinement",
+        ],
+        metrics: ["method: random seed=1", "parts: ABC|DE", "cutsize: 3"],
+        assignment: { A: "1", B: "1", C: "1", D: "0", E: "0" },
+        highlightPairs: ["A|B", "D|E"],
+      },
+      {
+        id: "greedy",
+        title: "Greedy initial: AB|CDE cut 5",
+        caption:
+          "Greedy anchors heaviest edge A–B on side 0, then places remaining nodes to minimize added cut. Result AB|CDE has cutsize 5 — legal but worse than grow.",
+        bullets: [
+          "Starts with A–B @ weight 5",
+          "Fills side 1 for balance",
+          "Deterministic, not always optimal",
+        ],
+        metrics: ["method: greedy", "parts: AB|CDE", "cutsize: 5"],
+        assignment: { A: "0", B: "0", C: "1", D: "1", E: "1" },
+        highlightPairs: ["A|B", "C|D"],
+      },
+      {
+        id: "grow-d",
+        title: "Grow from D: ABC|DE cut 3",
+        caption:
+          "Grow from D pulls E first (w=5), then A and B via heavy edges. Side 0 = {D,E}, side 1 = {A,B,C} — cutsize 3, matching golden.",
+        bullets: [
+          "BFS by heaviest uncut neighbor",
+          "Grow from E is symmetric",
+          "Reference starter in the lab",
+        ],
+        metrics: ["method: grow seed D", "parts: ABC|DE", "cutsize: 3"],
+        assignment: { A: "1", B: "1", C: "1", D: "0", E: "0" },
+        highlightPairs: ["D|E", "A|B"],
+      },
+      {
+        id: "takeaway",
+        title: "Seed quality sets the ceiling",
+        caption:
+          "All three methods produce legal bipartitions, but cutsize ranges 3–13 on the same graph. Better seeds mean less work for KL/FM downstream.",
+        bullets: [
+          "Random: luck-dependent",
+          "Greedy: cut 5 on this instance",
+          "Grow D: cut 3 — lab reference",
+        ],
+        metrics: ["Always exactly 2 labels", "Grow D beats greedy here"],
+        assignment: { A: "1", B: "1", C: "1", D: "0", E: "0" },
+        highlightPairs: ["C|D", "C|E"],
+      },
+    ],
+  },
+
+  "kl-partition": {
+    title: "Kernighan–Lin bipartition",
+    module: "module02-01-kl-partition",
+    steps: [
+      {
+        id: "bad-seed",
+        title: "Bad seed: cutsize 12",
+        caption:
+          "Start from a terrible bipartition AE|BCD. Both heavy edges A–B and D–E are cut, so cutsize is 12. KL will search improving swaps.",
+        bullets: [
+          "Seed parts: A,E vs B,C,D",
+          "Cut includes A–B(5) and D–E(5)",
+          "Goal: reduce cut without enumerating all partitions",
+        ],
+        metrics: [`seed: ${JSON.stringify(BAD_SEED)}`, "cutsize: 12"],
+        assignment: { ...BAD_SEED },
+        highlightPairs: ["A|B", "D|E"],
+      },
+      {
+        id: "gain-idea",
+        title: "Score pairwise swaps by gain",
+        caption:
+          "KL considers swapping one vertex from each side. Gain estimates how much the cut shrinks. The best unlocked pair here is A↔D with gain 9.",
+        bullets: [
+          "D(v)=external−internal for each vertex",
+          "Swap gain uses D values and the edge between the pair",
+          "Lock pairs after considering them in a pass",
+        ],
+        metrics: ["Best candidate swap: A ↔ D", "gain g = 9"],
+        assignment: { ...BAD_SEED },
+        highlightPairs: ["A|D"],
+      },
+      {
+        id: "accept-swap",
+        title: "Accept prefix: only A↔D",
+        caption:
+          "Pass 0 builds a sequence of candidate swaps, then keeps the prefix with best cumulative gain. Here best_k=1: perform A↔D once.",
+        bullets: [
+          "best_k = 1",
+          "bestCum = 9",
+          "cut 12 → 3 in one swap",
+        ],
+        metrics: [
+          "pass 0: A/D(9)",
+          "cutBefore=12 cutAfter=3",
+          "improved=true",
+        ],
+        assignment: { A: "1", B: "1", C: "1", D: "0", E: "0" },
+        highlightPairs: ["A|B", "D|E"],
+      },
+      {
+        id: "final",
+        title: "Refined partition ABC|DE",
+        caption:
+          "After the swap, A joins B,C and D joins E. Heavy edges are internal; only the weak C–D/C–E bridge remains cut.",
+        bullets: [
+          "Final parts: ABC|DE",
+          "Matches the greedy/LP communities",
+          "Cutsize golden: 3",
+        ],
+        metrics: ["cutsize: 3", "parts: ABC|DE"],
+        assignment: { A: "1", B: "1", C: "1", D: "0", E: "0" },
+        highlightPairs: ["C|D", "C|E"],
+      },
+      {
+        id: "pass1-stop",
+        title: "Next pass finds nothing",
+        caption:
+          "Pass 1 reports improved=false. KL stops when a full pass cannot improve — local optimum for swap moves from this seed.",
+        bullets: [
+          "Local, not global, optimum",
+          "Quality depends on the seed",
+          "Still the classic bipartition refiner",
+        ],
+        metrics: ["pass 1: best_k=0 improved=false", "stop"],
+        assignment: { A: "1", B: "1", C: "1", D: "0", E: "0" },
+      },
+    ],
+  },
+
+  "fm-partition": {
+    title: "Fiduccia–Mattheyses bipartition",
+    module: "module02-03-fm-partition",
+    steps: [
+      {
+        id: "bad-seed",
+        title: "Same bad seed, different move set",
+        caption:
+          "FM starts from the same cutsize-12 seed, but moves one vertex at a time instead of swapping a pair. That suits hypergraph / cell-move implementations.",
+        bullets: [
+          "Single-vertex moves across the cut",
+          "Bucketed gains for speed (classic FM)",
+          "Balance tolerance limits lopsided moves",
+        ],
+        metrics: ["seed cutsize: 12", "parts: AE|BCD"],
+        assignment: { ...BAD_SEED },
+        highlightPairs: ["A|B", "D|E"],
+      },
+      {
+        id: "move-d",
+        title: "Move 1: flip D (gain 3)",
+        caption:
+          "Highest legal move sends D to the other side with gain 3. Partial progress: D joins E's side early.",
+        bullets: [
+          "Pick unlocked vertex with best gain",
+          "Apply move, lock vertex",
+          "Update neighbor gains",
+        ],
+        metrics: ["move: D(g=3)", "running toward best prefix"],
+        assignment: { A: "0", E: "0", D: "0", B: "1", C: "1" },
+        highlightPairs: ["D|E"],
+      },
+      {
+        id: "move-a",
+        title: "Move 2: flip A (gain 6)",
+        caption:
+          "Next, A flips with gain 6. Cumulative gain is 3+6=9 — the same total improvement KL found with one swap.",
+        bullets: [
+          "Two moves ≈ one KL swap's worth of gain",
+          "best_k=2 keeps both moves",
+          "bestCum=9",
+        ],
+        metrics: ["moves: D(3), A(6)", "bestCum=9", "cut 12→3"],
+        assignment: { A: "1", B: "1", C: "1", D: "0", E: "0" },
+        highlightPairs: ["A|B"],
+      },
+      {
+        id: "final",
+        title: "Final ABC|DE, cutsize 3",
+        caption:
+          "FM lands on the same refined bipartition as KL. Teaching point: move style differs, destination quality matches on this instance.",
+        bullets: [
+          "parts: ABC|DE",
+          "cutsize: 3",
+          "Compare with KL transcript side-by-side",
+        ],
+        metrics: ["cutsize: 3", "pass 0 improved=true"],
+        assignment: { A: "1", B: "1", C: "1", D: "0", E: "0" },
+        highlightPairs: ["C|D", "C|E"],
+      },
+      {
+        id: "pass1-stop",
+        title: "Pass 1 confirms local optimum",
+        caption:
+          "A second FM pass finds no improving move prefix. Stop. In real tools, FM often runs inside multilevel V-cycles with tighter balance and hyperedges.",
+        bullets: [
+          "improved=false on pass 1",
+          "Cell moves scale to large netlists",
+          "Next: multilevel + hypergraph partition",
+        ],
+        metrics: ["pass 1: best_k=0", "stop"],
+        assignment: { A: "1", B: "1", C: "1", D: "0", E: "0" },
+      },
+    ],
+  },
+
+  "spectral-partition": {
+    title: "Spectral bipartition",
+    module: "module02-05-spectral-partition",
+    steps: [
+      {
+        id: "laplacian",
+        title: "Build the Laplacian",
+        caption:
+          "Spectral methods read connectivity from the graph Laplacian L = D − A. The Fiedler vector (second eigenvector) encodes a soft cut.",
+        bullets: [
+          "Tiny n → pure shifted inverse iteration",
+          "No external linear-algebra library",
+          "Same TINY_GRAPH as other labs",
+        ],
+        metrics: ["nodes: 5", "edges: 6"],
+        assignment: null,
+        highlightPairs: ["A|B", "D|E"],
+      },
+      {
+        id: "fiedler-order",
+        title: "Sort by Fiedler value",
+        caption:
+          "After iteration, nodes order low→high as E, D, C, B, A. E is most negative; A is most positive — natural bipartition candidates.",
+        bullets: [
+          "Order endpoints: E lowest, A highest",
+          "Values are continuous soft memberships",
+          "Balance filter rejects lopsided prefixes",
+        ],
+        metrics: ["order: E < D < C < B < A"],
+        assignment: null,
+        highlightPairs: [],
+      },
+      {
+        id: "sweep-cut",
+        title: "Sweep prefixes for best cut",
+        caption:
+          "Try every balanced prefix of the order as side 0. The winning split is {D,E} vs {A,B,C} with cutsize 3.",
+        bullets: [
+          "Balance window ≈ 20–80% size",
+          "Pick minimum cut among legal splits",
+          "Golden cut = 3",
+        ],
+        metrics: ["best parts: DE | ABC", "cutsize: 3"],
+        assignment: { A: "1", B: "1", C: "1", D: "0", E: "0" },
+        highlightPairs: ["C|D", "C|E"],
+      },
+      {
+        id: "final",
+        title: "Result ABC|DE",
+        caption:
+          "Spectral recovers the same communities as unconstrained greedy and grow-from-D. Global eigenvectors find the cut without greedy merges.",
+        bullets: [
+          "parts: ABC|DE",
+          "Heavy edges internal",
+          "Bridge C–D/C–E cut",
+        ],
+        metrics: ["cutsize: 3", "parts: ABC|DE"],
+        assignment: { A: "1", B: "1", C: "1", D: "0", E: "0" },
+        highlightPairs: ["C|D", "C|E"],
+      },
+      {
+        id: "takeaway",
+        title: "When spectral helps",
+        caption:
+          "Spectral is a strong initializer for bipartition. On larger chips it pairs with multilevel; here the tiny instance grades against golden cut 3.",
+        bullets: [
+          "Good seed for KL/FM",
+          "Balance via sweep, not afterthought",
+          "Used inside recursive bisection too",
+        ],
+        metrics: ["Golden: cut=3, E lowest / A highest"],
+        assignment: { A: "1", B: "1", C: "1", D: "0", E: "0" },
+      },
+    ],
+  },
+
+  "recursive-bisection": {
+    title: "Recursive bisection",
+    module: "module02-07-recursive-bisection",
+    steps: [
+      {
+        id: "start",
+        title: "Start: one part, k=4 target",
+        caption:
+          "Recursive bisection builds k-way partitions by repeated 2-way splits. Target k=4 on TINY_GRAPH: bisect the largest part until four labels exist.",
+        bullets: [
+          "Always split the largest current part",
+          "Inner split uses spectral bisection",
+          "History logs each bisection step",
+        ],
+        metrics: ["target k=4", "step 0: ABCDE cut=0"],
+        assignment: { A: "0", B: "0", C: "0", D: "0", E: "0" },
+      },
+      {
+        id: "split-1",
+        title: "Bisect 1: ABC|DE cut 3",
+        caption:
+          "First spectral split on the whole graph yields ABC|DE — same golden bipartition with cutsize 3. Two parts remain; need two more splits.",
+        bullets: [
+          "Largest part = all five nodes",
+          "Spectral → ABC vs DE",
+          "Heavy edges A–B, D–E internal",
+        ],
+        metrics: ["step 1: ABC|DE", "cutsize: 3", "k=2 so far"],
+        assignment: { A: "1", B: "1", C: "1", D: "0", E: "0" },
+        highlightPairs: ["A|B", "D|E"],
+      },
+      {
+        id: "split-2",
+        title: "Bisect 2: split ABC → AB|C",
+        caption:
+          "Largest part ABC (size 3) is bisected next. A and B stay together (w=5); C becomes its own part. Three parts: AB, C, DE.",
+        bullets: [
+          "Split ABC via induced spectral",
+          "A–B heavy edge survives",
+          "cutsize rises to 8",
+        ],
+        metrics: ["step 2: AB|C|DE", "cutsize: 8", "k=3"],
+        assignment: { A: "1", B: "1", C: "2", D: "0", E: "0" },
+        highlightPairs: ["A|B", "C|D"],
+      },
+      {
+        id: "split-3",
+        title: "Bisect 3: split DE → D|E",
+        caption:
+          "Largest remaining part DE is bisected, cutting the weight-5 D–E edge. Final four parts: AB, C, D, E singleton aside from AB pair.",
+        bullets: [
+          "Split DE — pays the heavy edge",
+          "k=4 reached",
+          "AB still uncut",
+        ],
+        metrics: ["step 3: AB|C|D|E", "cutsize: 13", "k=4"],
+        assignment: { A: "1", B: "1", C: "2", D: "3", E: "0" },
+        highlightPairs: ["D|E", "C|D"],
+      },
+      {
+        id: "takeaway",
+        title: "Recursive bisection tradeoff",
+        caption:
+          "k=4 costs cut 13 because splitting DE destroys the weight-5 edge. k=3 stops earlier at AB|C|DE cut 8 — fewer splits can mean lower total cut.",
+        bullets: [
+          "Largest-part-first scheduling",
+          "Each split is local spectral",
+          "Compare k=3 (cut 8) vs k=4 (cut 13)",
+        ],
+        metrics: ["Final: AB|C|D|E cut=13", "k=3 reference: cut=8"],
+        assignment: { A: "1", B: "1", C: "2", D: "3", E: "0" },
+      },
+    ],
+  },
+
+  "multiway-partition": {
+    title: "Multiway partition",
+    module: "module03-01-multiway-partition",
+    steps: [
+      {
+        id: "problem",
+        title: "k-way vs naive assignment",
+        caption:
+          "Real placers need k>2 parts. Recursive bisection respects graph structure; naive round-robin assigns nodes by index mod k — often catastrophic cut.",
+        bullets: [
+          "k=3 on TINY_GRAPH",
+          "Recursive: repeated bisection",
+          "Round-robin: A→0, B→1, C→2, …",
+        ],
+        metrics: ["target k=3", "same graph, two strategies"],
+        assignment: null,
+        highlightPairs: ["A|B", "D|E"],
+      },
+      {
+        id: "recursive",
+        title: "Recursive: AB|C|DE cut 8",
+        caption:
+          "Recursive bisection to k=3 first splits ABC|DE (cut 3), then bisects ABC → AB|C|DE. A–B and D–E stay uncut; total cutsize is 8.",
+        bullets: [
+          "Structure-aware splits",
+          "A,B share a part",
+          "D,E share a part",
+        ],
+        metrics: ["parts: AB|C|DE", "cutsize: 8", "3 labels"],
+        assignment: { A: "1", B: "1", C: "2", D: "0", E: "0" },
+        highlightPairs: ["A|B", "D|E"],
+      },
+      {
+        id: "roundrobin",
+        title: "Round-robin: AD|BE|C cut 18",
+        caption:
+          "Alphabetical round-robin puts A,D on part 0; B,E on part 1; C alone on part 2. Almost every edge crosses — cutsize 18.",
+        bullets: [
+          "A and B on different parts",
+          "D and E on different parts",
+          "Ignores connectivity entirely",
+        ],
+        metrics: ["parts: AD|BE|C", "cutsize: 18", "gap vs recursive: 10"],
+        assignment: { A: "0", B: "1", C: "2", D: "0", E: "1" },
+        highlightPairs: ["A|B", "D|E", "A|C"],
+      },
+      {
+        id: "compare",
+        title: "Structure beats indexing",
+        caption:
+          "Round-robin cuts A–B(5) and D–E(5) — the two strongest edges. Recursive keeps them internal and pays only bridge cuts through C.",
+        bullets: [
+          "18 − 8 = 10 cut gap",
+          "Same k, wildly different quality",
+          "Why tools use recursive / multilevel",
+        ],
+        metrics: ["recursive: 8", "round-robin: 18"],
+        assignment: { A: "1", B: "1", C: "2", D: "0", E: "0" },
+        highlightPairs: ["A|B", "D|E"],
+      },
+      {
+        id: "takeaway",
+        title: "Multiway literacy",
+        caption:
+          "Direct k-way FM exists in production tools, but recursive bisection is the teaching baseline: global structure emerges from local 2-way splits.",
+        bullets: [
+          "Never round-robin a netlist",
+          "Recursive k=3: AB|C|DE",
+          "Multilevel wraps the same idea",
+        ],
+        metrics: ["Starter golden: recursive cut=8"],
+        assignment: { A: "1", B: "1", C: "2", D: "0", E: "0" },
+      },
+    ],
+  },
+
+  "terminal-propagation": {
+    title: "Terminal propagation",
+    module: "module03-03-terminal-propagation",
+    steps: [
+      {
+        id: "fixed-terminals",
+        title: "Fix pads A and E to opposite sides",
+        caption:
+          "I/O terminals are pinned: A→side 0, E→side 1. Free nodes B, C, D propagate by taking the side of the strongest neighboring fixed/assigned node.",
+        bullets: [
+          "Terminals never flip",
+          "Free nodes vote by edge weight",
+          "Iterate until stable",
+        ],
+        metrics: ["fixed: A=0, E=1", "free: B, C, D"],
+        assignment: { A: "0", E: "1", B: "B", C: "C", D: "D" },
+        highlightPairs: ["A|B", "D|E"],
+      },
+      {
+        id: "b-joins-a",
+        title: "B joins A (w=5)",
+        caption:
+          "B hears A strongly on side 0 (A–B weight 5) versus weak pull from E. B adopts side 0 immediately.",
+        bullets: [
+          "vote(side) = Σ w to neighbors on that side",
+          "Heavy A–B affinity wins",
+          "Fixed A anchors the ABC community",
+        ],
+        metrics: ["B → side 0", "A–B internal"],
+        assignment: { A: "0", B: "0", E: "1", C: "C", D: "D" },
+        highlightPairs: ["A|B"],
+      },
+      {
+        id: "d-joins-e",
+        title: "D joins E (w=5)",
+        caption:
+          "D hears E on side 1 (D–E weight 5). D adopts side 1, forming the DE block opposite ABC.",
+        bullets: [
+          "Symmetric to B joining A",
+          "Fixed E anchors DE",
+          "Two communities emerging",
+        ],
+        metrics: ["D → side 1", "D–E internal"],
+        assignment: { A: "0", B: "0", D: "1", E: "1", C: "C" },
+        highlightPairs: ["D|E"],
+      },
+      {
+        id: "c-bridge",
+        title: "C bridges by neighbor vote",
+        caption:
+          "C connects to both communities. Neighbor vote sums favor joining A/B side (w=4+1 vs w=2+1). C lands on side 0 with A,B.",
+        bullets: [
+          "Bridge node follows stronger pull",
+          "Cut edges: C–D, C–E only",
+          "cutsize = 3",
+        ],
+        metrics: ["C → side 0", "parts: ABC|DE", "cutsize: 3"],
+        assignment: { A: "0", B: "0", C: "0", D: "1", E: "1" },
+        highlightPairs: ["C|D", "C|E"],
+      },
+      {
+        id: "takeaway",
+        title: "Fixed I/O drives partition",
+        caption:
+          "Terminal propagation converges in 2 iterations on this graph. Real designs pin hundreds of pads — free logic follows connectivity to terminals.",
+        bullets: [
+          "A/E terminals → ABC|DE",
+          "Same golden as spectral/grow",
+          "Cheap seed before FM refine",
+        ],
+        metrics: ["iters: 2", "cutsize: 3"],
+        assignment: { A: "0", B: "0", C: "0", D: "1", E: "1" },
+        highlightPairs: ["A|B", "D|E"],
+      },
+    ],
+  },
+
+  "hypergraph-partition": {
+    title: "Hypergraph partition",
+    module: "module03-05-hypergraph-partition",
+    steps: [
+      {
+        id: "nets",
+        title: "Nets are hyperedges",
+        caption:
+          "TINY_HYPERGRAPH has four nets: n1={A,B,C} w=3, n2={D,E}, n3={C,D}, n4={A,B}. Cut counts whole nets spanning ≥2 sides — not pairwise edges alone.",
+        bullets: [
+          "Hyperedge cut if pins span sides",
+          "n1 pulls ABC together",
+          "Drawing uses clique expansion",
+        ],
+        metrics: ["4 hyperedges", "5 nodes"],
+        assignment: null,
+        highlightPairs: ["A|B", "B|C"],
+      },
+      {
+        id: "bad-seed",
+        title: "Bad seed: hyperedge cut 6",
+        caption:
+          "BAD_SEED AE|BCD cuts nets n1(3), n2(2), and n4(1) — hyperedge cut 6. Same seed as graph labs, worse hyper objective.",
+        bullets: [
+          "n1 spans A vs B,C",
+          "n2 spans D,E vs B,C,D",
+          "Pairwise cut ≠ hyper cut",
+        ],
+        metrics: ["seed: AE|BCD", "hyperedge cut: 6"],
+        assignment: { ...BAD_SEED },
+        highlightPairs: ["A|B", "D|E"],
+      },
+      {
+        id: "fm-run",
+        title: "FM on clique expansion",
+        caption:
+          "Hypergraph FM clique-expands nets to pair edges, then runs standard FM from the bad seed. Objective reports hyperedge cut on the original nets.",
+        bullets: [
+          "Clique expansion for moves",
+          "Score hyperedge cut after moves",
+          "Same FM kernel as graph labs",
+        ],
+        metrics: ["engine: FM on expansion", "seed hyper cut: 6"],
+        assignment: { ...BAD_SEED },
+      },
+      {
+        id: "refined",
+        title: "Refined ABC|DE: hyper cut 1",
+        caption:
+          "FM reaches ABC|DE. Only bridge net n3={C,D} crosses sides — hyperedge cut 1. n1, n2, n4 stay uncut.",
+        bullets: [
+          "n1 ABC internal",
+          "n2 DE internal",
+          "n3 is the sole cut net",
+        ],
+        metrics: ["parts: ABC|DE", "hyperedge cut: 1", "pair cut: 1"],
+        assignment: { A: "0", B: "0", C: "0", D: "1", E: "1" },
+        highlightPairs: ["C|D"],
+      },
+      {
+        id: "takeaway",
+        title: "Why hypergraphs in partition",
+        caption:
+          "Real netlists are hypergraphs. Modeling nets honestly changes the cut objective — clique expansion is for moves, hyper cut is for scoring.",
+        bullets: [
+          "6 → 1 hyper cut improvement",
+          "Multi-pin nets dominate affinity",
+          "Production tools use native hyper FM",
+        ],
+        metrics: ["Starter golden: hyper cut=1"],
+        assignment: { A: "0", B: "0", C: "0", D: "1", E: "1" },
+      },
+    ],
+  },
+
+  "multilevel-partition": {
+    title: "Multilevel partition",
+    module: "module04-01-multilevel-partition",
+    steps: [
+      {
+        id: "coarsen",
+        title: "Coarsen with greedy merge",
+        caption:
+          "Multilevel V-cycle contracts the graph via greedy pair merge to coarseK=2. Supernodes C1={A,B,C} and C2={D,E} capture community structure.",
+        bullets: [
+          "Greedy heaviest-edge merges",
+          "Log each contraction",
+          "Coarse graph has 2 clusters",
+        ],
+        metrics: ["coarseK=2", "labels: C1, C2"],
+        assignment: { A: "C1", B: "C1", C: "C1", D: "C2", E: "C2" },
+        highlightPairs: ["A|B", "D|E"],
+      },
+      {
+        id: "project",
+        title: "Project to fine bipartition",
+        caption:
+          "Map coarse clusters to sides 0/1: ABC→0, DE→1. Projected seed ABC|DE already has cutsize 3 — unlike BAD_SEED's cut of 12.",
+        bullets: [
+          "Projection preserves membership",
+          "Good global seed from coarsening",
+          "Ready for local FM refine",
+        ],
+        metrics: ["project: ABC|DE", "cutsize: 3", "BAD_SEED cut: 12"],
+        assignment: { A: "0", B: "0", C: "0", D: "1", E: "1" },
+        highlightPairs: ["C|D", "C|E"],
+      },
+      {
+        id: "refine",
+        title: "FM refine on fine graph",
+        caption:
+          "FM polishes the projected seed. On TINY_GRAPH the projection is already optimal — refine keeps ABC|DE at cutsize 3.",
+        bullets: [
+          "Single-vertex moves with rollback",
+          "Local search on fine graph",
+          "No improvement needed here",
+        ],
+        metrics: ["refine: ABC|DE", "cutsize: 3"],
+        assignment: { A: "0", B: "0", C: "0", D: "1", E: "1" },
+        highlightPairs: ["C|D", "C|E"],
+      },
+      {
+        id: "final",
+        title: "Final P0/P1 labels",
+        caption:
+          "Output renames sides to P0/P1 for placers. Final communities ABC|DE with cutsize 3 — multilevel beats refining a random bad seed alone.",
+        bullets: [
+          "P0 = ABC, P1 = DE",
+          "cutsize: 3",
+          "V-cycle complete",
+        ],
+        metrics: ["final: ABC|DE", "cutsize: 3", "labels: P0, P1"],
+        assignment: { A: "P0", B: "P0", C: "P0", D: "P1", E: "P1" },
+        highlightPairs: ["C|D", "C|E"],
+      },
+      {
+        id: "takeaway",
+        title: "Multilevel V-cycle mindset",
+        caption:
+          "Coarsen for global structure, project, refine locally. Real placers nest this in repeated V-cycles with hyperedges and balance — this lab is the skeleton.",
+        bullets: [
+          "coarsen → project → refine",
+          "Beats BAD_SEED cut 12 → 3",
+          "Industry default for large netlists",
+        ],
+        metrics: ["Starter golden: cut=3"],
+        assignment: { A: "P0", B: "P0", C: "P0", D: "P1", E: "P1" },
+      },
+    ],
+  },
 };
 
 function qs() {

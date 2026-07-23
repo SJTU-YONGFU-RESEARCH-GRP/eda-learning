@@ -1,0 +1,92 @@
+title: Fiduccia–Mattheyses bipartition
+footer: learn_partitioning — 03 fm partition
+slides:
+- type: title
+  title: Fiduccia–Mattheyses bipartition
+  subtitle: Fiduccia–Mattheyses moves one vertex at a time instead of swapping a pair
+  notes: Fiduccia–Mattheyses moves one vertex at a time instead of swapping a pair.
+    From the same cutsize-twelve seed, FM flips D then A, keeps the best prefix of
+    two moves, and lands on the same ABC versus DE cut of three that KL found.
+- type: bullets
+  title: The idea
+  bullets:
+  - Bucketed single-vertex gains, lock after each move
+  - Two legal flips can equal one KL swap’s total gain on this instance
+  - <!-- algorithm-walkthrough -->
+  notes: 'Bucketed single-vertex gains, lock after each move, and enforce a balance
+    tolerance so parts cannot empty. Two legal flips can equal one KL swap’s total
+    gain on this instance—different move set, same destination quality.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: Same bad seed, different move set
+  image: assets/steps/01-bad-seed.png
+  caption: Same bad seed, different move set
+  notes: FM starts from the same cutsize-12 seed, but moves one vertex at a time instead
+    of swapping a pair. That suits hypergraph / cell-move implementations.
+- type: image
+  title: 'Move 1: flip D (gain 3)'
+  image: assets/steps/02-move-d.png
+  caption: 'Move 1: flip D (gain 3)'
+  notes: 'Highest legal move sends D to the other side with gain 3. Partial progress:
+    D joins E''s side early.'
+- type: image
+  title: 'Move 2: flip A (gain 6)'
+  image: assets/steps/03-move-a.png
+  caption: 'Move 2: flip A (gain 6)'
+  notes: Next, A flips with gain 6. Cumulative gain is 3+6=9 — the same total improvement
+    KL found with one swap.
+- type: image
+  title: Final ABC|DE, cutsize 3
+  image: assets/steps/04-final.png
+  caption: Final ABC|DE, cutsize 3
+  notes: 'FM lands on the same refined bipartition as KL. Teaching point: move style
+    differs, destination quality matches on this instance.'
+- type: image
+  title: Pass 1 confirms local optimum
+  image: assets/steps/05-pass1-stop.png
+  caption: Pass 1 confirms local optimum
+  notes: 'A second FM pass finds no improving move prefix. Stop. In real tools, FM
+    often runs inside multilevel V-cycles with tighter balance and hyperedges.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab track, open the **fm-partition** lab from the tools shelf
+  - Load the starter graph, run the algorithm once
+  - Work the challenges that lock the goldens
+  notes: In the browser lab track, open the **fm-partition** lab from the tools shelf.
+    Load the starter graph, run the algorithm once, and read cutsize and balance in
+    the metrics panel. Work the challenges that lock the goldens, then come back to
+    implement the same loop yourself.
+- type: bullets
+  title: Implement track
+  bullets:
+  - In the implement track, open this module’s examples and the course `common/` solvers
+  - Parse the tiny graph, run the algorithm with a deterministic seed
+  - Match the browser goldens before you claim the checklist
+  notes: In the implement track, open this module’s examples and the course `common/`
+    solvers. Parse the tiny graph, run the algorithm with a deterministic seed, and
+    print the assignment plus cutsize and balance. Match the browser goldens before
+    you claim the checklist.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Common traps
+  - For multilevel flows, verify coarsening before you blame the refiner
+  notes: 'Common traps: optimizing cut while ignoring balance; reporting pairwise
+    cut when the instance is a hypergraph; flipping locked terminals; and stopping
+    before rollback to the best KL or FM prefix. For multilevel flows, verify coarsening
+    before you blame the refiner.'
+- type: bullets
+  title: Your turn
+  bullets:
+  - Complete the checklist for at least one track, preferably both
+  - Implement until your metrics match the starter goldens
+  - When you’re ready, take the short quiz, then continue to the next module
+  notes: Complete the checklist for at least one track—preferably both. Implement
+    until your metrics match the starter goldens. When you’re ready, take the short
+    quiz, then continue to the next module.

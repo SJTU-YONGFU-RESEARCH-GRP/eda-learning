@@ -1,0 +1,9 @@
+file '/mnt/d/proj/designs/eda_learning/courses/learn_partitioning/module05-01-offline-benchmark-compare/frames/slide-1.png'
+duration 18.072
+file '/mnt/d/proj/designs/eda_learning/courses/learn_partitioning/module05-01-offline-benchmark-compare/frames/slide-2.png'
+duration 19.92
+file '/mnt/d/proj/designs/eda_learning/courses/learn_partitioning/module05-01-offline-benchmark-compare/frames/slide-3.png'
+duration 19.008
+file '/mnt/d/proj/designs/eda_learning/courses/learn_partitioning/module05-01-offline-benchmark-compare/frames/slide-4.png'
+duration 13.416
+file '/mnt/d/proj/designs/eda_learning/courses/learn_partitioning/module05-01-offline-benchmark-compare/frames/slide-4.png'

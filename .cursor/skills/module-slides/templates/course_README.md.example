@@ -1,0 +1,141 @@
+# <course_id>
+
+[![GitHub](https://img.shields.io/badge/GitHub-<course_id_escaped>-181717?logo=github)](https://github.com/universal-verification-methodology/<course_id>)
+[![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-green?logo=creativecommons&logoColor=white)](LICENSE)
+[![Role](https://img.shields.io/badge/role-Git%20submodule-orange)](https://github.com/universal-verification-methodology/learning)
+[![Parent](https://img.shields.io/badge/parent-learning%20monorepo-0A9EDC)](https://github.com/universal-verification-methodology/learning)
+[![Labs](https://img.shields.io/badge/labs-GitHub%20Pages-222?logo=githubpages)](https://universal-verification-methodology.github.io/learning/tools/)
+[![Domain](https://img.shields.io/badge/domain-<domain_badge>-purple)](docs/MODULES.md)
+
+**<course_id>** is the open learning path for *<one-line topic for learners>*.
+
+Readers and students usually **open a module README** (or the live tools) or clone this public repo. Authors edit content here (or via the parent monorepo checkout), rebuild slides/audio with **module-slides** in the parent, and push; the parent repo only stores a pinned submodule commit.
+
+## Table of contents
+
+- [Contents](#contents)
+- [Browse or clone](#browse-or-clone)
+- [Consume from the parent](#consume-from-the-parent)
+- [Author: publish or update](#author-publish-or-update)
+- [Two learning tracks](#two-learning-tracks)
+- [Module landings](#module-landings)
+- [Browser labs](#browser-labs)
+- [License](#license)
+
+## Contents
+
+```text
+<course_id>/
+├── README.md
+├── LICENSE              # CC BY 4.0
+├── docs/
+│   ├── MODULES.md       # full module index
+│   └── TWO_TRACKS.md    # Track A vs Track B
+├── scripts/
+│   └── module.sh        # per-module --check helpers (if present)
+├── module00-…/
+├── moduleNN-slug/
+│   ├── README.md
+│   ├── CHECKLIST.md
+│   ├── EXAMPLES.md
+│   ├── outline.yaml
+│   ├── transcript.md
+│   ├── examples/        # Track A (when applicable)
+│   └── (optional) slides.pptx / slides.pdf / video.mp4 / assets/
+├── …
+└── moduleNN-wrap/
+```
+
+Videos and decks are optional per module. Generate with the **module-slides** skill (`.cursor/skills/module-slides/`) in the parent monorepo when ready.
+
+## Browse or clone
+
+- **Browser labs:** [https://universal-verification-methodology.github.io/learning/tools/](https://universal-verification-methodology.github.io/learning/tools/)
+- **Syllabus (parent):** [`syllabus.md` § <course_id>](https://github.com/universal-verification-methodology/learning/blob/main/syllabus.md)
+- **Clone this repo alone:**
+
+```bash
+git clone https://github.com/universal-verification-methodology/<course_id>.git
+cd <course_id>
+# optional Track A setup / env checks — see docs/TWO_TRACKS.md
+```
+
+Then open the intro module `README.md`.
+
+## Consume from the parent
+
+From a clone of the **learning** monorepo (lists this repo in `.gitmodules` when registered):
+
+```bash
+git clone --recurse-submodules \
+  git@github.com:universal-verification-methodology/learning.git
+# or, if already cloned without submodules:
+git submodule update --init --recursive
+
+ls courses/<course_id>
+```
+
+Working tree path in the parent: `courses/<course_id>/` → this repository at a pinned commit.
+
+## Author: publish or update
+
+Edit inside the parent monorepo (recommended) or in a standalone clone of this repo.
+
+```bash
+# from the learning monorepo checkout
+cd courses/<course_id>
+# … edit module README / CHECKLIST / EXAMPLES / transcript …
+
+# rebuild media from the parent (one module at a time; Unix/WSL):
+cd ../..
+# revise transcript.md, then:
+python3 .cursor/skills/module-slides/scripts/transcript_to_outline.py \
+  courses/<course_id>/moduleNN-slug
+bash .cursor/skills/module-slides/scripts/narrate_clips.sh \
+  courses/<course_id>/moduleNN-slug
+
+cd courses/<course_id>
+git add -A
+git commit -m "Update <course_id> modules"
+git push origin main
+```
+
+Then bump the pin in the **parent**:
+
+```bash
+cd /path/to/learning
+git add courses/<course_id>
+git commit -m "Bump <course_id> submodule"
+git push
+```
+
+See the skill `SKILL.md` for dual-track narration rules and the full PPTX → PDF → TTS → MP4 pipeline.
+
+## Two learning tracks
+
+Every **lab** module documents both tracks. Intro/wrap modules have no lab. Details: [docs/TWO_TRACKS.md](docs/TWO_TRACKS.md).
+
+| Track | Practice surface | Start here |
+|-------|------------------|------------|
+| **A — <Track A name>** | <local practice> | [docs/TWO_TRACKS.md](docs/TWO_TRACKS.md) |
+| **B — Browser lab** | Platform tools | [local tools](http://127.0.0.1:8080/tools/) · [live](https://universal-verification-methodology.github.io/learning/tools/) |
+
+Recommended path: short Track B starter → Track A examples + checklist → optional quiz / transcript review.
+
+## Module landings
+
+Full status table: **[docs/MODULES.md](docs/MODULES.md)**. <optional cluster summary>
+
+| Module | Landing |
+|--------|---------|
+| NN — <Title> | [moduleNN-slug](moduleNN-slug/README.md) |
+
+## Browser labs
+
+By workflow (Track B): list primary lab ids with links to live tools (and note planned labs). See [all tools](https://universal-verification-methodology.github.io/learning/tools/) and each module README for its primary lab id.
+
+## License
+
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) — see [`LICENSE`](LICENSE).
+
+Platform tools and the parent monorepo may carry additional notices.

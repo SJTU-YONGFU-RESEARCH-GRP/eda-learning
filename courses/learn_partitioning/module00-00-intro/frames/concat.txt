@@ -1,0 +1,11 @@
+file '/mnt/d/proj/designs/eda_learning/courses/learn_partitioning/module00-00-intro/frames/slide-1.png'
+duration 20.568
+file '/mnt/d/proj/designs/eda_learning/courses/learn_partitioning/module00-00-intro/frames/slide-2.png'
+duration 28.248
+file '/mnt/d/proj/designs/eda_learning/courses/learn_partitioning/module00-00-intro/frames/slide-3.png'
+duration 21.48
+file '/mnt/d/proj/designs/eda_learning/courses/learn_partitioning/module00-00-intro/frames/slide-4.png'
+duration 20.616
+file '/mnt/d/proj/designs/eda_learning/courses/learn_partitioning/module00-00-intro/frames/slide-5.png'
+duration 16.968
+file '/mnt/d/proj/designs/eda_learning/courses/learn_partitioning/module00-00-intro/frames/slide-5.png'

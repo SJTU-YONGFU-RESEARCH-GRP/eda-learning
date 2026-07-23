@@ -1,0 +1,64 @@
+# Cutsize and balance
+
+**Module id:** module01-01-cutsize-balance
+**Lab:** cutsize-balance
+**Tracks:** A (implement) · B (browser lab)
+
+## Slide 1 — Cutsize and balance
+
+Cutsize adds the weights of edges that cross the cut. Balance asks whether the two parts are roughly the same size. On the starter graph, the bad seed AE versus BCD cuts both heavy edges and scores cutsize twelve with sizes two and three. The golden ABC versus DE drops the cut to three with sizes three and two. You will compute both numbers every time you look at a bipartition.
+
+## Slide 2 — The idea
+
+For every edge, if the endpoints sit in different parts, add its weight to the cut. Balance ratio is the smaller part size over the larger. Never celebrate a zero cut that parks every node on one side—that is not a usable partition.
+
+<!-- algorithm-walkthrough -->
+
+## Slide 3 — Same graph, two bipartitions
+
+![Same graph, two bipartitions](assets/steps/01-graph.png)
+
+TINY_GRAPH has five cells. Partition quality is measured by cutsize (sum of cut edge weights) and balance (how even the two sides are).
+
+## Slide 4 — Bad seed: cutsize 12
+
+![Bad seed: cutsize 12](assets/steps/02-bad-seed.png)
+
+Seed AE|BCD cuts both heavy edges A–B(5) and D–E(5). Cutsize is 12 — a terrible wire cost even though the split is legal.
+
+## Slide 5 — Bad seed balance: ratio 2/3
+
+![Bad seed balance: ratio 2/3](assets/steps/03-bad-balance.png)
+
+Side sizes are 2 vs 3, so balance ratio = 2/3 and imbalance |2−3|/5 = 0.2. The split is moderately balanced — cutsize, not balance, is the problem.
+
+## Slide 6 — Golden ABC|DE: cutsize 3
+
+![Golden ABC|DE: cutsize 3](assets/steps/04-golden.png)
+
+Golden bipartition ABC|DE keeps A–B and D–E internal. Only weak bridges C–D(2) and C–E(1) are cut — cutsize drops to 3 with the same 2/3 ratio.
+
+## Slide 7 — Cutsize + balance literacy
+
+![Cutsize + balance literacy](assets/steps/05-takeaway.png)
+
+Two partitions can share the same balance but differ wildly in cut. EDA flows optimize cut under balance constraints — never balance alone.
+
+<!-- /algorithm-walkthrough -->
+
+
+## Slide 8 — Browser lab track
+
+In the browser lab track, open the **cutsize-balance** lab from the tools shelf. Load the starter graph, run the algorithm once, and read cutsize and balance in the metrics panel. Work the challenges that lock the goldens, then come back to implement the same loop yourself.
+
+## Slide 9 — Implement track
+
+In the implement track, open this module’s examples and the course `common/` solvers. Parse the tiny graph, run the algorithm with a deterministic seed, and print the assignment plus cutsize and balance. Match the browser goldens before you claim the checklist.
+
+## Slide 10 — Pitfalls
+
+Common traps: optimizing cut while ignoring balance; reporting pairwise cut when the instance is a hypergraph; flipping locked terminals; and stopping before rollback to the best KL or FM prefix. For multilevel flows, verify coarsening before you blame the refiner.
+
+## Slide 11 — Your turn
+
+Complete the checklist for at least one track—preferably both. Implement until your metrics match the starter goldens. When you’re ready, take the short quiz, then continue to the next module.

@@ -1,7 +1,7 @@
 # Module 01-05: Size-constrained agglomerative clustering
 
 **Module id:** `module01-05-size-constrained-agglomerative`  
-**Kind:** `lab` · Primary lab: `size-constrained-agglomerative` · **Shipped**
+**Kind:** `lab` · Primary lab: `size-constrained-agglomerative` · **Planned**
 
 [← Greedy merge](../module01-03-greedy-pair-merge/README.md) · [Course README](../README.md) · [Label propagation →](../module02-01-label-propagation/README.md)
 
@@ -19,11 +19,11 @@ After this module you can: **Implement agglomerative clustering with hard capaci
 
 ### Track B — Browser lab (online)
 
-1. Local: [http://127.0.0.1:8080/tools/size-constrained-agglomerative/index.html](http://127.0.0.1:8080/tools/size-constrained-agglomerative/index.html)
-2. Live: [https://universal-verification-methodology.github.io/learning/tools/size-constrained-agglomerative/](https://universal-verification-methodology.github.io/learning/tools/size-constrained-agglomerative/)
-3. Tools shelf: open `size-constrained-agglomerative` from the platform tools index
-4. Load the **starter graph**, run the algorithm, inspect metrics.
-5. Check off Track B items in [CHECKLIST.md](CHECKLIST.md).
+Track B for `size-constrained-agglomerative` is **planned**. Use Track A until the tool ships.
+
+1. When available locally: http://127.0.0.1:8080/tools/size-constrained-agglomerative/index.html
+2. Check off Track B items in [CHECKLIST.md](CHECKLIST.md) once the lab is live.
+
 
 > Concept labs teach algorithm literacy on tiny instances — not production PDK flows.
 

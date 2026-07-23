@@ -1,0 +1,96 @@
+title: Recursive bisection
+footer: learn_partitioning — 07 recursive bisection
+slides:
+- type: title
+  title: Recursive bisection
+  subtitle: Recursive bisection builds a multiway partition by repeatedly bipartitioning
+    the largest part until you reach k parts
+  notes: Recursive bisection builds a multiway partition by repeatedly bipartitioning
+    the largest part until you reach k parts. Start from a bipartition, then cut again.
+    On the tiny graph aiming for four parts you will see how early cuts constrain
+    later ones.
+- type: bullets
+  title: The idea
+  bullets:
+  - Each step is an ordinary bipartition on an induced subgraph
+  - 'Quality compounds: a weak first cut leaves later bisectors fewer good options'
+  - Always report total cut across all part boundaries and the part-size vector
+  - <!-- algorithm-walkthrough -->
+  notes: 'Each step is an ordinary bipartition on an induced subgraph. Quality compounds:
+    a weak first cut leaves later bisectors fewer good options. Always report total
+    cut across all part boundaries and the part-size vector.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: 'Start: one part, k=4 target'
+  image: assets/steps/01-start.png
+  caption: 'Start: one part, k=4 target'
+  notes: 'Recursive bisection builds k-way partitions by repeated 2-way splits. Target
+    k=4 on TINY_GRAPH: bisect the largest part until four labels exist.'
+- type: image
+  title: 'Bisect 1: ABC|DE cut 3'
+  image: assets/steps/02-split-1.png
+  caption: 'Bisect 1: ABC|DE cut 3'
+  notes: First spectral split on the whole graph yields ABC|DE — same golden bipartition
+    with cutsize 3. Two parts remain; need two more splits.
+- type: image
+  title: 'Bisect 2: split ABC → AB|C'
+  image: assets/steps/03-split-2.png
+  caption: 'Bisect 2: split ABC → AB|C'
+  notes: 'Largest part ABC (size 3) is bisected next. A and B stay together (w=5);
+    C becomes its own part. Three parts: AB, C, DE.'
+- type: image
+  title: 'Bisect 3: split DE → D|E'
+  image: assets/steps/04-split-3.png
+  caption: 'Bisect 3: split DE → D|E'
+  notes: 'Largest remaining part DE is bisected, cutting the weight-5 D–E edge. Final
+    four parts: AB, C, D, E singleton aside from AB pair.'
+- type: image
+  title: Recursive bisection tradeoff
+  image: assets/steps/05-takeaway.png
+  caption: Recursive bisection tradeoff
+  notes: 'k=4 costs cut 13 because splitting DE destroys the weight-5 edge. k=3 stops
+    earlier at AB|C|DE cut 8 — fewer splits can mean lower total cut.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab track, open the **recursive-bisection** lab from the tools
+    shelf
+  - Load the starter graph, run the algorithm once
+  - Work the challenges that lock the goldens
+  notes: In the browser lab track, open the **recursive-bisection** lab from the tools
+    shelf. Load the starter graph, run the algorithm once, and read cutsize and balance
+    in the metrics panel. Work the challenges that lock the goldens, then come back
+    to implement the same loop yourself.
+- type: bullets
+  title: Implement track
+  bullets:
+  - In the implement track, open this module’s examples and the course `common/` solvers
+  - Parse the tiny graph, run the algorithm with a deterministic seed
+  - Match the browser goldens before you claim the checklist
+  notes: In the implement track, open this module’s examples and the course `common/`
+    solvers. Parse the tiny graph, run the algorithm with a deterministic seed, and
+    print the assignment plus cutsize and balance. Match the browser goldens before
+    you claim the checklist.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Common traps
+  - For multilevel flows, verify coarsening before you blame the refiner
+  notes: 'Common traps: optimizing cut while ignoring balance; reporting pairwise
+    cut when the instance is a hypergraph; flipping locked terminals; and stopping
+    before rollback to the best KL or FM prefix. For multilevel flows, verify coarsening
+    before you blame the refiner.'
+- type: bullets
+  title: Your turn
+  bullets:
+  - Complete the checklist for at least one track, preferably both
+  - Implement until your metrics match the starter goldens
+  - When you’re ready, take the short quiz, then continue to the next module
+  notes: Complete the checklist for at least one track—preferably both. Implement
+    until your metrics match the starter goldens. When you’re ready, take the short
+    quiz, then continue to the next module.

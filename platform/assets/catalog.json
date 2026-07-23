@@ -9,9 +9,24 @@
       "section": "Clustering & refinement"
     },
     {
+      "id": "area-deadspace",
+      "title": "Area Deadspace",
+      "section": "Floorplanning"
+    },
+    {
+      "id": "bstar-tree",
+      "title": "Bstar Tree",
+      "section": "Floorplanning"
+    },
+    {
       "id": "congestion-aware-clustering",
       "title": "Congestion-aware clustering",
       "section": "Clustering & refinement"
+    },
+    {
+      "id": "cutsize-balance",
+      "title": "Cutsize Balance",
+      "section": "Partitioning"
     },
     {
       "id": "fiduccia-mattheyses",
@@ -19,9 +34,24 @@
       "section": "Clustering & refinement"
     },
     {
+      "id": "fixed-outline",
+      "title": "Fixed Outline",
+      "section": "Floorplanning"
+    },
+    {
+      "id": "fm-partition",
+      "title": "Fm Partition",
+      "section": "Partitioning"
+    },
+    {
       "id": "greedy-pair-merge",
       "title": "Greedy pair merge",
       "section": "Clustering & refinement"
+    },
+    {
+      "id": "hierarchical-floorplan",
+      "title": "Hierarchical Floorplan",
+      "section": "Floorplanning"
     },
     {
       "id": "hypergraph-clustering",
@@ -29,9 +59,24 @@
       "section": "Clustering & refinement"
     },
     {
+      "id": "hypergraph-partition",
+      "title": "Hypergraph Partition",
+      "section": "Partitioning"
+    },
+    {
+      "id": "initial-bipartition",
+      "title": "Initial Bipartition",
+      "section": "Partitioning"
+    },
+    {
       "id": "kernighan-lin",
       "title": "Kernighan\u2013Lin",
       "section": "Clustering & refinement"
+    },
+    {
+      "id": "kl-partition",
+      "title": "Kl Partition",
+      "section": "Partitioning"
     },
     {
       "id": "label-propagation",
@@ -39,9 +84,44 @@
       "section": "Clustering & refinement"
     },
     {
+      "id": "macro-placement",
+      "title": "Macro Placement",
+      "section": "Floorplanning"
+    },
+    {
       "id": "multilevel-clustering",
       "title": "Multilevel clustering",
       "section": "Clustering & refinement"
+    },
+    {
+      "id": "multilevel-partition",
+      "title": "Multilevel Partition",
+      "section": "Partitioning"
+    },
+    {
+      "id": "multiway-partition",
+      "title": "Multiway Partition",
+      "section": "Partitioning"
+    },
+    {
+      "id": "pin-assignment",
+      "title": "Pin Assignment",
+      "section": "Floorplanning"
+    },
+    {
+      "id": "recursive-bisection",
+      "title": "Recursive Bisection",
+      "section": "Partitioning"
+    },
+    {
+      "id": "sequence-pair",
+      "title": "Sequence Pair",
+      "section": "Floorplanning"
+    },
+    {
+      "id": "simulated-annealing-fp",
+      "title": "Simulated Annealing Fp",
+      "section": "Floorplanning"
     },
     {
       "id": "size-constrained-agglomerative",
@@ -49,9 +129,29 @@
       "section": "Clustering & refinement"
     },
     {
+      "id": "slicing-floorplan",
+      "title": "Slicing Floorplan",
+      "section": "Floorplanning"
+    },
+    {
+      "id": "soft-module-sizing",
+      "title": "Soft Module Sizing",
+      "section": "Floorplanning"
+    },
+    {
       "id": "spectral-bisection",
       "title": "Spectral bisection",
       "section": "Clustering & refinement"
+    },
+    {
+      "id": "spectral-partition",
+      "title": "Spectral Partition",
+      "section": "Partitioning"
+    },
+    {
+      "id": "terminal-propagation",
+      "title": "Terminal Propagation",
+      "section": "Partitioning"
     },
     {
       "id": "timing-aware-clustering",
@@ -152,12 +252,208 @@
     },
     {
       "id": "learn_partitioning",
-      "title": "Partitioning",
-      "focus": "KL / FM, multiway, cutsize",
-      "status": "planned",
+      "title": "Partitioning for EDA",
+      "focus": "Cutsize/balance \u2192 initial cut \u2192 KL/FM/spectral \u2192 multiway \u2192 terminals \u2192 multilevel",
+      "status": "ready",
       "repo": "learn_partitioning",
       "prereq": null,
-      "labs": []
+      "labs": [
+        {
+          "n": "01",
+          "slug": "intro",
+          "moduleId": "module00-00-intro",
+          "kind": "intro",
+          "title": "Welcome to partitioning for EDA",
+          "toolId": null,
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "02",
+          "slug": "cutsize-balance",
+          "moduleId": "module01-01-cutsize-balance",
+          "kind": "lab",
+          "title": "Cutsize and balance",
+          "toolId": "cutsize-balance",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "03",
+          "slug": "initial-bipartition",
+          "moduleId": "module01-03-initial-bipartition",
+          "kind": "lab",
+          "title": "Initial bipartition",
+          "toolId": "initial-bipartition",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "04",
+          "slug": "kl-partition",
+          "moduleId": "module02-01-kl-partition",
+          "kind": "lab",
+          "title": "Kernighan\u2013Lin bipartition",
+          "toolId": "kl-partition",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "05",
+          "slug": "fm-partition",
+          "moduleId": "module02-03-fm-partition",
+          "kind": "lab",
+          "title": "Fiduccia\u2013Mattheyses bipartition",
+          "toolId": "fm-partition",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "06",
+          "slug": "spectral-partition",
+          "moduleId": "module02-05-spectral-partition",
+          "kind": "lab",
+          "title": "Spectral bipartition",
+          "toolId": "spectral-partition",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "07",
+          "slug": "recursive-bisection",
+          "moduleId": "module02-07-recursive-bisection",
+          "kind": "lab",
+          "title": "Recursive bisection",
+          "toolId": "recursive-bisection",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "08",
+          "slug": "multiway-partition",
+          "moduleId": "module03-01-multiway-partition",
+          "kind": "lab",
+          "title": "Multiway partitioning",
+          "toolId": "multiway-partition",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "09",
+          "slug": "terminal-propagation",
+          "moduleId": "module03-03-terminal-propagation",
+          "kind": "lab",
+          "title": "Terminal propagation",
+          "toolId": "terminal-propagation",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "10",
+          "slug": "hypergraph-partition",
+          "moduleId": "module03-05-hypergraph-partition",
+          "kind": "lab",
+          "title": "Hypergraph partitioning",
+          "toolId": "hypergraph-partition",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "11",
+          "slug": "multilevel-partition",
+          "moduleId": "module04-01-multilevel-partition",
+          "kind": "lab",
+          "title": "Multilevel partitioning",
+          "toolId": "multilevel-partition",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "12",
+          "slug": "offline-benchmark-compare",
+          "moduleId": "module05-01-offline-benchmark-compare",
+          "kind": "offline",
+          "title": "Offline benchmark compare",
+          "toolId": null,
+          "status": "planned",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "13",
+          "slug": "wrap",
+          "moduleId": "module99-00-wrap",
+          "kind": "wrap",
+          "title": "Partitioning path complete",
+          "toolId": null,
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        }
+      ]
     },
     {
       "id": "learn_clustering",
@@ -382,11 +678,207 @@
     {
       "id": "learn_floorplanning",
       "title": "Floorplanning",
-      "focus": "Fixed-outline, slicing/NSG, macros",
-      "status": "planned",
+      "focus": "Fixed-outline \u2192 slicing/B*/SP \u2192 SA \u2192 soft modules \u2192 macros \u2192 hierarchy \u2192 pins",
+      "status": "ready",
       "repo": "learn_floorplanning",
       "prereq": null,
-      "labs": []
+      "labs": [
+        {
+          "n": "01",
+          "slug": "intro",
+          "moduleId": "module00-00-intro",
+          "kind": "intro",
+          "title": "Welcome to floorplanning for EDA",
+          "toolId": null,
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "02",
+          "slug": "fixed-outline",
+          "moduleId": "module01-01-fixed-outline",
+          "kind": "lab",
+          "title": "Fixed-outline constraints",
+          "toolId": "fixed-outline",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "03",
+          "slug": "area-deadspace",
+          "moduleId": "module01-03-area-deadspace",
+          "kind": "lab",
+          "title": "Area, packing density, whitespace/deadspace",
+          "toolId": "area-deadspace",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "04",
+          "slug": "slicing-floorplan",
+          "moduleId": "module02-01-slicing-floorplan",
+          "kind": "lab",
+          "title": "Slicing tree / polish expression packing",
+          "toolId": "slicing-floorplan",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "05",
+          "slug": "bstar-tree",
+          "moduleId": "module02-03-bstar-tree",
+          "kind": "lab",
+          "title": "B*-tree floorplan representation",
+          "toolId": "bstar-tree",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "06",
+          "slug": "sequence-pair",
+          "moduleId": "module02-05-sequence-pair",
+          "kind": "lab",
+          "title": "Sequence-pair representation",
+          "toolId": "sequence-pair",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "07",
+          "slug": "simulated-annealing-fp",
+          "moduleId": "module03-01-simulated-annealing-fp",
+          "kind": "lab",
+          "title": "Simulated annealing floorplan search",
+          "toolId": "simulated-annealing-fp",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "08",
+          "slug": "soft-module-sizing",
+          "moduleId": "module03-03-soft-module-sizing",
+          "kind": "lab",
+          "title": "Soft module aspect sizing",
+          "toolId": "soft-module-sizing",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "09",
+          "slug": "macro-placement",
+          "moduleId": "module03-05-macro-placement",
+          "kind": "lab",
+          "title": "Hard macro / fixed-block placement",
+          "toolId": "macro-placement",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "10",
+          "slug": "hierarchical-floorplan",
+          "moduleId": "module04-01-hierarchical-floorplan",
+          "kind": "lab",
+          "title": "Hierarchical floorplanning",
+          "toolId": "hierarchical-floorplan",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "11",
+          "slug": "pin-assignment",
+          "moduleId": "module04-03-pin-assignment",
+          "kind": "lab",
+          "title": "Boundary pin / I/O assignment",
+          "toolId": "pin-assignment",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "12",
+          "slug": "offline-benchmark-compare",
+          "moduleId": "module05-01-offline-benchmark-compare",
+          "kind": "offline",
+          "title": "Offline benchmark compare",
+          "toolId": null,
+          "status": "planned",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "13",
+          "slug": "wrap",
+          "moduleId": "module99-00-wrap",
+          "kind": "wrap",
+          "title": "Floorplanning path complete",
+          "toolId": null,
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        }
+      ]
     },
     {
       "id": "learn_placement",

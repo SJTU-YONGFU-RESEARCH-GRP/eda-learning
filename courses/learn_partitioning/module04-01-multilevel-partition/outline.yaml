@@ -1,0 +1,96 @@
+title: Multilevel partitioning
+footer: learn_partitioning — 01 multilevel partition
+slides:
+- type: title
+  title: Multilevel partitioning
+  subtitle: A multilevel V-cycle coarsens the graph, partitions the tiny problem,
+    projects the assignment back
+  notes: A multilevel V-cycle coarsens the graph, partitions the tiny problem, projects
+    the assignment back, and refines at each finer level. You will walk coarsen, initial
+    partition, project, and refine on the same starter instance.
+- type: bullets
+  title: The idea
+  bullets:
+  - Coarsening shrinks the search space
+  - The coarse partition is cheap
+  - Projection gives a feasible fine assignment that FM or KL can polish
+  - A bug in coarsening poisons every finer level
+  - <!-- algorithm-walkthrough -->
+  notes: 'Coarsening shrinks the search space. The coarse partition is cheap. Projection
+    gives a feasible fine assignment that FM or KL can polish. A bug in coarsening
+    poisons every finer level—debug the hierarchy before tuning refine passes.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: Coarsen with greedy merge
+  image: assets/steps/01-coarsen.png
+  caption: Coarsen with greedy merge
+  notes: Multilevel V-cycle contracts the graph via greedy pair merge to coarseK=2.
+    Supernodes C1={A,B,C} and C2={D,E} capture community structure.
+- type: image
+  title: Project to fine bipartition
+  image: assets/steps/02-project.png
+  caption: Project to fine bipartition
+  notes: 'Map coarse clusters to sides 0/1: ABC→0, DE→1. Projected seed ABC|DE already
+    has cutsize 3 — unlike BAD_SEED''s cut of 12.'
+- type: image
+  title: FM refine on fine graph
+  image: assets/steps/03-refine.png
+  caption: FM refine on fine graph
+  notes: FM polishes the projected seed. On TINY_GRAPH the projection is already optimal
+    — refine keeps ABC|DE at cutsize 3.
+- type: image
+  title: Final P0/P1 labels
+  image: assets/steps/04-final.png
+  caption: Final P0/P1 labels
+  notes: Output renames sides to P0/P1 for placers. Final communities ABC|DE with
+    cutsize 3 — multilevel beats refining a random bad seed alone.
+- type: image
+  title: Multilevel V-cycle mindset
+  image: assets/steps/05-takeaway.png
+  caption: Multilevel V-cycle mindset
+  notes: 'Coarsen for global structure, project, refine locally. Real placers nest
+    this in repeated V-cycles with hyperedges and balance — this lab is the skeleton.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab track, open the **multilevel-partition** lab from the tools
+    shelf
+  - Load the starter graph, run the algorithm once
+  - Work the challenges that lock the goldens
+  notes: In the browser lab track, open the **multilevel-partition** lab from the
+    tools shelf. Load the starter graph, run the algorithm once, and read cutsize
+    and balance in the metrics panel. Work the challenges that lock the goldens, then
+    come back to implement the same loop yourself.
+- type: bullets
+  title: Implement track
+  bullets:
+  - In the implement track, open this module’s examples and the course `common/` solvers
+  - Parse the tiny graph, run the algorithm with a deterministic seed
+  - Match the browser goldens before you claim the checklist
+  notes: In the implement track, open this module’s examples and the course `common/`
+    solvers. Parse the tiny graph, run the algorithm with a deterministic seed, and
+    print the assignment plus cutsize and balance. Match the browser goldens before
+    you claim the checklist.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Common traps
+  - For multilevel flows, verify coarsening before you blame the refiner
+  notes: 'Common traps: optimizing cut while ignoring balance; reporting pairwise
+    cut when the instance is a hypergraph; flipping locked terminals; and stopping
+    before rollback to the best KL or FM prefix. For multilevel flows, verify coarsening
+    before you blame the refiner.'
+- type: bullets
+  title: Your turn
+  bullets:
+  - Complete the checklist for at least one track, preferably both
+  - Implement until your metrics match the starter goldens
+  - When you’re ready, take the short quiz, then continue to the next module
+  notes: Complete the checklist for at least one track—preferably both. Implement
+    until your metrics match the starter goldens. When you’re ready, take the short
+    quiz, then continue to the next module.

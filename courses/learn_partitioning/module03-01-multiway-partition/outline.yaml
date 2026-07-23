@@ -1,0 +1,94 @@
+title: Multiway partitioning
+footer: learn_partitioning — 01 multiway partition
+slides:
+- type: title
+  title: Multiway partitioning
+  subtitle: Direct multiway partitioning assigns nodes to k parts without forcing
+    a binary tree of cuts
+  notes: Direct multiway partitioning assigns nodes to k parts without forcing a binary
+    tree of cuts. Compare it to recursive bisection on the same graph and the same
+    k. Round-robin or seed-based k-way starts are legal but often need refinement.
+- type: bullets
+  title: The idea
+  bullets:
+  - Multiway objectives count every edge that leaves its part
+  - Balance becomes a k-way size vector
+  - Teaching point
+  - <!-- algorithm-walkthrough -->
+  notes: 'Multiway objectives count every edge that leaves its part. Balance becomes
+    a k-way size vector. Teaching point: recursive and direct multiway can disagree
+    on cut even when both look balanced.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: k-way vs naive assignment
+  image: assets/steps/01-problem.png
+  caption: k-way vs naive assignment
+  notes: Real placers need k>2 parts. Recursive bisection respects graph structure;
+    naive round-robin assigns nodes by index mod k — often catastrophic cut.
+- type: image
+  title: 'Recursive: AB|C|DE cut 8'
+  image: assets/steps/02-recursive.png
+  caption: 'Recursive: AB|C|DE cut 8'
+  notes: Recursive bisection to k=3 first splits ABC|DE (cut 3), then bisects ABC
+    → AB|C|DE. A–B and D–E stay uncut; total cutsize is 8.
+- type: image
+  title: 'Round-robin: AD|BE|C cut 18'
+  image: assets/steps/03-roundrobin.png
+  caption: 'Round-robin: AD|BE|C cut 18'
+  notes: Alphabetical round-robin puts A,D on part 0; B,E on part 1; C alone on part
+    2. Almost every edge crosses — cutsize 18.
+- type: image
+  title: Structure beats indexing
+  image: assets/steps/04-compare.png
+  caption: Structure beats indexing
+  notes: Round-robin cuts A–B(5) and D–E(5) — the two strongest edges. Recursive keeps
+    them internal and pays only bridge cuts through C.
+- type: image
+  title: Multiway literacy
+  image: assets/steps/05-takeaway.png
+  caption: Multiway literacy
+  notes: 'Direct k-way FM exists in production tools, but recursive bisection is the
+    teaching baseline: global structure emerges from local 2-way splits.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab track, open the **multiway-partition** lab from the tools shelf
+  - Load the starter graph, run the algorithm once
+  - Work the challenges that lock the goldens
+  notes: In the browser lab track, open the **multiway-partition** lab from the tools
+    shelf. Load the starter graph, run the algorithm once, and read cutsize and balance
+    in the metrics panel. Work the challenges that lock the goldens, then come back
+    to implement the same loop yourself.
+- type: bullets
+  title: Implement track
+  bullets:
+  - In the implement track, open this module’s examples and the course `common/` solvers
+  - Parse the tiny graph, run the algorithm with a deterministic seed
+  - Match the browser goldens before you claim the checklist
+  notes: In the implement track, open this module’s examples and the course `common/`
+    solvers. Parse the tiny graph, run the algorithm with a deterministic seed, and
+    print the assignment plus cutsize and balance. Match the browser goldens before
+    you claim the checklist.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Common traps
+  - For multilevel flows, verify coarsening before you blame the refiner
+  notes: 'Common traps: optimizing cut while ignoring balance; reporting pairwise
+    cut when the instance is a hypergraph; flipping locked terminals; and stopping
+    before rollback to the best KL or FM prefix. For multilevel flows, verify coarsening
+    before you blame the refiner.'
+- type: bullets
+  title: Your turn
+  bullets:
+  - Complete the checklist for at least one track, preferably both
+  - Implement until your metrics match the starter goldens
+  - When you’re ready, take the short quiz, then continue to the next module
+  notes: Complete the checklist for at least one track—preferably both. Implement
+    until your metrics match the starter goldens. When you’re ready, take the short
+    quiz, then continue to the next module.

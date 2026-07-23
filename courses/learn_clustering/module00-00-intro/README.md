@@ -1,19 +1,39 @@
 # Module 00-00: Welcome to clustering for EDA
 
 **Module id:** `module00-00-intro`  
-**Kind:** `intro`
+**Kind:** `intro` · Dual-track course welcome
 
-← Start · [Course README](../README.md) · [Affinity →](../module01-01-affinity-metrics/README.md)
+← Start · [Course README](../README.md) · [Affinity metrics →](../module01-01-affinity-metrics/README.md)
 
-## Outcomes
+## What this course is
 
-After this module you can: **Explain why clustering exists in physical design and how this course is organized.**
+**learn_clustering** teaches *clustering / coarsening algorithms used in EDA physical design* using **two learning modes** on every lab module:
 
-## How to use this module
+| Track | Where you practice | Best for |
+|-------|--------------------|----------|
+| **A — Implement** | Tiny graphs + `EXAMPLES.md` / `examples/` | Fidelity: data structures, loops, metrics |
+| **B — Browser lab** | Interactive lab on the learning platform | Concept literacy, quick visual feedback |
 
-1. Read this README and the short transcript.
-2. Complete [CHECKLIST.md](CHECKLIST.md).
-3. Continue to the next module when the checklist feels honest.
+You can do **A only**, **B only**, or **both** (recommended: B for intuition when shipped, then A for fidelity).
+
+## Setup (Track A)
+
+1. Open this course under `courses/learn_clustering/`.
+2. Follow [docs/TWO_TRACKS.md](../docs/TWO_TRACKS.md) and each module’s [EXAMPLES.md](EXAMPLES.md).
+3. Optional self-check from course root: `./scripts/module.sh SS-AA --check`.
+
+## Setup (Track B)
+
+1. Serve the platform: `python3 -m http.server 8080 --directory platform` (from monorepo root).
+2. Open http://127.0.0.1:8080/tools/
+3. Or use the live site: https://universal-verification-methodology.github.io/learning/tools/
+
+## How to move through modules
+
+1. Read the module **README** (outcomes).
+2. Pick a track (or both).
+3. Check off **CHECKLIST.md**.
+4. Optional: skim `outline.yaml` / `transcript.md` for upcoming slides & clips.
 
 ## Media
 
@@ -25,15 +45,6 @@ After this module you can: **Explain why clustering exists in physical design an
 | Video | [video.mp4](video.mp4) |
 | Quiz | [quiz.json](quiz.json) |
 
-## Files
+## Next
 
-```
-module00-00-intro/
-├── README.md
-├── CHECKLIST.md
-├── EXAMPLES.md
-├── outline.yaml
-├── transcript.md
-├── quiz.json
-└── (optional) examples/ · assets/
-```
+→ [Module 01-01: Affinity metrics](../module01-01-affinity-metrics/README.md)

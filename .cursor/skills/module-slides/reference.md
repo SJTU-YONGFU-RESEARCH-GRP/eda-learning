@@ -10,16 +10,68 @@ When the user asks for module media or “build the course,” complete this cha
 
 | Phase | Required outputs |
 |-------|------------------|
-| Author | Natural `transcript.md`; sync `outline.yaml` |
-| Captures | Lab snapshot / walkthrough `assets/steps/` / real-shell as applicable |
+| Author | Natural **algorithm-specific** `transcript.md`; sync `outline.yaml` |
+| Depth | Track A `common/` solvers + goldens; browser tool challenges |
+| Captures | Lab snapshot / walkthrough `assets/steps/` (≈5 frames/lab) / real-shell as applicable |
 | Deck | `slides.pptx` + `slides.pdf` |
 | Narrate | `audio/full.mp3` + `video.mp4` |
 | Tools | Browser labs with **starter + challenges** under `platform/tools/` |
+| Docs | `MODULES.md` + **`WALKTHROUGHS.md`** for algorithm courses |
 | Publish | `publish_course_platform.py` → catalog + `data-render="lab"` shells |
 
 **Do not** stop after PPTX. **Do not** ship thin static lab HTML. Match **digital_learning** course page quality.
 
+**Do not** call a course ready with scaffold-only transcripts or zero walkthrough frames when clustering-depth is expected — see SKILL.md Content depth parity.
+
+**Do** keep course + module `README.md` aligned with public [learn_unix](https://github.com/universal-verification-methodology/learn_unix) (Step 1b + `verify_course_readme.py`).
+
 Full workflow: [SKILL.md](SKILL.md) Steps 1–9 + Definition of done.
+
+## README schema (learn_unix pattern)
+
+Gold standard: https://github.com/universal-verification-methodology/learn_unix
+
+| Artifact | Template | Verify |
+|----------|----------|--------|
+| `courses/<id>/README.md` | [`templates/course_README.md.example`](templates/course_README.md.example) | `verify_course_readme.py courses/<id>` |
+| Lab / intro / wrap module README | `templates/module_README.*.md.example` | `verify_course_readme.py courses/<id> --modules` |
+
+### Course README — required `##` headings (order)
+
+`Table of contents` → `Contents` → `Browse or clone` → `Consume from the parent` → `Author: publish or update` → `Two learning tracks` → `Module landings` → `Browser labs` → `License`
+
+Also required: H1 `# <course_id>`, CC BY 4.0 badge, `module-slides` in Author section, links to `docs/MODULES.md` and `docs/TWO_TRACKS.md`, at least one `module…/README.md` landing link.
+
+### Module README — lab minimum
+
+```markdown
+# Module NN: Title
+
+**Kind:** `lab` · Primary lab: `lab-id` · **Shipped**
+
+[← prev](../module-prev/README.md) · [Course README](../README.md) · [next →](../module-next/README.md)
+
+## Outcomes
+…
+
+## Two tracks (pick one or both)
+### Track A — …
+### Track B — Browser lab (online)
+… local 127.0.0.1:8080/tools/<lab-id>/ … and live Pages URL when shipped …
+
+## Media
+| Artifact | Path |
+| … transcript / outline / slides / video / quiz …
+
+## Files
+```
+
+Intro/wrap use their templates (welcome + setup, or recap + next course). Prefer `# Module …: Title` over a bare topic H1.
+
+```bash
+python3 .cursor/skills/module-slides/scripts/verify_course_readme.py \
+  courses/<course_id> --modules
+```
 
 ## Platform publish (after media)
 

@@ -1,7 +1,7 @@
 # Module 04-03: Timing-aware clustering
 
 **Module id:** `module04-03-timing-aware-clustering`  
-**Kind:** `lab` · Primary lab: `timing-aware-clustering` · **Shipped**
+**Kind:** `lab` · Primary lab: `timing-aware-clustering` · **Planned**
 
 [← Congestion-aware](../module04-01-congestion-aware-clustering/README.md) · [Course README](../README.md) · [Offline compare →](../module05-01-offline-benchmark-compare/README.md)
 
@@ -19,11 +19,11 @@ After this module you can: **Weight edges by timing criticality / slack and opti
 
 ### Track B — Browser lab (online)
 
-1. Local: [http://127.0.0.1:8080/tools/timing-aware-clustering/index.html](http://127.0.0.1:8080/tools/timing-aware-clustering/index.html)
-2. Live: [https://universal-verification-methodology.github.io/learning/tools/timing-aware-clustering/](https://universal-verification-methodology.github.io/learning/tools/timing-aware-clustering/)
-3. Tools shelf: open `timing-aware-clustering` from the platform tools index
-4. Load the **starter graph**, run the algorithm, inspect metrics.
-5. Check off Track B items in [CHECKLIST.md](CHECKLIST.md).
+Track B for `timing-aware-clustering` is **planned**. Use Track A until the tool ships.
+
+1. When available locally: http://127.0.0.1:8080/tools/timing-aware-clustering/index.html
+2. Check off Track B items in [CHECKLIST.md](CHECKLIST.md) once the lab is live.
+
 
 > Concept labs teach algorithm literacy on tiny instances — not production PDK flows.
 

@@ -1,0 +1,94 @@
+title: Terminal propagation
+footer: learn_partitioning — 03 terminal propagation
+slides:
+- type: title
+  title: Terminal propagation
+  subtitle: Pads and fixed I/O pin nodes to sides before free cells move
+  notes: Pads and fixed I/O pin nodes to sides before free cells move. Terminal propagation
+    carries those constraints into the partition so the cut respects the chip boundary.
+    Pin A to one side and E to the other and watch which free nodes follow.
+- type: bullets
+  title: The idea
+  bullets:
+  - Fixed terminals never flip
+  - Their neighbors inherit a pull toward the terminal’s part
+  - Ignoring terminals produces pretty cuts that violate the floorplan interface
+  - <!-- algorithm-walkthrough -->
+  notes: 'Fixed terminals never flip. Their neighbors inherit a pull toward the terminal’s
+    part. Ignoring terminals produces pretty cuts that violate the floorplan interface—illegal
+    in real flows.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: Fix pads A and E to opposite sides
+  image: assets/steps/01-fixed-terminals.png
+  caption: Fix pads A and E to opposite sides
+  notes: 'I/O terminals are pinned: A→side 0, E→side 1. Free nodes B, C, D propagate
+    by taking the side of the strongest neighboring fixed/assigned node.'
+- type: image
+  title: B joins A (w=5)
+  image: assets/steps/02-b-joins-a.png
+  caption: B joins A (w=5)
+  notes: B hears A strongly on side 0 (A–B weight 5) versus weak pull from E. B adopts
+    side 0 immediately.
+- type: image
+  title: D joins E (w=5)
+  image: assets/steps/03-d-joins-e.png
+  caption: D joins E (w=5)
+  notes: D hears E on side 1 (D–E weight 5). D adopts side 1, forming the DE block
+    opposite ABC.
+- type: image
+  title: C bridges by neighbor vote
+  image: assets/steps/04-c-bridge.png
+  caption: C bridges by neighbor vote
+  notes: C connects to both communities. Neighbor vote sums favor joining A/B side
+    (w=4+1 vs w=2+1). C lands on side 0 with A,B.
+- type: image
+  title: Fixed I/O drives partition
+  image: assets/steps/05-takeaway.png
+  caption: Fixed I/O drives partition
+  notes: 'Terminal propagation converges in 2 iterations on this graph. Real designs
+    pin hundreds of pads — free logic follows connectivity to terminals.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab track, open the **terminal-propagation** lab from the tools
+    shelf
+  - Load the starter graph, run the algorithm once
+  - Work the challenges that lock the goldens
+  notes: In the browser lab track, open the **terminal-propagation** lab from the
+    tools shelf. Load the starter graph, run the algorithm once, and read cutsize
+    and balance in the metrics panel. Work the challenges that lock the goldens, then
+    come back to implement the same loop yourself.
+- type: bullets
+  title: Implement track
+  bullets:
+  - In the implement track, open this module’s examples and the course `common/` solvers
+  - Parse the tiny graph, run the algorithm with a deterministic seed
+  - Match the browser goldens before you claim the checklist
+  notes: In the implement track, open this module’s examples and the course `common/`
+    solvers. Parse the tiny graph, run the algorithm with a deterministic seed, and
+    print the assignment plus cutsize and balance. Match the browser goldens before
+    you claim the checklist.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Common traps
+  - For multilevel flows, verify coarsening before you blame the refiner
+  notes: 'Common traps: optimizing cut while ignoring balance; reporting pairwise
+    cut when the instance is a hypergraph; flipping locked terminals; and stopping
+    before rollback to the best KL or FM prefix. For multilevel flows, verify coarsening
+    before you blame the refiner.'
+- type: bullets
+  title: Your turn
+  bullets:
+  - Complete the checklist for at least one track, preferably both
+  - Implement until your metrics match the starter goldens
+  - When you’re ready, take the short quiz, then continue to the next module
+  notes: Complete the checklist for at least one track—preferably both. Implement
+    until your metrics match the starter goldens. When you’re ready, take the short
+    quiz, then continue to the next module.

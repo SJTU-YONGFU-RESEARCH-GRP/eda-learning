@@ -1,0 +1,57 @@
+# Module NN: <Title>
+
+**Kind:** `lab` · Primary lab: `<lab-id>` · **Shipped** | **Planned**
+
+[← <prev title>](../moduleNN-prev/README.md) · [Course README](../README.md) · [<next title> →](../moduleNN-next/README.md)
+
+## Outcomes
+
+After this module you can explain and practice the ideas taught by **`<lab-id>`**, in the browser and/or on Track A.
+
+## Two tracks (pick one or both)
+
+### Track A — <Real Unix | Implement> (hands-on)
+
+Work using this module’s `examples/` (and/or `EXAMPLES.md`).
+
+1. Open [EXAMPLES.md](EXAMPLES.md) and run the “Try these” prompts / commands.
+2. Complete [CHECKLIST.md](CHECKLIST.md).
+3. Optional self-check: `./scripts/module.sh <id> --check` (from course root).
+
+### Track B — Browser lab (online)
+
+1. Local: [http://127.0.0.1:8080/tools/<lab-id>/index.html](http://127.0.0.1:8080/tools/<lab-id>/index.html)
+2. Live: [https://universal-verification-methodology.github.io/learning/tools/<lab-id>/](https://universal-verification-methodology.github.io/learning/tools/<lab-id>/)
+3. Load the **starter example**, then work challenges.
+4. Check off the Track B items in [CHECKLIST.md](CHECKLIST.md).
+
+> Concept labs are literacy tools — they do not replace Track A practice for work you will keep.
+
+<!-- If **Planned** instead of **Shipped**, replace Track B steps with:
+Track B for `<lab-id>` is **planned**. Use Track A until the tool ships.
+1. When available locally: http://127.0.0.1:8080/tools/<lab-id>/index.html
+2. Check off Track B items in CHECKLIST.md once the lab is live.
+-->
+
+
+## Media
+
+| Artifact | Path |
+|----------|------|
+| Transcript | [transcript.md](transcript.md) |
+| Outline | [outline.yaml](outline.yaml) |
+| Slides | [slides.pptx](slides.pptx) · [slides.pdf](slides.pdf) |
+| Video | [video.mp4](video.mp4) |
+| Quiz | [quiz.json](quiz.json) |
+
+## Files
+
+```
+moduleNN-slug/
+├── README.md       # this file
+├── CHECKLIST.md    # Track A + Track B checkboxes
+├── EXAMPLES.md     # Track A example index
+├── outline.yaml    # slide / clip outline
+├── transcript.md   # speakable source of truth
+└── examples/       # hands-on trees (Track A)
+```

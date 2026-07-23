@@ -1,0 +1,42 @@
+title: Offline benchmark compare
+footer: learn_partitioning — 01 offline benchmark compare
+slides:
+- type: title
+  title: Offline benchmark compare
+  subtitle: Toy engines teach mechanism
+  notes: Toy engines teach mechanism. Benchmarks teach honesty. In this offline module
+    you’ll run the same instances through your partitioner and, when available, an
+    open external tool—then compare cutsize, balance, and runtime without pretending
+    the numbers are foundry sign-off.
+- type: bullets
+  title: Fair compare rules
+  bullets:
+  - Use identical input
+  - Fix seeds when the algorithm is randomized
+  - Report the same metrics on both sides
+  - If the external tool is missing
+  - A clean I/O contract matters more than a flashy chart
+  notes: Use identical input. Fix seeds when the algorithm is randomized. Report the
+    same metrics on both sides. If the external tool is missing, still run your harness
+    and document the install gap—don’t invent golden numbers. A clean I/O contract
+    matters more than a flashy chart.
+- type: bullets
+  title: What good looks like
+  bullets:
+  - Expect your educational engine to be slower and sometimes lower quality
+  - That’s fine
+  - You’re looking for the same qualitative behavior
+  - Huge unexplained wins usually mean a metric mismatch, not genius
+  notes: 'Expect your educational engine to be slower and sometimes lower quality.
+    That’s fine. You’re looking for the same qualitative behavior: balanced parts,
+    improving cuts, and no silent illegal solutions. Huge unexplained wins usually
+    mean a metric mismatch, not genius.'
+- type: bullets
+  title: Your turn
+  bullets:
+  - Follow the examples file, fill the comparison table, and finish the checklist
+  - Bring one discrepancy and a short hypothesis into your notes
+  - Then continue to the wrap module to close the course
+  notes: Follow the examples file, fill the comparison table, and finish the checklist.
+    Bring one discrepancy and a short hypothesis into your notes. Then continue to
+    the wrap module to close the course.

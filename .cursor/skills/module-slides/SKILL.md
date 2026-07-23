@@ -3,15 +3,18 @@ name: module-slides
 description: >-
   Builds per-module PPTX, PDF, natural TTS audio, and short narrated videos for
   lab-driven courses under courses/ (e.g. learn_unix, learn_git, learn_clustering).
-  Runs in Unix or WSL only (not Windows PowerShell/cmd). Revises transcripts for
-  spoken English, syncs outline/slides, dual Track A/B callouts, captures
+  Runs in Unix or WSL only (not Windows PowerShell/cmd). Keeps course and module
+  README.md consistent with the learn_unix public-repo pattern. Revises transcripts
+  for spoken English, syncs outline/slides, dual Track A/B callouts, captures
   browser-lab UI snapshots and algorithm walkthrough frames (Playwright) into
-  assets/steps/, requires full media (pptx→pdf→audio→video), and publishes the
-  course into platform/ at digital_learning quality (catalog + pages.js lab shells,
-  tools with starter+challenges) when media and tools are ready. Use when the user
-  mentions module-slides, module PPT/pptx, PDF, transcript, narration, TTS, video
-  clips, quiz.json, lab screenshot/snapshot, algorithm walkthrough, step frames,
-  platform publish, or media for a course module.
+  assets/steps/, requires full media (pptx→pdf→audio→video), clustering-depth
+  content (algorithm-specific transcripts, walkthrough frames, Track A common/
+  solvers), and publishes the course into platform/ at digital_learning quality
+  (catalog + pages.js lab shells, tools with starter+challenges) when media and
+  tools are ready. Use when the user mentions module-slides, module PPT/pptx, PDF,
+  transcript, narration, TTS, video clips, quiz.json, lab screenshot/snapshot,
+  algorithm walkthrough, step frames, platform publish, course/module README, or
+  media for a course module.
 ---
 
 # Module Slides
@@ -54,12 +57,13 @@ Bash entry points source `_require_unix.sh` and **exit** if they detect MSYS/Cyg
 
 | In | Out |
 |----|-----|
-| `transcript.md` (spoken source of truth) | Rewriting course README / CHECKLIST unless asked |
-| `outline.yaml` + `slides.md` | Inventing new labs or syllabus modules |
-| `slides.pptx` / `slides.pdf` / `audio/` / `video.mp4` | Fake PDFs without LibreOffice |
-| Algorithm walkthrough frames (`assets/steps/`) | Stopping at PPTX when PDF/audio/video toolchain exists |
-| Platform publish (`platform/courses/…`) when course is ready | Hand-authored static lab HTML (use publish script) |
-| Optional `quiz.json` | Committing large binaries unless asked |
+| `transcript.md` (spoken source of truth) | Inventing new labs or syllabus modules |
+| Course + module `README.md` (learn_unix pattern) | Rewriting CHECKLIST / EXAMPLES body unless asked |
+| `outline.yaml` + `slides.md` | Fake PDFs without LibreOffice |
+| `slides.pptx` / `slides.pdf` / `audio/` / `video.mp4` | Stopping at PPTX when PDF/audio/video toolchain exists |
+| Algorithm walkthrough frames (`assets/steps/`) | Hand-authored static lab HTML (use publish script) |
+| Platform publish (`platform/courses/…`) when course is ready | Committing large binaries unless asked |
+| Optional `quiz.json` | — |
 
 **Dual tracks (when the module has them):** narration may mention Track A (implement / real shell) and Track B (browser lab) — say them as “implement track” / “browser lab track” (or “real Unix track”), never as raw URLs in speech.
 
@@ -81,15 +85,56 @@ Bash entry points source `_require_unix.sh` and **exit** if they detect MSYS/Cyg
 ### A course is ready when (in addition)
 
 1. All modules meet the module bar (or deferred items are listed explicitly)
-2. Browser tools shipped under `platform/tools/<lab-id>/` with **starter example + challenges** (digital_learning pattern)
-3. `python3 platform/scripts/publish_course_platform.py <course_id>` has been run
-4. Platform course pages use **catalog + `pages.js` shells** (progress, prev/next, tool CTA, video, quiz) — not thin static video tags
-5. `platform/course-media/<course_id>` symlink works for local media
-6. Smoke: `python3 -m http.server 8080 --directory platform` → `/courses/<id>/` and one lab page render correctly
+2. **Content depth parity** with `learn_clustering` (see [Content depth parity](#content-depth-parity-learn_clustering-bar)) — walkthroughs, algorithm-specific transcripts, `common/` solvers
+3. **Course `README.md`** matches the [learn_unix](https://github.com/universal-verification-methodology/learn_unix) pattern (badges, TOC, Contents, Browse/clone, Consume from parent, Author/module-slides, Two tracks, Module landings, Browser labs, License) — see [README conventions](#readme-conventions-learn_unix-pattern) and `templates/course_README.md.example`
+4. **Each module `README.md`** matches kind-specific templates (`lab` / `intro` / `wrap`) — Media table, prev/next, Track A/B when lab
+5. `python3 .cursor/skills/module-slides/scripts/verify_course_readme.py courses/<course_id> --modules` passes
+6. Browser tools shipped under `platform/tools/<lab-id>/` with **starter example + challenges** (digital_learning pattern)
+7. `python3 platform/scripts/publish_course_platform.py <course_id>` has been run
+8. Platform course pages use **catalog + `pages.js` shells** (progress, prev/next, tool CTA, video, quiz) — not thin static video tags
+9. `platform/course-media/<course_id>` symlink works for local media
+10. Smoke: `python3 -m http.server 8080 --directory platform` → `/courses/<id>/` and one lab page render correctly
 
-Reference quality bar: **digital_learning** `platform/courses/learn_unix/labs/…` (same `data-render="lab"` shell).
+Reference quality bar: **learn_unix** course README + **digital_learning** lab shells + **learn_clustering** content depth (walkthroughs, solvers, algorithm-specific narration).
 
-## Directory layout (per module)
+## Content depth parity (learn_clustering bar)
+
+Scaffold + media alone is **not** enough. Every new algorithm course must reach **clustering-depth** before calling the course “ready.” Reference: `courses/learn_clustering/`.
+
+### Non-negotiable depth
+
+| Layer | Required | Anti-pattern (reject) |
+|-------|----------|------------------------|
+| **Transcripts (lab)** | Algorithm-specific speech: named moves, gains, goldens (e.g. “cut 12 → 3”, “swap A↔D”) | One generic 6-slide template reused for every lab |
+| **Walkthrough frames** | `assets/steps/*.png` + `STEPS.md` + `<!-- algorithm-walkthrough -->` in transcript for **every** algorithm lab | PPTX with only Track B/A prose slides |
+| **Walkthrough map** | Lab id registered in `platform/tools/algorithm-walkthrough/` **and** `capture_algorithm_walkthrough.py` `LAB_TO_ALGO` | Capture that fails “No walkthrough mapping” |
+| **Track A `common/`** | Real reference helpers/solvers + tiny golden instance (Python); not just README | Empty `common/` or JSON-only stub |
+| **Browser tools** | Starter example + ~10 challenges via `createChallengeLab` | Tool chrome with no checks |
+| **Docs** | `docs/MODULES.md`, `SCOPE.md`, `TWO_TRACKS.md`, **`WALKTHROUGHS.md`** listing every algo lab | Missing walkthrough index |
+| **Quizzes** | 3–5 items tied to **this** algorithm’s goldens / pitfalls | Identical quiz text across all labs |
+
+### Authoring order (depth first)
+
+```
+1. common/ solvers + goldens
+2. Browser tool (starter + challenges) using same goldens
+3. algorithm-walkthrough ALGOS entry (5 teaching steps)
+4. Capture frames → inject transcript (Step 2c)
+5. Revise surrounding speech so it is algorithm-specific (not scaffold boilerplate)
+6. Sync → PPTX → PDF → narrate (WSL)
+7. docs/WALKTHROUGHS.md + publish
+```
+
+### Parity self-check (vs learn_clustering)
+
+Before marking a course ready, compare to clustering:
+
+- [ ] Lab transcript median length and specificity ≈ clustering (concrete metrics in speech)
+- [ ] Walkthrough PNG count ≈ 5 × (number of algorithm labs)
+- [ ] `common/` has importable solvers / metrics, not only a README
+- [ ] No lab still using the scaffold “Here’s the core idea in one breath: {algorithm}” filler
+
+**Do not** ship a course as ready if tools + video exist but walkthroughs / solvers / specific transcripts are missing — list them under Deferred in the packaging report.
 
 ```
 courses/<course>/moduleNN-slug/
@@ -120,6 +165,59 @@ courses/<course>/moduleNN-slug/
 | Deck filenames | Prefer `slides.pptx` / `slides.pdf`; scripts may still write `clip.pptx` — rename or copy if needed |
 | Course map | [`syllabus.md`](../../../syllabus.md) · course `docs/MODULES.md` |
 | Catalog `moduleId` | Must match folder name when hierarchical (publish script reads MODULES.md) |
+| Course README | Same section set as public [learn_unix](https://github.com/universal-verification-methodology/learn_unix) |
+| Module README | `# Module …: Title` + Kind/lab metadata + Media; lab modules include Track A/B |
+
+## README conventions (learn_unix pattern)
+
+**Canonical reference:** https://github.com/universal-verification-methodology/learn_unix (`README.md` + any `module*/README.md`).
+
+Templates (fill placeholders; do not invent a different section order):
+
+| File | Template |
+|------|----------|
+| `courses/<id>/README.md` | [`templates/course_README.md.example`](templates/course_README.md.example) |
+| Lab module | [`templates/module_README.lab.md.example`](templates/module_README.lab.md.example) |
+| Intro module | [`templates/module_README.intro.md.example`](templates/module_README.intro.md.example) |
+| Wrap module | [`templates/module_README.wrap.md.example`](templates/module_README.wrap.md.example) |
+
+### Course README — required sections (in order)
+
+1. `# <course_id>` + badge row (GitHub · License CC BY 4.0 · Role · Parent · Labs · Domain)
+2. One-sentence tagline (`**<id>** is the open learning path for *…*.`)
+3. Short reader/author/submodule blurb
+4. `## Table of contents`
+5. `## Contents` (tree; note optional media + module-slides)
+6. `## Browse or clone`
+7. `## Consume from the parent`
+8. `## Author: publish or update` (module-slides commands; prefer `python3`)
+9. `## Two learning tracks` (table + link `docs/TWO_TRACKS.md`)
+10. `## Module landings` (table → each `module…/README.md`; point at `docs/MODULES.md`)
+11. `## Browser labs` (Track B lab ids / links)
+12. `## License` (CC BY 4.0 + `LICENSE`)
+
+**Adaptations allowed:** Track A label may be “Real Unix”, “Implement”, etc.; hierarchical module ids; courses not yet a public submodule still keep the same headings (Role badge may say `course` until published).
+
+**Not allowed:** Dropping TOC / Browse / Consume / Author / Browser labs; replacing Module landings with only a link to MODULES.md and no table; using `python` instead of `python3` in Author examples.
+
+### Module README — by kind
+
+| Kind | Must include |
+|------|----------------|
+| `lab` | `# Module …: Title` · Kind + Primary lab + Shipped/Planned · prev/next · Outcomes · Two tracks (A + B; **local + live** tool URLs when **Shipped**; planned labs say so explicitly) · Media · Files tree |
+| `intro` | Kind intro · dual-track welcome · Setup A/B · How to move · Media · Next |
+| `wrap` | Kind wrap · You can now · Dual-track recap · Next course · Checklist · Media |
+| `offline` | Kind offline · Outcomes · Track A (or offline harness) · Media · prev/next |
+
+Media table rows: Transcript · Outline · Slides (pptx+pdf) · Video · Quiz (link even if optional).
+
+```bash
+python3 .cursor/skills/module-slides/scripts/verify_course_readme.py \
+  courses/<course_id> --modules
+# Public submodule gold:
+python3 .cursor/skills/module-slides/scripts/verify_course_readme.py \
+  courses/learn_unix --modules --strict-github
+```
 
 ## Design principles
 
@@ -136,6 +234,7 @@ End-to-end order (do not skip media steps when toolchain is present):
 ```
 Module-Slides Progress:
 - [ ] 1. Inventory — README + MODULES.md / syllabus + lab status (S/P)
+- [ ] 1b. Align course + module README.md to learn_unix pattern (verify_course_readme.py)
 - [ ] 2. Draft or revise transcript.md (natural speech + ## Slide N)
 - [ ] 2a. Revise for natural audio (required before TTS)
 - [ ] 2b. Capture lab UI snapshot → assets/lab-starter.png (Track B / intro)
@@ -147,7 +246,7 @@ Module-Slides Progress:
 - [ ] 6. TTS + narrated MP4 (narrate_clips.sh) — required when edge-tts/ffmpeg exist
 - [ ] 7. Optional quiz.json
 - [ ] 8. Packaging report for this module
-- [ ] 9. Course ready: tools (starter+challenges) + platform publish (digital_learning quality)
+- [ ] 9. Course ready: READMEs OK + tools (starter+challenges) + platform publish
 ```
 
 ### Step 1: Inventory
@@ -161,6 +260,23 @@ From the module folder and course docs:
 | Track A examples | `examples/`, `EXAMPLES.md` |
 | Track B URL | tools index / lab path |
 | Existing stubs | `outline.yaml`, `transcript.md` |
+| Course README | Matches learn_unix section set? (Step 1b) |
+
+### Step 1b: README consistency (course + modules)
+
+When scaffolding a course, publishing, or when the user asks for README alignment:
+
+1. Diff course `README.md` against [`templates/course_README.md.example`](templates/course_README.md.example) / public learn_unix — restore missing sections; keep course-specific domain/track wording.
+2. For each `module*/README.md`, match kind template (`lab` / `intro` / `wrap`). Prefer `# Module …: Title` (not a bare title H1). Lab modules: local + live Track B URLs when shipped.
+3. Keep Module landings in the **course** README in sync with `docs/MODULES.md` (same modules, same order).
+4. Verify:
+
+```bash
+python3 .cursor/skills/module-slides/scripts/verify_course_readme.py \
+  courses/<course_id> --modules
+```
+
+Do this **before** calling the course “ready” (Step 9). Updating READMEs does not replace media work — it is a parallel readiness gate.
 
 ### Step 2: Transcript (source of truth)
 
@@ -551,13 +667,18 @@ python3 platform/scripts/publish_course_platform.py learn_clustering
 
 ### Platform (per course, when ready)
 
-- [ ] Tools have starter example + challenges
-- [ ] Algorithm walkthrough map covers lab ids used in capture
+- [ ] Course + module READMEs pass `verify_course_readme.py --modules`
+- [ ] Course README section order matches learn_unix (TOC → … → License)
+- [ ] Tools have starter example + challenges (~10)
+- [ ] Algorithm labs: walkthrough frames + `WALKTHROUGHS.md` + `LAB_TO_ALGO` mapping
+- [ ] Lab transcripts are algorithm-specific (goldens/moves), not scaffold boilerplate
+- [ ] Track A `common/` has solvers/metrics (not README-only)
 - [ ] `publish_course_platform.py <course_id>` regenerated catalog + shells
 - [ ] Lab pages are `data-render="lab"` (digital_learning quality — not thin static HTML)
 - [ ] Catalog entries include `moduleId` when folders are hierarchical
 - [ ] `course-media/<id>` symlink resolves; local preview shows video + quiz
 - [ ] Smoke `/courses/<id>/` and one `/labs/<slug>/` page in browser
+- [ ] Depth parity self-check vs `learn_clustering` passed (or gaps listed as Deferred)
 
 ## Scripts (skill root)
 
@@ -567,6 +688,7 @@ python3 platform/scripts/publish_course_platform.py learn_clustering
 | `build_pptx.py` | outline → `slides.pptx` / `clip.pptx` |
 | `verify_clip.py` | Bullet/image/deck checks |
 | `verify_transcript_consistency.py` | Transcript ↔ outline notes |
+| `verify_course_readme.py` | Course + module README vs learn_unix pattern |
 | `pptx_to_pdf.sh` | LibreOffice export (Unix/WSL) |
 | `capture_lab_snapshot.py` | Track B lab UI → `assets/lab-starter.png` |
 | `capture_algorithm_walkthrough.py` | Algorithm steps → `assets/steps/` + optional transcript inject |
@@ -585,6 +707,7 @@ Install (in WSL/Linux): `pip install -r .cursor/skills/module-slides/scripts/req
 ## Related
 
 - Syllabus: [`syllabus.md`](../../../syllabus.md)
+- README gold standard: [learn_unix](https://github.com/universal-verification-methodology/learn_unix)
 - Example courses: `courses/learn_unix/` · `courses/learn_git/` · `courses/learn_clustering/`
 - Platform preview: `python3 -m http.server 8080 --directory platform`
-- Schemas/templates: [reference.md](reference.md)
+- Schemas/templates: [reference.md](reference.md) · `templates/*_README*.example`
