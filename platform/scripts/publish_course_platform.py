@@ -17,6 +17,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 PLATFORM = ROOT / "platform"
 CATALOG = PLATFORM / "assets" / "catalog.json"
+# Bump when site-config.js / pages.js media URL logic changes (bust browser cache on Pages).
+ASSET_V = "20260723b"
 
 ROW = re.compile(
     r"^\|\s*`?(module\d{2}-\d{2}-[a-z0-9-]+)`?\s*\|\s*`([^`]+)`\s*\|\s*\[([^\]]+)\]"
@@ -170,9 +172,9 @@ COURSE_INDEX = """<!DOCTYPE html>
   <footer class="site-footer">
     Repo: <code>courses/{course_id}/</code> · progress saved in this browser only.
   </footer>
-  <script src="../../assets/site-config.js"></script>
-  <script src="../../assets/site.js"></script>
-  <script src="../../assets/pages.js"></script>
+  <script src="../../assets/site-config.js?v={asset_v}"></script>
+  <script src="../../assets/site.js?v={asset_v}"></script>
+  <script src="../../assets/pages.js?v={asset_v}"></script>
 </body>
 </html>
 """
@@ -214,9 +216,9 @@ LAB_TPL = """<!DOCTYPE html>
   <footer class="site-footer">
     <a href="../../index.html">Course map</a> · progress saved in this browser only.
   </footer>
-  <script src="../../../../assets/site-config.js"></script>
-  <script src="../../../../assets/site.js"></script>
-  <script src="../../../../assets/pages.js"></script>
+  <script src="../../../../assets/site-config.js?v={asset_v}"></script>
+  <script src="../../../../assets/site.js?v={asset_v}"></script>
+  <script src="../../../../assets/pages.js?v={asset_v}"></script>
 </body>
 </html>
 """
@@ -262,9 +264,9 @@ COURSES_INDEX = """<!DOCTYPE html>
   <footer class="site-footer">
     Planning source: <a href="../../eda.md">eda.md</a> · syllabus wiring grows with each published course.
   </footer>
-  <script src="../assets/site-config.js"></script>
-  <script src="../assets/site.js"></script>
-  <script src="../assets/pages.js"></script>
+  <script src="../assets/site-config.js?v={asset_v}"></script>
+  <script src="../assets/site.js?v={asset_v}"></script>
+  <script src="../assets/pages.js?v={asset_v}"></script>
 </body>
 </html>
 """
@@ -510,6 +512,7 @@ def write_pages(course_id: str, course: dict, meta: dict) -> int:
             first_n=meta.get("first_n", first["n"]),
             tools_href=meta.get("tools_href", "../../tools/index.html"),
             tools_label=meta.get("tools_label", "Tools"),
+            asset_v=ASSET_V,
         ),
         encoding="utf-8",
     )
@@ -524,6 +527,7 @@ def write_pages(course_id: str, course: dict, meta: dict) -> int:
                 course_id=course_id,
                 n=lab["n"],
                 slug=lab["slug"],
+                asset_v=ASSET_V,
             ),
             encoding="utf-8",
         )
@@ -565,7 +569,7 @@ def ensure_ladder_courses(cat: dict) -> None:
 def write_courses_index(_courses: list[dict] | None = None) -> None:
     """Write digital_learning-style courses map (data-render=path-map)."""
     out = PLATFORM / "courses" / "index.html"
-    out.write_text(COURSES_INDEX, encoding="utf-8")
+    out.write_text(COURSES_INDEX.format(asset_v=ASSET_V), encoding="utf-8")
     print(f"wrote {out.relative_to(ROOT)} (path-map)")
 
 
