@@ -32,35 +32,44 @@
     return h === "localhost" || h === "127.0.0.1" || h === "[::1]";
   }
 
-  function cdnFileUrl(cfg, org, repo, branch, dir, file) {
+  function cdnFileUrl(cfg, org, repo, branch, pathParts, file) {
+    const dir = (pathParts || []).filter(Boolean).join("/");
+    const rel = dir ? `${dir}/${file}` : file;
     const cdn = (cfg.mediaCdn || "jsdelivr").toLowerCase();
     if (cdn === "raw") {
-      return `https://raw.githubusercontent.com/${org}/${repo}/${branch}/${dir}/${file}`;
+      return `https://raw.githubusercontent.com/${org}/${repo}/${branch}/${rel}`;
     }
-    return `https://cdn.jsdelivr.net/gh/${org}/${repo}@${branch}/${dir}/${file}`;
+    return `https://cdn.jsdelivr.net/gh/${org}/${repo}@${branch}/${rel}`;
   }
 
-  function localFileUrl(repo, dir, file) {
+  function localFileUrl(courseId, dir, file) {
     const depth = document.querySelector("[data-asset-base]");
     const assetBase = (depth && depth.getAttribute("data-asset-base")) || "../../assets/";
     const prefix = String(assetBase).replace(/assets\/?$/, "course-media/");
-    return `${prefix}${repo}/${dir}/${file}`;
+    return `${prefix}${courseId}/${dir}/${file}`;
   }
 
-  /** Media URLs from org course repos (video.mp4, slides.pptx, …). */
+  /**
+   * Media URLs from the eda-learning monorepo (video.mp4, slides.pptx, …).
+   * CDN: gh/<org>/<mediaRepo>@<branch>/<mediaPathPrefix>/<courseId>/<moduleDir>/<file>
+   * Local: /course-media/<courseId>/<moduleDir>/<file>
+   */
   function mediaUrls(course, lab) {
     const cfg = D.cfg || {};
-    const org = cfg.githubOrg || "universal-verification-methodology";
+    const org = cfg.githubOrg || "SJTU-YONGFU-RESEARCH-GRP";
     const branch = cfg.mediaBranch || "main";
-    const repo = (course && course.repo) || (course && course.id) || "";
+    const mediaRepo = cfg.mediaRepo || "eda-learning";
+    const pathPrefix = cfg.mediaPathPrefix != null ? String(cfg.mediaPathPrefix) : "courses";
+    const courseId = (course && course.repo) || (course && course.id) || "";
     const dir = moduleDir(lab);
     const local = useLocalMedia(cfg);
+    const cdnParts = [pathPrefix, courseId, dir].filter(Boolean);
     const fileUrls = (file) => {
-      const cdn = cdnFileUrl(cfg, org, repo, branch, dir, file);
-      const loc = repo ? localFileUrl(repo, dir, file) : cdn;
+      const cdn = cdnFileUrl(cfg, org, mediaRepo, branch, cdnParts, file);
+      const loc = courseId ? localFileUrl(courseId, dir, file) : cdn;
       return {
-        primary: local && repo ? loc : cdn,
-        fallbacks: local && repo ? [cdn] : [],
+        primary: local && courseId ? loc : cdn,
+        fallbacks: local && courseId ? [cdn] : [],
       };
     };
     const video = fileUrls("video.mp4");
@@ -68,14 +77,16 @@
     const slidesPdf = fileUrls("slides.pdf");
     const quiz = fileUrls("quiz.json");
     const transcript = fileUrls("transcript.md");
+    const treePath = cdnParts.join("/");
     return {
       org,
-      repo,
+      repo: mediaRepo,
+      courseId,
       branch,
       dir,
       local,
-      moduleGithub: `https://github.com/${org}/${repo}/tree/${branch}/${dir}`,
-      repoGithub: `https://github.com/${org}/${repo}`,
+      moduleGithub: `https://github.com/${org}/${mediaRepo}/tree/${branch}/${treePath}`,
+      repoGithub: `https://github.com/${org}/${mediaRepo}`,
       video: video.primary,
       videoFallbacks: video.fallbacks,
       slidesPptx: slidesPptx.primary,

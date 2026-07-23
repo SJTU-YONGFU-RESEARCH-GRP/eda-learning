@@ -23,6 +23,15 @@ python3 platform/scripts/publish_course_platform.py learn_clustering
 
 That matches **digital_learning** course quality: catalog sync, `pages.js` lab shells (progress, quiz, prev/next, tool CTA, video), and `course-media/` symlink for local clips.
 
+## Media URLs (localhost vs CDN)
+
+| Context | Where video / PDF load from |
+|---------|------------------------------|
+| Local (`127.0.0.1`) | `/course-media/<courseId>/<moduleDir>/…` → `courses/<courseId>/` |
+| Deployed site | jsDelivr monorepo: `cdn.jsdelivr.net/gh/SJTU-YONGFU-RESEARCH-GRP/eda-learning@main/courses/<courseId>/<moduleDir>/…` |
+
+Configured in [`assets/site-config.js`](assets/site-config.js) (`githubOrg`, `mediaRepo`, `mediaPathPrefix`, `mediaSource`).
+
 ## Layout
 
 ```text
