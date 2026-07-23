@@ -1,0 +1,48 @@
+title: Welcome to legalization
+footer: learn_legalization — 00 intro
+slides:
+- type: title
+  title: Welcome to legalization
+  subtitle: Global placement spreads cells for wirelength and density, but coordinates
+    float freely
+  notes: Global placement spreads cells for wirelength and density—but coordinates
+    float freely. Legalization snaps them to rows and sites, removes overlaps, and
+    respects fixed macros before routing. This course teaches that transition on a
+    tiny twelve-site grid so detailed routing has a legal canvas.
+- type: bullets
+  title: What you'll build
+  bullets:
+  - You'll model sites and rows, check legality, greedy-snap floats, remove overlaps
+  - Then legalize around fixed macros, measure displacement versus HPWL
+  - Nine browser labs have step-by-step algorithm walkthroughs with verified goldens
+  notes: You'll model sites and rows, check legality, greedy-snap floats, remove overlaps,
+    and pack rows with Abacus and Tetris-style algorithms. Then legalize around fixed
+    macros, measure displacement versus HPWL, and contrast global versus detailed
+    passes. Nine browser labs have step-by-step algorithm walkthroughs with verified
+    goldens.
+- type: bullets
+  title: Prerequisite path
+  bullets:
+  - 'Finish **learn_placement** first: you need global-place floats and HPWL intuition'
+  - Floorplanning and clustering further upstream set the outline
+  notes: 'Finish **learn_placement** first: you need global-place floats and HPWL
+    intuition. Floorplanning and clustering further upstream set the outline; legalization
+    assumes cells already have rough (x, y) targets.'
+- type: bullets
+  title: Two tracks
+  bullets:
+  - Every lab offers Track A, implement on `tiny_legal.json`
+  - 'Good rhythm: browser for row/site intuition, implement to harden checkers and
+    packers'
+  notes: 'Every lab offers Track A—implement on `tiny_legal.json`—and Track B—browser
+    labs with interactive walkthroughs. Good rhythm: browser for row/site intuition,
+    implement to harden checkers and packers.'
+- type: bullets
+  title: How to move
+  bullets:
+  - Read each README, pick a track, work the checklist
+  - Keep legality, displacement, and HPWL as habits
+  - When intro checklist is done
+  notes: Read each README, pick a track, work the checklist. Keep legality, displacement,
+    and HPWL as habits. When intro checklist is done, continue to site and row model—the
+    geometry contract for every later algorithm.

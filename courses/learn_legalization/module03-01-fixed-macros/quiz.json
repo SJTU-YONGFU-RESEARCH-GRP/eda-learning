@@ -1,0 +1,47 @@
+{
+  "module": "module03-01-fixed-macros",
+  "title": "Fixed macros check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "true_false",
+      "prompt": "Macro D is fixed at x=8, y=4 in tiny_legal.json.",
+      "answer": true,
+      "explain": "fixed_macros entry."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "prompt": "Fixed macros during legalize should\u2026",
+      "choices": [
+        "Move freely",
+        "Stay locked; movables pack around them",
+        "Shrink to one site",
+        "Ignore overlap rules"
+      ],
+      "answer": 1,
+      "explain": "Obstacle model."
+    },
+    {
+      "id": "q3",
+      "type": "true_false",
+      "prompt": "Displacement for fixed cells is zero by definition.",
+      "answer": true,
+      "explain": "They did not move."
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "prompt": "Movable cells must not occupy sites already covered by\u2026",
+      "choices": [
+        "Fixed macros",
+        "Only nets",
+        "README files",
+        "Audio clips"
+      ],
+      "answer": 0,
+      "explain": "Pre-occupied intervals."
+    }
+  ]
+}

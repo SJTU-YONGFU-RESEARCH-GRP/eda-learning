@@ -1,7 +1,7 @@
 # Module 01-03: Arrival and required times
 
 **Module id:** `module01-03-arrival-required`  
-**Kind:** `lab` · Primary lab: `arrival-required` · **Planned**
+**Kind:** `lab` · Primary lab: `arrival-required` · **Shipped**
 
 [← Timing graph](../module01-01-timing-graph/README.md) · [Course README](../README.md) · [Slack / setup / hold →](../module02-01-slack-setup-hold/README.md)
 
@@ -19,8 +19,9 @@ After this module you can: **Propagate arrival forward and required backward on 
 
 ### Track B — Browser lab (online)
 
-1. Local: [http://127.0.0.1:8080/tools/arrival-required/index.html](http://127.0.0.1:8080/tools/arrival-required/index.html) *(planned)*
-2. Tools shelf: open `arrival-required` from the platform tools index when shipped
+1. Local: [http://127.0.0.1:8080/tools/arrival-required/index.html](http://127.0.0.1:8080/tools/arrival-required/index.html)
+2. Live: [https://universal-verification-methodology.github.io/learning/tools/arrival-required/](https://universal-verification-methodology.github.io/learning/tools/arrival-required/)
+3. Tools shelf: open `arrival-required` from the platform tools index
 3. Load the **starter netlist**, run the analysis, inspect path / slack metrics.
 4. Check off Track B items in [CHECKLIST.md](CHECKLIST.md).
 

@@ -1,0 +1,95 @@
+title: Displacement versus HPWL
+footer: learn_legalization — 03 displacement hpwl
+slides:
+- type: title
+  title: Displacement versus HPWL
+  subtitle: Legalization cost combines HPWL and displacement
+  notes: 'Legalization cost combines HPWL and displacement: cost equals HPWL plus
+    lambda times displacement from the pre-legalize layout. Abacus on the overlap
+    seed reports HPWL thirty-eight and displacement four.'
+- type: bullets
+  title: The idea
+  bullets:
+  - Lambda one gives cost forty-two
+  - Higher lambda favors staying near global placement even when wirelength could
+    be slightly
+  - <!-- algorithm-walkthrough -->
+  notes: 'Lambda one gives cost forty-two; lambda five gives cost fifty-eight on the
+    same legal Abacus result. Higher lambda favors staying near global placement even
+    when wirelength could be slightly better under a different packer.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: Cost = HPWL + λ · displacement
+  image: assets/steps/01-cost-formula.png
+  caption: Cost = HPWL + λ · displacement
+  notes: Legalization objectives often combine wirelength with a displacement penalty
+    from the pre-legalize layout. Lambda controls how hard you resist moving cells
+    away from global placement.
+- type: image
+  title: Abacus vs overlap origin
+  image: assets/steps/02-abacus-metrics.png
+  caption: Abacus vs overlap origin
+  notes: Abacus on the overlap seed yields HPWL thirty-eight and displacement four
+    versus the illegal starter. That is the Pareto point with lower movement.
+- type: image
+  title: λ = 1 → cost 42
+  image: assets/steps/03-lambda-1.png
+  caption: λ = 1 → cost 42
+  notes: With lambda one, cost equals thirty-eight plus four equals forty-two. Displacement
+    is cheap—one HPWL point buys one unit of movement in the objective.
+- type: image
+  title: λ = 5 → cost 58
+  image: assets/steps/04-lambda-5.png
+  caption: λ = 5 → cost 58
+  notes: 'Raise lambda to five: cost becomes thirty-eight plus five times four equals
+    fifty-eight. The same legal layout looks expensive when you punish displacement
+    heavily.'
+- type: image
+  title: Higher λ favors staying put
+  image: assets/steps/05-lambda-tradeoff.png
+  caption: Higher λ favors staying put
+  notes: 'When lambda is large, algorithms that minimize displacement—Abacus over
+    Tetris—win the combined cost even if HPWL is slightly worse. Quote λ whenever
+    you compare legalizers.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab track, open the **displacement-hpwl** lab from the tools shelf
+  - Load the overlap or float starter, run the legalizer once
+  - Work the challenges that lock the goldens
+  notes: In the browser lab track, open the **displacement-hpwl** lab from the tools
+    shelf. Load the overlap or float starter, run the legalizer once, and read legality
+    plus displacement and HPWL when the panel shows them. Work the challenges that
+    lock the goldens, then come back to implement the same loop yourself.
+- type: bullets
+  title: Implement track
+  bullets:
+  - In the implement track, open this module's examples and the course `common/` solvers
+  - Parse `tiny_legal.json`, run the algorithm with deterministic coordinates
+  - Match the browser goldens before you claim the checklist
+  notes: In the implement track, open this module's examples and the course `common/`
+    solvers. Parse `tiny_legal.json`, run the algorithm with deterministic coordinates,
+    and print legality, displacement, and HPWL. Match the browser goldens before you
+    claim the checklist.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Common traps
+  notes: 'Common traps: assuming snap alone legalizes; forgetting site width when
+    checking overlap; ignoring fixed macro D at (8, 4); reporting HPWL without legality;
+    and comparing Abacus and Tetris without naming displacement versus wirelength
+    tradeoffs.'
+- type: bullets
+  title: Your turn
+  bullets:
+  - Complete the checklist for at least one track, preferably both
+  - Implement until your metrics match the starter goldens
+  - When you're ready, take the short quiz, then continue to the next module
+  notes: Complete the checklist for at least one track—preferably both. Implement
+    until your metrics match the starter goldens. When you're ready, take the short
+    quiz, then continue to the next module.

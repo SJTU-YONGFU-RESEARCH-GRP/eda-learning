@@ -1,0 +1,129 @@
+{
+  "chip": {
+    "W": 12,
+    "H": 6,
+    "siteW": 1,
+    "rowH": 2,
+    "rows": [
+      0,
+      2,
+      4
+    ]
+  },
+  "cells": [
+    {
+      "id": "A",
+      "width": 2
+    },
+    {
+      "id": "B",
+      "width": 2
+    },
+    {
+      "id": "C",
+      "width": 2
+    },
+    {
+      "id": "D",
+      "width": 2
+    },
+    {
+      "id": "E",
+      "width": 1
+    },
+    {
+      "id": "F",
+      "width": 1
+    }
+  ],
+  "nets": [
+    [
+      "A",
+      "B"
+    ],
+    [
+      "C",
+      "D"
+    ],
+    [
+      "A",
+      "C"
+    ],
+    [
+      "B",
+      "D"
+    ],
+    [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    [
+      "E",
+      "F"
+    ]
+  ],
+  "fixed_macros": [
+    {
+      "id": "D",
+      "x": 8,
+      "y": 4,
+      "width": 2,
+      "fixed": true
+    }
+  ],
+  "starter_illegal": {
+    "A": {
+      "x": 4,
+      "y": 2
+    },
+    "B": {
+      "x": 4,
+      "y": 2
+    },
+    "C": {
+      "x": 4,
+      "y": 2
+    },
+    "D": {
+      "x": 8,
+      "y": 4
+    },
+    "E": {
+      "x": 0,
+      "y": 4
+    },
+    "F": {
+      "x": 10,
+      "y": 0
+    }
+  },
+  "starter_float": {
+    "A": {
+      "x": 3.7,
+      "y": 1.2
+    },
+    "B": {
+      "x": 4.1,
+      "y": 1.4
+    },
+    "C": {
+      "x": 5.2,
+      "y": 2.3
+    },
+    "D": {
+      "x": 8.4,
+      "y": 3.8
+    },
+    "E": {
+      "x": 0.3,
+      "y": 4.6
+    },
+    "F": {
+      "x": 10.2,
+      "y": 0.4
+    }
+  },
+  "notes": "W=12 sites, H=6 (3 rows), siteW=1, rowH=2, row bottoms y=0,2,4. starter_illegal: A,B,C overlap on middle row; D fixed macro at (8,4). starter_float: global-place floats for greedy snap."
+}

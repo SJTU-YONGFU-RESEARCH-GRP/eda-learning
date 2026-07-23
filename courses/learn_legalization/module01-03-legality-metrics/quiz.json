@@ -1,0 +1,47 @@
+{
+  "module": "module01-03-legality-metrics",
+  "title": "Legality check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "true_false",
+      "prompt": "starter_illegal has A, B, C overlapping on the middle row.",
+      "answer": true,
+      "explain": "All at x=4, y=2."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "prompt": "Legality checking includes\u2026",
+      "choices": [
+        "Only HPWL",
+        "Row/site alignment and non-overlap",
+        "Only Git status",
+        "Liberty arcs"
+      ],
+      "answer": 1,
+      "explain": "Geometry gates."
+    },
+    {
+      "id": "q3",
+      "type": "true_false",
+      "prompt": "Touching cell edges may be allowed if interiors do not overlap\u2014depends on spec.",
+      "answer": true,
+      "explain": "Document abutment policy."
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "prompt": "A legal x coordinate aligns to\u2026",
+      "choices": [
+        "Fractional sites",
+        "Integer site indices (left edge)",
+        "Only row centers",
+        "Random floats"
+      ],
+      "answer": 1,
+      "explain": "Site grid alignment."
+    }
+  ]
+}

@@ -1,159 +1,152 @@
 import {
-  cloneGraph,
-  cutsize,
   partsString,
   spectralBisection,
 } from "../../assets/clustering-core.js";
 import {
-  createChallengeLab,
-  drawGraph,
+  createInteractiveGraphLab,
   el,
-  metricsBlock,
-} from "../../assets/clustering-ui.js";
+  emptyAssignment,
+} from "../../assets/interactive-graph-lab.js";
 
 const root = document.getElementById("lab-root");
-let graph = cloneGraph();
-let result = null;
+const GOLDEN = { A: "0", B: "0", C: "0", D: "1", E: "1" };
 
-function arm() {
-  graph = cloneGraph();
-  result = null;
-}
-
-createChallengeLab(root, {
+createInteractiveGraphLab(root, {
+  initialAssignment: emptyAssignment(),
+  revealAssignment: GOLDEN,
+  initialMeta: { order: null },
   starterHtml: `
-    <p><strong>Starter example (reference):</strong> spectral bisection on the five-node graph
-    yields <code>ABC|DE</code> with <strong>cutsize 3</strong>. Fiedler order places
-    <strong>E</strong> lowest and <strong>A</strong> highest. Reload starter anytime.</p>
+    <p><strong>Your job:</strong> assign sides (or Run spectral) until cutsize is 3 / ABC|DE.
+    You can also inspect the Fiedler order after running spectral. Challenges check your assignment.</p>
   `,
-  loadStarter() {
-    graph = cloneGraph();
-    result = spectralBisection(graph.nodes, graph.edges, graph.sizes);
-  },
   challenges: [
     {
       id: "cut-3",
-      title: "Cutsize is 3",
+      title: "Cutsize 3",
       level: "Intro",
-      prompt: "Run spectral; cutsize must be 3.",
-      hint: "Best balanced split on the Fiedler order.",
-      setup: arm,
-      check: () => result && cutsize(result.assignment, graph.edges) === 3,
+      prompt: "Assign a bipartition with cutsize 3 (Run spectral or edit).",
+      hint: "Teaching cut is C–D(2)+C–E(1).",
+      check: (_c, api) => api.cutsize() === 3,
     },
     {
       id: "parts-abc-de",
       title: "Parts ABC|DE",
       level: "Intro",
-      prompt: "Spectral assignment groups ABC vs DE.",
-      hint: "Same communities as unconstrained greedy.",
-      setup: arm,
-      check: () => result && partsString(result.assignment) === "ABC|DE",
+      prompt: "Reach parts ABC|DE.",
+      hint: "Put A,B,C on 0 and D,E on 1 (or swapped).",
+      check: (_c, api) => partsString(api.getAssignment()) === "ABC|DE",
     },
     {
       id: "two-sides",
-      title: "Exactly two sides",
+      title: "Exactly two labels",
       level: "Intro",
-      prompt: "Assignment uses exactly two labels.",
-      hint: "Bisection by definition.",
-      setup: arm,
-      check: () => result && new Set(Object.values(result.assignment)).size === 2,
+      prompt: "Assignment uses exactly two labels 0/1 with all nodes labeled.",
+      hint: "Assign every node, then Check.",
+      check: (_c, api) => {
+        const a = api.getAssignment();
+        const vals = Object.values(a);
+        return vals.every((v) => v === "0" || v === "1") && new Set(vals).size === 2;
+      },
     },
     {
       id: "order-e-lowest",
-      title: "E is lowest Fiedler",
+      title: "E lowest Fiedler",
       level: "Practice",
-      prompt: "Order endpoints: E has the lowest Fiedler value.",
-      hint: "Check order list in metrics (first entry).",
-      setup: arm,
-      check: () => result?.order?.[0]?.[0] === "E",
+      prompt: "Run spectral; E has the lowest Fiedler value; assignment cut is 3.",
+      hint: "Order endpoints appear in metrics.",
+      check: (_c, api) => {
+        const order = api.getMeta().order;
+        return order && order[0][0] === "E" && api.cutsize() === 3;
+      },
     },
     {
       id: "order-a-highest",
-      title: "A is highest Fiedler",
+      title: "A highest Fiedler",
       level: "Practice",
-      prompt: "Order endpoints: A has the highest Fiedler value.",
+      prompt: "Run spectral; A has the highest Fiedler value.",
       hint: "Last entry in the sorted order.",
-      setup: arm,
-      check: () => result?.order?.[result.order.length - 1]?.[0] === "A",
+      check: (_c, api) => {
+        const order = api.getMeta().order;
+        return order && order[order.length - 1][0] === "A";
+      },
     },
     {
       id: "de-same",
-      title: "D and E same side",
+      title: "D and E together",
       level: "Practice",
-      prompt: "D and E share a block (heavy edge uncut).",
-      hint: "Both sit on the low end of the Fiedler vector.",
-      setup: arm,
-      check: () => result && result.assignment.D === result.assignment.E,
+      prompt: "D and E share a block; cutsize 3.",
+      hint: "Heavy D–E uncut.",
+      check: (_c, api) => {
+        const a = api.getAssignment();
+        return a.D === a.E && api.cutsize() === 3;
+      },
     },
     {
       id: "ab-same",
-      title: "A and B same side",
+      title: "A and B together",
       level: "Practice",
-      prompt: "A and B share a block.",
-      hint: "High end of the spectrum.",
-      setup: arm,
-      check: () => result && result.assignment.A === result.assignment.B,
+      prompt: "A and B share a block; cutsize 3.",
+      hint: "Heavy A–B uncut.",
+      check: (_c, api) => {
+        const a = api.getAssignment();
+        return a.A === a.B && api.cutsize() === 3;
+      },
     },
     {
       id: "c-with-ab",
-      title: "C joins ABC",
+      title: "C with A and B",
       level: "Stretch",
-      prompt: "C is on the same side as A and B.",
-      hint: "Balance + cut prefers ABC over AB|CDE.",
-      setup: arm,
-      check: () =>
-        result &&
-        result.assignment.C === result.assignment.A &&
-        result.assignment.C === result.assignment.B,
+      prompt: "C is on the same side as A and B; parts ABC|DE.",
+      hint: "C joins the triangle.",
+      check: (_c, api) => {
+        const a = api.getAssignment();
+        return a.C === a.A && a.A === a.B && partsString(a) === "ABC|DE";
+      },
     },
     {
       id: "order-length-5",
-      title: "Order lists all five",
+      title: "Order length 5",
       level: "Stretch",
-      prompt: "Fiedler order has exactly 5 (node, value) pairs.",
-      hint: "One entry per node.",
-      setup: arm,
-      check: () => result && result.order.length === 5,
+      prompt: "After Run spectral, Fiedler order has exactly 5 pairs.",
+      hint: "One value per node.",
+      check: (_c, api) => api.getMeta().order?.length === 5,
     },
     {
       id: "bridge-cut",
-      title: "Only bridge edges cut",
+      title: "Bridge-only cut",
       level: "Stretch",
-      prompt: "Cutsize 3 equals C–D(2)+C–E(1) — heavy A–B and D–E stay internal.",
-      hint: "Confirm A=B and D=E sides, cut=3.",
-      setup: arm,
-      check: () =>
-        result &&
-        cutsize(result.assignment, graph.edges) === 3 &&
-        result.assignment.A === result.assignment.B &&
-        result.assignment.D === result.assignment.E,
+      prompt: "ABC|DE cut 3 with Reveal off (you assigned or ran spectral).",
+      hint: "Hide golden if needed.",
+      check: (_c, api) =>
+        !api.isRevealed() &&
+        partsString(api.getAssignment()) === "ABC|DE" &&
+        api.cutsize() === 3,
     },
   ],
-  extraActions(ctx) {
+  extraActions(ctx, api) {
     return [
       el("button", {
         className: "btn btn-primary",
         type: "button",
         text: "Run spectral",
         onClick: () => {
-          result = spectralBisection(graph.nodes, graph.edges, graph.sizes);
+          const g = api.getGraph();
+          const result = spectralBisection(g.nodes, g.edges, g.sizes);
+          api.setAssignment(result.assignment);
+          api.setMeta({ order: result.order });
+          api.setRevealed(false);
           ctx.rerender();
         },
       }),
     ];
   },
-  renderWorkspace(ctx) {
-    drawGraph(ctx.canvas, graph, { assignment: result?.assignment || null });
+  extraMetrics(api) {
     const lines = [];
-    if (!result) {
-      lines.push("No result yet — click Run spectral.");
-    } else {
-      lines.push(`cutsize: ${cutsize(result.assignment, graph.edges)}`);
-      lines.push(`parts: ${partsString(result.assignment)}`);
-      lines.push("Fiedler order (low → high):");
-      for (const [n, v] of result.order) lines.push(`  ${n}: ${v.toFixed(4)}`);
+    const order = api.getMeta().order;
+    if (order) {
+      lines.push("Fiedler order (low→high):");
+      for (const [n, v] of order) lines.push(`  ${n}: ${v.toFixed(4)}`);
     }
-    ctx.metrics.innerHTML = "";
-    ctx.metrics.append(metricsBlock(lines));
+    return lines;
   },
 });

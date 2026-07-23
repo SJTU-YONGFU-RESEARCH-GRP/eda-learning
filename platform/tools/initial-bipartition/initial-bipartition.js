@@ -1,42 +1,26 @@
-import { cloneGraph, cutsize, partsString } from "../../assets/clustering-core.js";
+import { partsString } from "../../assets/clustering-core.js";
 import {
+  GOLDEN_BIPART,
   greedyInitialBipartition,
   growBipartition,
   randomBipartition,
 } from "../../assets/partitioning-core.js";
 import {
-  createChallengeLab,
-  drawGraph,
+  createInteractiveGraphLab,
   el,
-  metricsBlock,
-} from "../../assets/clustering-ui.js";
+  emptyAssignment,
+} from "../../assets/interactive-graph-lab.js";
 
 const root = document.getElementById("lab-root");
-let graph = cloneGraph();
-let result = null;
-let method = null; // random | greedy | grow
-let growSeed = "D";
-let randSeed = 1;
 
-function arm() {
-  graph = cloneGraph();
-  result = null;
-  method = null;
-}
-
-createChallengeLab(root, {
+createInteractiveGraphLab(root, {
+  initialAssignment: emptyAssignment(),
+  revealAssignment: GOLDEN_BIPART,
+  initialMeta: { method: null },
   starterHtml: `
-    <p><strong>Starter example (reference):</strong> grow from <code>D</code> reaches
-    <code>ABC|DE</code> with <strong>cutsize 3</strong>. Greedy heaviest-edge seed lands on
-    <code>AB|CDE</code> cut <strong>5</strong>. Random seed=1 is lucky (<code>ABC|DE</code>).
-    Reload starter to restore the grow-from-D reference.</p>
+    <p><strong>Your job:</strong> grow / greedy / random initial bipartitions, or Assign sides yourself.
+    Challenges check <em>your</em> assignment (grow-from-D → ABC|DE cut 3).</p>
   `,
-  loadStarter() {
-    graph = cloneGraph();
-    method = "grow";
-    growSeed = "D";
-    result = growBipartition(graph.nodes, graph.edges, growSeed);
-  },
   challenges: [
     {
       id: "grow-d-cut-3",
@@ -44,183 +28,146 @@ createChallengeLab(root, {
       level: "Intro",
       prompt: "Grow from D; cutsize must be 3.",
       hint: "Click Grow from D.",
-      setup: arm,
-      check: () => method === "grow" && growSeed === "D" && cutsize(result, graph.edges) === 3,
+      check: (_c, api) => api.getMeta().method === "grow-D" && api.cutsize() === 3,
     },
     {
       id: "grow-d-parts",
       title: "Grow D → ABC|DE",
       level: "Intro",
       prompt: "Grow from D yields parts ABC|DE.",
-      hint: "Heavy D–E pulls E into the seed side first.",
-      setup: arm,
-      check: () => method === "grow" && growSeed === "D" && partsString(result) === "ABC|DE",
+      hint: "Same teaching golden.",
+      check: (_c, api) =>
+        api.getMeta().method === "grow-D" && partsString(api.getAssignment()) === "ABC|DE",
     },
     {
       id: "grow-e-same",
-      title: "Grow E matches D",
+      title: "Grow E same golden",
       level: "Intro",
       prompt: "Grow from E also yields ABC|DE cut 3.",
       hint: "Click Grow from E.",
-      setup: arm,
-      check: () =>
-        method === "grow" &&
-        growSeed === "E" &&
-        partsString(result) === "ABC|DE" &&
-        cutsize(result, graph.edges) === 3,
+      check: (_c, api) =>
+        api.getMeta().method === "grow-E" &&
+        partsString(api.getAssignment()) === "ABC|DE" &&
+        api.cutsize() === 3,
     },
     {
       id: "grow-a-cut-5",
       title: "Grow A → cut 5",
       level: "Practice",
       prompt: "Grow from A yields AB|CDE with cutsize 5.",
-      hint: "Seed on the ABC triangle fills A,B first.",
-      setup: arm,
-      check: () =>
-        method === "grow" &&
-        growSeed === "A" &&
-        partsString(result) === "AB|CDE" &&
-        cutsize(result, graph.edges) === 5,
+      hint: "Seed choice matters.",
+      check: (_c, api) =>
+        api.getMeta().method === "grow-A" &&
+        partsString(api.getAssignment()) === "AB|CDE" &&
+        api.cutsize() === 5,
     },
     {
       id: "greedy-parts",
       title: "Greedy AB|CDE",
       level: "Practice",
       prompt: "Run greedy initial; parts are AB|CDE.",
-      hint: "Starts with heaviest edge A–B on side 0.",
-      setup: arm,
-      check: () => method === "greedy" && partsString(result) === "AB|CDE",
+      hint: "Click Greedy initial.",
+      check: (_c, api) =>
+        api.getMeta().method === "greedy" && partsString(api.getAssignment()) === "AB|CDE",
     },
     {
       id: "greedy-cut-5",
-      title: "Greedy cutsize 5",
+      title: "Greedy cut 5",
       level: "Practice",
       prompt: "Greedy initial cutsize is 5.",
-      hint: "Worse than grow-from-D on this instance.",
-      setup: arm,
-      check: () => method === "greedy" && cutsize(result, graph.edges) === 5,
+      hint: "Worse than grow-from-D.",
+      check: (_c, api) => api.getMeta().method === "greedy" && api.cutsize() === 5,
     },
     {
       id: "random-1-golden",
-      title: "Random seed 1 lucky",
+      title: "Random seed=1 golden",
       level: "Practice",
       prompt: "Random (seed=1) yields ABC|DE cut 3.",
       hint: "Click Random seed=1.",
-      setup: arm,
-      check: () =>
-        method === "random" &&
-        randSeed === 1 &&
-        partsString(result) === "ABC|DE" &&
-        cutsize(result, graph.edges) === 3,
+      check: (_c, api) =>
+        api.getMeta().method === "rand-1" &&
+        partsString(api.getAssignment()) === "ABC|DE" &&
+        api.cutsize() === 3,
     },
     {
       id: "random-4-bad",
-      title: "Random seed 4 bad",
+      title: "Random seed=4 bad",
       level: "Stretch",
       prompt: "Random (seed=4) yields AD|BCE with cutsize 13.",
-      hint: "Click Random seed=4 — unlucky cut.",
-      setup: arm,
-      check: () =>
-        method === "random" &&
-        randSeed === 4 &&
-        partsString(result) === "AD|BCE" &&
-        cutsize(result, graph.edges) === 13,
+      hint: "Click Random seed=4.",
+      check: (_c, api) =>
+        api.getMeta().method === "rand-4" &&
+        partsString(api.getAssignment()) === "AD|BCE" &&
+        api.cutsize() === 13,
     },
     {
       id: "two-sides",
-      title: "Always two sides",
+      title: "Two labels",
       level: "Stretch",
-      prompt: "After any method, assignment uses exactly two labels.",
-      hint: "Run grow, greedy, or random first.",
-      setup: arm,
-      check: () => result && new Set(Object.values(result)).size === 2,
-    },
-    {
-      id: "grow-beats-greedy",
-      title: "Grow D beats greedy",
-      level: "Stretch",
-      prompt: "With grow-from-D showing cut 3, confirm greedy reference cut is 5.",
-      hint: "Show grow D; challenges compare to known greedy cut.",
-      setup: arm,
-      check: () => {
-        if (!(method === "grow" && growSeed === "D" && cutsize(result, graph.edges) === 3)) return false;
-        const g = greedyInitialBipartition(graph.nodes, graph.edges);
-        return cutsize(g, graph.edges) === 5;
+      prompt: "Assignment uses exactly two labels (all nodes labeled).",
+      hint: "Run any method or Assign 0/1 yourself.",
+      check: (_c, api) => {
+        const vals = Object.values(api.getAssignment());
+        return vals.every((v) => v === "0" || v === "1") && new Set(vals).size === 2;
       },
     },
+    {
+      id: "manual-beats-greedy",
+      title: "Beat greedy without reveal",
+      level: "Stretch",
+      prompt: "Reach cut 3 (better than greedy’s 5) with Reveal off.",
+      hint: "Grow from D, or Assign ABC|DE yourself.",
+      check: (_c, api) => !api.isRevealed() && api.cutsize() === 3,
+    },
   ],
-  extraActions(ctx) {
-    const run = (m, fn) => {
-      method = m;
-      result = fn();
+  extraActions(ctx, api) {
+    const apply = (asn, method) => {
+      api.setAssignment(asn);
+      api.setMeta({ method });
+      api.setRevealed(false);
       ctx.rerender();
     };
+    const g = () => api.getGraph();
     return [
       el("button", {
         className: "btn btn-primary",
         type: "button",
         text: "Grow from D",
-        onClick: () => {
-          growSeed = "D";
-          run("grow", () => growBipartition(graph.nodes, graph.edges, "D"));
-        },
+        onClick: () => apply(growBipartition(g().nodes, g().edges, "D"), "grow-D"),
       }),
       el("button", {
         className: "btn btn-secondary",
         type: "button",
         text: "Grow from E",
-        onClick: () => {
-          growSeed = "E";
-          run("grow", () => growBipartition(graph.nodes, graph.edges, "E"));
-        },
+        onClick: () => apply(growBipartition(g().nodes, g().edges, "E"), "grow-E"),
       }),
       el("button", {
         className: "btn btn-secondary",
         type: "button",
         text: "Grow from A",
-        onClick: () => {
-          growSeed = "A";
-          run("grow", () => growBipartition(graph.nodes, graph.edges, "A"));
-        },
+        onClick: () => apply(growBipartition(g().nodes, g().edges, "A"), "grow-A"),
       }),
       el("button", {
         className: "btn btn-secondary",
         type: "button",
         text: "Greedy initial",
-        onClick: () => run("greedy", () => greedyInitialBipartition(graph.nodes, graph.edges)),
+        onClick: () => apply(greedyInitialBipartition(g().nodes, g().edges), "greedy"),
       }),
       el("button", {
         className: "btn btn-ghost",
         type: "button",
         text: "Random seed=1",
-        onClick: () => {
-          randSeed = 1;
-          run("random", () => randomBipartition(graph.nodes, 1));
-        },
+        onClick: () => apply(randomBipartition(g().nodes, 1), "rand-1"),
       }),
       el("button", {
         className: "btn btn-ghost",
         type: "button",
         text: "Random seed=4",
-        onClick: () => {
-          randSeed = 4;
-          run("random", () => randomBipartition(graph.nodes, 4));
-        },
+        onClick: () => apply(randomBipartition(g().nodes, 4), "rand-4"),
       }),
     ];
   },
-  renderWorkspace(ctx) {
-    drawGraph(ctx.canvas, graph, { assignment: result || null });
-    const lines = [];
-    if (!result) {
-      lines.push("No seed yet — pick grow / greedy / random.");
-    } else {
-      lines.push(`method: ${method}${method === "grow" ? ` (seed ${growSeed})` : ""}`);
-      if (method === "random") lines.push(`rng seed: ${randSeed}`);
-      lines.push(`parts: ${partsString(result)}`);
-      lines.push(`cutsize: ${cutsize(result, graph.edges)}`);
-    }
-    ctx.metrics.innerHTML = "";
-    ctx.metrics.append(metricsBlock(lines));
+  extraMetrics(api) {
+    return [`method: ${api.getMeta().method || "— (edit manually)"}`];
   },
 });

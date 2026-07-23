@@ -21,6 +21,7 @@ const KIND_FILL = {
  * @param {Record<string,number>|null} [opts.levels]
  * @param {string[]} [opts.highlightPins]
  * @param {string[]} [opts.highlightArcs] — "from|to"
+ * @param {Record<string,number|string>} [opts.tags] — pin → label under L#
  * @param {boolean} [opts.showDelay=true]
  */
 export function drawTimingGraph(canvas, timing, opts = {}) {
@@ -38,6 +39,7 @@ export function drawTimingGraph(canvas, timing, opts = {}) {
   const levels = opts.levels || null;
   const highlightPins = new Set(opts.highlightPins || []);
   const highlightArcs = new Set(opts.highlightArcs || []);
+  const tags = opts.tags || {};
   const showDelay = opts.showDelay !== false;
 
   const pins = timing.pins;
@@ -136,6 +138,11 @@ export function drawTimingGraph(canvas, timing, opts = {}) {
       ctx.fillStyle = "#64748b";
       ctx.font = "10px ui-monospace, monospace";
       ctx.fillText(`L${levels[p.id]}`, P.x, P.y + 4);
+    }
+    if (tags[p.id] != null && tags[p.id] !== "") {
+      ctx.fillStyle = "#0f172a";
+      ctx.font = "10px ui-monospace, monospace";
+      ctx.fillText(String(tags[p.id]), P.x, P.y - r - 4);
     }
   }
 }

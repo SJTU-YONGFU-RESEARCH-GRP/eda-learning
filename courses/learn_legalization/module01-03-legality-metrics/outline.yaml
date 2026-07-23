@@ -1,0 +1,96 @@
+title: Legality metrics
+footer: learn_legalization — 03 legality metrics
+slides:
+- type: title
+  title: Legality metrics
+  subtitle: Before you celebrate wirelength, ask whether the placement is legal
+  notes: Before you celebrate wirelength, ask whether the placement is legal. On the
+    overlap seed the checker fails with overlap A/B—three cells share the middle row
+    at x four. The golden reference passes with reason ok.
+- type: bullets
+  title: The idea
+  bullets:
+  - Check on-row placement, site alignment, in-chip bounds, and pairwise overlap
+  - Report displacement as L1 Manhattan distance from the origin layout
+  - Pair legality with HPWL after legalize
+  - <!-- algorithm-walkthrough -->
+  notes: 'Check on-row placement, site alignment, in-chip bounds, and pairwise overlap.
+    Report displacement as L1 Manhattan distance from the origin layout—Abacus moves
+    four total units on this instance, overlap removal moves six. Pair legality with
+    HPWL after legalize.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: Overlap seed is illegal
+  image: assets/steps/01-overlap-illegal.png
+  caption: Overlap seed is illegal
+  notes: Starting from the overlap placement, the checker reports overlap A/B first—three
+    cells share the middle row at x equals four. That single reason is enough to fail
+    legality.
+- type: image
+  title: Four legality checks
+  image: assets/steps/02-checks.png
+  caption: Four legality checks
+  notes: A legal placement must be on-row, site-aligned, inside the chip, and overlap-free.
+    Fixed macros add a fifth check later—did the macro move off its lock?
+- type: image
+  title: Golden placement passes
+  image: assets/steps/03-golden-ok.png
+  caption: Golden placement passes
+  notes: 'The golden reference satisfies every check: reason ok, legal true. Use it
+    as the positive control when you unit-test your legality reporter.'
+- type: image
+  title: 'Displacement: L1 from origin'
+  image: assets/steps/04-displacement.png
+  caption: 'Displacement: L1 from origin'
+  notes: Displacement sums Manhattan distance per cell from a reference layout—here
+    the overlap seed. Abacus later moves cells only four total units; overlap removal
+    moves six.
+- type: image
+  title: HPWL after legalize
+  image: assets/steps/05-hpwl-after.png
+  caption: HPWL after legalize
+  notes: 'Wirelength still matters: Abacus lands at HPWL thirty-eight with displacement
+    four; Tetris-style packing hits HPWL thirty-two with displacement six. Always
+    pair legality with both metrics.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab track, open the **legality-metrics** lab from the tools shelf
+  - Load the overlap or float starter, run the legalizer once
+  - Work the challenges that lock the goldens
+  notes: In the browser lab track, open the **legality-metrics** lab from the tools
+    shelf. Load the overlap or float starter, run the legalizer once, and read legality
+    plus displacement and HPWL when the panel shows them. Work the challenges that
+    lock the goldens, then come back to implement the same loop yourself.
+- type: bullets
+  title: Implement track
+  bullets:
+  - In the implement track, open this module's examples and the course `common/` solvers
+  - Parse `tiny_legal.json`, run the algorithm with deterministic coordinates
+  - Match the browser goldens before you claim the checklist
+  notes: In the implement track, open this module's examples and the course `common/`
+    solvers. Parse `tiny_legal.json`, run the algorithm with deterministic coordinates,
+    and print legality, displacement, and HPWL. Match the browser goldens before you
+    claim the checklist.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Common traps
+  notes: 'Common traps: assuming snap alone legalizes; forgetting site width when
+    checking overlap; ignoring fixed macro D at (8, 4); reporting HPWL without legality;
+    and comparing Abacus and Tetris without naming displacement versus wirelength
+    tradeoffs.'
+- type: bullets
+  title: Your turn
+  bullets:
+  - Complete the checklist for at least one track, preferably both
+  - Implement until your metrics match the starter goldens
+  - When you're ready, take the short quiz, then continue to the next module
+  notes: Complete the checklist for at least one track—preferably both. Implement
+    until your metrics match the starter goldens. When you're ready, take the short
+    quiz, then continue to the next module.

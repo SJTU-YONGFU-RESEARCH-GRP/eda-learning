@@ -1,0 +1,95 @@
+title: Overlap removal
+footer: learn_legalization — 03 overlap removal
+slides:
+- type: title
+  title: Overlap removal
+  subtitle: Overlap removal snaps first, then left-packs each row without changing
+    row assignment
+  notes: Overlap removal snaps first, then left-packs each row without changing row
+    assignment. From the triple stack at (4, 2), A stays at four, B moves to six,
+    C to eight on the middle row—legal with displacement six and HPWL thirty-two.
+- type: bullets
+  title: The idea
+  bullets:
+  - Sort movables by x within each row and place left without overlap
+  - D, E, and F keep their seed roles on other rows
+  - This is the same shelf pack Tetris uses, simple, deterministic
+  - <!-- algorithm-walkthrough -->
+  notes: 'Sort movables by x within each row and place left without overlap. D, E,
+    and F keep their seed roles on other rows. This is the same shelf pack Tetris
+    uses—simple, deterministic, and a good global legalize baseline.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: A, B, C stacked at (4, 2)
+  image: assets/steps/01-overlap-seed.png
+  caption: A, B, C stacked at (4, 2)
+  notes: The overlap seed piles three width-two cells on the middle row at x equals
+    four. Greedy snap would leave the same conflict—overlap removal snaps first, then
+    packs each row left-to-right.
+- type: image
+  title: 'After snap: still stacked'
+  image: assets/steps/02-after-snap.png
+  caption: 'After snap: still stacked'
+  notes: Snapping the overlap seed does not separate A, B, and C—they remain on (4,
+    2). Overlap removal keeps their row assignment and resolves x conflicts by packing.
+- type: image
+  title: 'Per-row pack: A@4, B@6, C@8'
+  image: assets/steps/03-row-pack.png
+  caption: 'Per-row pack: A@4, B@6, C@8'
+  notes: 'On row y equals two, sort by x and place left without overlap: A at four,
+    B at six, C at eight. Each width-two cell occupies two consecutive sites—now legal
+    on that row.'
+- type: image
+  title: 'Legal: disp 6, HPWL 32'
+  image: assets/steps/04-legal-metrics.png
+  caption: 'Legal: disp 6, HPWL 32'
+  notes: Full overlap removal on the seed is legal with total displacement six and
+    HPWL thirty-two. D, E, and F never moved from their overlap-seed roles.
+- type: image
+  title: D, E, F unchanged
+  image: assets/steps/05-unchanged.png
+  caption: D, E, F unchanged
+  notes: 'Macro-sized D stays at (8, 4), E at (0, 4), F at (10, 0). Overlap removal
+    only repacked the crowded middle row—fixed-looking cells on other rows are untouched.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab track, open the **overlap-removal** lab from the tools shelf
+  - Load the overlap or float starter, run the legalizer once
+  - Work the challenges that lock the goldens
+  notes: In the browser lab track, open the **overlap-removal** lab from the tools
+    shelf. Load the overlap or float starter, run the legalizer once, and read legality
+    plus displacement and HPWL when the panel shows them. Work the challenges that
+    lock the goldens, then come back to implement the same loop yourself.
+- type: bullets
+  title: Implement track
+  bullets:
+  - In the implement track, open this module's examples and the course `common/` solvers
+  - Parse `tiny_legal.json`, run the algorithm with deterministic coordinates
+  - Match the browser goldens before you claim the checklist
+  notes: In the implement track, open this module's examples and the course `common/`
+    solvers. Parse `tiny_legal.json`, run the algorithm with deterministic coordinates,
+    and print legality, displacement, and HPWL. Match the browser goldens before you
+    claim the checklist.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Common traps
+  notes: 'Common traps: assuming snap alone legalizes; forgetting site width when
+    checking overlap; ignoring fixed macro D at (8, 4); reporting HPWL without legality;
+    and comparing Abacus and Tetris without naming displacement versus wirelength
+    tradeoffs.'
+- type: bullets
+  title: Your turn
+  bullets:
+  - Complete the checklist for at least one track, preferably both
+  - Implement until your metrics match the starter goldens
+  - When you're ready, take the short quiz, then continue to the next module
+  notes: Complete the checklist for at least one track—preferably both. Implement
+    until your metrics match the starter goldens. When you're ready, take the short
+    quiz, then continue to the next module.

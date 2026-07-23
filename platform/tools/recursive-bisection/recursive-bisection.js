@@ -1,70 +1,58 @@
-import { cloneGraph, cutsize, partsString } from "../../assets/clustering-core.js";
+import { partsString } from "../../assets/clustering-core.js";
 import { recursiveBisection } from "../../assets/partitioning-core.js";
 import {
-  createChallengeLab,
-  drawGraph,
+  createInteractiveGraphLab,
   el,
-  metricsBlock,
-} from "../../assets/clustering-ui.js";
+  emptyAssignment,
+} from "../../assets/interactive-graph-lab.js";
 
 const root = document.getElementById("lab-root");
-let graph = cloneGraph();
-let result = null;
-let targetK = 3;
+const GOLDEN_K3 = { A: "0", B: "0", C: "1", D: "2", E: "2" };
 
-function arm(k = 3) {
-  graph = cloneGraph();
-  targetK = k;
-  result = null;
-}
-
-createChallengeLab(root, {
+createInteractiveGraphLab(root, {
+  initialAssignment: emptyAssignment(),
+  revealAssignment: GOLDEN_K3,
+  actionSet: "bipart",
+  initialMeta: { history: null, targetK: 3 },
   starterHtml: `
-    <p><strong>Starter example (reference):</strong> recursive bisection to <code>k=3</code>
-    first splits <code>ABC|DE</code> (cut 3), then bisects ABC → <code>AB|C|DE</code>
-    with <strong>cutsize 8</strong>. Reload starter anytime.</p>
+    <p><strong>Your job:</strong> Run recursive bisection to k=3 or k=4 (or Assign multiway labels).
+    Teaching k=3 result: AB|C|DE cut 8. Challenges check <em>your</em> assignment.</p>
   `,
-  loadStarter() {
-    arm(3);
-    result = recursiveBisection(graph.nodes, graph.edges, graph.sizes, 3);
-  },
   challenges: [
     {
       id: "k3-parts",
       title: "k=3 parts AB|C|DE",
       level: "Intro",
       prompt: "Run k=3; parts string is AB|C|DE.",
-      hint: "Second bisection splits ABC.",
-      setup: () => arm(3),
-      check: () => result && partsString(result.assignment) === "AB|C|DE",
+      hint: "Click Run k=3.",
+      check: (_c, api) => partsString(api.getAssignment()) === "AB|C|DE",
     },
     {
       id: "k3-cut-8",
       title: "k=3 cutsize 8",
       level: "Intro",
-      prompt: "Run k=3; multiway cutsize is 8.",
-      hint: "Cutting C from AB plus bridges to DE.",
-      setup: () => arm(3),
-      check: () => result && cutsize(result.assignment, graph.edges) === 8,
+      prompt: "After k=3, multiway cutsize is 8.",
+      hint: "Splits the ABC block after first spectral cut.",
+      check: (_c, api) => api.cutsize() === 8 && partsString(api.getAssignment()) === "AB|C|DE",
     },
     {
       id: "k3-three-parts",
-      title: "Exactly 3 parts",
+      title: "Exactly three labels",
       level: "Intro",
       prompt: "k=3 ends with exactly three labels.",
-      hint: "Check the parts count.",
-      setup: () => arm(3),
-      check: () => result && new Set(Object.values(result.assignment)).size === 3,
+      hint: "Run k=3.",
+      check: (_c, api) => new Set(Object.values(api.getAssignment())).size === 3,
     },
     {
       id: "hist-first-abc-de",
-      title: "Step 1 is ABC|DE",
+      title: "History step 1 ABC|DE",
       level: "Practice",
-      prompt: "History step 1 parts are ABC|DE with cut 3.",
-      hint: "First spectral bisection of the whole graph.",
-      setup: () => arm(3),
-      check: () =>
-        result?.history?.[1]?.parts === "ABC|DE" && result.history[1].cut === 3,
+      prompt: "After Run k=3, history step 1 parts are ABC|DE with cut 3.",
+      hint: "First bisection matches the golden bipartition.",
+      check: (_c, api) => {
+        const h = api.getMeta().history?.[1];
+        return h && h.parts === "ABC|DE" && h.cut === 3;
+      },
     },
     {
       id: "hist-second-split-abc",
@@ -72,103 +60,84 @@ createChallengeLab(root, {
       level: "Practice",
       prompt: "History step 2 reports split ABC.",
       hint: "Largest part after step 1.",
-      setup: () => arm(3),
-      check: () => result?.history?.[2]?.split === "ABC",
+      check: (_c, api) => api.getMeta().history?.[2]?.split === "ABC",
     },
     {
       id: "ab-together",
-      title: "A and B same part",
+      title: "A and B together",
       level: "Practice",
       prompt: "After k=3, A and B share a label.",
-      hint: "Heaviest edge stays uncut inside AB.",
-      setup: () => arm(3),
-      check: () => result && result.assignment.A === result.assignment.B,
+      hint: "AB stays as a pair.",
+      check: (_c, api) => api.getAssignment().A === api.getAssignment().B,
     },
     {
       id: "de-together",
-      title: "D and E same part",
+      title: "D and E together",
       level: "Practice",
       prompt: "After k=3, D and E share a label.",
-      hint: "DE block never re-bisected at k=3.",
-      setup: () => arm(3),
-      check: () => result && result.assignment.D === result.assignment.E,
+      hint: "DE block preserved.",
+      check: (_c, api) => api.getAssignment().D === api.getAssignment().E,
     },
     {
       id: "k4-parts",
       title: "k=4 parts AB|C|D|E",
       level: "Stretch",
       prompt: "Run k=4; parts are AB|C|D|E.",
-      hint: "Third bisection splits DE.",
-      setup: () => arm(4),
-      check: () => result && partsString(result.assignment) === "AB|C|D|E",
+      hint: "Click Run k=4.",
+      check: (_c, api) => partsString(api.getAssignment()) === "AB|C|D|E",
     },
     {
       id: "k4-cut-13",
       title: "k=4 cutsize 13",
       level: "Stretch",
-      prompt: "k=4 cutsize is 13 (splitting DE costs the weight-5 edge).",
-      hint: "Click k=4 then Run.",
-      setup: () => arm(4),
-      check: () => result && cutsize(result.assignment, graph.edges) === 13,
+      prompt: "k=4 cutsize is 13 (splitting DE costs weight 5).",
+      hint: "Run k=4.",
+      check: (_c, api) => api.cutsize() === 13 && partsString(api.getAssignment()) === "AB|C|D|E",
     },
     {
       id: "k4-four-parts",
-      title: "Exactly 4 parts",
+      title: "Four parts without reveal",
       level: "Stretch",
-      prompt: "k=4 ends with exactly four labels.",
-      hint: "AB stays together; C,D,E singletons aside.",
-      setup: () => arm(4),
-      check: () => result && new Set(Object.values(result.assignment)).size === 4,
+      prompt: "Exactly four labels and cut 13 with Reveal off.",
+      hint: "Hide golden; Run k=4.",
+      check: (_c, api) =>
+        !api.isRevealed() &&
+        new Set(Object.values(api.getAssignment())).size === 4 &&
+        api.cutsize() === 13,
     },
   ],
-  extraActions(ctx) {
+  extraActions(ctx, api) {
+    const run = (k) => {
+      const g = api.getGraph();
+      const r = recursiveBisection(g.nodes, g.edges, g.sizes, k);
+      api.setAssignment(r.assignment);
+      api.setMeta({ history: r.history, targetK: k });
+      api.setRevealed(false);
+      ctx.rerender();
+    };
     return [
-      el("button", {
-        className: "btn btn-ghost",
-        type: "button",
-        text: "k=3",
-        onClick: () => {
-          targetK = 3;
-          result = null;
-          ctx.rerender();
-        },
-      }),
-      el("button", {
-        className: "btn btn-ghost",
-        type: "button",
-        text: "k=4",
-        onClick: () => {
-          targetK = 4;
-          result = null;
-          ctx.rerender();
-        },
-      }),
       el("button", {
         className: "btn btn-primary",
         type: "button",
-        text: "Run recursive bisection",
-        onClick: () => {
-          result = recursiveBisection(graph.nodes, graph.edges, graph.sizes, targetK);
-          ctx.rerender();
-        },
+        text: "Run k=3",
+        onClick: () => run(3),
+      }),
+      el("button", {
+        className: "btn btn-secondary",
+        type: "button",
+        text: "Run k=4",
+        onClick: () => run(4),
       }),
     ];
   },
-  renderWorkspace(ctx) {
-    drawGraph(ctx.canvas, graph, { assignment: result?.assignment || null });
-    const lines = [`target k=${targetK}`];
-    if (!result) {
-      lines.push("No result yet — click Run recursive bisection.");
-    } else {
-      lines.push(`parts: ${partsString(result.assignment)}`);
-      lines.push(`cutsize: ${cutsize(result.assignment, graph.edges)}`);
-      lines.push(`#parts: ${new Set(Object.values(result.assignment)).size}`);
-      for (const h of result.history) {
-        if (h.step === 0) lines.push(`step 0: start ${h.parts}`);
-        else lines.push(`step ${h.step}: ${h.event} split=${h.split} → ${h.parts} cut=${h.cut}`);
-      }
+  extraMetrics(api) {
+    const lines = [`targetK: ${api.getMeta().targetK ?? "—"}`];
+    for (const h of api.getMeta().history || []) {
+      lines.push(
+        `step ${h.step}: ${h.event || ""} parts=${h.parts} cut=${h.cut}` +
+          (h.split ? ` split=${h.split}` : "")
+      );
     }
-    ctx.metrics.innerHTML = "";
-    ctx.metrics.append(metricsBlock(lines));
+    return lines;
   },
 });

@@ -116,9 +116,9 @@ Every **lab** module documents both tracks. Intro/wrap modules have no lab. Deta
 | Track | Practice surface | Start here |
 |-------|------------------|------------|
 | **A — Implement** | Tiny netlists + `EXAMPLES.md` / `examples/` | [docs/TWO_TRACKS.md](docs/TWO_TRACKS.md) |
-| **B — Browser lab** | Platform tools (planned) | [local tools](http://127.0.0.1:8080/tools/) · [live](https://universal-verification-methodology.github.io/learning/tools/) |
+| **B — Browser lab** | Platform tools | [local tools](http://127.0.0.1:8080/tools/) · [live](https://universal-verification-methodology.github.io/learning/tools/) |
 
-Recommended path: short Track B starter (when shipped) → Track A implement + checklist → optional quiz / transcript review.
+Recommended path: short Track B starter → Track A implement + checklist → optional quiz / transcript review.
 
 ## Module landings
 
@@ -138,7 +138,7 @@ Full status table: **[docs/MODULES.md](docs/MODULES.md)**. Clusters: 00 intro ·
 
 ## Browser labs
 
-By workflow (Track B), **shipped:** [timing-graph](https://universal-verification-methodology.github.io/learning/tools/timing-graph/). **Planned:** `arrival-required` · `slack-setup-hold` · `critical-path` · `incremental-update` · `false-multicycle-lite`. Offline compare remains Track A / harness only. See [all tools](https://universal-verification-methodology.github.io/learning/tools/) and each module README for its primary lab id. Algorithm step walkthroughs: [docs/WALKTHROUGHS.md](docs/WALKTHROUGHS.md).
+By workflow (Track B), **shipped:** [timing-graph](https://universal-verification-methodology.github.io/learning/tools/timing-graph/) · [arrival-required](https://universal-verification-methodology.github.io/learning/tools/arrival-required/) · [slack-setup-hold](https://universal-verification-methodology.github.io/learning/tools/slack-setup-hold/) · [critical-path](https://universal-verification-methodology.github.io/learning/tools/critical-path/) · [incremental-update](https://universal-verification-methodology.github.io/learning/tools/incremental-update/) · [false-multicycle-lite](https://universal-verification-methodology.github.io/learning/tools/false-multicycle-lite/). Offline compare remains Track A / harness only. See [all tools](https://universal-verification-methodology.github.io/learning/tools/) and each module README for its primary lab id. Algorithm step walkthroughs: [docs/WALKTHROUGHS.md](docs/WALKTHROUGHS.md).
 
 ## License
 

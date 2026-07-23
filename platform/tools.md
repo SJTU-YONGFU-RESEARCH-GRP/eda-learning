@@ -8,38 +8,41 @@ python -m http.server 8080 --directory platform
 
 ## Clustering & refinement
 
-| Tool | Starter (reference) | Challenges | Status |
-|------|---------------------|------------|--------|
-| `affinity-metrics` | Edge-weight top A–B@5; shared A–B@6 | **10** | **Shipped** |
-| `greedy-pair-merge` | K=2 → cutsize 3, {A,B,C}/{D,E} | **10** | **Shipped** |
-| `size-constrained-agglomerative` | K=2 capacity=2 → AB\|C\|DE cut 8 | **10** | **Shipped** |
-| `label-propagation` | Async LP → iters 2, cutsize 3 | **10** | **Shipped** |
-| `spectral-bisection` | Fiedler → cutsize 3, ABC\|DE | **10** | **Shipped** |
-| `kernighan-lin` | Bad seed 12 → KL → 3 via (A,D) | **10** | **Shipped** |
-| `fiduccia-mattheyses` | Same seed → FM → 3 | **10** | **Shipped** |
-| `multilevel-clustering` | Coarsen+FM → P0/P1 cut 3 | **10** | **Shipped** |
-| `hypergraph-clustering` | K=2 hyper cut 1, ABC\|DE | **10** | **Shipped** |
-| `congestion-aware-clustering` | λ=5 → plain 5, pen 0 | **10** | **Shipped** |
-| `timing-aware-clustering` | Timing FM → plain 3, weighted 7 | **10** | **Shipped** |
+Interactive labs: **you assign / flip / merge / run**, then Check. Workspace starts as a seed or unlabeled — **not** the golden.
+**Reveal golden (study)** is optional and does not clear challenges. Shared helper: `platform/assets/interactive-graph-lab.js`.
 
-Each tool **auto-loads the starter example** as a worked reference. Challenges use **Start / Hint / Check / Next**; **Load starter example** restores the reference at any time.
+| Tool | Learner actions | Challenges | Status |
+|------|-----------------|------------|--------|
+| `affinity-metrics` | Pick Edge vs Shared scoring; pin pairs | **10** | **Shipped** |
+| `greedy-pair-merge` | Merge to K (or one step); check parts/cut | **10** | **Shipped** |
+| `size-constrained-agglomerative` | Run K + capacity; check AB\|C\|DE cut 8 | **10** | **Shipped** |
+| `label-propagation` | Run LP or edit labels → cut 3 | **10** | **Shipped** |
+| `spectral-bisection` | Assign sides or Run spectral → ABC\|DE cut 3 | **10** | **Shipped** |
+| `kernighan-lin` | Swap A↔D / Run KL: seed 12 → cut 3 | **10** | **Shipped** |
+| `fiduccia-mattheyses` | Flip D then A / Run FM: 12 → 3 | **10** | **Shipped** |
+| `multilevel-clustering` | Run multilevel or edit → P0/P1 cut 3 | **10** | **Shipped** |
+| `hypergraph-clustering` | Run hyper greedy → hyper cut 1 | **10** | **Shipped** |
+| `congestion-aware-clustering` | Run λ=0 / λ=5; check plain/pen | **10** | **Shipped** |
+| `timing-aware-clustering` | Run timing-aware → plain 3, weighted 7 | **10** | **Shipped** |
 
 ## Partitioning
 
-| Tool | Starter (reference) | Challenges | Status |
-|------|---------------------|------------|--------|
-| `cutsize-balance` | Bad seed cut 12, ratio 2/3; golden cut 3 | **10** | **Shipped** |
-| `initial-bipartition` | Grow from D → ABC\|DE cut 3 | **10** | **Shipped** |
-| `kl-partition` | Bad seed 12 → KL → 3 via (A,D) | **10** | **Shipped** |
-| `fm-partition` | Same seed → FM → 3 via D then A | **10** | **Shipped** |
-| `spectral-partition` | Fiedler → cutsize 3, ABC\|DE | **10** | **Shipped** |
-| `recursive-bisection` | k=3 → AB\|C\|DE cut 8 | **10** | **Shipped** |
-| `multiway-partition` | Recursive cut 8 vs round-robin 18 | **10** | **Shipped** |
-| `terminal-propagation` | Terminals A/E → ABC\|DE cut 3 | **10** | **Shipped** |
-| `hypergraph-partition` | Seed hyper cut 6 → FM → 1 | **10** | **Shipped** |
-| `multilevel-partition` | V-cycle → P0/P1 cut 3 | **10** | **Shipped** |
+Interactive labs: **you assign / flip / swap / run**, then Check. Same pattern as Floorplanning and Clustering.
 
-Shared helpers: `platform/assets/partitioning-core.js` (imports graph utils / KL / FM / spectral from `clustering-core.js`).
+| Tool | Learner actions | Challenges | Status |
+|------|-----------------|------------|--------|
+| `cutsize-balance` | Flip seed 12 → cut 3; read balance | **10** | **Shipped** |
+| `initial-bipartition` | Grow / greedy / random / Assign | **10** | **Shipped** |
+| `kl-partition` | Swap A↔D / Run KL: 12 → 3 | **10** | **Shipped** |
+| `fm-partition` | Flip D then A / Run FM: 12 → 3 | **10** | **Shipped** |
+| `spectral-partition` | Assign or Run spectral → ABC\|DE cut 3 | **10** | **Shipped** |
+| `recursive-bisection` | Run k=3 / k=4 → AB\|C\|DE cut 8 | **10** | **Shipped** |
+| `multiway-partition` | Recursive vs round-robin k=3 | **10** | **Shipped** |
+| `terminal-propagation` | Locked A/E; Propagate or Assign free | **10** | **Shipped** |
+| `hypergraph-partition` | Flip / Run hyper FM: hyper cut 6 → 1 | **10** | **Shipped** |
+| `multilevel-partition` | Run V-cycle; inspect stages | **10** | **Shipped** |
+
+Shared helpers: `platform/assets/partitioning-core.js`, `platform/assets/interactive-graph-lab.js` (imports graph utils / KL / FM / spectral from `clustering-core.js`).
 
 ## Floorplanning
 
@@ -72,7 +75,7 @@ Shared helpers: `platform/assets/floorplanning-core.js`, `platform/assets/floorp
 | `analytical-place` | Force/quad + density spread → ≈ **48.1** | **10** | **Shipped** |
 | `sa-placement` | Seed 42 best ≈ **49.6** (acc 44 / rej 16) | **10** | **Shipped** |
 | `density-bins` | 2×2 cap1 overflow **2**; golden cap2 overflow **1** | **10** | **Shipped** |
-| `spread-legalize-lite` | Overlap minDist 0 → spread ≥ **0.5** | **10** | **Shipped** |
+| `spread-legalize-lite` | Overlap minDist 0 → spacing ≥ **0.5** | **10** | **Shipped** |
 | `timing-driven-place` | Timing HPWL **116** → golden **30** (net4×5) | **10** | **Shipped** |
 
 Shared helpers: `platform/assets/placement-core.js`, `platform/assets/placement-ui.js` (reuses `createChallengeLab` from `clustering-ui.js`).

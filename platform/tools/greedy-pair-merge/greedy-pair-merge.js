@@ -1,80 +1,52 @@
 import {
-  cloneGraph,
   cutsize,
   greedyPairMerge,
+  partsString,
 } from "../../assets/clustering-core.js";
 import {
-  createChallengeLab,
-  drawGraph,
+  createInteractiveGraphLab,
   el,
-  metricsBlock,
-} from "../../assets/clustering-ui.js";
+} from "../../assets/interactive-graph-lab.js";
 
 const root = document.getElementById("lab-root");
-let graph = cloneGraph();
-let result = null;
-let targetK = 2;
-let capacity = null;
+const GOLDEN = { A: "0", B: "0", C: "0", D: "1", E: "1" };
 
-function parts(asn) {
-  const g = {};
-  for (const [n, c] of Object.entries(asn)) (g[c] ||= []).push(n);
-  return Object.values(g)
-    .map((a) => a.sort().join(""))
-    .sort()
-    .join("|");
+function runToK(api, k, cap = null) {
+  const g = api.getGraph();
+  const result = greedyPairMerge(g.nodes, g.edges, g.sizes, k, cap);
+  api.setAssignment(result.assignment);
+  api.setMeta({ mergeLog: result.mergeLog, targetK: k, capacity: cap, ran: true });
+  api.setRevealed(false);
 }
 
-function clusterSizes(asn) {
-  const sizes = {};
-  for (const [n, c] of Object.entries(asn)) {
-    sizes[c] = (sizes[c] || 0) + (graph.sizes[n] || 1);
-  }
-  return Object.values(sizes);
-}
-
-function arm(k, cap = null) {
-  graph = cloneGraph();
-  targetK = k;
-  capacity = cap;
-  result = null;
-}
-
-function runMerge() {
-  result = greedyPairMerge(graph.nodes, graph.edges, graph.sizes, targetK, capacity);
-}
-
-createChallengeLab(root, {
+createInteractiveGraphLab(root, {
+  initialAssignment: Object.fromEntries(["A", "B", "C", "D", "E"].map((n) => [n, n])),
+  revealAssignment: GOLDEN,
+  actionSet: "none",
+  initialMeta: { mergeLog: [], targetK: 2, capacity: null, ran: false },
   starterHtml: `
-    <p><strong>Starter example (reference):</strong> greedy merge to <code>K=2</code> on the five-node graph
-    yields clusters <code>{A,B,C}</code> vs <code>{D,E}</code> with <strong>cutsize 3</strong>.
-    Reload the starter anytime to see this reference result.</p>
+    <p><strong>Your job:</strong> set target K (and optional capacity), then merge step-by-step or run to K.
+    Challenges check <em>your</em> cluster assignment and merge log — not a golden click.</p>
   `,
-  loadStarter() {
-    graph = cloneGraph();
-    targetK = 2;
-    capacity = null;
-    result = greedyPairMerge(graph.nodes, graph.edges, graph.sizes, 2);
-  },
   challenges: [
     {
       id: "k2-cut3",
       title: "K=2 cutsize 3",
       level: "Intro",
-      prompt: "Params are set to K=2 (no capacity). Run merge → cutsize 3 and ABC|DE.",
-      hint: "Heaviest merges: A–B, D–E, then absorb C.",
-      setup: () => arm(2),
-      check: () => result && cutsize(result.assignment, graph.edges) === 3 && parts(result.assignment) === "ABC|DE",
+      prompt: "Merge to K=2 (no capacity). Cutsize must be 3 and parts ABC|DE.",
+      hint: "Use Run to K=2, or Merge one step three times.",
+      check: (_c, api) =>
+        cutsize(api.getAssignment(), api.getGraph().edges) === 3 &&
+        partsString(api.getAssignment()) === "ABC|DE",
     },
     {
       id: "first-merge-ab",
       title: "First merge is A–B",
       level: "Intro",
-      prompt: "Run K=2 merge; first merge log entry must be A–B at weight 5.",
-      hint: "Heaviest legal edge starts the greedy sequence.",
-      setup: () => arm(2),
-      check: () => {
-        const m = result?.mergeLog?.[0];
+      prompt: "After merging toward K=2, the first merge log entry is A–B at weight 5.",
+      hint: "Run to K=2 (or one step) so mergeLog[0] is A–B.",
+      check: (_c, api) => {
+        const m = api.getMeta().mergeLog?.[0];
         return m && ((m.u === "A" && m.v === "B") || (m.u === "B" && m.v === "A")) && m.w === 5;
       },
     },
@@ -82,61 +54,60 @@ createChallengeLab(root, {
       id: "three-merges",
       title: "Three merges to K=2",
       level: "Intro",
-      prompt: "K=2 unconstrained uses exactly 3 merges (5→2 clusters).",
+      prompt: "Reach K=2 with exactly 3 merges in the log (5→2 clusters).",
       hint: "Each merge reduces cluster count by one.",
-      setup: () => arm(2),
-      check: () => result && result.mergeLog.length === 3,
+      check: (_c, api) =>
+        api.getMeta().mergeLog?.length === 3 &&
+        new Set(Object.values(api.getAssignment())).size === 2,
     },
     {
       id: "k3-count",
       title: "Stop at K=3",
       level: "Practice",
-      prompt: "Run with K=3 (no capacity). End with exactly 3 clusters.",
-      hint: "Fewer merges than the K=2 run.",
-      setup: () => arm(3),
-      check: () => result && new Set(Object.values(result.assignment)).size === 3,
+      prompt: "Merge to K=3. End with exactly 3 clusters.",
+      hint: "Run to K=3.",
+      check: (_c, api) => new Set(Object.values(api.getAssignment())).size === 3,
     },
     {
       id: "k3-parts",
       title: "K=3 is ABC|D|E",
       level: "Practice",
-      prompt: "K=3 should leave D and E unmerged: parts ABC|D|E.",
+      prompt: "At K=3, parts should be ABC|D|E.",
       hint: "A–B and absorb C happen before D–E when stopping early.",
-      setup: () => arm(3),
-      check: () => result && parts(result.assignment) === "ABC|D|E",
+      check: (_c, api) => partsString(api.getAssignment()) === "ABC|D|E",
     },
     {
       id: "k4-ab",
       title: "K=4 keeps only A–B",
       level: "Practice",
-      prompt: "Run K=4; expect parts AB|C|D|E and cutsize 13.",
+      prompt: "Merge to K=4; expect AB|C|D|E and cutsize 13.",
       hint: "Only the single heaviest merge A–B fires.",
-      setup: () => arm(4),
-      check: () =>
-        result &&
-        parts(result.assignment) === "AB|C|D|E" &&
-        cutsize(result.assignment, graph.edges) === 13,
+      check: (_c, api) =>
+        partsString(api.getAssignment()) === "AB|C|D|E" &&
+        cutsize(api.getAssignment(), api.getGraph().edges) === 13,
     },
     {
       id: "k5-noop",
       title: "K=5 is a no-op",
       level: "Practice",
-      prompt: "Run K=5; zero merges, five singleton clusters.",
+      prompt: "Set K=5 and run; zero merges, five singleton clusters.",
       hint: "Already at target K.",
-      setup: () => arm(5),
-      check: () =>
-        result &&
-        result.mergeLog.length === 0 &&
-        new Set(Object.values(result.assignment)).size === 5,
+      check: (_c, api) =>
+        (api.getMeta().mergeLog?.length || 0) === 0 &&
+        new Set(Object.values(api.getAssignment())).size === 5,
     },
     {
       id: "capacity-2-block",
       title: "Capacity 2 blocks size-3",
       level: "Stretch",
-      prompt: "K=2 with capacity=2: no cluster size ≥ 3.",
-      hint: "Absorbing C into AB would create size 3 — illegal.",
-      setup: () => arm(2, 2),
-      check: () => result && !clusterSizes(result.assignment).some((s) => s >= 3),
+      prompt: "Run K=2 with capacity=2: no cluster size ≥ 3.",
+      hint: "Use Run K=2 cap=2.",
+      check: (_c, api) => {
+        const asn = api.getAssignment();
+        const sizes = {};
+        for (const [n, c] of Object.entries(asn)) sizes[c] = (sizes[c] || 0) + 1;
+        return !Object.values(sizes).some((s) => s >= 3);
+      },
     },
     {
       id: "capacity-2-parts",
@@ -144,43 +115,37 @@ createChallengeLab(root, {
       level: "Stretch",
       prompt: "K=2 capacity=2 yields AB|C|DE (cutsize 8).",
       hint: "A–B and D–E merge; C stays alone.",
-      setup: () => arm(2, 2),
-      check: () =>
-        result &&
-        parts(result.assignment) === "AB|C|DE" &&
-        cutsize(result.assignment, graph.edges) === 8,
+      check: (_c, api) =>
+        partsString(api.getAssignment()) === "AB|C|DE" &&
+        cutsize(api.getAssignment(), api.getGraph().edges) === 8,
     },
     {
       id: "capacity-3-allows",
       title: "Capacity 3 allows ABC",
       level: "Stretch",
-      prompt: "K=2 with capacity=3 recovers the unconstrained ABC|DE cutsize 3.",
+      prompt: "K=2 with capacity=3 recovers ABC|DE cutsize 3.",
       hint: "Size-3 cluster is legal again.",
-      setup: () => arm(2, 3),
-      check: () =>
-        result &&
-        parts(result.assignment) === "ABC|DE" &&
-        cutsize(result.assignment, graph.edges) === 3,
+      check: (_c, api) =>
+        partsString(api.getAssignment()) === "ABC|DE" &&
+        cutsize(api.getAssignment(), api.getGraph().edges) === 3,
     },
   ],
-  extraActions(ctx) {
+  extraActions(ctx, api) {
     const presets = [
-      ["K=2", 2, null],
-      ["K=3", 3, null],
-      ["K=4", 4, null],
-      ["K=5", 5, null],
-      ["K=2 cap=2", 2, 2],
-      ["K=2 cap=3", 2, 3],
+      ["Run K=2", 2, null],
+      ["Run K=3", 3, null],
+      ["Run K=4", 4, null],
+      ["Run K=5", 5, null],
+      ["Run K=2 cap=2", 2, 2],
+      ["Run K=2 cap=3", 2, 3],
     ];
     const btns = presets.map(([label, k, cap]) =>
       el("button", {
-        className: "btn btn-ghost",
+        className: "btn btn-secondary",
         type: "button",
         text: label,
         onClick: () => {
-          targetK = k;
-          capacity = cap;
-          result = null;
+          runToK(api, k, cap);
           ctx.rerender();
         },
       })
@@ -189,28 +154,44 @@ createChallengeLab(root, {
       el("button", {
         className: "btn btn-primary",
         type: "button",
-        text: "Run greedy merge",
+        text: "Merge one step",
         onClick: () => {
-          runMerge();
+          const k = api.getMeta().targetK || 2;
+          const cap = api.getMeta().capacity;
+          const g = api.getGraph();
+          const curK = new Set(Object.values(api.getAssignment())).size;
+          if (curK <= k) {
+            ctx.setStatus("idle", `Already at ${curK} clusters`);
+            return;
+          }
+          const nextK = curK - 1;
+          const one = greedyPairMerge(g.nodes, g.edges, g.sizes, nextK, cap);
+          api.setAssignment(one.assignment);
+          api.setMeta({
+            mergeLog: one.mergeLog,
+            targetK: k,
+            capacity: cap,
+            ran: true,
+          });
+          api.setRevealed(false);
           ctx.rerender();
         },
       })
     );
     return btns;
   },
-  renderWorkspace(ctx) {
-    drawGraph(ctx.canvas, graph, { assignment: result?.assignment || null });
-    const lines = [];
-    lines.push(`target K=${targetK}` + (capacity != null ? `, capacity=${capacity}` : ", capacity=none"));
-    if (!result) {
-      lines.push("No result yet — set params (or Start a challenge), then Run greedy merge.");
-    } else {
-      lines.push(`cutsize: ${cutsize(result.assignment, graph.edges)}`);
-      lines.push(`clusters: ${parts(result.assignment)}`);
+  extraMetrics(api) {
+    const lines = [
+      `target K=${api.getMeta().targetK ?? 2}` +
+        (api.getMeta().capacity != null ? `, capacity=${api.getMeta().capacity}` : ", capacity=none"),
+      `clusters: ${partsString(api.getAssignment())}`,
+      `pairwise cut: ${cutsize(api.getAssignment(), api.getGraph().edges)}`,
+    ];
+    const log = api.getMeta().mergeLog || [];
+    if (log.length) {
       lines.push("merges:");
-      for (const m of result.mergeLog) lines.push(`  ${m.u}-${m.v} (w=${m.w}) → ${m.into}`);
+      for (const m of log) lines.push(`  ${m.u}-${m.v} (w=${m.w}) → ${m.into}`);
     }
-    ctx.metrics.innerHTML = "";
-    ctx.metrics.append(metricsBlock(lines));
+    return lines;
   },
 });

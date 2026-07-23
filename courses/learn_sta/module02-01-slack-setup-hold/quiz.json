@@ -1,46 +1,39 @@
 {
   "id": "module02-01-slack-setup-hold",
-  "title": "Slack / setup / hold check",
+  "title": "Slack, setup, and hold check",
   "items": [
     {
       "id": "q1",
       "type": "multiple_choice",
-      "prompt": "This lab\u2019s primary algorithm is\u2026",
+      "prompt": "Setup slack at out is\u2026",
       "choices": [
-        "setup and hold slack at timing endpoints",
-        "Vendor place-and-route GUI only",
-        "SPICE transient analysis",
-        "Scan-chain stitching"
+        "3.2",
+        "6.8",
+        "10",
+        "\u22123.2"
       ],
-      "answer": 0,
-      "explain": "Focus: setup and hold slack at timing endpoints."
+      "answer": 1,
+      "explain": "10\u22123.2=6.8."
     },
     {
       "id": "q2",
       "type": "true_false",
-      "prompt": "You can safely propagate arrivals before the timing graph is levelized.",
+      "prompt": "Hold slack uses the same required map as setup.",
       "answer": false,
-      "explain": "Levelization (or equivalent topo order) comes first."
+      "explain": "Hold required differs."
     },
     {
       "id": "q3",
       "type": "multiple_choice",
-      "prompt": "After running the algorithm you should report\u2026",
+      "prompt": "Hold slack at out (lite) is\u2026",
       "choices": [
-        "Only a screenshot of the UI",
-        "Tagged times and/or slack / path metrics for the starter",
-        "Only runtime",
-        "Nothing \u2014 intuition is enough"
+        "6.8",
+        "0",
+        "3.2",
+        "10"
       ],
-      "answer": 1,
-      "explain": "Tags + metrics are the contract."
-    },
-    {
-      "id": "q4",
-      "type": "true_false",
-      "prompt": "Track A asks you to implement setup and hold slack at timing endpoints on a tiny netlist.",
-      "answer": true,
-      "explain": "Implement track hardens the idea."
+      "answer": 2,
+      "explain": "3.2\u22120=3.2."
     }
   ]
 }

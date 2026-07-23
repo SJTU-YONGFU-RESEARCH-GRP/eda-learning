@@ -1,0 +1,47 @@
+{
+  "module": "module01-01-site-row-model",
+  "title": "Site / row check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "prompt": "On tiny_legal, row bottoms are at y = \u2026",
+      "choices": [
+        "0, 2, 4",
+        "0, 1, 2",
+        "Only 0",
+        "8, 9, 10"
+      ],
+      "answer": 0,
+      "explain": "Three rows, rowH=2."
+    },
+    {
+      "id": "q2",
+      "type": "true_false",
+      "prompt": "Cell width is measured in site columns on this grid.",
+      "answer": true,
+      "explain": "siteW=1; widths are integer sites."
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "prompt": "Chip width W in sites is\u2026",
+      "choices": [
+        "6",
+        "12",
+        "3",
+        "24"
+      ],
+      "answer": 1,
+      "explain": "W=12 in tiny_legal.json."
+    },
+    {
+      "id": "q4",
+      "type": "true_false",
+      "prompt": "Track A uses examples/tiny_legal.json.",
+      "answer": true,
+      "explain": "Shared Track A instance."
+    }
+  ]
+}

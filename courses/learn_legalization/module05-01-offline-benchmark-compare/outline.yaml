@@ -1,0 +1,35 @@
+title: Offline benchmark compare
+footer: learn_legalization — 01 offline benchmark compare
+slides:
+- type: title
+  title: Offline benchmark compare
+  subtitle: Toy legalizers teach mechanism
+  notes: Toy legalizers teach mechanism. Benchmarks teach honesty. Run the same tiny_legal
+    instance through your code and, when available, a reference tool—then compare
+    legality, displacement, HPWL, and runtime without pretending the numbers are sign-off
+    quality.
+- type: bullets
+  title: Fair compare rules
+  bullets:
+  - Identical input JSON, same row/site rules, fixed seeds if randomized
+  - Report the same metrics on both sides
+  - Missing reference tools?
+  - Still run your harness and document the gap
+  notes: Identical input JSON, same row/site rules, fixed seeds if randomized. Report
+    the same metrics on both sides. Missing reference tools? Still run your harness
+    and document the gap.
+- type: bullets
+  title: What good looks like
+  bullets:
+  - Educational engines may be slower, that is fine
+  - Look for legal outputs, stable displacement totals, and plausible HPWL
+  - Unexplained huge wins usually mean unequal metrics or skipped legality checks
+  notes: Educational engines may be slower—that is fine. Look for legal outputs, stable
+    displacement totals, and plausible HPWL. Unexplained huge wins usually mean unequal
+    metrics or skipped legality checks.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Follow EXAMPLES.md
+  notes: Follow EXAMPLES.md, fill the comparison table, finish the checklist, then
+    continue to the wrap module.

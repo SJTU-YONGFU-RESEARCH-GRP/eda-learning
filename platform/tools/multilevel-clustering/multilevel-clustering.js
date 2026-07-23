@@ -1,159 +1,138 @@
 import {
   BAD_SEED,
-  cloneGraph,
-  cutsize,
   multilevelCluster,
   partsString,
 } from "../../assets/clustering-core.js";
 import {
-  createChallengeLab,
-  drawGraph,
+  createInteractiveGraphLab,
   el,
-  metricsBlock,
-} from "../../assets/clustering-ui.js";
+} from "../../assets/interactive-graph-lab.js";
 
 const root = document.getElementById("lab-root");
-let graph = cloneGraph();
-let result = null;
+const GOLDEN = { A: "P0", B: "P0", C: "P0", D: "P1", E: "P1" };
 
-function arm() {
-  graph = cloneGraph();
-  result = null;
-}
-
-createChallengeLab(root, {
+createInteractiveGraphLab(root, {
+  initialAssignment: { ...BAD_SEED },
+  revealAssignment: GOLDEN,
+  initialMeta: {},
   starterHtml: `
-    <p><strong>Starter example (reference):</strong> multilevel (greedy coarsen → FM refine)
-    lands on <code>P0/P1</code> communities <strong>ABC|DE</strong> with <strong>cutsize 3</strong>.
-    Reload starter to restore this reference.</p>
+    <p><strong>Your job:</strong> from the bad seed, Run multilevel (coarsen+FM) or edit sides
+    until cutsize is 3 / ABC|DE (labels may be P0/P1). Challenges check your assignment.</p>
   `,
-  loadStarter() {
-    graph = cloneGraph();
-    result = multilevelCluster(graph.nodes, graph.edges, graph.sizes, 2);
-  },
   challenges: [
     {
       id: "cut-3",
-      title: "Cutsize is 3",
+      title: "Cutsize 3",
       level: "Intro",
-      prompt: "Run multilevel; cutsize must be 3.",
-      hint: "Coarsen + FM refine on this graph.",
-      setup: arm,
-      check: () => result && cutsize(result, graph.edges) === 3,
+      prompt: "Reach cutsize 3 (Run multilevel or Flip/Swap).",
+      hint: "Teaching multilevel lands on cut 3.",
+      check: (_c, api) => api.cutsize() === 3,
     },
     {
       id: "parts-abc-de",
       title: "Parts ABC|DE",
       level: "Intro",
-      prompt: "Multilevel assignment groups ABC vs DE.",
-      hint: "Same golden as spectral/greedy unconstrained.",
-      setup: arm,
-      check: () => result && partsString(result) === "ABC|DE",
+      prompt: "Parts string is ABC|DE (any label names).",
+      hint: "Communities match the golden bipartition.",
+      check: (_c, api) => partsString(api.getAssignment()) === "ABC|DE",
     },
     {
       id: "labels-p0-p1",
-      title: "Labels are P0/P1",
+      title: "Labels P0 and P1",
       level: "Intro",
-      prompt: "Community labels are exactly P0 and P1.",
-      hint: "Multilevel renames FM sides to P{side}.",
-      setup: arm,
-      check: () => {
-        if (!result) return false;
-        const labs = new Set(Object.values(result));
+      prompt: "After Run multilevel, community labels are exactly P0 and P1.",
+      hint: "Multilevel prefixes refined sides as P0/P1.",
+      check: (_c, api) => {
+        const labs = new Set(Object.values(api.getAssignment()));
         return labs.size === 2 && labs.has("P0") && labs.has("P1");
       },
     },
     {
       id: "abc-same",
-      title: "A,B,C same community",
+      title: "A,B,C together",
       level: "Practice",
-      prompt: "A, B, and C share one P-label.",
-      hint: "The coarse community that FM keeps.",
-      setup: arm,
-      check: () => result && result.A === result.B && result.B === result.C,
+      prompt: "A, B, and C share one label; cutsize 3.",
+      hint: "Triangle stays together.",
+      check: (_c, api) => {
+        const a = api.getAssignment();
+        return a.A === a.B && a.B === a.C && api.cutsize() === 3;
+      },
     },
     {
       id: "de-same",
-      title: "D,E same community",
+      title: "D,E together",
       level: "Practice",
-      prompt: "D and E share the other P-label.",
-      hint: "Heavy D–E stays internal.",
-      setup: arm,
-      check: () => result && result.D === result.E && result.D !== result.A,
+      prompt: "D and E share a label; cutsize 3.",
+      hint: "Heavy D–E uncut.",
+      check: (_c, api) => {
+        const a = api.getAssignment();
+        return a.D === a.E && api.cutsize() === 3;
+      },
     },
     {
       id: "better-than-seed",
-      title: "Beats bad seed cut 12",
+      title: "Beat seed cut 12",
       level: "Practice",
-      prompt: "Multilevel cutsize 3 is far better than BAD_SEED cutsize 12.",
-      hint: "Compare mentally to AE|BCD.",
-      setup: arm,
-      check: () =>
-        result && cutsize(result, graph.edges) === 3 && cutsize(BAD_SEED, graph.edges) === 12,
+      prompt: "Your cutsize is 3 (seed was 12).",
+      hint: "Run multilevel from Reset.",
+      check: (_c, api) => api.cutsize() === 3,
     },
     {
       id: "two-communities",
-      title: "Exactly two communities",
+      title: "Two communities",
       level: "Practice",
-      prompt: "coarseK=2 ends with exactly two clusters.",
-      hint: "P0 and P1 only.",
-      setup: arm,
-      check: () => result && new Set(Object.values(result)).size === 2,
+      prompt: "Exactly two cluster labels.",
+      hint: "coarseK=2.",
+      check: (_c, api) => new Set(Object.values(api.getAssignment())).size === 2,
     },
     {
       id: "ab-uncut",
-      title: "A–B not cut",
+      title: "A–B uncut",
       level: "Stretch",
-      prompt: "A and B same side so heavy edge A–B is uncut.",
-      hint: "Final assignment keeps A with B.",
-      setup: arm,
-      check: () => result && result.A === result.B,
+      prompt: "A and B same side so heavy edge A–B is uncut; cut 3.",
+      hint: "Keep A with B.",
+      check: (_c, api) => {
+        const a = api.getAssignment();
+        return a.A === a.B && api.cutsize() === 3;
+      },
     },
     {
       id: "de-uncut",
-      title: "D–E not cut",
+      title: "D–E uncut",
       level: "Stretch",
-      prompt: "D and E same side so heavy edge D–E is uncut.",
-      hint: "Final assignment keeps D with E.",
-      setup: arm,
-      check: () => result && result.D === result.E,
+      prompt: "D and E same side; cutsize 3.",
+      hint: "Companion to A–B.",
+      check: (_c, api) => {
+        const a = api.getAssignment();
+        return a.D === a.E && api.cutsize() === 3;
+      },
     },
     {
       id: "bridge-only",
-      title: "Bridge cut only",
+      title: "Bridge-only without reveal",
       level: "Stretch",
-      prompt: "Cutsize 3 with ABC|DE means only C–D/C–E cross the cut.",
-      hint: "Confirm parts and cut together.",
-      setup: arm,
-      check: () =>
-        result && partsString(result) === "ABC|DE" && cutsize(result, graph.edges) === 3,
+      prompt: "ABC|DE cut 3 with Reveal off.",
+      hint: "Hide golden; Run multilevel or edit.",
+      check: (_c, api) =>
+        !api.isRevealed() &&
+        partsString(api.getAssignment()) === "ABC|DE" &&
+        api.cutsize() === 3,
     },
   ],
-  extraActions(ctx) {
+  extraActions(ctx, api) {
     return [
       el("button", {
         className: "btn btn-primary",
         type: "button",
         text: "Run multilevel",
         onClick: () => {
-          result = multilevelCluster(graph.nodes, graph.edges, graph.sizes, 2);
+          const g = api.getGraph();
+          const asn = multilevelCluster(g.nodes, g.edges, g.sizes, 2);
+          api.setAssignment(asn);
+          api.setRevealed(false);
           ctx.rerender();
         },
       }),
     ];
-  },
-  renderWorkspace(ctx) {
-    drawGraph(ctx.canvas, graph, { assignment: result || null });
-    const lines = [];
-    if (!result) {
-      lines.push("No result yet — click Run multilevel.");
-      lines.push(`For contrast, BAD_SEED cutsize=${cutsize(BAD_SEED, graph.edges)}`);
-    } else {
-      lines.push(`cutsize: ${cutsize(result, graph.edges)}`);
-      lines.push(`parts: ${partsString(result)}`);
-      lines.push(`labels: ${JSON.stringify(result)}`);
-    }
-    ctx.metrics.innerHTML = "";
-    ctx.metrics.append(metricsBlock(lines));
   },
 });

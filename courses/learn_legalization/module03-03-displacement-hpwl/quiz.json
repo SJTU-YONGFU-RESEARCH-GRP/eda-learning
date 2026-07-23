@@ -1,0 +1,47 @@
+{
+  "module": "module03-03-displacement-hpwl",
+  "title": "Displacement / HPWL check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "prompt": "HPWL after legalize uses\u2026",
+      "choices": [
+        "Legal cell positions on the grid",
+        "Only pre-legal floats",
+        "Only macro names",
+        "Slide titles"
+      ],
+      "answer": 0,
+      "explain": "Wirelength on legal coords."
+    },
+    {
+      "id": "q2",
+      "type": "true_false",
+      "prompt": "Lower displacement always means lower HPWL.",
+      "answer": false,
+      "explain": "Trade-off, not identity."
+    },
+    {
+      "id": "q3",
+      "type": "true_false",
+      "prompt": "Nets in tiny_legal match the learn_placement toy netlist.",
+      "answer": true,
+      "explain": "Same connectivity pattern."
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "prompt": "Report displacement relative to\u2026",
+      "choices": [
+        "starter_float (or documented baseline)",
+        "Random origin",
+        "Only rowH",
+        "License text"
+      ],
+      "answer": 0,
+      "explain": "Global place baseline."
+    }
+  ]
+}

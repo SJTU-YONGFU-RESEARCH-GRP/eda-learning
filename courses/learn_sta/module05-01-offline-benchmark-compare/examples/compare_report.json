@@ -1,0 +1,18 @@
+{
+  "instance": "tiny_sta_chain",
+  "A_out": 3.2,
+  "R_out": 10.0,
+  "setup_slack_out": 6.8,
+  "critical_path": [
+    "in",
+    "u1/A",
+    "u1/Y",
+    "u2/A",
+    "u2/Y",
+    "out"
+  ],
+  "golden_slack": 6.8,
+  "match_golden": true,
+  "external_timer": null,
+  "notes": "Plug an open timer here when available; until then validate toy goldens."
+}

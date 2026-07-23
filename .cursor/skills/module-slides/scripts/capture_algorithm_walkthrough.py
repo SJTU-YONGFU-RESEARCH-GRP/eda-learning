@@ -65,6 +65,11 @@ LAB_TO_ALGO: dict[str, tuple[str, int]] = {
     "hierarchical-floorplan": ("hierarchical-floorplan", 5),
     "pin-assignment": ("pin-assignment", 5),
     "timing-graph": ("timing-graph", 5),
+    "arrival-required": ("arrival-required", 5),
+    "slack-setup-hold": ("slack-setup-hold", 5),
+    "critical-path": ("critical-path", 5),
+    "incremental-update": ("incremental-update", 5),
+    "false-multicycle-lite": ("false-multicycle-lite", 5),
     "hpwl-metrics": ("hpwl-metrics", 5),
     "net-models": ("net-models", 5),
     "force-directed-place": ("force-directed-place", 5),
@@ -74,6 +79,15 @@ LAB_TO_ALGO: dict[str, tuple[str, int]] = {
     "density-bins": ("density-bins", 5),
     "spread-legalize-lite": ("spread-legalize-lite", 5),
     "timing-driven-place": ("timing-driven-place", 5),
+    "site-row-model": ("site-row-model", 5),
+    "legality-metrics": ("legality-metrics", 5),
+    "greedy-snap": ("greedy-snap", 5),
+    "overlap-removal": ("overlap-removal", 5),
+    "abacus-row-pack": ("abacus-row-pack", 5),
+    "tetris-row-pack": ("tetris-row-pack", 5),
+    "fixed-macros": ("fixed-macros", 5),
+    "displacement-hpwl": ("displacement-hpwl", 5),
+    "detailed-vs-global": ("detailed-vs-global", 5),
 }
 
 BEGIN_MARK = "<!-- algorithm-walkthrough -->"

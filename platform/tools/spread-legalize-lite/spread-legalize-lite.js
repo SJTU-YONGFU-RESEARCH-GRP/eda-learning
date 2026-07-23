@@ -1,169 +1,145 @@
 import {
-  CELLS,
   GOLDENS,
   NETS,
   OVERLAP_PLACEMENT,
-  clonePositions,
   minPairDistance,
   near,
   round1,
   spreadCells,
   totalHpwl,
 } from "../../assets/placement-core.js";
-import {
-  createChallengeLab,
-  drawPlacement,
-  el,
-  metricsBlock,
-} from "../../assets/placement-ui.js";
+import { createInteractivePlacementLab } from "../../assets/interactive-placement-lab.js";
+import { el } from "../../assets/placement-ui.js";
 
 const root = document.getElementById("lab-root");
-let pos = clonePositions(OVERLAP_PLACEMENT);
-let ran = false;
 
-function arm() {
-  pos = clonePositions(OVERLAP_PLACEMENT);
-  ran = false;
-}
-
-createChallengeLab(root, {
+createInteractivePlacementLab(root, {
+  initialPositions: OVERLAP_PLACEMENT,
+  revealPositions: OVERLAP_PLACEMENT,
+  drawOpts: { highlightCells: ["A", "B", "C"], showBBox: false },
   starterHtml: `
-    <p><strong>Starter:</strong> A,B,C overlap at (4,4) so min pairwise distance is
-    <strong>0</strong>. Spread/legalize lite pushes pairs to minDist
+    <p><strong>Your job:</strong> A,B,C start overlapped at (4,4) (min pairwise distance
+    <strong>0</strong>). Separate them by hand or <strong>Apply spread</strong> until minDist ≥
     <strong>${GOLDENS.spreadMinPairDist}</strong>.</p>
   `,
-  loadStarter() {
-    arm();
+  extraActions(ctx, api) {
+    return [
+      el("button", {
+        className: "btn btn-primary",
+        type: "button",
+        text: "Apply spread",
+        onClick: () => {
+          api.setPositions(spreadCells(api.getPositions()));
+          api.setRevealed(false);
+          ctx.rerender();
+        },
+      }),
+    ];
+  },
+  extraMetrics(api) {
+    const pos = api.getPositions();
+    return [
+      `minPairDist: ${round1(minPairDistance(pos))}`,
+      `HPWL: ${round1(totalHpwl(NETS, pos))}`,
+      `target minDist: ${GOLDENS.spreadMinPairDist}`,
+    ];
   },
   challenges: [
     {
       id: "overlap-0",
       title: "Overlap dist 0",
       level: "Intro",
-      prompt: "Before spread, min pairwise distance is 0.",
-      hint: "Reset / load overlap starter.",
-      setup: arm,
-      check: () => !ran && minPairDistance(pos) === 0,
-    },
-    {
-      id: "run-spread",
-      title: "Run spread",
-      level: "Intro",
-      prompt: "Click Spread cells.",
-      hint: "Primary button.",
-      setup: arm,
-      check: () => ran,
+      prompt: "Before separating, min pairwise distance is 0.",
+      hint: "Reset to starter — A,B,C share (4,4).",
+      check: (_c, api) => minPairDistance(api.getPositions()) === 0,
     },
     {
       id: "min-0-5",
       title: "Min dist ≥ 0.5",
       level: "Intro",
-      prompt: "After spread, min pairwise distance ≥ 0.5.",
-      hint: "Default minDist.",
-      setup: arm,
-      check: () => ran && minPairDistance(pos) >= GOLDENS.spreadMinPairDist - 1e-6,
+      prompt: "Separate cells so min pairwise distance ≥ 0.5.",
+      hint: "Apply spread, or nudge A/B/C apart.",
+      check: (_c, api) => minPairDistance(api.getPositions()) >= GOLDENS.spreadMinPairDist - 1e-6,
     },
     {
       id: "exact-0-5",
       title: "Min dist ≈ 0.5",
-      level: "Practice",
-      prompt: "After spread, round1(minDist) is 0.5.",
-      hint: "Snap to minDist.",
-      setup: arm,
-      check: () => ran && near(round1(minPairDistance(pos)), 0.5, 0.05),
+      level: "Intro",
+      prompt: "After spread (or careful nudges), round1(minDist) is 0.5.",
+      hint: "Reset, Apply spread.",
+      check: (_c, api) => near(round1(minPairDistance(api.getPositions())), 0.5, 0.05),
     },
     {
       id: "improved-dist",
       title: "Distance improved",
       level: "Practice",
-      prompt: "After spread, minDist > before (0).",
-      hint: "Any positive separation.",
-      setup: arm,
-      check: () => ran && minPairDistance(pos) > 0,
+      prompt: "minDist > 0.",
+      hint: "Any positive separation of the overlapped triple.",
+      check: (_c, api) => minPairDistance(api.getPositions()) > 0,
     },
     {
       id: "abc-separated",
       title: "A≠B coords",
       level: "Practice",
-      prompt: "After spread, A and B are not at the same point.",
-      hint: "They started coincident.",
-      setup: arm,
-      check: () =>
-        ran && (pos.A.x !== pos.B.x || pos.A.y !== pos.B.y),
+      prompt: "A and B are not at the same point.",
+      hint: "They start coincident — move one or Apply spread.",
+      check: (_c, api) => {
+        const pos = api.getPositions();
+        return pos.A.x !== pos.B.x || pos.A.y !== pos.B.y;
+      },
     },
     {
       id: "d-still-far",
       title: "D still away",
       level: "Practice",
-      prompt: "D remains near (7,1) (not dragged to origin).",
-      hint: "Only near-pairs are pushed.",
-      setup: arm,
-      check: () => ran && pos.D.x > 5 && pos.D.y < 3,
+      prompt: "D remains near (7,1) (x>5, y<3).",
+      hint: "Only near-pairs are pushed; leave D alone.",
+      check: (_c, api) => {
+        const pos = api.getPositions();
+        return pos.D.x > 5 && pos.D.y < 3;
+      },
     },
     {
       id: "hpwl-finite",
       title: "HPWL finite",
-      level: "Stretch",
-      prompt: "Total HPWL is finite after spread.",
-      hint: "Always true if coords finite.",
-      setup: arm,
-      check: () => ran && Number.isFinite(totalHpwl(NETS, pos)),
+      level: "Practice",
+      prompt: "Total HPWL is finite.",
+      hint: "True whenever coords are finite.",
+      check: (_c, api) => Number.isFinite(totalHpwl(NETS, api.getPositions())),
     },
     {
       id: "reset-overlap",
       title: "Reset restores overlap",
       level: "Stretch",
-      prompt: "After Reset, minDist is 0 again.",
-      hint: "Reset button.",
-      setup: arm,
-      check: () => !ran && minPairDistance(pos) === 0,
+      prompt: "After Reset to starter, minDist is 0 again.",
+      hint: "Reset to starter.",
+      check: (_c, api) => minPairDistance(api.getPositions()) === 0,
     },
     {
       id: "six-cells",
       title: "Six cells",
       level: "Stretch",
       prompt: "Placement still has keys A–F.",
-      hint: "CELLS.",
-      setup: arm,
-      check: () => CELLS.every((id) => pos[id] != null),
+      hint: "Always after reset / spread.",
+      check: (_c, api) => {
+        const pos = api.getPositions();
+        return ["A", "B", "C", "D", "E", "F"].every((id) => pos[id] != null);
+      },
+    },
+    {
+      id: "spread-keeps-d",
+      title: "Spread keeps D far",
+      level: "Stretch",
+      prompt: "minDist ≥ 0.5 and D still x>5, y<3.",
+      hint: "Apply spread from overlap starter.",
+      check: (_c, api) => {
+        const pos = api.getPositions();
+        return (
+          minPairDistance(pos) >= GOLDENS.spreadMinPairDist - 1e-6 &&
+          pos.D.x > 5 &&
+          pos.D.y < 3
+        );
+      },
     },
   ],
-  extraActions(ctx) {
-    return [
-      el("button", {
-        className: "btn btn-secondary",
-        type: "button",
-        text: "Reset",
-        onClick: () => {
-          arm();
-          ctx.rerender();
-        },
-      }),
-      el("button", {
-        className: "btn btn-primary",
-        type: "button",
-        text: "Spread cells",
-        onClick: () => {
-          pos = spreadCells(OVERLAP_PLACEMENT);
-          ran = true;
-          ctx.rerender();
-        },
-      }),
-    ];
-  },
-  renderWorkspace(ctx) {
-    drawPlacement(ctx.canvas, CELLS, pos, NETS, {
-      highlightCells: ["A", "B", "C"],
-      showBBox: false,
-    });
-    ctx.metrics.innerHTML = "";
-    ctx.metrics.append(
-      metricsBlock([
-        `ran: ${ran}`,
-        `minPairDist: ${round1(minPairDistance(pos))}`,
-        `HPWL: ${round1(totalHpwl(NETS, pos))}`,
-        `target minDist: ${GOLDENS.spreadMinPairDist}`,
-      ])
-    );
-  },
 });

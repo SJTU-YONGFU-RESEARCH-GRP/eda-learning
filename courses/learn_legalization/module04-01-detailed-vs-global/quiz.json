@@ -1,0 +1,47 @@
+{
+  "module": "module04-01-detailed-vs-global",
+  "title": "Detailed vs global check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "true_false",
+      "prompt": "Global legalize may process all rows in one pass; detailed may iterate row-by-row.",
+      "answer": true,
+      "explain": "Pipeline contrast."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "prompt": "Both pipelines must pass the same\u2026",
+      "choices": [
+        "Legality checker",
+        "UART baud test",
+        "Git hook",
+        "SPICE only"
+      ],
+      "answer": 0,
+      "explain": "Shared legality gate."
+    },
+    {
+      "id": "q3",
+      "type": "true_false",
+      "prompt": "Detailed always beats global on every metric.",
+      "answer": false,
+      "explain": "Measure on tiny_legal."
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "prompt": "This lab contrasts\u2026",
+      "choices": [
+        "Fast global snap/pack vs multi-stage detailed flow",
+        "Floorplanning vs clustering",
+        "Analog vs digital only",
+        "Git vs SVN"
+      ],
+      "answer": 0,
+      "explain": "Legalization pipeline literacy."
+    }
+  ]
+}

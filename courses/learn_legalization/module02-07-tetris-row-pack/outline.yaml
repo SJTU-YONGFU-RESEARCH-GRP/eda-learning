@@ -1,0 +1,96 @@
+title: Tetris row packing
+footer: learn_legalization — 07 tetris row pack
+slides:
+- type: title
+  title: Tetris row packing
+  subtitle: Tetris-lite assigns each cell to its nearest row, then left-packs like
+    overlap removal
+  notes: 'Tetris-lite assigns each cell to its nearest row, then left-packs like overlap
+    removal. On the overlap seed the result matches overlap removal: A at four, B
+    at six, C at eight on row two—legal, displacement six, HPWL thirty-two.'
+- type: bullets
+  title: The idea
+  bullets:
+  - Tetris is simpler than Abacus but moves cells farther on this toy
+  - Contrast disp six versus Abacus disp four
+  - Trade simpler control flow against a tighter displacement budget and slightly
+    higher HPWL
+  - <!-- algorithm-walkthrough -->
+  notes: 'Tetris is simpler than Abacus but moves cells farther on this toy. Contrast
+    disp six versus Abacus disp four. Trade simpler control flow against a tighter
+    displacement budget and slightly higher HPWL when Abacus wins movement.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: Same overlap seed
+  image: assets/steps/01-overlap-seed.png
+  caption: Same overlap seed
+  notes: Tetris-lite assigns each cell to its nearest row, then left-packs within
+    the row—same engine as overlap removal. Start from the triple stack at (4, 2).
+- type: image
+  title: Nearest row, then left pack
+  image: assets/steps/02-nearest-row.png
+  caption: Nearest row, then left pack
+  notes: 'A, B, and C stay on middle row two after snap. Sort by x and pack: A at
+    four, B at six, C at eight—identical to overlap removal on this instance.'
+- type: image
+  title: 'Result: disp 6, HPWL 32'
+  image: assets/steps/03-tetris-result.png
+  caption: 'Result: disp 6, HPWL 32'
+  notes: 'Tetris legalizes with displacement six and HPWL thirty-two—the overlap-removal
+    golden. Same coordinates, same metrics: this is the global legalize path in later
+    labs.'
+- type: image
+  title: Contrast Abacus disp 4
+  image: assets/steps/04-contrast-abacus.png
+  caption: Contrast Abacus disp 4
+  notes: Abacus spreads A, B, C across three rows for displacement four. Tetris keeps
+    them on one row and moves farther in x—six total L1 units.
+- type: image
+  title: 'Tradeoff: simpler vs better displacement'
+  image: assets/steps/05-tradeoff.png
+  caption: 'Tradeoff: simpler vs better displacement'
+  notes: 'Tetris is easier to implement and slightly better on HPWL for this toy.
+    Abacus is the choice when displacement budget is tight—preview the detailed-vs-global
+    lab.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab track, open the **tetris-row-pack** lab from the tools shelf
+  - Load the overlap or float starter, run the legalizer once
+  - Work the challenges that lock the goldens
+  notes: In the browser lab track, open the **tetris-row-pack** lab from the tools
+    shelf. Load the overlap or float starter, run the legalizer once, and read legality
+    plus displacement and HPWL when the panel shows them. Work the challenges that
+    lock the goldens, then come back to implement the same loop yourself.
+- type: bullets
+  title: Implement track
+  bullets:
+  - In the implement track, open this module's examples and the course `common/` solvers
+  - Parse `tiny_legal.json`, run the algorithm with deterministic coordinates
+  - Match the browser goldens before you claim the checklist
+  notes: In the implement track, open this module's examples and the course `common/`
+    solvers. Parse `tiny_legal.json`, run the algorithm with deterministic coordinates,
+    and print legality, displacement, and HPWL. Match the browser goldens before you
+    claim the checklist.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Common traps
+  notes: 'Common traps: assuming snap alone legalizes; forgetting site width when
+    checking overlap; ignoring fixed macro D at (8, 4); reporting HPWL without legality;
+    and comparing Abacus and Tetris without naming displacement versus wirelength
+    tradeoffs.'
+- type: bullets
+  title: Your turn
+  bullets:
+  - Complete the checklist for at least one track, preferably both
+  - Implement until your metrics match the starter goldens
+  - When you're ready, take the short quiz, then continue to the next module
+  notes: Complete the checklist for at least one track—preferably both. Implement
+    until your metrics match the starter goldens. When you're ready, take the short
+    quiz, then continue to the next module.

@@ -1,0 +1,11 @@
+file '/mnt/d/proj/designs/eda_learning/courses/learn_legalization/module00-00-intro/frames/slide-1.png'
+duration 19.176
+file '/mnt/d/proj/designs/eda_learning/courses/learn_legalization/module00-00-intro/frames/slide-2.png'
+duration 22.776
+file '/mnt/d/proj/designs/eda_learning/courses/learn_legalization/module00-00-intro/frames/slide-3.png'
+duration 15.144
+file '/mnt/d/proj/designs/eda_learning/courses/learn_legalization/module00-00-intro/frames/slide-4.png'
+duration 14.88
+file '/mnt/d/proj/designs/eda_learning/courses/learn_legalization/module00-00-intro/frames/slide-5.png'
+duration 16.176
+file '/mnt/d/proj/designs/eda_learning/courses/learn_legalization/module00-00-intro/frames/slide-5.png'

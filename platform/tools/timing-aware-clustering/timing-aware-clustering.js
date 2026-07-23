@@ -1,170 +1,140 @@
 import {
   BAD_SEED,
   EDGE_CRITICALITY,
-  cloneGraph,
-  cutsize,
   partsString,
   timingAwarePartition,
 } from "../../assets/clustering-core.js";
 import {
-  createChallengeLab,
-  drawGraph,
+  createInteractiveGraphLab,
   el,
-  metricsBlock,
-} from "../../assets/clustering-ui.js";
+} from "../../assets/interactive-graph-lab.js";
 
 const root = document.getElementById("lab-root");
-let graph = cloneGraph();
-let seed = { ...BAD_SEED };
-let result = null;
+const GOLDEN = { A: "0", B: "0", C: "0", D: "1", E: "1" };
 
-function arm() {
-  graph = cloneGraph();
-  seed = { ...BAD_SEED };
-  result = null;
-}
-
-createChallengeLab(root, {
+createInteractiveGraphLab(root, {
+  initialAssignment: { ...BAD_SEED },
+  revealAssignment: GOLDEN,
+  initialMeta: { plain: null, weightedCut: null },
   starterHtml: `
-    <p><strong>Starter example (reference):</strong> timing-aware FM from the bad seed
-    yields <code>ABC|DE</code> with <strong>plain cut 3</strong> and
-    <strong>weighted cut 7</strong>. Reload starter to restore this reference.</p>
+    <p><strong>Your job:</strong> from the bad seed, Run timing-aware FM (or Flip/Swap)
+    until plain cut 3 / weighted 7 / ABC|DE. Challenges check your assignment metrics.</p>
   `,
-  loadStarter() {
-    graph = cloneGraph();
-    seed = { ...BAD_SEED };
-    result = timingAwarePartition(graph.nodes, graph.edges, seed, EDGE_CRITICALITY);
-  },
   challenges: [
     {
       id: "seed-12",
-      title: "Seed cutsize is 12",
+      title: "Seed cutsize 12",
       level: "Intro",
-      prompt: "Show seed only; plain cutsize must be 12.",
-      hint: "Click Show seed only.",
-      setup: arm,
-      check: () => !result && cutsize(seed, graph.edges) === 12,
+      prompt: "Workspace seed plain cutsize is 12.",
+      hint: "Reset; leave the bad seed.",
+      check: (_c, api) => api.cutsize() === 12,
     },
     {
       id: "plain-3",
-      title: "Plain cutsize 3",
+      title: "Plain cut 3",
       level: "Intro",
-      prompt: "Run timing-aware; plain cutsize is 3.",
-      hint: "Same communities as unconstrained FM on original weights.",
-      setup: arm,
-      check: () => result && result.plain === 3,
+      prompt: "Reach plain cutsize 3 (Run timing-aware or edit).",
+      hint: "Teaching result matches classic golden bipartition.",
+      check: (_c, api) => api.cutsize() === 3,
     },
     {
       id: "weighted-7",
       title: "Weighted cut 7",
       level: "Intro",
-      prompt: "Weighted (criticality) cut is 7.",
-      hint: "Cut edges scored with criticality multipliers.",
-      setup: arm,
-      check: () => result && result.weightedCut === 7,
+      prompt: "After Run timing-aware, weighted (criticality) cut is 7.",
+      hint: "Critical edges stay internal; bridges contribute weighted cost.",
+      check: (_c, api) => api.getMeta().weightedCut === 7 && api.cutsize() === 3,
     },
     {
       id: "parts-abc-de",
       title: "Parts ABC|DE",
       level: "Practice",
-      prompt: "Final parts are ABC|DE.",
-      hint: "Protects critical A–B–C path inside one side.",
-      setup: arm,
-      check: () => result && partsString(result.assignment) === "ABC|DE",
+      prompt: "Parts are ABC|DE.",
+      hint: "Same communities as cut-3 golden.",
+      check: (_c, api) => partsString(api.getAssignment()) === "ABC|DE",
     },
     {
       id: "ab-same",
-      title: "A and B same side",
+      title: "Critical A–B uncut",
       level: "Practice",
-      prompt: "Critical edge A–B (crit=5) is uncut.",
-      hint: "A and B share a block.",
-      setup: arm,
-      check: () => result && result.assignment.A === result.assignment.B,
+      prompt: "A and B share a block (crit=5); cutsize 3.",
+      hint: "Keep heavy critical edge internal.",
+      check: (_c, api) => {
+        const a = api.getAssignment();
+        return a.A === a.B && api.cutsize() === 3;
+      },
     },
     {
       id: "bc-same",
-      title: "B and C same side",
+      title: "Critical B–C uncut",
       level: "Practice",
-      prompt: "Critical edge B–C (crit=4) is uncut.",
-      hint: "B and C share a block.",
-      setup: arm,
-      check: () => result && result.assignment.B === result.assignment.C,
+      prompt: "B and C share a block (crit=4); cutsize 3.",
+      hint: "Triangle stays together.",
+      check: (_c, api) => {
+        const a = api.getAssignment();
+        return a.B === a.C && api.cutsize() === 3;
+      },
     },
     {
       id: "crit-ab-5",
-      title: "Criticality A–B is 5",
+      title: "Criticality A|B = 5",
       level: "Practice",
       prompt: "EDGE_CRITICALITY for A|B equals 5.",
-      hint: "Shown in the metrics panel.",
-      setup: arm,
+      hint: "Shown in metrics.",
       check: () => EDGE_CRITICALITY["A|B"] === 5,
     },
     {
       id: "crit-bc-4",
-      title: "Criticality B–C is 4",
+      title: "Criticality B|C = 4",
       level: "Stretch",
       prompt: "EDGE_CRITICALITY for B|C equals 4.",
-      hint: "Second-most critical edge on the path.",
-      setup: arm,
+      hint: "Companion to A|B.",
       check: () => EDGE_CRITICALITY["B|C"] === 4,
     },
     {
       id: "better-than-seed",
-      title: "Improves seed 12→3",
+      title: "Beat seed 12→3",
       level: "Stretch",
-      prompt: "After timing-aware, plain cut is 3 (was 12 on seed).",
-      hint: "FM on criticality-weighted edges.",
-      setup: arm,
-      check: () => result && result.plain === 3 && cutsize(seed, graph.edges) === 12,
+      prompt: "Plain cut is 3 (was 12 on seed) with Reveal off.",
+      hint: "Hide golden; Run timing-aware or Flip.",
+      check: (_c, api) => !api.isRevealed() && api.cutsize() === 3,
     },
     {
       id: "de-same",
-      title: "D and E same side",
+      title: "D and E together",
       level: "Stretch",
-      prompt: "D and E share a block in the final assignment.",
-      hint: "Non-critical heavy edge still ends internal.",
-      setup: arm,
-      check: () => result && result.assignment.D === result.assignment.E,
+      prompt: "D and E share a block; cutsize 3.",
+      hint: "Teaching golden.",
+      check: (_c, api) => {
+        const a = api.getAssignment();
+        return a.D === a.E && api.cutsize() === 3;
+      },
     },
   ],
-  extraActions(ctx) {
+  extraActions(ctx, api) {
     return [
-      el("button", {
-        className: "btn btn-secondary",
-        type: "button",
-        text: "Show seed only",
-        onClick: () => {
-          result = null;
-          ctx.rerender();
-        },
-      }),
       el("button", {
         className: "btn btn-primary",
         type: "button",
         text: "Run timing-aware",
         onClick: () => {
-          result = timingAwarePartition(graph.nodes, graph.edges, seed, EDGE_CRITICALITY);
+          const g = api.getGraph();
+          const r = timingAwarePartition(g.nodes, g.edges, BAD_SEED, EDGE_CRITICALITY);
+          api.setAssignment(r.assignment);
+          api.setMeta({ plain: r.plain, weightedCut: r.weightedCut });
+          api.setRevealed(false);
           ctx.rerender();
         },
       }),
     ];
   },
-  renderWorkspace(ctx) {
-    const asn = result ? result.assignment : seed;
-    drawGraph(ctx.canvas, graph, { assignment: asn });
-    const lines = [
-      `seed cutsize: ${cutsize(seed, graph.edges)}`,
-      "criticality: A|B=5, B|C=4, A|C=1, C|D=3, D|E=1, C|E=1",
+  extraMetrics(api) {
+    const m = api.getMeta();
+    return [
+      `criticality: A|B=${EDGE_CRITICALITY["A|B"]}, B|C=${EDGE_CRITICALITY["B|C"]}`,
+      m.weightedCut != null
+        ? `last run plain=${m.plain} weighted=${m.weightedCut}`
+        : "last run: —",
     ];
-    if (!result) {
-      lines.push("Showing seed only (BAD_SEED).");
-      lines.push(`parts: ${partsString(seed)}`);
-    } else {
-      lines.push(`plain cut: ${result.plain}`);
-      lines.push(`weighted cut: ${result.weightedCut}`);
-      lines.push(`parts: ${partsString(result.assignment)}`);
-    }
-    ctx.metrics.innerHTML = "";
-    ctx.metrics.append(metricsBlock(lines));
   },
 });

@@ -5,197 +5,141 @@ import {
   hyperedgesToPairEdges,
   partsString,
 } from "../../assets/clustering-core.js";
-import { hypergraphBipartition } from "../../assets/partitioning-core.js";
-import {
-  createChallengeLab,
-  drawGraph,
-  el,
-  metricsBlock,
-} from "../../assets/clustering-ui.js";
+import { GOLDEN_BIPART, hypergraphBipartition } from "../../assets/partitioning-core.js";
+import { createInteractiveGraphLab, el } from "../../assets/interactive-graph-lab.js";
 
 const root = document.getElementById("lab-root");
-let hyper = {
-  nodes: [...TINY_HYPERGRAPH.nodes],
-  hyperedges: TINY_HYPERGRAPH.hyperedges.map((h) => ({ ...h, pins: [...h.pins] })),
-  sizes: { ...TINY_HYPERGRAPH.sizes },
-};
-let seed = { ...BAD_SEED };
-let result = null;
-let view = "seed"; // seed | result
 
-function graphForDraw() {
+function hyperGraph() {
   return {
-    nodes: hyper.nodes,
-    edges: hyperedgesToPairEdges(hyper.hyperedges),
-    sizes: hyper.sizes,
-  };
-}
-
-function arm() {
-  hyper = {
     nodes: [...TINY_HYPERGRAPH.nodes],
-    hyperedges: TINY_HYPERGRAPH.hyperedges.map((h) => ({ ...h, pins: [...h.pins] })),
+    edges: hyperedgesToPairEdges(TINY_HYPERGRAPH.hyperedges),
     sizes: { ...TINY_HYPERGRAPH.sizes },
+    hyperedges: TINY_HYPERGRAPH.hyperedges.map((h) => ({ ...h, pins: [...h.pins] })),
   };
-  seed = { ...BAD_SEED };
-  result = null;
-  view = "none";
 }
 
-createChallengeLab(root, {
+createInteractiveGraphLab(root, {
+  graph: hyperGraph(),
+  getGraph: hyperGraph,
+  initialAssignment: { ...BAD_SEED },
+  revealAssignment: GOLDEN_BIPART,
+  cutFn: (asn, g) => hyperedgeCut(asn, g.hyperedges || TINY_HYPERGRAPH.hyperedges),
+  initialMeta: { pairCut: null, history: null },
   starterHtml: `
-    <p><strong>Starter example (reference):</strong> bad seed hyperedge cut is
-    <strong>6</strong> (nets n1, n2, n4 span sides). FM on the clique expansion reaches
-    <code>ABC|DE</code> with <strong>hyperedge cut 1</strong> (only n3). Reload starter anytime.</p>
+    <p><strong>Your job:</strong> seed hyper cut is 6 (AE|BCD). Flip/Swap or Run hypergraph FM
+    until hyperedge cut is 1 / ABC|DE. Challenges check <em>your</em> assignment.</p>
   `,
-  loadStarter() {
-    arm();
-    result = hypergraphBipartition(hyper.nodes, hyper.hyperedges, seed);
-    view = "result";
-  },
   challenges: [
     {
       id: "seed-hyper-6",
       title: "Seed hyper cut 6",
       level: "Intro",
-      prompt: "Show seed only; hyperedge cut must be 6.",
-      hint: "Click Show seed only — n1+n2+n4 = 3+2+1.",
-      setup: arm,
-      check: () => view === "seed" && hyperedgeCut(seed, hyper.hyperedges) === 6,
+      prompt: "Workspace seed hyperedge cut must be 6.",
+      hint: "Reset; leave the bad seed.",
+      check: (_c, api) => api.cutsize() === 6,
     },
     {
       id: "seed-parts",
-      title: "Seed parts AE|BCD",
+      title: "Seed AE|BCD",
       level: "Intro",
       prompt: "Seed parts string is AE|BCD.",
-      hint: "Same BAD_SEED as graph labs.",
-      setup: arm,
-      check: () => view === "seed" && partsString(seed) === "AE|BCD",
+      hint: "Same shape as graph BAD_SEED.",
+      check: (_c, api) => partsString(api.getAssignment()) === "AE|BCD",
     },
     {
       id: "run-hyper-1",
-      title: "Refined hyper cut 1",
+      title: "Hyper cut 1",
       level: "Intro",
-      prompt: "Run hypergraph FM; hyperedge cut is 1.",
-      hint: "Only net n3 crosses.",
-      setup: arm,
-      check: () => view === "result" && result && result.hyperCut === 1,
+      prompt: "Reach hyperedge cut 1 (Run FM or Flip to ABC|DE).",
+      hint: "Only n3 should be cut.",
+      check: (_c, api) => api.cutsize() === 1,
     },
     {
       id: "run-parts",
-      title: "Refined ABC|DE",
+      title: "Parts ABC|DE",
       level: "Practice",
-      prompt: "After FM, parts are ABC|DE.",
-      hint: "Same golden communities.",
-      setup: arm,
-      check: () => view === "result" && result && partsString(result.assignment) === "ABC|DE",
+      prompt: "Parts are ABC|DE.",
+      hint: "Swap A↔D from the seed.",
+      check: (_c, api) => partsString(api.getAssignment()) === "ABC|DE",
     },
     {
       id: "n1-uncut",
-      title: "Net n1 uncut",
+      title: "n1 uncut",
       level: "Practice",
       prompt: "Pins of n1 (A,B,C) share one side.",
-      hint: "Heaviest multi-pin net stays internal.",
-      setup: arm,
-      check: () =>
-        view === "result" &&
-        result &&
-        result.assignment.A === result.assignment.B &&
-        result.assignment.B === result.assignment.C,
+      hint: "Triangle net.",
+      check: (_c, api) => {
+        const a = api.getAssignment();
+        return a.A === a.B && a.B === a.C;
+      },
     },
     {
       id: "n2-uncut",
-      title: "Net n2 uncut",
+      title: "n2 uncut",
       level: "Practice",
       prompt: "Pins of n2 (D,E) share one side.",
-      hint: "Pair net D–E stays together.",
-      setup: arm,
-      check: () => view === "result" && result && result.assignment.D === result.assignment.E,
+      hint: "D–E net.",
+      check: (_c, api) => api.getAssignment().D === api.getAssignment().E,
     },
     {
       id: "n3-cut",
-      title: "Net n3 is cut",
+      title: "n3 cut",
       level: "Practice",
-      prompt: "n3 pins C and D are on different sides.",
-      hint: "That single cut contributes weight 1.",
-      setup: arm,
-      check: () => view === "result" && result && result.assignment.C !== result.assignment.D,
+      prompt: "n3 pins C and D differ; hyper cut 1.",
+      hint: "Bridge net.",
+      check: (_c, api) => {
+        const a = api.getAssignment();
+        return a.C !== a.D && api.cutsize() === 1;
+      },
     },
     {
       id: "four-hedges",
-      title: "Instance has 4 nets",
+      title: "Four hyperedges",
       level: "Stretch",
-      prompt: "Before running, instance exposes exactly 4 hyperedges.",
-      hint: "n1…n4 — show seed or leave armed.",
-      setup: arm,
-      check: () => !result && hyper.hyperedges.length === 4,
+      prompt: "Instance has exactly 4 hyperedges.",
+      hint: "Always true on this lab.",
+      check: (_c, api) => (api.getGraph().hyperedges || []).length === 4,
     },
     {
       id: "pair-cut-1",
-      title: "Pair expansion cut 1",
+      title: "Pair cut also 1",
       level: "Stretch",
-      prompt: "After refine, pairCut on clique expansion is also 1.",
-      hint: "On this tiny instance hyper and pair agree at optimum.",
-      setup: arm,
-      check: () => view === "result" && result && result.pairCut === 1,
+      prompt: "After Run hypergraph FM, pairCut on clique expansion is 1.",
+      hint: "Reset, Run hypergraph FM.",
+      check: (_c, api) => api.getMeta().pairCut === 1 && api.cutsize() === 1,
     },
     {
       id: "improves-seed",
-      title: "Improves seed 6→1",
+      title: "Beat seed without reveal",
       level: "Stretch",
-      prompt: "Refined hyperCut 1 beats seed hyper cut 6.",
-      hint: "Run FM after arming from seed.",
-      setup: arm,
-      check: () =>
-        view === "result" &&
-        result &&
-        result.hyperCut === 1 &&
-        hyperedgeCut(BAD_SEED, hyper.hyperedges) === 6,
+      prompt: "Hyper cut 1 with Reveal off (seed was 6).",
+      hint: "Hide golden; Flip or Run FM.",
+      check: (_c, api) => !api.isRevealed() && api.cutsize() === 1,
     },
   ],
-  extraActions(ctx) {
+  extraActions(ctx, api) {
     return [
-      el("button", {
-        className: "btn btn-secondary",
-        type: "button",
-        text: "Show seed only",
-        onClick: () => {
-          result = null;
-          view = "seed";
-          ctx.rerender();
-        },
-      }),
       el("button", {
         className: "btn btn-primary",
         type: "button",
         text: "Run hypergraph FM",
         onClick: () => {
-          result = hypergraphBipartition(hyper.nodes, hyper.hyperedges, seed);
-          view = "result";
+          const g = api.getGraph();
+          const r = hypergraphBipartition(g.nodes, g.hyperedges, BAD_SEED);
+          api.setAssignment(r.assignment);
+          api.setMeta({ pairCut: r.pairCut, history: r.history });
+          api.setRevealed(false);
           ctx.rerender();
         },
       }),
     ];
   },
-  renderWorkspace(ctx) {
-    const g = graphForDraw();
-    const asn = view === "result" && result ? result.assignment : view === "seed" ? seed : null;
-    drawGraph(ctx.canvas, g, { assignment: asn });
-    const lines = [`hyperedges: ${hyper.hyperedges.length}`];
-    for (const h of hyper.hyperedges) {
-      lines.push(`  ${h.id}: [${h.pins.join(",")}] w=${h.w}`);
-    }
-    if (view === "none" || (!result && view !== "seed")) {
-      lines.push("No view yet — show seed or run FM.");
-    } else if (view === "seed") {
-      lines.push(`seed parts: ${partsString(seed)}`);
-      lines.push(`hyperedge cut: ${hyperedgeCut(seed, hyper.hyperedges)}`);
-    } else if (result) {
-      lines.push(`parts: ${partsString(result.assignment)}`);
-      lines.push(`hyperedge cut: ${result.hyperCut}`);
-      lines.push(`pair expansion cut: ${result.pairCut}`);
-    }
-    ctx.metrics.innerHTML = "";
-    ctx.metrics.append(metricsBlock(lines));
+  extraMetrics(api) {
+    return [
+      `hyperedge cut: ${api.cutsize()}`,
+      `pairCut (last run): ${api.getMeta().pairCut ?? "—"}`,
+      `hedges: ${(api.getGraph().hyperedges || []).map((h) => h.id).join(",")}`,
+    ];
   },
 });

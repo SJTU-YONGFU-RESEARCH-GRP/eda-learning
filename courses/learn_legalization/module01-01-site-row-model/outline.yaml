@@ -1,0 +1,99 @@
+title: Site and row model
+footer: learn_legalization — 01 site row model
+slides:
+- type: title
+  title: Site and row model
+  subtitle: Legalization snaps cells to a discrete grid
+  notes: Legalization snaps cells to a discrete grid. Our teaching chip is twelve
+    sites wide and six high—three rows with bottoms at y zero, two, and four. Cell
+    widths A through D are two sites; E and F are one. Total width ten fits inside
+    twelve with room to pack.
+- type: bullets
+  title: The idea
+  bullets:
+  - Every cell sits on exactly one row with a lower-left coordinate aligned to site
+    pitch one
+  - Width tells you how many consecutive sites the rectangle covers
+  - The golden packing is legal
+  - <!-- algorithm-walkthrough -->
+  notes: 'Every cell sits on exactly one row with a lower-left coordinate aligned
+    to site pitch one. Width tells you how many consecutive sites the rectangle covers.
+    The golden packing is legal; the overlap seed stacks A, B, and C at (4, 2) to
+    show what illegal looks like.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: Twelve-by-six chip, three rows
+  image: assets/steps/01-empty-chip.png
+  caption: Twelve-by-six chip, three rows
+  notes: 'Legalization lives on a discrete canvas: chip width twelve sites, height
+    six (three rows of height two). Row bottoms sit at y equals zero, two, and four.
+    Every movable cell must land on a row and align to site pitch one.'
+- type: image
+  title: Cell widths A–D = 2, E–F = 1
+  image: assets/steps/02-cell-widths.png
+  caption: Cell widths A–D = 2, E–F = 1
+  notes: Six cells A through F occupy ten sites total—two sites each for A–D and one
+    each for E and F. Width drives how many consecutive sites a rectangle spans when
+    you pack a row.
+- type: image
+  title: Site pitch equals one
+  image: assets/steps/03-site-pitch.png
+  caption: Site pitch equals one
+  notes: Each vertical tick is one site. Legal x coordinates are integers; a width-two
+    cell at x equals four covers sites four and five on its row. The golden packing
+    shows legal site alignment.
+- type: image
+  title: Golden legal packing
+  image: assets/steps/04-golden-pack.png
+  caption: Golden legal packing
+  notes: The reference legal layout spreads A and B on row zero, C on row one, and
+    E plus D on row top. No overlap, every cell on-row and site-aligned—this is the
+    teaching golden.
+- type: image
+  title: 'Contrast: illegal overlap stack'
+  image: assets/steps/05-overlap-contrast.png
+  caption: 'Contrast: illegal overlap stack'
+  notes: 'The overlap seed stacks A, B, and C at (4, 2) on the middle row—same width-two
+    cells fighting for the same sites. Legality fails before you even discuss wirelength.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab track, open the **site-row-model** lab from the tools shelf
+  - Load the overlap or float starter, run the legalizer once
+  - Work the challenges that lock the goldens
+  notes: In the browser lab track, open the **site-row-model** lab from the tools
+    shelf. Load the overlap or float starter, run the legalizer once, and read legality
+    plus displacement and HPWL when the panel shows them. Work the challenges that
+    lock the goldens, then come back to implement the same loop yourself.
+- type: bullets
+  title: Implement track
+  bullets:
+  - In the implement track, open this module's examples and the course `common/` solvers
+  - Parse `tiny_legal.json`, run the algorithm with deterministic coordinates
+  - Match the browser goldens before you claim the checklist
+  notes: In the implement track, open this module's examples and the course `common/`
+    solvers. Parse `tiny_legal.json`, run the algorithm with deterministic coordinates,
+    and print legality, displacement, and HPWL. Match the browser goldens before you
+    claim the checklist.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Common traps
+  notes: 'Common traps: assuming snap alone legalizes; forgetting site width when
+    checking overlap; ignoring fixed macro D at (8, 4); reporting HPWL without legality;
+    and comparing Abacus and Tetris without naming displacement versus wirelength
+    tradeoffs.'
+- type: bullets
+  title: Your turn
+  bullets:
+  - Complete the checklist for at least one track, preferably both
+  - Implement until your metrics match the starter goldens
+  - When you're ready, take the short quiz, then continue to the next module
+  notes: Complete the checklist for at least one track—preferably both. Implement
+    until your metrics match the starter goldens. When you're ready, take the short
+    quiz, then continue to the next module.

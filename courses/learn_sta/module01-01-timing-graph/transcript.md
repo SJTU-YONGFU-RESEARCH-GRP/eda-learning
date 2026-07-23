@@ -6,24 +6,27 @@
 
 ## Slide 1 — Timing graph
 
-Static timing analysis answers a hard question without simulation waveforms: given clocks and delays, which paths meet setup and hold? In this module you’ll implement **timing-graph construction and levelization** end to end—not a sketch. By the end, you’ll run it on a tiny netlist, report the metrics that matter here, and know what the algorithm actually does.
+Static timing starts with a directed timing graph. On our tiny chain, six pins and five arcs carry you from in through two cells to out. You will levelize the graph, name sources and sinks, and prove that a back-edge out to in makes levelize fail.
 
-## Slide 2 — The idea
+## Slide 2 — Goldens to remember
 
-Here’s the core idea in one breath: timing-graph construction and levelization. You’ll take a timing graph or tagged pin times, apply the update rule until a stop condition, and emit arrivals, required times, slack, or a path—depending on the lab. Watch three habits every time: levelize before you propagate, keep setup and hold separate, and never trust a path you cannot trace.
+Goldens: six pins, five arcs, levels zero through five, path delay three point two. A cycle returns no levels. Keep these numbers handy—the browser challenges and Track A tests use the same instance.
 
-## Slide 3 — Browser lab track
+<!-- algorithm-walkthrough -->
+<!-- /algorithm-walkthrough -->
 
-In the browser lab track, open the **timing-graph** lab from the tools shelf when it ships. Load the starter netlist, run the analysis once, and read the metrics panel—arrivals, required times, slack, or the critical path. Orient yourself, try one parameter change, then come back to implement the same loop yourself.
+## Slide 8 — Browser lab track
 
-## Slide 4 — Implement track
+In the browser lab, open **timing-graph**. Load the starter, run the analysis once, and read the metrics panel. Orient yourself—challenge panel, canvas, Check—then mirror the same goldens in code.
 
-In the implement track, open this module’s examples and build the full algorithm. Parse the tiny timing JSON, run the core loop with clear stop rules, and print the tags plus metrics. Prefer a deterministic netlist so your golden answers stay stable. If something looks wrong, dump levels or pin times—debugging the graph is part of the learning.
+## Slide 9 — Implement track
 
-## Slide 5 — Pitfalls
+In the implement track, use `common/tiny_timing.json` with the helpers in `common/graph.py` and `common/propagate.py`. Run `python3 common/test_propagate.py` (and the timing-graph test) until the goldens print ok.
 
-Common traps: propagating before the graph is levelized; mixing setup and hold in one number; treating false paths as free without updating endpoints; and full-chip rebuilds when only a cone changed. For incremental work, remember invalidate then recompute—not silent stale tags.
+## Slide 10 — Pitfall
 
-## Slide 6 — Your turn
+Do not mix setup and hold required maps. Do not propagate before the graph is levelized. After an edit or exception, recompute—stale tags lie.
 
-Complete the checklist for at least one track—preferably both. Implement the algorithm until your metrics match the expected range on the starter netlist. When you’re ready, take the short quiz, then continue to the next module in this section.
+## Slide 11 — Your turn
+
+Finish the checklist on at least one track—preferably both. When your numbers match the goldens, take the quiz, then continue.

@@ -1,46 +1,39 @@
 {
   "id": "module03-01-incremental-update",
-  "title": "Incremental update check",
+  "title": "Incremental timing update check",
   "items": [
     {
       "id": "q1",
       "type": "multiple_choice",
-      "prompt": "This lab\u2019s primary algorithm is\u2026",
+      "prompt": "After u1 delay 1.2\u21922.0, A(out) is\u2026",
       "choices": [
-        "incremental invalidate / recompute on a delay edit",
-        "Vendor place-and-route GUI only",
-        "SPICE transient analysis",
-        "Scan-chain stitching"
+        "3.2",
+        "4.0",
+        "6.0",
+        "2.0"
       ],
-      "answer": 0,
-      "explain": "Focus: incremental invalidate / recompute on a delay edit."
+      "answer": 1,
+      "explain": "Arrival becomes 4.0."
     },
     {
       "id": "q2",
       "type": "true_false",
-      "prompt": "You can safely propagate arrivals before the timing graph is levelized.",
+      "prompt": "Incremental update must invalidate the source pin in.",
       "answer": false,
-      "explain": "Levelization (or equivalent topo order) comes first."
+      "explain": "Upstream of the edit stays clean."
     },
     {
       "id": "q3",
       "type": "multiple_choice",
-      "prompt": "After running the algorithm you should report\u2026",
+      "prompt": "Setup slack after the edit is\u2026",
       "choices": [
-        "Only a screenshot of the UI",
-        "Tagged times and/or slack / path metrics for the starter",
-        "Only runtime",
-        "Nothing \u2014 intuition is enough"
+        "6.8",
+        "6.0",
+        "4.0",
+        "3.2"
       ],
       "answer": 1,
-      "explain": "Tags + metrics are the contract."
-    },
-    {
-      "id": "q4",
-      "type": "true_false",
-      "prompt": "Track A asks you to implement incremental invalidate / recompute on a delay edit on a tiny netlist.",
-      "answer": true,
-      "explain": "Implement track hardens the idea."
+      "explain": "10\u22124.0=6.0."
     }
   ]
 }

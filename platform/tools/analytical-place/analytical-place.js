@@ -1,124 +1,138 @@
 import {
-  CELLS,
   FIXED_PADS,
   GOLDENS,
   NETS,
   STARTER_PLACEMENT,
   analyticalPlace,
-  clonePositions,
   densityBins,
   forceDirectedPlace,
   near,
   round1,
   totalHpwl,
 } from "../../assets/placement-core.js";
-import {
-  createChallengeLab,
-  drawPlacement,
-  el,
-  metricsBlock,
-} from "../../assets/placement-ui.js";
+import { createInteractivePlacementLab } from "../../assets/interactive-placement-lab.js";
+import { el } from "../../assets/placement-ui.js";
 
 const root = document.getElementById("lab-root");
-let pos = clonePositions(STARTER_PLACEMENT);
-let mode = "starter"; // starter | force | analytical
 
-function arm() {
-  pos = clonePositions(STARTER_PLACEMENT);
-  mode = "none";
-}
-
-createChallengeLab(root, {
+createInteractivePlacementLab(root, {
+  initialPositions: STARTER_PLACEMENT,
+  lockedIds: FIXED_PADS,
+  drawOpts: { grid: 2, highlightCells: FIXED_PADS },
   starterHtml: `
-    <p><strong>Starter:</strong> analytical lite = force/quadratic wirelength with pads
-    <code>${FIXED_PADS.join(",")}</code>, then density spreading → HPWL ≈
-    <strong>${GOLDENS.analyticalHpwlAfter}</strong> (still beats 52).</p>
+    <p><strong>Your job:</strong> pads <code>${FIXED_PADS.join(",")}</code> locked. Apply force stage,
+    full analytical, or nudge free cells. Analytical lite → HPWL ≈
+    <strong>${GOLDENS.analyticalHpwlAfter}</strong>.</p>
   `,
-  loadStarter() {
-    pos = clonePositions(STARTER_PLACEMENT);
-    mode = "starter";
+  extraActions(ctx, api) {
+    return [
+      el("button", {
+        className: "btn btn-ghost",
+        type: "button",
+        text: "Apply force stage",
+        onClick: () => {
+          api.setPositions(
+            forceDirectedPlace(api.getPositions(), {
+              iters: 6,
+              alpha: 0.14,
+              centerPull: 0.025,
+              fixed: FIXED_PADS,
+            })
+          );
+          api.setRevealed(false);
+          ctx.rerender();
+        },
+      }),
+      el("button", {
+        className: "btn btn-primary",
+        type: "button",
+        text: "Apply analytical",
+        onClick: () => {
+          api.setPositions(analyticalPlace(api.getPositions(), { fixed: FIXED_PADS }));
+          api.setRevealed(false);
+          ctx.rerender();
+        },
+      }),
+    ];
+  },
+  extraMetrics(api) {
+    const dens = densityBins(api.getPositions(), { capacity: 1 });
+    return [
+      `overflow(cap1): ${dens.overflow}`,
+      `bins: ${JSON.stringify(dens.counts)}`,
+      `target ≈ ${GOLDENS.analyticalHpwlAfter}`,
+    ];
   },
   challenges: [
     {
       id: "starter-52",
       title: "Starter 52",
       level: "Intro",
-      prompt: "Starter view HPWL is 52.",
-      hint: "Show starter / load.",
-      setup: arm,
-      check: () => mode === "starter" && totalHpwl(NETS, pos) === 52,
-    },
-    {
-      id: "run-anal",
-      title: "Run analytical",
-      level: "Intro",
-      prompt: "Click Run analytical.",
-      hint: "Primary button.",
-      setup: arm,
-      check: () => mode === "analytical",
+      prompt: "Reset so HPWL is 52.",
+      hint: "Reset to starter.",
+      check: (_c, api) => totalHpwl(NETS, api.getPositions()) === 52,
     },
     {
       id: "after-48-1",
       title: "After ≈ 48.1",
       level: "Intro",
-      prompt: "Analytical round1(HPWL) is 48.1.",
-      hint: "Default densIters.",
-      setup: arm,
-      check: () =>
-        mode === "analytical" && near(round1(totalHpwl(NETS, pos)), GOLDENS.analyticalHpwlAfter, 0.05),
+      prompt: "Reach round1(HPWL) ≈ 48.1 (analytical from starter).",
+      hint: "Reset, then Apply analytical.",
+      check: (_c, api) =>
+        near(round1(totalHpwl(NETS, api.getPositions())), GOLDENS.analyticalHpwlAfter, 0.15),
     },
     {
       id: "beats-starter",
       title: "Beats starter",
-      level: "Practice",
-      prompt: "Analytical HPWL < 52.",
-      hint: "Wirelength stage still helps.",
-      setup: arm,
-      check: () => mode === "analytical" && totalHpwl(NETS, pos) < 52,
+      level: "Intro",
+      prompt: "HPWL < 52.",
+      hint: "Apply analytical or force stage.",
+      check: (_c, api) => totalHpwl(NETS, api.getPositions()) < 52,
     },
     {
       id: "pads-fixed",
       title: "Pads stay fixed",
       level: "Practice",
-      prompt: "After analytical, A and D match starter coords.",
-      hint: "FIXED_PADS.",
-      setup: arm,
-      check: () =>
-        mode === "analytical" &&
-        pos.A.x === 0 &&
-        pos.A.y === 0 &&
-        pos.D.x === 8 &&
-        pos.D.y === 8,
+      prompt: "A at (0,0) and D at (8,8).",
+      hint: "Pads are locked.",
+      check: (_c, api) => {
+        const pos = api.getPositions();
+        return pos.A.x === 0 && pos.A.y === 0 && pos.D.x === 8 && pos.D.y === 8;
+      },
     },
     {
       id: "vs-force-cluster",
       title: "Less clustered than free force",
       level: "Practice",
-      prompt: "Analytical HPWL > free force ≈18.7 (pads + spread).",
-      hint: "Compare to force-directed tool.",
-      setup: arm,
-      check: () =>
-        mode === "analytical" && totalHpwl(NETS, pos) > GOLDENS.forceHpwlAfter,
+      prompt: "HPWL > free force ≈18.7 (pads + spread).",
+      hint: "Analytical ≈48.1; force stage with pads also stays high.",
+      check: (_c, api) => totalHpwl(NETS, api.getPositions()) > GOLDENS.forceHpwlAfter,
     },
     {
-      id: "show-force-stage",
-      title: "Force stage alone",
+      id: "force-stage-hpwl",
+      title: "Force stage improves",
       level: "Practice",
-      prompt: "Show force-stage (pads) then confirm mode=force.",
-      hint: "Force stage button.",
-      setup: arm,
-      check: () => mode === "force",
+      prompt: "After a force stage (pads fixed), HPWL < 52 and pads unchanged.",
+      hint: "Reset, Apply force stage.",
+      check: (_c, api) => {
+        const pos = api.getPositions();
+        return (
+          totalHpwl(NETS, pos) < 52 &&
+          pos.A.x === 0 &&
+          pos.A.y === 0 &&
+          pos.D.x === 8 &&
+          pos.D.y === 8
+        );
+      },
     },
     {
       id: "has-overflow",
       title: "Overflow reported",
-      level: "Stretch",
-      prompt: "Analytical density overflow (cap 1) is a finite number ≥ 0.",
-      hint: "Metrics panel.",
-      setup: arm,
-      check: () => {
-        if (mode !== "analytical") return false;
-        const o = densityBins(pos, { capacity: 1 }).overflow;
+      level: "Practice",
+      prompt: "Density overflow (cap 1) is a finite number ≥ 0.",
+      hint: "Any placement; read metrics.",
+      check: (_c, api) => {
+        const o = densityBins(api.getPositions(), { capacity: 1 }).overflow;
         return Number.isFinite(o) && o >= 0;
       },
     },
@@ -126,76 +140,37 @@ createChallengeLab(root, {
       id: "near-quad",
       title: "Near quadratic 48",
       level: "Stretch",
-      prompt: "Analytical HPWL is within 1 of quadratic golden 48.",
-      hint: "Spreading keeps WL near the quad solve.",
-      setup: arm,
-      check: () =>
-        mode === "analytical" && near(totalHpwl(NETS, pos), GOLDENS.quadraticHpwlAfter, 1),
+      prompt: "HPWL within 1 of quadratic golden 48.",
+      hint: "Apply analytical from starter.",
+      check: (_c, api) => near(totalHpwl(NETS, api.getPositions()), GOLDENS.quadraticHpwlAfter, 1),
     },
     {
       id: "cells-six",
       title: "Six cells placed",
       level: "Stretch",
-      prompt: "All six cells have positions after analytical.",
-      hint: "Run analytical.",
-      setup: arm,
-      check: () => mode === "analytical" && CELLS.every((id) => pos[id]),
+      prompt: "All six cells have positions.",
+      hint: "Always true after reset / algo.",
+      check: (_c, api) => {
+        const pos = api.getPositions();
+        return ["A", "B", "C", "D", "E", "F"].every((id) => pos[id]);
+      },
+    },
+    {
+      id: "improved-with-pads",
+      title: "Improved with pads",
+      level: "Stretch",
+      prompt: "HPWL ≤ 50 with A,D still at starter corners.",
+      hint: "Apply analytical.",
+      check: (_c, api) => {
+        const pos = api.getPositions();
+        return (
+          totalHpwl(NETS, pos) <= 50 &&
+          pos.A.x === 0 &&
+          pos.A.y === 0 &&
+          pos.D.x === 8 &&
+          pos.D.y === 8
+        );
+      },
     },
   ],
-  extraActions(ctx) {
-    return [
-      el("button", {
-        className: "btn btn-secondary",
-        type: "button",
-        text: "Show starter",
-        onClick: () => {
-          pos = clonePositions(STARTER_PLACEMENT);
-          mode = "starter";
-          ctx.rerender();
-        },
-      }),
-      el("button", {
-        className: "btn btn-ghost",
-        type: "button",
-        text: "Force stage",
-        onClick: () => {
-          pos = forceDirectedPlace(STARTER_PLACEMENT, {
-            iters: 6,
-            alpha: 0.14,
-            centerPull: 0.025,
-            fixed: FIXED_PADS,
-          });
-          mode = "force";
-          ctx.rerender();
-        },
-      }),
-      el("button", {
-        className: "btn btn-primary",
-        type: "button",
-        text: "Run analytical",
-        onClick: () => {
-          pos = analyticalPlace(STARTER_PLACEMENT);
-          mode = "analytical";
-          ctx.rerender();
-        },
-      }),
-    ];
-  },
-  renderWorkspace(ctx) {
-    const dens = densityBins(pos, { capacity: 1 });
-    drawPlacement(ctx.canvas, CELLS, pos, NETS, {
-      grid: 2,
-      highlightCells: FIXED_PADS,
-    });
-    ctx.metrics.innerHTML = "";
-    ctx.metrics.append(
-      metricsBlock([
-        `mode: ${mode}`,
-        `HPWL: ${round1(totalHpwl(NETS, pos))}`,
-        `overflow(cap1): ${dens.overflow}`,
-        `bins: ${JSON.stringify(dens.counts)}`,
-        `target ≈ ${GOLDENS.analyticalHpwlAfter}`,
-      ])
-    );
-  },
 });

@@ -1,0 +1,47 @@
+{
+  "module": "module02-07-tetris-row-pack",
+  "title": "Tetris pack check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "true_false",
+      "prompt": "Tetris packing is sensitive to cell processing order.",
+      "answer": true,
+      "explain": "Order-dependent greedy fill."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "prompt": "Tetris lite finds the leftmost\u2026",
+      "choices": [
+        "Free slot fitting cell width",
+        "Random site",
+        "Only macro center",
+        "Pin location"
+      ],
+      "answer": 0,
+      "explain": "Slot filling on row."
+    },
+    {
+      "id": "q3",
+      "type": "true_false",
+      "prompt": "Occupancy is tracked per site column in a row.",
+      "answer": true,
+      "explain": "Bitmap / interval model."
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "prompt": "Compare Tetris vs Abacus primarily on\u2026",
+      "choices": [
+        "Legality, displacement, HPWL",
+        "Only font size",
+        "Git branch name",
+        "TTS voice"
+      ],
+      "answer": 0,
+      "explain": "Metrics-driven compare."
+    }
+  ]
+}

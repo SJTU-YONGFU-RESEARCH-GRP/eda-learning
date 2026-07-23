@@ -1,7 +1,7 @@
 # Module 03-01: Incremental timing update
 
 **Module id:** `module03-01-incremental-update`  
-**Kind:** `lab` · Primary lab: `incremental-update` · **Planned**
+**Kind:** `lab` · Primary lab: `incremental-update` · **Shipped**
 
 [← Critical path](../module02-03-critical-path/README.md) · [Course README](../README.md) · [False / multicycle →](../module03-03-false-multicycle-lite/README.md)
 
@@ -19,8 +19,9 @@ After this module you can: **Invalidate and recompute only the cone affected by 
 
 ### Track B — Browser lab (online)
 
-1. Local: [http://127.0.0.1:8080/tools/incremental-update/index.html](http://127.0.0.1:8080/tools/incremental-update/index.html) *(planned)*
-2. Tools shelf: open `incremental-update` from the platform tools index when shipped
+1. Local: [http://127.0.0.1:8080/tools/incremental-update/index.html](http://127.0.0.1:8080/tools/incremental-update/index.html)
+2. Live: [https://universal-verification-methodology.github.io/learning/tools/incremental-update/](https://universal-verification-methodology.github.io/learning/tools/incremental-update/)
+3. Tools shelf: open `incremental-update` from the platform tools index
 3. Load the **starter netlist**, run the analysis, inspect path / slack metrics.
 4. Check off Track B items in [CHECKLIST.md](CHECKLIST.md).
 

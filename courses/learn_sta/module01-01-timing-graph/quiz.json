@@ -5,42 +5,35 @@
     {
       "id": "q1",
       "type": "multiple_choice",
-      "prompt": "This lab\u2019s primary algorithm is\u2026",
+      "prompt": "Max level of out on the starter chain is\u2026",
       "choices": [
-        "timing-graph construction and levelization",
-        "Vendor place-and-route GUI only",
-        "SPICE transient analysis",
-        "Scan-chain stitching"
+        "3",
+        "5",
+        "6",
+        "0"
       ],
-      "answer": 0,
-      "explain": "Focus: timing-graph construction and levelization."
+      "answer": 1,
+      "explain": "out is L5."
     },
     {
       "id": "q2",
       "type": "true_false",
-      "prompt": "You can safely propagate arrivals before the timing graph is levelized.",
+      "prompt": "A back-edge out\u2192in still levelizes successfully.",
       "answer": false,
-      "explain": "Levelization (or equivalent topo order) comes first."
+      "explain": "Cycles make Kahn stall."
     },
     {
       "id": "q3",
       "type": "multiple_choice",
-      "prompt": "After running the algorithm you should report\u2026",
+      "prompt": "Path delay sum on the starter is\u2026",
       "choices": [
-        "Only a screenshot of the UI",
-        "Tagged times and/or slack / path metrics for the starter",
-        "Only runtime",
-        "Nothing \u2014 intuition is enough"
+        "2.7",
+        "3.2",
+        "10",
+        "1.2"
       ],
       "answer": 1,
-      "explain": "Tags + metrics are the contract."
-    },
-    {
-      "id": "q4",
-      "type": "true_false",
-      "prompt": "Track A asks you to implement timing-graph construction and levelization on a tiny netlist.",
-      "answer": true,
-      "explain": "Implement track hardens the idea."
+      "explain": "0+1.2+0.3+1.5+0.2=3.2."
     }
   ]
 }

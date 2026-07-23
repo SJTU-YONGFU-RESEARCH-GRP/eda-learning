@@ -1,180 +1,141 @@
-import {
-  BAD_SEED,
-  cloneGraph,
-  cutsize,
-  fiducciaMattheyses,
-  partsString,
-} from "../../assets/clustering-core.js";
-import {
-  createChallengeLab,
-  drawGraph,
-  el,
-  metricsBlock,
-} from "../../assets/clustering-ui.js";
+import { BAD_SEED, fiducciaMattheyses, partsString } from "../../assets/clustering-core.js";
+import { GOLDEN_BIPART } from "../../assets/partitioning-core.js";
+import { createInteractiveGraphLab, el } from "../../assets/interactive-graph-lab.js";
 
 const root = document.getElementById("lab-root");
-let graph = cloneGraph();
-let seed = { ...BAD_SEED };
-let result = null;
 
-function arm() {
-  graph = cloneGraph();
-  seed = { ...BAD_SEED };
-  result = null;
-}
-
-createChallengeLab(root, {
+createInteractiveGraphLab(root, {
+  initialAssignment: { ...BAD_SEED },
+  revealAssignment: GOLDEN_BIPART,
+  initialMeta: { history: null },
   starterHtml: `
-    <p><strong>Starter example (reference):</strong> same bad seed (<strong>cutsize 12</strong>).
-    FM single-vertex moves reach <strong>cutsize 3</strong> via D then A.
-    Reload starter to restore the worked reference.</p>
+    <p><strong>Your job:</strong> from bad seed cut 12, Flip D then A (or Run FM) until cut 3 / ABC|DE.
+    Challenges check <em>your</em> assignment.</p>
   `,
-  loadStarter() {
-    graph = cloneGraph();
-    seed = { ...BAD_SEED };
-    result = fiducciaMattheyses(graph.nodes, graph.edges, seed);
-  },
   challenges: [
     {
       id: "seed-12",
-      title: "Seed cutsize is 12",
+      title: "Seed cutsize 12",
       level: "Intro",
-      prompt: "Show seed only; cutsize must be 12.",
-      hint: "Click Show seed only.",
-      setup: arm,
-      check: () => !result && cutsize(seed, graph.edges) === 12,
+      prompt: "Workspace seed cutsize must be 12.",
+      hint: "Reset; leave the seed.",
+      check: (_c, api) => api.cutsize() === 12,
     },
     {
-      id: "fm-12-to-3",
-      title: "FM improves 12 → 3",
+      id: "flip-d-then-a",
+      title: "Flip D then A",
       level: "Intro",
-      prompt: "Run FM; cutBefore=12 and final cutsize=3.",
-      hint: "Pass 0 repairs the bad seed.",
-      setup: arm,
-      check: () =>
-        result &&
-        result.history[0]?.cutBefore === 12 &&
-        cutsize(result.assignment, graph.edges) === 3,
+      prompt: "From the seed, flip D then A until cutsize is 3 and parts ABC|DE.",
+      hint: "Same order FM accepts. Or Run FM.",
+      check: (_c, api) => api.cutsize() === 3 && partsString(api.getAssignment()) === "ABC|DE",
     },
     {
       id: "fm-moves-da",
-      title: "Moves D then A",
+      title: "FM moves D then A",
       level: "Intro",
-      prompt: "Accepted move prefix starts with D then A.",
-      hint: "Single-vertex moves, not pairwise swaps.",
-      setup: arm,
-      check: () => {
-        const m = result?.history?.[0]?.moves;
-        return m && m.length >= 2 && m[0].v === "D" && m[1].v === "A";
+      prompt: "Run FM; accepted moves start with D then A; cut is 3.",
+      hint: "Reset, Run FM.",
+      check: (_c, api) => {
+        const m = api.getMeta().history?.[0]?.moves;
+        return m && m[0]?.v === "D" && m[1]?.v === "A" && api.cutsize() === 3;
       },
     },
     {
       id: "fm-d-gain-3",
-      title: "First move gain 3",
+      title: "D gain 3",
       level: "Practice",
-      prompt: "Moving D has gain g=3.",
-      hint: "Check moves list: D(3).",
-      setup: arm,
-      check: () => result?.history?.[0]?.moves?.[0]?.g === 3,
+      prompt: "After Run FM, moving D has gain g=3.",
+      hint: "First accepted move.",
+      check: (_c, api) => api.getMeta().history?.[0]?.moves?.[0]?.g === 3,
     },
     {
       id: "fm-a-gain-6",
-      title: "Second move gain 6",
+      title: "A gain 6",
       level: "Practice",
-      prompt: "Moving A has gain g=6.",
-      hint: "After D flips, A’s gain becomes 6.",
-      setup: arm,
-      check: () => result?.history?.[0]?.moves?.[1]?.g === 6,
+      prompt: "After Run FM, moving A has gain g=6.",
+      hint: "Second accepted move.",
+      check: (_c, api) => api.getMeta().history?.[0]?.moves?.[1]?.g === 6,
     },
     {
       id: "fm-bestk-2",
       title: "best_k = 2",
       level: "Practice",
-      prompt: "Pass 0 best_k is 2.",
-      hint: "Both moves kept in the best prefix.",
-      setup: arm,
-      check: () => result?.history?.[0]?.bestK === 2,
+      prompt: "Pass 0 best_k is 2 and bestCum is 9.",
+      hint: "Both moves kept.",
+      check: (_c, api) => {
+        const h = api.getMeta().history?.[0];
+        return h && h.bestK === 2 && h.bestCum === 9;
+      },
     },
     {
-      id: "fm-bestcum-9",
-      title: "bestCum = 9",
+      id: "parts-abc-de",
+      title: "Parts ABC|DE",
       level: "Practice",
-      prompt: "Pass 0 best cumulative gain is 9.",
-      hint: "3+6 matches KL’s one-swap gain.",
-      setup: arm,
-      check: () => result?.history?.[0]?.bestCum === 9,
-    },
-    {
-      id: "fm-final-parts",
-      title: "Final ABC|DE",
-      level: "Stretch",
-      prompt: "After FM, parts are ABC|DE.",
-      hint: "Same bipartition KL reaches.",
-      setup: arm,
-      check: () => result && partsString(result.assignment) === "ABC|DE",
+      prompt: "Reach parts ABC|DE.",
+      hint: "Flip D then A, or Run FM.",
+      check: (_c, api) => partsString(api.getAssignment()) === "ABC|DE",
     },
     {
       id: "fm-pass1-stop",
       title: "Pass 1 stops",
       level: "Stretch",
-      prompt: "Pass 1 has improved=false.",
+      prompt: "After Run FM, pass 1 has improved=false.",
       hint: "Local optimum.",
-      setup: arm,
-      check: () => result?.history?.[1]?.improved === false,
+      check: (_c, api) => api.getMeta().history?.[1]?.improved === false,
     },
     {
-      id: "fm-de-same",
-      title: "D and E same side",
+      id: "de-same",
+      title: "D and E together",
       level: "Stretch",
-      prompt: "After FM, D and E share a block.",
-      hint: "Heavy D–E stays internal.",
-      setup: arm,
-      check: () => result && result.assignment.D === result.assignment.E,
+      prompt: "D and E share a block; cutsize 3.",
+      hint: "Heavy D–E uncut.",
+      check: (_c, api) => {
+        const a = api.getAssignment();
+        return a.D === a.E && api.cutsize() === 3;
+      },
+    },
+    {
+      id: "manual-not-reveal",
+      title: "Cut 3 without reveal",
+      level: "Stretch",
+      prompt: "ABC|DE cut 3 with Reveal off.",
+      hint: "Hide golden; Flip or Run FM.",
+      check: (_c, api) =>
+        !api.isRevealed() &&
+        api.cutsize() === 3 &&
+        partsString(api.getAssignment()) === "ABC|DE",
     },
   ],
-  extraActions(ctx) {
+  extraActions(ctx, api) {
     return [
-      el("button", {
-        className: "btn btn-secondary",
-        type: "button",
-        text: "Show seed only",
-        onClick: () => {
-          result = null;
-          ctx.rerender();
-        },
-      }),
       el("button", {
         className: "btn btn-primary",
         type: "button",
         text: "Run FM",
         onClick: () => {
-          result = fiducciaMattheyses(graph.nodes, graph.edges, seed);
+          const g = api.getGraph();
+          const r = fiducciaMattheyses(g.nodes, g.edges, BAD_SEED);
+          api.setAssignment(r.assignment);
+          api.setMeta({ history: r.history });
+          api.setRevealed(false);
           ctx.rerender();
         },
       }),
     ];
   },
-  renderWorkspace(ctx) {
-    const asn = result ? result.assignment : seed;
-    drawGraph(ctx.canvas, graph, { assignment: asn });
-    const lines = [
-      `cutsize now: ${cutsize(asn, graph.edges)}`,
-      `parts: ${partsString(asn)}`,
-    ];
-    if (result) {
-      for (const h of result.history) {
-        lines.push(
-          `pass ${h.pass}: best_k=${h.bestK} cum=${h.bestCum} cut ${h.cutBefore}→${h.cutAfter} improved=${h.improved}`
-        );
-        if (h.moves?.length) {
-          lines.push(`  moves: ${h.moves.map((m) => `${m.v}(${m.g})`).join(", ")}`);
-        }
+  extraMetrics(api) {
+    const lines = [];
+    for (const h of api.getMeta().history || []) {
+      lines.push(
+        `pass ${h.pass}: best_k=${h.bestK} cum=${h.bestCum} ${h.cutBefore}→${h.cutAfter}`
+      );
+      if (h.moves?.length) {
+        lines.push(`  moves: ${h.moves.map((m) => `${m.v}(${m.g})`).join(", ")}`);
       }
-    } else {
-      lines.push("Showing seed only.");
-      lines.push(`seed: ${JSON.stringify(seed)}`);
     }
-    ctx.metrics.innerHTML = "";
-    ctx.metrics.append(metricsBlock(lines));
+    return lines;
+  },
+  onClear(api) {
+    api.setMeta({ history: null });
   },
 });

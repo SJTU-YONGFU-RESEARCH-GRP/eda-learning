@@ -1,167 +1,147 @@
 import {
-  CELLS,
   FIXED_PADS,
   GOLDENS,
   NETS,
   STARTER_PLACEMENT,
-  clonePositions,
   near,
   quadraticPlace,
   round1,
   totalHpwl,
 } from "../../assets/placement-core.js";
-import {
-  createChallengeLab,
-  drawPlacement,
-  el,
-  metricsBlock,
-} from "../../assets/placement-ui.js";
+import { createInteractivePlacementLab } from "../../assets/interactive-placement-lab.js";
+import { el } from "../../assets/placement-ui.js";
 
 const root = document.getElementById("lab-root");
-let pos = clonePositions(STARTER_PLACEMENT);
-let ran = false;
 
-function arm() {
-  pos = clonePositions(STARTER_PLACEMENT);
-  ran = false;
-}
-
-createChallengeLab(root, {
+createInteractivePlacementLab(root, {
+  initialPositions: STARTER_PLACEMENT,
+  lockedIds: FIXED_PADS,
+  drawOpts: { highlightCells: FIXED_PADS },
   starterHtml: `
-    <p><strong>Starter:</strong> HPWL <strong>52</strong>. Quadratic lite with pads
-    <code>${FIXED_PADS.join(",")}</code> fixed → HPWL <strong>${GOLDENS.quadraticHpwlAfter}</strong>.</p>
+    <p><strong>Your job:</strong> pads <code>${FIXED_PADS.join(",")}</code> are locked.
+    Move free cells or <strong>Apply quadratic</strong> (Gauss–Seidel average). Starter 52 →
+    quadratic lite <strong>${GOLDENS.quadraticHpwlAfter}</strong>.</p>
   `,
-  loadStarter() {
-    arm();
+  extraActions(ctx, api) {
+    return [
+      el("button", {
+        className: "btn btn-primary",
+        type: "button",
+        text: "Apply quadratic",
+        onClick: () => {
+          api.setPositions(quadraticPlace(api.getPositions(), { fixed: FIXED_PADS }));
+          api.setRevealed(false);
+          ctx.rerender();
+        },
+      }),
+    ];
+  },
+  extraMetrics(api) {
+    const pos = api.getPositions();
+    return [
+      `fixed pads: ${FIXED_PADS.join(",")}`,
+      `A: (${pos.A.x}, ${pos.A.y})  D: (${pos.D.x}, ${pos.D.y})`,
+      `target: ${GOLDENS.quadraticHpwlAfter}`,
+    ];
   },
   challenges: [
     {
       id: "before-52",
       title: "Before = 52",
       level: "Intro",
-      prompt: "Starter HPWL is 52 before solve.",
-      hint: "Reset / load starter.",
-      setup: arm,
-      check: () => !ran && totalHpwl(NETS, pos) === 52,
-    },
-    {
-      id: "run-quad",
-      title: "Run quadratic",
-      level: "Intro",
-      prompt: "Click Run quadratic.",
-      hint: "Primary button.",
-      setup: arm,
-      check: () => ran,
+      prompt: "Starter HPWL is 52.",
+      hint: "Reset to starter.",
+      check: (_c, api) => totalHpwl(NETS, api.getPositions()) === 52,
     },
     {
       id: "after-48",
-      title: "After = 48",
+      title: "HPWL = 48",
       level: "Intro",
-      prompt: "After solve, HPWL is 48.",
-      hint: "Default blend/iters with pads A,D.",
-      setup: arm,
-      check: () => ran && near(totalHpwl(NETS, pos), GOLDENS.quadraticHpwlAfter, 0.05),
+      prompt: "Reach HPWL 48 (default quadratic from starter).",
+      hint: "Reset, then Apply quadratic.",
+      check: (_c, api) => near(totalHpwl(NETS, api.getPositions()), GOLDENS.quadraticHpwlAfter, 0.05),
     },
     {
       id: "pads-fixed-a",
       title: "Pad A fixed",
-      level: "Practice",
-      prompt: "After solve, A stays at starter (0,0).",
-      hint: "FIXED_PADS includes A.",
-      setup: arm,
-      check: () =>
-        ran && pos.A.x === STARTER_PLACEMENT.A.x && pos.A.y === STARTER_PLACEMENT.A.y,
+      level: "Intro",
+      prompt: "A stays at starter (0,0).",
+      hint: "A is locked — Apply quadratic or nudge free cells only.",
+      check: (_c, api) => {
+        const pos = api.getPositions();
+        return pos.A.x === STARTER_PLACEMENT.A.x && pos.A.y === STARTER_PLACEMENT.A.y;
+      },
     },
     {
       id: "pads-fixed-d",
       title: "Pad D fixed",
       level: "Practice",
-      prompt: "After solve, D stays at starter (8,8).",
-      hint: "FIXED_PADS includes D.",
-      setup: arm,
-      check: () =>
-        ran && pos.D.x === STARTER_PLACEMENT.D.x && pos.D.y === STARTER_PLACEMENT.D.y,
+      prompt: "D stays at starter (8,8).",
+      hint: "D is locked.",
+      check: (_c, api) => {
+        const pos = api.getPositions();
+        return pos.D.x === STARTER_PLACEMENT.D.x && pos.D.y === STARTER_PLACEMENT.D.y;
+      },
     },
     {
       id: "improved",
       title: "Improved",
       level: "Practice",
-      prompt: "HPWL after < 52.",
-      hint: "Free cells move toward neighbors.",
-      setup: arm,
-      check: () => ran && totalHpwl(NETS, pos) < 52,
+      prompt: "HPWL < 52 with pads still fixed.",
+      hint: "Apply quadratic or move B/C/E/F inward.",
+      check: (_c, api) => {
+        const pos = api.getPositions();
+        return (
+          totalHpwl(NETS, pos) < 52 &&
+          pos.A.x === 0 &&
+          pos.A.y === 0 &&
+          pos.D.x === 8 &&
+          pos.D.y === 8
+        );
+      },
     },
     {
       id: "worse-than-force",
       title: "Higher than force",
       level: "Practice",
-      prompt: "Quadratic HPWL > force golden 18.7 (pads constrain).",
-      hint: "Fixed corners keep span large.",
-      setup: arm,
-      check: () => ran && totalHpwl(NETS, pos) > GOLDENS.forceHpwlAfter,
+      prompt: "HPWL > force golden 18.7 (pads keep span large).",
+      hint: "Quadratic result ≈48; or any lightly improved layout.",
+      check: (_c, api) => totalHpwl(NETS, api.getPositions()) > GOLDENS.forceHpwlAfter,
     },
     {
       id: "b-moved",
       title: "B moved",
-      level: "Stretch",
+      level: "Practice",
       prompt: "Cell B is no longer at (8,0).",
-      hint: "B is free.",
-      setup: arm,
-      check: () =>
-        ran && (pos.B.x !== STARTER_PLACEMENT.B.x || pos.B.y !== STARTER_PLACEMENT.B.y),
-    },
-    {
-      id: "two-pads",
-      title: "Two pads",
-      level: "Stretch",
-      prompt: "FIXED_PADS has exactly A and D.",
-      hint: "Export list.",
-      setup: arm,
-      check: () => FIXED_PADS.join(",") === "A,D",
+      hint: "Apply quadratic or select B and move it.",
+      check: (_c, api) => {
+        const pos = api.getPositions();
+        return pos.B.x !== STARTER_PLACEMENT.B.x || pos.B.y !== STARTER_PLACEMENT.B.y;
+      },
     },
     {
       id: "drop-4",
       title: "Drop of ~4",
       level: "Stretch",
-      prompt: "HPWL drops by about 4 (52→48).",
-      hint: "Run quadratic.",
-      setup: arm,
-      check: () => ran && near(GOLDENS.starterHpwl - totalHpwl(NETS, pos), 4, 0.05),
+      prompt: "HPWL drops by about 4 from 52 (→48).",
+      hint: "Apply quadratic from starter.",
+      check: (_c, api) => near(GOLDENS.starterHpwl - totalHpwl(NETS, api.getPositions()), 4, 0.15),
+    },
+    {
+      id: "two-pads",
+      title: "Two pads",
+      level: "Stretch",
+      prompt: "FIXED_PADS is exactly A,D.",
+      hint: "Instance constant.",
+      check: () => FIXED_PADS.join(",") === "A,D",
+    },
+    {
+      id: "round-48",
+      title: "round1 shows 48",
+      level: "Stretch",
+      prompt: "round1(HPWL) is 48.",
+      hint: "Apply quadratic from starter.",
+      check: (_c, api) => round1(totalHpwl(NETS, api.getPositions())) === 48,
     },
   ],
-  extraActions(ctx) {
-    return [
-      el("button", {
-        className: "btn btn-secondary",
-        type: "button",
-        text: "Reset",
-        onClick: () => {
-          arm();
-          ctx.rerender();
-        },
-      }),
-      el("button", {
-        className: "btn btn-primary",
-        type: "button",
-        text: "Run quadratic",
-        onClick: () => {
-          pos = quadraticPlace(STARTER_PLACEMENT);
-          ran = true;
-          ctx.rerender();
-        },
-      }),
-    ];
-  },
-  renderWorkspace(ctx) {
-    drawPlacement(ctx.canvas, CELLS, pos, NETS, { highlightCells: FIXED_PADS });
-    ctx.metrics.innerHTML = "";
-    ctx.metrics.append(
-      metricsBlock([
-        `ran: ${ran}`,
-        `fixed pads: ${FIXED_PADS.join(",")}`,
-        `HPWL: ${round1(totalHpwl(NETS, pos))}`,
-        `A: (${pos.A.x}, ${pos.A.y})  D: (${pos.D.x}, ${pos.D.y})`,
-      ])
-    );
-  },
 });

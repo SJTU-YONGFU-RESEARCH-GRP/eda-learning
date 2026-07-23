@@ -1,163 +1,145 @@
-import { cloneGraph, cutsize, labelPropagation } from "../../assets/clustering-core.js";
 import {
-  createChallengeLab,
-  drawGraph,
+  BAD_SEED,
+  cutsize,
+  labelPropagation,
+  partsString,
+} from "../../assets/clustering-core.js";
+import {
+  createInteractiveGraphLab,
   el,
-  metricsBlock,
-} from "../../assets/clustering-ui.js";
+} from "../../assets/interactive-graph-lab.js";
 
 const root = document.getElementById("lab-root");
-let graph = cloneGraph();
-let result = null;
-let showInit = false;
+const GOLDEN = { A: "0", B: "0", C: "0", D: "1", E: "1" };
 
-function arm() {
-  graph = cloneGraph();
-  result = null;
-  showInit = false;
-}
-
-function labels() {
-  return result?.labels || null;
-}
-
-createChallengeLab(root, {
+createInteractiveGraphLab(root, {
+  initialAssignment: Object.fromEntries(["A", "B", "C", "D", "E"].map((n) => [n, n])),
+  revealAssignment: GOLDEN,
+  actionSet: "bipart",
+  initialMeta: { iters: null, labels: null },
   starterHtml: `
-    <p><strong>Starter example (reference):</strong> asynchronous label propagation
-    stabilizes in <strong>2</strong> iterations with <strong>cutsize 3</strong>
-    (communities {A,B,C} and {D,E}). Reload starter to show this reference anytime.</p>
+    <p><strong>Your job:</strong> run label propagation (or edit labels via Assign) until
+    communities match the teaching result (cut 3, A/B/C share a label). Challenges check your assignment.</p>
   `,
-  loadStarter() {
-    graph = cloneGraph();
-    showInit = false;
-    result = labelPropagation(graph.nodes, graph.edges);
-  },
   challenges: [
     {
-      id: "iters-2",
-      title: "Stabilize in 2 iters",
+      id: "init-five",
+      title: "Five singleton labels",
       level: "Intro",
-      prompt: "Run LP; iters_to_stable must be 2.",
-      hint: "Default async order A…E converges quickly on this graph.",
-      setup: arm,
-      check: () => result && result.iters === 2,
+      prompt: "After Reset, each node is its own label — five communities.",
+      hint: "Do not Run LP yet.",
+      check: (_c, api) => new Set(Object.values(api.getAssignment())).size === 5,
+    },
+    {
+      id: "iters-2",
+      title: "Stabilizes in 2 iters",
+      level: "Intro",
+      prompt: "Run LP; iters_to_stable must be 2 and cutsize 3.",
+      hint: "Click Run label propagation.",
+      check: (_c, api) => api.getMeta().iters === 2 && cutsize(api.getAssignment(), api.getGraph().edges) === 3,
     },
     {
       id: "cut-3",
-      title: "Cutsize 3",
+      title: "LP cutsize 3",
       level: "Intro",
-      prompt: "After LP, cutsize of the label assignment is 3.",
-      hint: "Only the bridge edges between {A,B,C} and {D,E} remain cut.",
-      setup: arm,
-      check: () => result && cutsize(result.labels, graph.edges) === 3,
+      prompt: "After LP (or manual edit), cutsize of the label assignment is 3.",
+      hint: "Run LP or assign communities yourself.",
+      check: (_c, api) => cutsize(api.getAssignment(), api.getGraph().edges) === 3,
     },
     {
       id: "two-communities",
       title: "Two communities",
-      level: "Intro",
-      prompt: "Exactly two distinct labels remain after LP.",
-      hint: "Dense triangle collapses; D–E collapses.",
-      setup: arm,
-      check: () => result && new Set(Object.values(result.labels)).size === 2,
+      level: "Practice",
+      prompt: "Exactly two distinct labels remain.",
+      hint: "Run LP.",
+      check: (_c, api) => new Set(Object.values(api.getAssignment())).size === 2,
     },
     {
       id: "abc-same",
-      title: "A, B, C share a label",
+      title: "A,B,C same label",
       level: "Practice",
-      prompt: "After LP, A, B, and C all have the same label.",
-      hint: "Strong A–B–C affinities pull them together.",
-      setup: arm,
-      check: () => {
-        const L = labels();
-        return L && L.A === L.B && L.B === L.C;
+      prompt: "A, B, and C all share one label; cut ≤ 3.",
+      hint: "Reference settles ABC on label B.",
+      check: (_c, api) => {
+        const a = api.getAssignment();
+        return a.A === a.B && a.B === a.C && cutsize(a, api.getGraph().edges) <= 3;
       },
     },
     {
       id: "de-same",
-      title: "D and E share a label",
+      title: "D,E same label",
       level: "Practice",
-      prompt: "After LP, D and E have the same label.",
-      hint: "Edge D–E weight 5 dominates.",
-      setup: arm,
-      check: () => {
-        const L = labels();
-        return L && L.D === L.E;
+      prompt: "D and E share a label; cutsize 3.",
+      hint: "Reference settles DE on label E.",
+      check: (_c, api) => {
+        const a = api.getAssignment();
+        return a.D === a.E && cutsize(a, api.getGraph().edges) === 3;
       },
     },
     {
       id: "label-b",
-      title: "Community label is B",
+      title: "ABC settle on B",
       level: "Practice",
-      prompt: "The {A,B,C} community settles on label B (reference).",
-      hint: "Async updates leave B as the surviving label id.",
-      setup: arm,
-      check: () => {
-        const L = labels();
-        return L && L.A === "B" && L.B === "B" && L.C === "B";
+      prompt: "After Run LP, the {A,B,C} community uses label B.",
+      hint: "Deterministic async LP reference.",
+      check: (_c, api) => {
+        const a = api.getAssignment();
+        return a.A === "B" && a.B === "B" && a.C === "B";
       },
     },
     {
       id: "label-e",
-      title: "Other community is E",
-      level: "Practice",
-      prompt: "The {D,E} community settles on label E.",
-      hint: "Symmetric to the B community on the other side.",
-      setup: arm,
-      check: () => {
-        const L = labels();
-        return L && L.D === "E" && L.E === "E";
+      title: "DE settle on E",
+      level: "Stretch",
+      prompt: "After Run LP, D and E use label E.",
+      hint: "Companion to label-B challenge.",
+      check: (_c, api) => {
+        const a = api.getAssignment();
+        return a.D === "E" && a.E === "E";
       },
     },
     {
       id: "a-not-d",
-      title: "A and D differ",
-      level: "Practice",
-      prompt: "After LP, A and D must have different labels (cut crosses C–D / C–E).",
-      hint: "They end in opposite communities.",
-      setup: arm,
-      check: () => {
-        const L = labels();
-        return L && L.A !== L.D;
+      title: "A ≠ D labels",
+      level: "Stretch",
+      prompt: "A and D have different labels with cutsize 3.",
+      hint: "Cut crosses C–D / C–E.",
+      check: (_c, api) => {
+        const a = api.getAssignment();
+        return a.A !== a.D && cutsize(a, api.getGraph().edges) === 3;
       },
     },
     {
-      id: "init-five",
-      title: "Initial: five labels",
-      level: "Stretch",
-      prompt: "Show initial labels (before LP). Each node starts as its own label — five communities.",
-      hint: "Click Show initial labels.",
-      setup: arm,
-      check: () => showInit && !result,
-    },
-    {
       id: "combo",
-      title: "Full reference combo",
+      title: "Full LP golden",
       level: "Stretch",
-      prompt: "Run LP and hit the full golden: iters=2, cutsize=3, labels A/B/C→B and D/E→E.",
-      hint: "One Run should satisfy all of it.",
-      setup: arm,
-      check: () => {
-        const L = labels();
+      prompt: "iters=2, cutsize=3, labels A/B/C→B and D/E→E (Reveal off).",
+      hint: "Run LP from Reset; do not Reveal golden.",
+      check: (_c, api) => {
+        const a = api.getAssignment();
         return (
-          result &&
-          result.iters === 2 &&
-          cutsize(L, graph.edges) === 3 &&
-          L.A === "B" &&
-          L.C === "B" &&
-          L.D === "E"
+          !api.isRevealed() &&
+          api.getMeta().iters === 2 &&
+          cutsize(a, api.getGraph().edges) === 3 &&
+          a.A === "B" &&
+          a.B === "B" &&
+          a.C === "B" &&
+          a.D === "E" &&
+          a.E === "E"
         );
       },
     },
   ],
-  extraActions(ctx) {
+  extraActions(ctx, api) {
     return [
       el("button", {
         className: "btn btn-secondary",
         type: "button",
         text: "Show initial labels",
         onClick: () => {
-          showInit = true;
-          result = null;
+          api.setAssignment(Object.fromEntries(["A", "B", "C", "D", "E"].map((n) => [n, n])));
+          api.setMeta({ iters: null, labels: null });
+          api.setRevealed(false);
           ctx.rerender();
         },
       }),
@@ -166,37 +148,21 @@ createChallengeLab(root, {
         type: "button",
         text: "Run label propagation",
         onClick: () => {
-          showInit = false;
-          result = labelPropagation(graph.nodes, graph.edges);
+          const g = api.getGraph();
+          const result = labelPropagation(g.nodes, g.edges);
+          api.setAssignment(result.labels);
+          api.setMeta({ iters: result.iters, labels: result.labels });
+          api.setRevealed(false);
           ctx.rerender();
         },
       }),
     ];
   },
-  renderWorkspace(ctx) {
-    if (showInit && !result) {
-      const init = Object.fromEntries(graph.nodes.map((n) => [n, n]));
-      drawGraph(ctx.canvas, graph, { assignment: init });
-      ctx.metrics.innerHTML = "";
-      ctx.metrics.append(
-        metricsBlock([
-          "Initial: each node is its own label.",
-          `labels: ${JSON.stringify(init)}`,
-          "num_clusters: 5",
-        ])
-      );
-      return;
-    }
-    drawGraph(ctx.canvas, graph, { assignment: result?.labels || null });
-    const lines = result
-      ? [
-          `iters_to_stable: ${result.iters}`,
-          `cutsize: ${cutsize(result.labels, graph.edges)}`,
-          `num_clusters: ${new Set(Object.values(result.labels)).size}`,
-          `labels: ${JSON.stringify(result.labels)}`,
-        ]
-      : ["No result — run LP, or Load starter for the reference."];
-    ctx.metrics.innerHTML = "";
-    ctx.metrics.append(metricsBlock(lines));
+  extraMetrics(api) {
+    const lines = [];
+    if (api.getMeta().iters != null) lines.push(`iters_to_stable: ${api.getMeta().iters}`);
+    lines.push(`communities: ${partsString(api.getAssignment())}`);
+    lines.push(`cutsize: ${cutsize(api.getAssignment(), api.getGraph().edges)}`);
+    return lines;
   },
 });

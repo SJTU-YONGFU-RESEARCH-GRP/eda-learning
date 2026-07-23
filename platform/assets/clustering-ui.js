@@ -68,16 +68,18 @@ export function drawGraph(canvas, graph, opts = {}) {
     ctx.fillText(String(e.w), mx + 4, my - 4);
   }
 
+  const selected = new Set(opts.selectedNodes || []);
   for (const n of graph.nodes) {
     const p = layout[n];
     if (!p) continue;
-    const cid = assignment ? assignment[n] : n;
+    const cid = assignment && assignment[n] != null ? assignment[n] : n;
+    const isSel = selected.has(n);
     ctx.beginPath();
-    ctx.arc(p.x, p.y, 16, 0, Math.PI * 2);
+    ctx.arc(p.x, p.y, isSel ? 18 : 16, 0, Math.PI * 2);
     ctx.fillStyle = clusterColor(cid, PALETTE);
     ctx.fill();
-    ctx.strokeStyle = "#0f172a";
-    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = isSel ? "#b45309" : "#0f172a";
+    ctx.lineWidth = isSel ? 3 : 1.5;
     ctx.stroke();
     ctx.fillStyle = "#fff";
     ctx.font = "bold 13px system-ui, sans-serif";

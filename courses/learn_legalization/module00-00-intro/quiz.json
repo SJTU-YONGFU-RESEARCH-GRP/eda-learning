@@ -1,0 +1,40 @@
+{
+  "module": "module00-00-intro",
+  "title": "Intro check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "prompt": "This course focuses primarily on\u2026",
+      "choices": [
+        "Vendor P&R GUI click-paths",
+        "Site/row snapping and overlap removal after global placement",
+        "Foundry PDK certification",
+        "Writing UVM agents"
+      ],
+      "answer": 1,
+      "explain": "Algorithm literacy on tiny legalization grids."
+    },
+    {
+      "id": "q2",
+      "type": "true_false",
+      "prompt": "Legalization typically follows global placement in the PD flow.",
+      "answer": true,
+      "explain": "Global place \u2192 legalize \u2192 route."
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "prompt": "A good study rhythm is\u2026",
+      "choices": [
+        "Only memorize folder names",
+        "Browser intuition then implement on tiny_legal.json",
+        "Skip checklists entirely",
+        "Start with routing before legality"
+      ],
+      "answer": 1,
+      "explain": "Track B then Track A hardens the idea."
+    }
+  ]
+}

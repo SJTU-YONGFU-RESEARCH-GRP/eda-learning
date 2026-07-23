@@ -1,0 +1,9 @@
+file '/mnt/d/proj/designs/eda_learning/courses/learn_legalization/module05-01-offline-benchmark-compare/frames/slide-1.png'
+duration 18.624
+file '/mnt/d/proj/designs/eda_learning/courses/learn_legalization/module05-01-offline-benchmark-compare/frames/slide-2.png'
+duration 14.328
+file '/mnt/d/proj/designs/eda_learning/courses/learn_legalization/module05-01-offline-benchmark-compare/frames/slide-3.png'
+duration 15.264
+file '/mnt/d/proj/designs/eda_learning/courses/learn_legalization/module05-01-offline-benchmark-compare/frames/slide-4.png'
+duration 7.56
+file '/mnt/d/proj/designs/eda_learning/courses/learn_legalization/module05-01-offline-benchmark-compare/frames/slide-4.png'

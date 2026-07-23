@@ -1,7 +1,7 @@
 # Module 02-01: Slack, setup, and hold
 
 **Module id:** `module02-01-slack-setup-hold`  
-**Kind:** `lab` · Primary lab: `slack-setup-hold` · **Planned**
+**Kind:** `lab` · Primary lab: `slack-setup-hold` · **Shipped**
 
 [← Arrival / required](../module01-03-arrival-required/README.md) · [Course README](../README.md) · [Critical path →](../module02-03-critical-path/README.md)
 
@@ -19,8 +19,9 @@ After this module you can: **Compute setup and hold slack at endpoints and expla
 
 ### Track B — Browser lab (online)
 
-1. Local: [http://127.0.0.1:8080/tools/slack-setup-hold/index.html](http://127.0.0.1:8080/tools/slack-setup-hold/index.html) *(planned)*
-2. Tools shelf: open `slack-setup-hold` from the platform tools index when shipped
+1. Local: [http://127.0.0.1:8080/tools/slack-setup-hold/index.html](http://127.0.0.1:8080/tools/slack-setup-hold/index.html)
+2. Live: [https://universal-verification-methodology.github.io/learning/tools/slack-setup-hold/](https://universal-verification-methodology.github.io/learning/tools/slack-setup-hold/)
+3. Tools shelf: open `slack-setup-hold` from the platform tools index
 3. Load the **starter netlist**, run the analysis, inspect path / slack metrics.
 4. Check off Track B items in [CHECKLIST.md](CHECKLIST.md).
 

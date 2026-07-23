@@ -107,7 +107,7 @@ COURSE_META = {
         "title": "Static timing analysis",
         "focus": "Timing graph → arrival/required → slack → critical path → incremental update",
         "prereq": None,
-        "status": "scaffold",
+        "status": "ready",
         "repo": "learn_sta",
         "modules_md": ROOT / "courses" / "learn_sta" / "docs" / "MODULES.md",
         "course_root": ROOT / "courses" / "learn_sta",
@@ -120,6 +120,25 @@ COURSE_META = {
         "tools_href": "../../tools/index.html#sta",
         "tools_label": "STA tools",
         "first_lab": "timing-graph",
+        "first_n": "02",
+    },
+    "learn_legalization": {
+        "title": "Legalization for EDA",
+        "focus": "Site/row model → legality → snap → overlap/Abacus/Tetris → macros → cost → global vs detailed",
+        "prereq": None,
+        "status": "ready",
+        "repo": "learn_legalization",
+        "modules_md": ROOT / "courses" / "learn_legalization" / "docs" / "MODULES.md",
+        "course_root": ROOT / "courses" / "learn_legalization",
+        "lead": (
+            "Legalization for physical design — tiny site/row grids, full algorithms, "
+            "legality and displacement you can trust. Clips and decks load from "
+            "<code>courses/learn_legalization</code> "
+            "(<code>moduleSS-AA-slug/video.mp4</code>). Open the matching browser tool, then mark the lab done."
+        ),
+        "tools_href": "../../tools/index.html#legalization",
+        "tools_label": "Legalization tools",
+        "first_lab": "site-row-model",
         "first_n": "02",
     },
 }
@@ -471,6 +490,18 @@ STA_TOOL_IDS = {
     "false-multicycle-lite",
 }
 
+LEGALIZATION_TOOL_IDS = {
+    "site-row-model",
+    "legality-metrics",
+    "greedy-snap",
+    "overlap-removal",
+    "abacus-row-pack",
+    "tetris-row-pack",
+    "fixed-macros",
+    "displacement-hpwl",
+    "detailed-vs-global",
+}
+
 
 def sync_tools_from_dirs(cat: dict) -> None:
     tools_root = PLATFORM / "tools"
@@ -493,6 +524,8 @@ def sync_tools_from_dirs(cat: dict) -> None:
             section = "Floorplanning"
         elif child.name in STA_TOOL_IDS:
             section = "Static timing analysis"
+        elif child.name in LEGALIZATION_TOOL_IDS:
+            section = "Legalization"
         else:
             section = "Clustering & refinement"
         labs.append({"id": child.name, "title": title, "section": section})

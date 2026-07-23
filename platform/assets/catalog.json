@@ -4,6 +4,11 @@
   },
   "labs": [
     {
+      "id": "abacus-row-pack",
+      "title": "Abacus Row Pack",
+      "section": "Legalization"
+    },
+    {
       "id": "affinity-metrics",
       "title": "Affinity metrics",
       "section": "Clustering & refinement"
@@ -19,6 +24,11 @@
       "section": "Floorplanning"
     },
     {
+      "id": "arrival-required",
+      "title": "Arrival Required",
+      "section": "Static timing analysis"
+    },
+    {
       "id": "bstar-tree",
       "title": "Bstar Tree",
       "section": "Floorplanning"
@@ -27,6 +37,11 @@
       "id": "congestion-aware-clustering",
       "title": "Congestion-aware clustering",
       "section": "Clustering & refinement"
+    },
+    {
+      "id": "critical-path",
+      "title": "Critical Path",
+      "section": "Static timing analysis"
     },
     {
       "id": "cutsize-balance",
@@ -39,9 +54,29 @@
       "section": "Placement"
     },
     {
+      "id": "detailed-vs-global",
+      "title": "Detailed Vs Global",
+      "section": "Legalization"
+    },
+    {
+      "id": "displacement-hpwl",
+      "title": "Displacement Hpwl",
+      "section": "Legalization"
+    },
+    {
+      "id": "false-multicycle-lite",
+      "title": "False Multicycle Lite",
+      "section": "Static timing analysis"
+    },
+    {
       "id": "fiduccia-mattheyses",
       "title": "Fiduccia\u2013Mattheyses",
       "section": "Clustering & refinement"
+    },
+    {
+      "id": "fixed-macros",
+      "title": "Fixed Macros",
+      "section": "Legalization"
     },
     {
       "id": "fixed-outline",
@@ -64,6 +99,11 @@
       "section": "Clustering & refinement"
     },
     {
+      "id": "greedy-snap",
+      "title": "Greedy Snap",
+      "section": "Legalization"
+    },
+    {
       "id": "hierarchical-floorplan",
       "title": "Hierarchical Floorplan",
       "section": "Floorplanning"
@@ -84,6 +124,11 @@
       "section": "Partitioning"
     },
     {
+      "id": "incremental-update",
+      "title": "Incremental Update",
+      "section": "Static timing analysis"
+    },
+    {
       "id": "initial-bipartition",
       "title": "Initial Bipartition",
       "section": "Partitioning"
@@ -102,6 +147,11 @@
       "id": "label-propagation",
       "title": "Label propagation",
       "section": "Clustering & refinement"
+    },
+    {
+      "id": "legality-metrics",
+      "title": "Legality Metrics",
+      "section": "Legalization"
     },
     {
       "id": "macro-placement",
@@ -127,6 +177,11 @@
       "id": "net-models",
       "title": "Net Models",
       "section": "Placement"
+    },
+    {
+      "id": "overlap-removal",
+      "title": "Overlap Removal",
+      "section": "Legalization"
     },
     {
       "id": "pin-assignment",
@@ -159,9 +214,19 @@
       "section": "Floorplanning"
     },
     {
+      "id": "site-row-model",
+      "title": "Site Row Model",
+      "section": "Legalization"
+    },
+    {
       "id": "size-constrained-agglomerative",
       "title": "Size-constrained agglomerative",
       "section": "Clustering & refinement"
+    },
+    {
+      "id": "slack-setup-hold",
+      "title": "Slack Setup Hold",
+      "section": "Static timing analysis"
     },
     {
       "id": "slicing-floorplan",
@@ -192,6 +257,11 @@
       "id": "terminal-propagation",
       "title": "Terminal Propagation",
       "section": "Partitioning"
+    },
+    {
+      "id": "tetris-row-pack",
+      "title": "Tetris Row Pack",
+      "section": "Legalization"
     },
     {
       "id": "timing-aware-clustering",
@@ -1258,12 +1328,193 @@
     },
     {
       "id": "learn_legalization",
-      "title": "Legalization",
-      "focus": "Snap to sites/rows, overlap removal",
-      "status": "planned",
+      "title": "Legalization for EDA",
+      "focus": "Site/row model \u2192 legality \u2192 snap \u2192 overlap/Abacus/Tetris \u2192 macros \u2192 cost \u2192 global vs detailed",
+      "status": "ready",
       "repo": "learn_legalization",
       "prereq": null,
-      "labs": []
+      "labs": [
+        {
+          "n": "01",
+          "slug": "intro",
+          "moduleId": "module00-00-intro",
+          "kind": "intro",
+          "title": "Welcome to legalization for EDA",
+          "toolId": null,
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "02",
+          "slug": "site-row-model",
+          "moduleId": "module01-01-site-row-model",
+          "kind": "lab",
+          "title": "Site and row model",
+          "toolId": "site-row-model",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "03",
+          "slug": "legality-metrics",
+          "moduleId": "module01-03-legality-metrics",
+          "kind": "lab",
+          "title": "Legality metrics",
+          "toolId": "legality-metrics",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "04",
+          "slug": "greedy-snap",
+          "moduleId": "module02-01-greedy-snap",
+          "kind": "lab",
+          "title": "Greedy site/row snap",
+          "toolId": "greedy-snap",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "05",
+          "slug": "overlap-removal",
+          "moduleId": "module02-03-overlap-removal",
+          "kind": "lab",
+          "title": "Overlap removal in rows",
+          "toolId": "overlap-removal",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "06",
+          "slug": "abacus-row-pack",
+          "moduleId": "module02-05-abacus-row-pack",
+          "kind": "lab",
+          "title": "Abacus row packing",
+          "toolId": "abacus-row-pack",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "07",
+          "slug": "tetris-row-pack",
+          "moduleId": "module02-07-tetris-row-pack",
+          "kind": "lab",
+          "title": "Tetris-style row packing",
+          "toolId": "tetris-row-pack",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "08",
+          "slug": "fixed-macros",
+          "moduleId": "module03-01-fixed-macros",
+          "kind": "lab",
+          "title": "Fixed macros during legalization",
+          "toolId": "fixed-macros",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "09",
+          "slug": "displacement-hpwl",
+          "moduleId": "module03-03-displacement-hpwl",
+          "kind": "lab",
+          "title": "Displacement vs HPWL tradeoff",
+          "toolId": "displacement-hpwl",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "10",
+          "slug": "detailed-vs-global",
+          "moduleId": "module04-01-detailed-vs-global",
+          "kind": "lab",
+          "title": "Detailed vs global legalize",
+          "toolId": "detailed-vs-global",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "11",
+          "slug": "offline-benchmark-compare",
+          "moduleId": "module05-01-offline-benchmark-compare",
+          "kind": "offline",
+          "title": "Offline benchmark compare",
+          "toolId": null,
+          "status": "planned",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "12",
+          "slug": "wrap",
+          "moduleId": "module99-00-wrap",
+          "kind": "wrap",
+          "title": "Legalization path complete",
+          "toolId": null,
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        }
+      ]
     },
     {
       "id": "learn_congestion",

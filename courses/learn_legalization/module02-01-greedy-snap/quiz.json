@@ -1,0 +1,47 @@
+{
+  "module": "module02-01-greedy-snap",
+  "title": "Greedy snap check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "true_false",
+      "prompt": "Greedy snap maps global-place floats to nearest row/site coordinates.",
+      "answer": true,
+      "explain": "First legalization step."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "prompt": "starter_float is intended for\u2026",
+      "choices": [
+        "Snap labs",
+        "Only routing",
+        "PDK release",
+        "Scan chains"
+      ],
+      "answer": 0,
+      "explain": "Float coordinates from global place."
+    },
+    {
+      "id": "q3",
+      "type": "true_false",
+      "prompt": "After snap alone, overlaps may still exist.",
+      "answer": true,
+      "explain": "Snap does not pack."
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "prompt": "Displacement measures\u2026",
+      "choices": [
+        "Movement from pre-legal to legal positions",
+        "Only temperature",
+        "Only row count",
+        "Pin count"
+      ],
+      "answer": 0,
+      "explain": "How far cells moved."
+    }
+  ]
+}

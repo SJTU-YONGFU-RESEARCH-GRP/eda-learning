@@ -1,0 +1,94 @@
+title: Abacus row packing
+footer: learn_legalization — 05 abacus row pack
+slides:
+- type: title
+  title: Abacus row packing
+  subtitle: Abacus-lite processes cells by increasing x and tries every row
+  notes: 'Abacus-lite processes cells by increasing x and tries every row. For each
+    trial it finds the leftmost legal site and picks the row with minimum L1 displacement
+    from the origin. On the overlap seed: A at (4, 2), B at (4, 0), C at (4, 4).'
+- type: bullets
+  title: The idea
+  bullets:
+  - Cross-row spread beats single-row shelf pack on displacement
+  - 'Abacus is the detailed legalizer in this course: more search, less movement'
+  - <!-- algorithm-walkthrough -->
+  notes: 'Cross-row spread beats single-row shelf pack on displacement—four versus
+    six here—with HPWL thirty-eight versus thirty-two for Tetris. Abacus is the detailed
+    legalizer in this course: more search, less movement.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: Start from overlap seed
+  image: assets/steps/01-overlap-seed.png
+  caption: Start from overlap seed
+  notes: Abacus-lite processes movables by increasing original x. From the same overlap
+    seed as overlap removal, it tries each row and picks the placement with minimum
+    L1 displacement.
+- type: image
+  title: 'Process by x: try each row'
+  image: assets/steps/02-try-rows.png
+  caption: 'Process by x: try each row'
+  notes: Cell A tries rows zero, two, four—picks row two at x four (zero displacement).
+    B chooses row zero at x four. C chooses row four at x four. Cross-row spread beats
+    single-row pack.
+- type: image
+  title: 'Result: A@4,2 B@4,0 C@4,4'
+  image: assets/steps/03-abacus-result.png
+  caption: 'Result: A@4,2 B@4,0 C@4,4'
+  notes: 'Final Abacus layout: A on middle row, B on bottom, C on top—all at x equals
+    four but on different rows. D, E, F stay at their seed coordinates.'
+- type: image
+  title: Lower displacement than Tetris
+  image: assets/steps/04-vs-overlap-removal.png
+  caption: Lower displacement than Tetris
+  notes: Abacus displacement is four versus six for overlap removal / Tetris on this
+    seed. You pay three HPWL points—thirty-eight versus thirty-two—for staying closer
+    to global targets.
+- type: image
+  title: Abacus minimizes movement
+  image: assets/steps/05-takeaway.png
+  caption: Abacus minimizes movement
+  notes: 'Abacus is the detailed legalizer in this course: try rows, pick min displacement.
+    Use it when staying near global coordinates matters more than the last HPWL point.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab track, open the **abacus-row-pack** lab from the tools shelf
+  - Load the overlap or float starter, run the legalizer once
+  - Work the challenges that lock the goldens
+  notes: In the browser lab track, open the **abacus-row-pack** lab from the tools
+    shelf. Load the overlap or float starter, run the legalizer once, and read legality
+    plus displacement and HPWL when the panel shows them. Work the challenges that
+    lock the goldens, then come back to implement the same loop yourself.
+- type: bullets
+  title: Implement track
+  bullets:
+  - In the implement track, open this module's examples and the course `common/` solvers
+  - Parse `tiny_legal.json`, run the algorithm with deterministic coordinates
+  - Match the browser goldens before you claim the checklist
+  notes: In the implement track, open this module's examples and the course `common/`
+    solvers. Parse `tiny_legal.json`, run the algorithm with deterministic coordinates,
+    and print legality, displacement, and HPWL. Match the browser goldens before you
+    claim the checklist.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Common traps
+  notes: 'Common traps: assuming snap alone legalizes; forgetting site width when
+    checking overlap; ignoring fixed macro D at (8, 4); reporting HPWL without legality;
+    and comparing Abacus and Tetris without naming displacement versus wirelength
+    tradeoffs.'
+- type: bullets
+  title: Your turn
+  bullets:
+  - Complete the checklist for at least one track, preferably both
+  - Implement until your metrics match the starter goldens
+  - When you're ready, take the short quiz, then continue to the next module
+  notes: Complete the checklist for at least one track—preferably both. Implement
+    until your metrics match the starter goldens. When you're ready, take the short
+    quiz, then continue to the next module.

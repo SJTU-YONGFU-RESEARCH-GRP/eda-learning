@@ -1,0 +1,47 @@
+{
+  "module": "module02-03-overlap-removal",
+  "title": "Overlap removal check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "prompt": "Overlap removal primarily shifts cells along\u2026",
+      "choices": [
+        "The same row (x)",
+        "Random y jumps",
+        "Only diagonals",
+        "Netlist edges"
+      ],
+      "answer": 0,
+      "explain": "In-row interval fix."
+    },
+    {
+      "id": "q2",
+      "type": "true_false",
+      "prompt": "Sorting cells by left x before shifting is a common policy.",
+      "answer": true,
+      "explain": "Deterministic sweep."
+    },
+    {
+      "id": "q3",
+      "type": "true_false",
+      "prompt": "Overlap removal always minimizes HPWL.",
+      "answer": false,
+      "explain": "Goal is legality first."
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "prompt": "If shift exceeds chip width W, you should\u2026",
+      "choices": [
+        "Flag failure/overflow",
+        "Ignore legality",
+        "Delete cells",
+        "Skip row checks"
+      ],
+      "answer": 0,
+      "explain": "Cannot pack in row."
+    }
+  ]
+}

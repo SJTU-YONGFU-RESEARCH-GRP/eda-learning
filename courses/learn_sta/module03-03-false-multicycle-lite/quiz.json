@@ -1,46 +1,39 @@
 {
   "id": "module03-03-false-multicycle-lite",
-  "title": "False / multicycle check",
+  "title": "False and multicycle paths (engine view) check",
   "items": [
     {
       "id": "q1",
       "type": "multiple_choice",
-      "prompt": "This lab\u2019s primary algorithm is\u2026",
+      "prompt": "Multicycle setup\u00d72 required at out is\u2026",
       "choices": [
-        "false-path and multicycle exceptions as STA engine data",
-        "Vendor place-and-route GUI only",
-        "SPICE transient analysis",
-        "Scan-chain stitching"
+        "10",
+        "20",
+        "16.8",
+        "3.2"
       ],
-      "answer": 0,
-      "explain": "Focus: false-path and multicycle exceptions as STA engine data."
+      "answer": 1,
+      "explain": "2\u00d7period=20."
     },
     {
       "id": "q2",
       "type": "true_false",
-      "prompt": "You can safely propagate arrivals before the timing graph is levelized.",
-      "answer": false,
-      "explain": "Levelization (or equivalent topo order) comes first."
+      "prompt": "A false-path exception removes an arc from propagation.",
+      "answer": true,
+      "explain": "Disabled arcs are skipped."
     },
     {
       "id": "q3",
       "type": "multiple_choice",
-      "prompt": "After running the algorithm you should report\u2026",
+      "prompt": "Normal setup slack before exceptions is\u2026",
       "choices": [
-        "Only a screenshot of the UI",
-        "Tagged times and/or slack / path metrics for the starter",
-        "Only runtime",
-        "Nothing \u2014 intuition is enough"
+        "16.8",
+        "6.8",
+        "3.2",
+        "0"
       ],
       "answer": 1,
-      "explain": "Tags + metrics are the contract."
-    },
-    {
-      "id": "q4",
-      "type": "true_false",
-      "prompt": "Track A asks you to implement false-path and multicycle exceptions as STA engine data on a tiny netlist.",
-      "answer": true,
-      "explain": "Implement track hardens the idea."
+      "explain": "Baseline 6.8."
     }
   ]
 }

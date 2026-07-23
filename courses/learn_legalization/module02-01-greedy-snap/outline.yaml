@@ -1,0 +1,95 @@
+title: Greedy snap
+footer: learn_legalization — 01 greedy snap
+slides:
+- type: title
+  title: Greedy snap
+  subtitle: Global placement leaves fractional coordinates, the float seed puts A
+    near (3.7, 1.2) and B near (4.1, 1.4)
+  notes: Global placement leaves fractional coordinates—the float seed puts A near
+    (3.7, 1.2) and B near (4.1, 1.4). Greedy snap rounds x to the nearest site and
+    y to the nearest row. A lands at (4, 2)—the same site as B.
+- type: bullets
+  title: The idea
+  bullets:
+  - Snap quantizes coordinates but does not remove overlap
+  - After snap, A and B still fail with overlap A/B
+  - Teaching point
+  - <!-- algorithm-walkthrough -->
+  notes: 'Snap quantizes coordinates but does not remove overlap. After snap, A and
+    B still fail with overlap A/B. Teaching point: snap is necessary, not sufficient—you
+    need overlap removal or Abacus packing next.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: Float placement from global place
+  image: assets/steps/01-float-seed.png
+  caption: Float placement from global place
+  notes: After global placement, cells sit at fractional coordinates—A near (3.7,
+    1.2), B near (4.1, 1.4). Nothing is site-aligned yet; that is the float seed for
+    greedy snap.
+- type: image
+  title: Snap every cell to nearest site
+  image: assets/steps/02-snap-all.png
+  caption: Snap every cell to nearest site
+  notes: Greedy snap rounds x to the nearest site and y to the nearest row. A lands
+    at (4, 2)—same as B. C snaps to (5, 2). D, E, and F snap to their row neighbors.
+- type: image
+  title: 'Still illegal: A/B overlap'
+  image: assets/steps/03-still-overlap.png
+  caption: 'Still illegal: A/B overlap'
+  notes: After snap, A and B still share (4, 2). The legality report again says overlap
+    A/B. Snap alone does not legalize—it only quantizes coordinates.
+- type: image
+  title: 'Teaching point: snap ≠ legal'
+  image: assets/steps/04-snap-not-legal.png
+  caption: 'Teaching point: snap ≠ legal'
+  notes: Students often assume rounding fixes everything. On this instance greedy
+    snap creates the same middle-row pile as the integer overlap seed. Legalization
+    needs a second phase.
+- type: image
+  title: 'Next: overlap removal / Abacus'
+  image: assets/steps/05-next-phase.png
+  caption: 'Next: overlap removal / Abacus'
+  notes: 'Follow snap with per-row packing or Abacus row assignment. Overlap removal
+    spreads A, B, C along row two; Abacus spreads them across rows with lower displacement.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab track, open the **greedy-snap** lab from the tools shelf
+  - Load the overlap or float starter, run the legalizer once
+  - Work the challenges that lock the goldens
+  notes: In the browser lab track, open the **greedy-snap** lab from the tools shelf.
+    Load the overlap or float starter, run the legalizer once, and read legality plus
+    displacement and HPWL when the panel shows them. Work the challenges that lock
+    the goldens, then come back to implement the same loop yourself.
+- type: bullets
+  title: Implement track
+  bullets:
+  - In the implement track, open this module's examples and the course `common/` solvers
+  - Parse `tiny_legal.json`, run the algorithm with deterministic coordinates
+  - Match the browser goldens before you claim the checklist
+  notes: In the implement track, open this module's examples and the course `common/`
+    solvers. Parse `tiny_legal.json`, run the algorithm with deterministic coordinates,
+    and print legality, displacement, and HPWL. Match the browser goldens before you
+    claim the checklist.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Common traps
+  notes: 'Common traps: assuming snap alone legalizes; forgetting site width when
+    checking overlap; ignoring fixed macro D at (8, 4); reporting HPWL without legality;
+    and comparing Abacus and Tetris without naming displacement versus wirelength
+    tradeoffs.'
+- type: bullets
+  title: Your turn
+  bullets:
+  - Complete the checklist for at least one track, preferably both
+  - Implement until your metrics match the starter goldens
+  - When you're ready, take the short quiz, then continue to the next module
+  notes: Complete the checklist for at least one track—preferably both. Implement
+    until your metrics match the starter goldens. When you're ready, take the short
+    quiz, then continue to the next module.

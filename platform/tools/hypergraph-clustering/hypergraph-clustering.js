@@ -6,189 +6,157 @@ import {
   partsString,
 } from "../../assets/clustering-core.js";
 import {
-  createChallengeLab,
-  drawGraph,
+  createInteractiveGraphLab,
   el,
-  metricsBlock,
-} from "../../assets/clustering-ui.js";
+} from "../../assets/interactive-graph-lab.js";
 
 const root = document.getElementById("lab-root");
-let hyper = {
-  nodes: [...TINY_HYPERGRAPH.nodes],
-  hyperedges: TINY_HYPERGRAPH.hyperedges.map((h) => ({ ...h, pins: [...h.pins] })),
-  sizes: { ...TINY_HYPERGRAPH.sizes },
-};
-let result = null;
-let targetK = 2;
+const GOLDEN = { A: "0", B: "0", C: "0", D: "1", E: "1" };
 
-function graphForDraw() {
+function hyperGraph() {
   return {
-    nodes: hyper.nodes,
-    edges: hyperedgesToPairEdges(hyper.hyperedges),
-    sizes: hyper.sizes,
-  };
-}
-
-function arm(k = 2) {
-  hyper = {
     nodes: [...TINY_HYPERGRAPH.nodes],
-    hyperedges: TINY_HYPERGRAPH.hyperedges.map((h) => ({ ...h, pins: [...h.pins] })),
+    edges: hyperedgesToPairEdges(TINY_HYPERGRAPH.hyperedges),
     sizes: { ...TINY_HYPERGRAPH.sizes },
+    hyperedges: TINY_HYPERGRAPH.hyperedges.map((h) => ({ ...h, pins: [...h.pins] })),
   };
-  targetK = k;
-  result = null;
 }
 
-createChallengeLab(root, {
+createInteractiveGraphLab(root, {
+  graph: hyperGraph(),
+  getGraph: hyperGraph,
+  initialAssignment: Object.fromEntries(["A", "B", "C", "D", "E"].map((n) => [n, n])),
+  revealAssignment: GOLDEN,
+  actionSet: "none",
+  cutFn: (asn, g) => hyperedgeCut(asn, g.hyperedges || TINY_HYPERGRAPH.hyperedges),
+  initialMeta: { targetK: 2 },
   starterHtml: `
-    <p><strong>Starter example (reference):</strong> hypergraph greedy to <code>K=2</code>
-    clusters <code>ABC|DE</code> with <strong>hyperedge cut 1</strong> (only net n3 crosses).
-    Graph view shows clique-expanded pairwise edges. Reload starter anytime.</p>
+    <p><strong>Your job:</strong> run hypergraph greedy clustering (or edit via Reveal for study).
+    Challenges check <em>your</em> hyperedge cut and parts — K=2 teaching cut is 1 (ABC|DE).</p>
   `,
-  loadStarter() {
-    arm(2);
-    result = hypergraphGreedyCluster(hyper.nodes, hyper.hyperedges, hyper.sizes, 2);
-  },
   challenges: [
     {
       id: "hyper-cut-1",
-      title: "Hyperedge cut is 1",
+      title: "Hyperedge cut 1",
       level: "Intro",
-      prompt: "Run K=2 hypergraph greedy; hyperedge cut must be 1.",
-      hint: "Only the C–D net is cut.",
-      setup: () => arm(2),
-      check: () => result && hyperedgeCut(result, hyper.hyperedges) === 1,
+      prompt: "Reach hyperedge cut 1 (Run K=2 greedy).",
+      hint: "Only n3 (C–D) should be cut.",
+      check: (_c, api) => api.cutsize() === 1,
     },
     {
       id: "parts-abc-de",
       title: "Parts ABC|DE",
       level: "Intro",
-      prompt: "K=2 yields communities ABC|DE.",
-      hint: "Multi-pin n1 pulls A,B,C together.",
-      setup: () => arm(2),
-      check: () => result && partsString(result) === "ABC|DE",
+      prompt: "Parts are ABC|DE.",
+      hint: "Run K=2.",
+      check: (_c, api) => partsString(api.getAssignment()) === "ABC|DE",
     },
     {
       id: "two-clusters",
-      title: "Exactly two clusters",
+      title: "Two clusters",
       level: "Intro",
-      prompt: "Target K=2 ends with two cluster ids.",
-      hint: "H-labels after merges.",
-      setup: () => arm(2),
-      check: () => result && new Set(Object.values(result)).size === 2,
+      prompt: "Exactly two cluster ids.",
+      hint: "Target K=2.",
+      check: (_c, api) => new Set(Object.values(api.getAssignment())).size === 2,
     },
     {
       id: "n1-uncut",
-      title: "Net n1 uncut",
+      title: "n1 uncut",
       level: "Practice",
       prompt: "Pins of n1 (A,B,C) share one cluster.",
-      hint: "Heaviest multi-pin net stays internal.",
-      setup: () => arm(2),
-      check: () => result && result.A === result.B && result.B === result.C,
+      hint: "Triangle net stays together.",
+      check: (_c, api) => {
+        const a = api.getAssignment();
+        return a.A === a.B && a.B === a.C;
+      },
     },
     {
       id: "n2-uncut",
-      title: "Net n2 uncut",
+      title: "n2 uncut",
       level: "Practice",
       prompt: "Pins of n2 (D,E) share one cluster.",
-      hint: "Pair net D–E stays together.",
-      setup: () => arm(2),
-      check: () => result && result.D === result.E,
+      hint: "D–E net stays together.",
+      check: (_c, api) => api.getAssignment().D === api.getAssignment().E,
     },
     {
       id: "n3-cut",
-      title: "Net n3 is cut",
+      title: "n3 is cut",
       level: "Practice",
-      prompt: "n3 pins C and D are on different sides.",
-      hint: "That single cut contributes weight 1.",
-      setup: () => arm(2),
-      check: () => result && result.C !== result.D,
+      prompt: "n3 pins C and D are on different sides; hyper cut 1.",
+      hint: "Bridge net.",
+      check: (_c, api) => {
+        const a = api.getAssignment();
+        return a.C !== a.D && api.cutsize() === 1;
+      },
     },
     {
       id: "n4-uncut",
-      title: "Net n4 uncut",
+      title: "n4 uncut",
       level: "Practice",
       prompt: "n4 pins A and B stay together.",
-      hint: "A–B affinity reinforces ABC.",
-      setup: () => arm(2),
-      check: () => result && result.A === result.B,
+      hint: "A–B net.",
+      check: (_c, api) => api.getAssignment().A === api.getAssignment().B,
     },
     {
       id: "four-hedges",
-      title: "Instance has 4 hyperedges",
+      title: "Four hyperedges",
       level: "Stretch",
-      prompt: "TINY_HYPERGRAPH exposes exactly 4 hyperedges (before running).",
-      hint: "n1…n4 in the instance.",
-      setup: () => arm(2),
-      check: () => !result && hyper.hyperedges.length === 4,
+      prompt: "Instance exposes exactly 4 hyperedges (always true on this lab).",
+      hint: "TINY_HYPERGRAPH has n1…n4.",
+      check: (_c, api) => (api.getGraph().hyperedges || []).length === 4,
     },
     {
       id: "k5-noop",
-      title: "K=5 is a no-op",
+      title: "K=5 no-op",
       level: "Stretch",
-      prompt: "Run with K=5; zero merges — five singleton clusters.",
+      prompt: "Run K=5; five singleton clusters.",
       hint: "Already at target K.",
-      setup: () => arm(5),
-      check: () => result && new Set(Object.values(result)).size === 5,
+      check: (_c, api) => new Set(Object.values(api.getAssignment())).size === 5,
     },
     {
       id: "vs-graph-cut",
-      title: "Hyper cut ≠ graph expansion",
+      title: "Hyper cut is 1",
       level: "Stretch",
-      prompt: "K=2 hyper cut is 1 (not the pairwise graph cut). Confirm hyperedge cut === 1.",
-      hint: "Multi-pin modeling differs from clique expansion cut.",
-      setup: () => arm(2),
-      check: () => result && hyperedgeCut(result, hyper.hyperedges) === 1 && partsString(result) === "ABC|DE",
+      prompt: "K=2 result has hyperedge cut === 1 with Reveal off.",
+      hint: "Not the pairwise graph cut story — check hyper metric.",
+      check: (_c, api) => !api.isRevealed() && api.cutsize() === 1 && partsString(api.getAssignment()) === "ABC|DE",
     },
   ],
-  extraActions(ctx) {
+  extraActions(ctx, api) {
     return [
-      el("button", {
-        className: "btn btn-ghost",
-        type: "button",
-        text: "K=2",
-        onClick: () => {
-          targetK = 2;
-          result = null;
-          ctx.rerender();
-        },
-      }),
-      el("button", {
-        className: "btn btn-ghost",
-        type: "button",
-        text: "K=5",
-        onClick: () => {
-          targetK = 5;
-          result = null;
-          ctx.rerender();
-        },
-      }),
       el("button", {
         className: "btn btn-primary",
         type: "button",
-        text: "Run hypergraph greedy",
+        text: "Run K=2 greedy",
         onClick: () => {
-          result = hypergraphGreedyCluster(hyper.nodes, hyper.hyperedges, hyper.sizes, targetK);
+          const g = api.getGraph();
+          const asn = hypergraphGreedyCluster(g.nodes, g.hyperedges, g.sizes, 2);
+          api.setAssignment(asn);
+          api.setMeta({ targetK: 2 });
+          api.setRevealed(false);
+          ctx.rerender();
+        },
+      }),
+      el("button", {
+        className: "btn btn-secondary",
+        type: "button",
+        text: "Run K=5",
+        onClick: () => {
+          const g = api.getGraph();
+          const asn = hypergraphGreedyCluster(g.nodes, g.hyperedges, g.sizes, 5);
+          api.setAssignment(asn);
+          api.setMeta({ targetK: 5 });
+          api.setRevealed(false);
           ctx.rerender();
         },
       }),
     ];
   },
-  renderWorkspace(ctx) {
-    const g = graphForDraw();
-    drawGraph(ctx.canvas, g, { assignment: result || null });
-    const lines = [`target K=${targetK}`, `hyperedges: ${hyper.hyperedges.length}`];
-    for (const h of hyper.hyperedges) {
-      lines.push(`  ${h.id}: [${h.pins.join(",")}] w=${h.w}`);
-    }
-    if (!result) {
-      lines.push("No result yet — click Run hypergraph greedy.");
-    } else {
-      lines.push(`hyperedge cut: ${hyperedgeCut(result, hyper.hyperedges)}`);
-      lines.push(`parts: ${partsString(result)}`);
-      lines.push(`labels: ${JSON.stringify(result)}`);
-    }
-    ctx.metrics.innerHTML = "";
-    ctx.metrics.append(metricsBlock(lines));
+  extraMetrics(api) {
+    return [
+      `hyperedge cut: ${api.cutsize()}`,
+      `parts: ${partsString(api.getAssignment())}`,
+      `hedges: ${(api.getGraph().hyperedges || []).map((h) => h.id).join(",")}`,
+    ];
   },
 });

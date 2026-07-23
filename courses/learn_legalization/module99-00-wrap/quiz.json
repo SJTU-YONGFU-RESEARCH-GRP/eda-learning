@@ -1,0 +1,40 @@
+{
+  "module": "module99-00-wrap",
+  "title": "Wrap check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "prompt": "Legalization primarily ensures\u2026",
+      "choices": [
+        "Only timing closure",
+        "Site/row alignment and non-overlap",
+        "Only power grid synthesis",
+        "Scan chain ordering"
+      ],
+      "answer": 1,
+      "explain": "Geometry on rows/sites before routing."
+    },
+    {
+      "id": "q2",
+      "type": "true_false",
+      "prompt": "Greedy snap alone may leave overlaps; row packing or removal may be needed.",
+      "answer": true,
+      "explain": "Snap \u2260 full legalize."
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "prompt": "Prerequisite for this course is\u2026",
+      "choices": [
+        "learn_placement",
+        "Analog layout only",
+        "Git internals",
+        "UART framing"
+      ],
+      "answer": 0,
+      "explain": "Global place feeds legalization."
+    }
+  ]
+}

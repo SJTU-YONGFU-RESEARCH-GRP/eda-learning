@@ -1,173 +1,146 @@
 import {
   BAD_SEED,
-  cloneGraph,
   cutsize,
   kernighanLin,
+  partsString,
 } from "../../assets/clustering-core.js";
 import {
-  createChallengeLab,
-  drawGraph,
+  createInteractiveGraphLab,
   el,
-  metricsBlock,
-} from "../../assets/clustering-ui.js";
+} from "../../assets/interactive-graph-lab.js";
 
 const root = document.getElementById("lab-root");
-let graph = cloneGraph();
-let seed = { ...BAD_SEED };
-let result = null;
+const GOLDEN = { A: "0", B: "0", C: "0", D: "1", E: "1" };
 
-function arm() {
-  graph = cloneGraph();
-  seed = { ...BAD_SEED };
-  result = null;
-}
-
-function parts(asn) {
-  const g = {};
-  for (const [n, c] of Object.entries(asn)) (g[c] ||= []).push(n);
-  return Object.values(g)
-    .map((a) => a.sort().join(""))
-    .sort()
-    .join("|");
-}
-
-createChallengeLab(root, {
+createInteractiveGraphLab(root, {
+  initialAssignment: { ...BAD_SEED },
+  revealAssignment: GOLDEN,
+  initialMeta: { history: null },
   starterHtml: `
-    <p><strong>Starter example (reference):</strong> bad seed cuts both heavy edges
-    (<strong>cutsize 12</strong>). KL accepts swap <code>(A, D)</code> and lands on
-    <strong>cutsize 3</strong>. Reload starter to restore this worked reference.</p>
+    <p><strong>Your job:</strong> start from the bad seed (cut 12). Flip/swap nodes — or Run KL —
+    until cutsize is 3 and parts are ABC|DE. Challenges check <em>your</em> assignment.</p>
   `,
-  loadStarter() {
-    graph = cloneGraph();
-    seed = { ...BAD_SEED };
-    result = kernighanLin(graph.nodes, graph.edges, seed);
-  },
   challenges: [
     {
       id: "seed-12",
       title: "Seed cutsize is 12",
       level: "Intro",
-      prompt: "Show seed only (no KL). Cutsize must be 12.",
-      hint: "Click Show seed only.",
-      setup: arm,
-      check: () => !result && cutsize(seed, graph.edges) === 12,
+      prompt: "With the workspace seed (no edits), cutsize must be 12.",
+      hint: "Reset workspace; do not flip yet.",
+      check: (_c, api) => api.cutsize() === 12 && partsString(api.getAssignment()) === "AE|BCD",
     },
     {
       id: "seed-parts",
       title: "Seed parts AE|BCD",
       level: "Intro",
-      prompt: "With seed only, clusters are A,E vs B,C,D.",
-      hint: "BAD_SEED places A and E together opposite the triangle.",
-      setup: arm,
-      check: () => !result && parts(seed) === "AE|BCD",
+      prompt: "Confirm seed parts are AE|BCD.",
+      hint: "A and E share side 0 opposite B,C,D.",
+      check: (_c, api) => partsString(api.getAssignment()) === "AE|BCD",
     },
     {
-      id: "kl-12-to-3",
-      title: "KL improves 12 → 3",
+      id: "swap-ad-cut3",
+      title: "Swap A↔D → cut 3",
       level: "Intro",
-      prompt: "Run KL from the bad seed; final cutsize is 3.",
-      hint: "One accepted swap repairs both heavy cuts.",
-      setup: arm,
-      check: () => result && cutsize(result.assignment, graph.edges) === 3,
+      prompt: "From the seed, swap A with D so cutsize becomes 3.",
+      hint: "Select A, Shift+click D, Swap. Or Run KL.",
+      check: (_c, api) => api.cutsize() === 3,
     },
     {
-      id: "kl-swap-ad",
-      title: "First swap A↔D",
+      id: "parts-abc-de",
+      title: "Reach ABC|DE",
       level: "Practice",
-      prompt: "Pass 0 first accepted swap is A with D.",
-      hint: "Look at swaps in the metrics panel.",
-      setup: arm,
-      check: () => {
-        const s = result?.history?.[0]?.swaps?.[0];
-        return s && s.a === "A" && s.b === "D";
+      prompt: "Assign sides so parts are ABC|DE.",
+      hint: "After A↔D from the seed you get ABC|DE.",
+      check: (_c, api) => partsString(api.getAssignment()) === "ABC|DE",
+    },
+    {
+      id: "ab-same",
+      title: "A and B same side",
+      level: "Practice",
+      prompt: "Heavy edge A–B uncut: A and B share a block, cut ≤ 3.",
+      hint: "Keep A with B while repairing the seed.",
+      check: (_c, api) => {
+        const a = api.getAssignment();
+        return a.A === a.B && api.cutsize() <= 3;
       },
     },
     {
-      id: "kl-gain-9",
-      title: "Swap gain is 9",
+      id: "de-same",
+      title: "D and E same side",
       level: "Practice",
-      prompt: "That A↔D swap has gain g=9.",
-      hint: "Gain equals cut reduction on this instance.",
-      setup: arm,
-      check: () => result?.history?.[0]?.swaps?.[0]?.g === 9,
+      prompt: "Heavy edge D–E uncut; cutsize 3.",
+      hint: "D should join E after the A↔D swap.",
+      check: (_c, api) => {
+        const a = api.getAssignment();
+        return a.D === a.E && api.cutsize() === 3;
+      },
+    },
+    {
+      id: "kl-history-ad",
+      title: "KL records A↔D",
+      level: "Practice",
+      prompt: "Run KL from the seed; pass 0 first swap is A with D (g=9).",
+      hint: "Reset, then Run KL — history appears in metrics.",
+      check: (_c, api) => {
+        const s = api.getMeta().history?.[0]?.swaps?.[0];
+        return s && s.a === "A" && s.b === "D" && s.g === 9 && api.cutsize() === 3;
+      },
     },
     {
       id: "kl-bestk-1",
-      title: "best_k = 1",
-      level: "Practice",
-      prompt: "Pass 0 reports best_k=1 (prefix of one swap).",
-      hint: "Only the first swap is kept in the optimal prefix.",
-      setup: arm,
-      check: () => result?.history?.[0]?.bestK === 1,
-    },
-    {
-      id: "kl-bestcum-9",
-      title: "bestCum = 9",
-      level: "Practice",
-      prompt: "Pass 0 best cumulative gain is 9.",
-      hint: "Matches the single accepted swap gain.",
-      setup: arm,
-      check: () => result?.history?.[0]?.bestCum === 9,
-    },
-    {
-      id: "kl-final-parts",
-      title: "Final ABC|DE",
+      title: "KL best_k = 1",
       level: "Stretch",
-      prompt: "After KL, parts are ABC|DE.",
-      hint: "A joins B,C; D joins E.",
-      setup: arm,
-      check: () => result && parts(result.assignment) === "ABC|DE",
+      prompt: "After Run KL, pass 0 reports best_k=1 and bestCum=9; cut is 3.",
+      hint: "Only the first swap is kept.",
+      check: (_c, api) => {
+        const h = api.getMeta().history?.[0];
+        return h && h.bestK === 1 && h.bestCum === 9 && api.cutsize() === 3;
+      },
     },
     {
-      id: "kl-pass1-stop",
-      title: "Pass 1 stops",
+      id: "manual-not-reveal",
+      title: "Golden cut without reveal",
       level: "Stretch",
-      prompt: "Pass 1 has improved=false (local optimum).",
-      hint: "Second pass finds no improving swap prefix.",
-      setup: arm,
-      check: () => result?.history?.[1]?.improved === false,
+      prompt: "Reach cutsize 3 and ABC|DE while Reveal is off.",
+      hint: "Hide golden if needed; Flip/Swap yourself or Run KL.",
+      check: (_c, api) =>
+        !api.isRevealed() &&
+        api.cutsize() === 3 &&
+        partsString(api.getAssignment()) === "ABC|DE",
     },
     {
-      id: "kl-ab-same",
-      title: "A and B same side",
+      id: "bridge-only",
+      title: "Only bridge edges cut",
       level: "Stretch",
-      prompt: "After KL, A and B are in the same block (heavy edge not cut).",
-      hint: "Final assignment keeps A–B internal.",
-      setup: arm,
-      check: () => result && result.assignment.A === result.assignment.B,
+      prompt: "ABC|DE with cut 3 (C–D + C–E).",
+      hint: "Teaching golden bipartition.",
+      check: (_c, api) =>
+        partsString(api.getAssignment()) === "ABC|DE" && api.cutsize() === 3,
     },
   ],
-  extraActions(ctx) {
+  extraActions(ctx, api) {
     return [
-      el("button", {
-        className: "btn btn-secondary",
-        type: "button",
-        text: "Show seed only",
-        onClick: () => {
-          result = null;
-          ctx.rerender();
-        },
-      }),
       el("button", {
         className: "btn btn-primary",
         type: "button",
         text: "Run KL",
         onClick: () => {
-          result = kernighanLin(graph.nodes, graph.edges, seed);
+          const g = api.getGraph();
+          const seed = { ...BAD_SEED };
+          const result = kernighanLin(g.nodes, g.edges, seed);
+          api.setAssignment(result.assignment);
+          api.setMeta({ history: result.history });
+          api.setRevealed(false);
           ctx.rerender();
         },
       }),
     ];
   },
-  renderWorkspace(ctx) {
-    const asn = result ? result.assignment : seed;
-    drawGraph(ctx.canvas, graph, { assignment: asn });
-    const lines = [
-      `cutsize now: ${cutsize(asn, graph.edges)}`,
-      `parts: ${parts(asn)}`,
-    ];
-    if (result) {
-      for (const h of result.history) {
+  extraMetrics(api) {
+    const lines = [];
+    const hist = api.getMeta().history;
+    if (hist) {
+      for (const h of hist) {
         lines.push(
           `pass ${h.pass}: best_k=${h.bestK} cum=${h.bestCum} cut ${h.cutBefore}→${h.cutAfter} improved=${h.improved}`
         );
@@ -175,11 +148,10 @@ createChallengeLab(root, {
           lines.push(`  swaps: ${h.swaps.map((s) => `${s.a}/${s.b}(${s.g})`).join(", ")}`);
         }
       }
-    } else {
-      lines.push("Showing seed only (reference bad partition).");
-      lines.push(`seed: ${JSON.stringify(seed)}`);
     }
-    ctx.metrics.innerHTML = "";
-    ctx.metrics.append(metricsBlock(lines));
+    return lines;
+  },
+  onClear(api) {
+    api.setMeta({ history: null });
   },
 });

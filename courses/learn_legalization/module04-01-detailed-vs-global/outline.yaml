@@ -1,0 +1,95 @@
+title: Detailed versus global legalize
+footer: learn_legalization — 01 detailed vs global
+slides:
+- type: title
+  title: Detailed versus global legalize
+  subtitle: Global legalize lite maps to Tetris shelf pack, displacement six, HPWL
+    thirty-two
+  notes: Global legalize lite maps to Tetris shelf pack—displacement six, HPWL thirty-two.
+    Detailed legalize lite maps to Abacus—displacement four, HPWL thirty-eight. Both
+    are legal on the overlap seed; metrics pick the winner.
+- type: bullets
+  title: The idea
+  bullets:
+  - Pick global Tetris when you want a fast pass and can afford extra movement
+  - Pick detailed Abacus when displacement budget is tight
+  - Report both pipelines side by side in regressions, legal first, then disp and
+    HPWL
+  - <!-- algorithm-walkthrough -->
+  notes: 'Pick global Tetris when you want a fast pass and can afford extra movement.
+    Pick detailed Abacus when displacement budget is tight. Report both pipelines
+    side by side in regressions—legal first, then disp and HPWL.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: Global = Tetris, disp 6
+  image: assets/steps/01-global-tetris.png
+  caption: Global = Tetris, disp 6
+  notes: Global legalize lite maps to Tetris-style nearest-row shelf pack. On the
+    overlap seed it legalizes with displacement six and HPWL thirty-two.
+- type: image
+  title: Detailed = Abacus, disp 4
+  image: assets/steps/02-detailed-abacus.png
+  caption: Detailed = Abacus, disp 4
+  notes: Detailed legalize lite maps to Abacus row trial. Same seed, both legal—but
+    displacement drops to four by spreading A, B, C across rows.
+- type: image
+  title: Both pipelines legal
+  image: assets/steps/03-both-legal.png
+  caption: Both pipelines legal
+  notes: Global and detailed both pass legality on the overlap seed. The difference
+    is how far cells move and how HPWL shifts—thirty-two versus thirty-eight here.
+- type: image
+  title: Side-by-side metrics
+  image: assets/steps/04-side-by-side.png
+  caption: Side-by-side metrics
+  notes: 'Global Tetris: disp six, HPWL thirty-two. Detailed Abacus: disp four, HPWL
+    thirty-eight. Neither dominates on both axes—pick by your displacement budget.'
+- type: image
+  title: Pick detailed when displacement is tight
+  image: assets/steps/05-pick-detailed.png
+  caption: Pick detailed when displacement is tight
+  notes: 'Production flows often run a fast global legalize, then a detailed pass
+    when timing or continuity needs cells near global targets. On this toy, that is
+    Abacus over Tetris.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab track, open the **detailed-vs-global** lab from the tools shelf
+  - Load the overlap or float starter, run the legalizer once
+  - Work the challenges that lock the goldens
+  notes: In the browser lab track, open the **detailed-vs-global** lab from the tools
+    shelf. Load the overlap or float starter, run the legalizer once, and read legality
+    plus displacement and HPWL when the panel shows them. Work the challenges that
+    lock the goldens, then come back to implement the same loop yourself.
+- type: bullets
+  title: Implement track
+  bullets:
+  - In the implement track, open this module's examples and the course `common/` solvers
+  - Parse `tiny_legal.json`, run the algorithm with deterministic coordinates
+  - Match the browser goldens before you claim the checklist
+  notes: In the implement track, open this module's examples and the course `common/`
+    solvers. Parse `tiny_legal.json`, run the algorithm with deterministic coordinates,
+    and print legality, displacement, and HPWL. Match the browser goldens before you
+    claim the checklist.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Common traps
+  notes: 'Common traps: assuming snap alone legalizes; forgetting site width when
+    checking overlap; ignoring fixed macro D at (8, 4); reporting HPWL without legality;
+    and comparing Abacus and Tetris without naming displacement versus wirelength
+    tradeoffs.'
+- type: bullets
+  title: Your turn
+  bullets:
+  - Complete the checklist for at least one track, preferably both
+  - Implement until your metrics match the starter goldens
+  - When you're ready, take the short quiz, then continue to the next module
+  notes: Complete the checklist for at least one track—preferably both. Implement
+    until your metrics match the starter goldens. When you're ready, take the short
+    quiz, then continue to the next module.

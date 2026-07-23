@@ -1,0 +1,47 @@
+{
+  "module": "module02-05-abacus-row-pack",
+  "title": "Abacus check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "prompt": "Abacus-style packing collapses clusters toward\u2026",
+      "choices": [
+        "Row origin / obstacles",
+        "Random coordinates",
+        "Only north edge",
+        "Negative x"
+      ],
+      "answer": 0,
+      "explain": "Cluster collapse left."
+    },
+    {
+      "id": "q2",
+      "type": "true_false",
+      "prompt": "Fixed macros act as obstacles during Abacus pack.",
+      "answer": true,
+      "explain": "Do not move D."
+    },
+    {
+      "id": "q3",
+      "type": "true_false",
+      "prompt": "Abacus and greedy snap are identical algorithms.",
+      "answer": false,
+      "explain": "Packing vs rounding."
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "prompt": "Track A solver stub name is\u2026",
+      "choices": [
+        "abacus_lite",
+        "only hpwl",
+        "uart_tx",
+        "kl_refine"
+      ],
+      "answer": 0,
+      "explain": "Matches common/solvers.py."
+    }
+  ]
+}

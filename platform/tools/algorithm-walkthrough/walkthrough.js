@@ -17,9 +17,11 @@ import {
   NETS as PLACE_NETS,
   STARTER_PLACEMENT,
 } from "../../assets/placement-core.js";
+import { drawLegalization, OVERLAP_PLACEMENT } from "../../assets/legalization-core.js";
 import { drawPlacement } from "../../assets/placement-ui.js";
 import { drawTimingGraph } from "../../assets/sta-ui.js";
 import { FLOORPLAN_ALGOS } from "./floorplanning-algos.js";
+import { LEGALIZATION_ALGOS } from "./legalization-algos.js";
 import { PLACEMENT_ALGO_IDS, PLACEMENT_ALGOS } from "./placement-algos.js";
 import { STA_ALGOS } from "./sta-algos.js";
 
@@ -1660,6 +1662,7 @@ export const ALGOS = {
   ...FLOORPLAN_ALGOS,
   ...STA_ALGOS,
   ...PLACEMENT_ALGOS,
+  ...LEGALIZATION_ALGOS,
 };
 
 function qs() {
@@ -1739,6 +1742,12 @@ function render() {
       levels: s.levels || null,
       highlightPins: s.highlightPins || [],
       highlightArcs: s.highlightArcs || [],
+      tags: s.tags || {},
+    });
+  } else if (pack.kind === "legalization") {
+    drawLegalization(canvas, {
+      positions: s.positions || OVERLAP_PLACEMENT,
+      highlight: s.highlight || [],
     });
   } else if (
     pack.kind === "placement" ||

@@ -1,158 +1,130 @@
 import {
   BAD_SEED,
   EDGE_CONGESTION,
-  cloneGraph,
   congestionAwarePartition,
-  cutsize,
   partsString,
 } from "../../assets/clustering-core.js";
 import {
-  createChallengeLab,
-  drawGraph,
+  createInteractiveGraphLab,
   el,
-  metricsBlock,
-} from "../../assets/clustering-ui.js";
+} from "../../assets/interactive-graph-lab.js";
 
 const root = document.getElementById("lab-root");
-let graph = cloneGraph();
-let seed = { ...BAD_SEED };
-let result = null;
-let lastLam = null;
+const GOLDEN_LAM5 = { A: "0", B: "0", C: "1", D: "1", E: "1" };
 
-function arm() {
-  graph = cloneGraph();
-  seed = { ...BAD_SEED };
-  result = null;
-  lastLam = null;
-}
-
-function run(lam) {
-  lastLam = lam;
-  result = congestionAwarePartition(graph.nodes, graph.edges, seed, EDGE_CONGESTION, lam);
-}
-
-createChallengeLab(root, {
+createInteractiveGraphLab(root, {
+  initialAssignment: { ...BAD_SEED },
+  revealAssignment: GOLDEN_LAM5,
+  initialMeta: { plain: null, pen: null, objective: null, lam: null },
   starterHtml: `
-    <p><strong>Starter example (reference):</strong> from the bad seed, run with
-    <strong>λ=5</strong> → plain cut <strong>5</strong>, congestion penalty <strong>0</strong>
-    (avoids cutting congested C–D/C–E). Reload starter to restore this reference.</p>
+    <p><strong>Your job:</strong> from the bad seed, Run λ=0 or λ=5 (or Flip/Swap) to explore
+    congestion-aware cuts. λ=5 teaching result: plain 5, pen 0, AB|CDE. Challenges check your state.</p>
   `,
-  loadStarter() {
-    graph = cloneGraph();
-    seed = { ...BAD_SEED };
-    lastLam = 5;
-    result = congestionAwarePartition(graph.nodes, graph.edges, seed, EDGE_CONGESTION, 5);
-  },
   challenges: [
     {
       id: "seed-12",
-      title: "Seed cutsize is 12",
+      title: "Seed cutsize 12",
       level: "Intro",
-      prompt: "Show seed only; plain cutsize must be 12.",
-      hint: "Click Show seed only.",
-      setup: arm,
-      check: () => !result && cutsize(seed, graph.edges) === 12,
+      prompt: "Workspace seed plain cutsize is 12.",
+      hint: "Reset; leave the bad seed.",
+      check: (_c, api) => api.cutsize() === 12,
     },
     {
       id: "lam0-plain3",
       title: "λ=0 plain cut 3",
       level: "Intro",
-      prompt: "Run λ=0; plain cutsize is 3.",
-      hint: "No congestion boost — same as ordinary FM.",
-      setup: arm,
-      check: () => result && lastLam === 0 && result.plain === 3,
+      prompt: "Run λ=0; plain cutsize is 3 (and parts ABC|DE).",
+      hint: "Ignores congestion — classic FM-style cut.",
+      check: (_c, api) =>
+        api.getMeta().lam === 0 &&
+        api.getMeta().plain === 3 &&
+        partsString(api.getAssignment()) === "ABC|DE",
     },
     {
       id: "lam0-pen9",
       title: "λ=0 penalty 9",
       level: "Intro",
-      prompt: "λ=0 result has congestion penalty 9 (5+4 on cut bridges).",
-      hint: "Cuts both congested edges C–D and C–E.",
-      setup: arm,
-      check: () => result && lastLam === 0 && result.pen === 9,
-    },
-    {
-      id: "lam0-parts",
-      title: "λ=0 parts ABC|DE",
-      level: "Practice",
-      prompt: "λ=0 lands on ABC|DE.",
-      hint: "Classic communities, expensive under congestion.",
-      setup: arm,
-      check: () => result && lastLam === 0 && partsString(result.assignment) === "ABC|DE",
+      prompt: "After λ=0, congestion penalty is 9 (5+4 on cut bridges).",
+      hint: "C–D and C–E are cut under ABC|DE.",
+      check: (_c, api) => api.getMeta().lam === 0 && api.getMeta().pen === 9,
     },
     {
       id: "lam5-plain5",
       title: "λ=5 plain cut 5",
       level: "Practice",
       prompt: "Run λ=5; plain cutsize is 5.",
-      hint: "Trades a worse wire cut to dodge congestion.",
-      setup: arm,
-      check: () => result && lastLam === 5 && result.plain === 5,
+      hint: "Avoids congested bridges.",
+      check: (_c, api) => api.getMeta().lam === 5 && api.getMeta().plain === 5,
     },
     {
       id: "lam5-pen0",
       title: "λ=5 penalty 0",
       level: "Practice",
-      prompt: "λ=5 result has congestion penalty 0.",
-      hint: "Does not cut C–D or C–E.",
-      setup: arm,
-      check: () => result && lastLam === 5 && result.pen === 0,
+      prompt: "After λ=5, congestion penalty is 0.",
+      hint: "No congested edge on the cut.",
+      check: (_c, api) => api.getMeta().lam === 5 && api.getMeta().pen === 0,
     },
     {
       id: "lam5-parts",
       title: "λ=5 parts AB|CDE",
       level: "Practice",
       prompt: "λ=5 yields parts AB|CDE.",
-      hint: "Keeps congested bridges internal on the CDE side.",
-      setup: arm,
-      check: () => result && lastLam === 5 && partsString(result.assignment) === "AB|CDE",
+      hint: "C joins D,E to spare congested bridges.",
+      check: (_c, api) =>
+        api.getMeta().lam === 5 && partsString(api.getAssignment()) === "AB|CDE",
     },
     {
       id: "cong-map-cd",
-      title: "Congestion C–D is 5",
-      level: "Stretch",
-      prompt: "EDGE_CONGESTION for C|D equals 5 (check before or after any run).",
-      hint: "Look at congestion map in metrics.",
-      setup: arm,
+      title: "Congestion C|D = 5",
+      level: "Practice",
+      prompt: "EDGE_CONGESTION for C|D equals 5 (always true — confirm map).",
+      hint: "Shown in metrics.",
       check: () => EDGE_CONGESTION["C|D"] === 5,
     },
     {
       id: "cong-map-ce",
-      title: "Congestion C–E is 4",
+      title: "Congestion C|E = 4",
       level: "Stretch",
       prompt: "EDGE_CONGESTION for C|E equals 4.",
-      hint: "Together with C–D these sum to penalty 9 when both cut.",
-      setup: arm,
+      hint: "Companion to C|D.",
       check: () => EDGE_CONGESTION["C|E"] === 4,
     },
     {
       id: "obj-lam5",
-      title: "λ=5 objective is 5",
+      title: "Objective = 5",
       level: "Stretch",
-      prompt: "λ=5: objective = plain + λ·pen = 5 + 5·0 = 5.",
-      hint: "Matches plain when pen is zero.",
-      setup: arm,
-      check: () => result && lastLam === 5 && result.objective === 5,
+      prompt: "After λ=5: objective = plain + λ·pen = 5.",
+      hint: "5 + 5·0 = 5.",
+      check: (_c, api) =>
+        api.getMeta().lam === 5 &&
+        api.getMeta().objective === 5 &&
+        api.getMeta().plain === 5 &&
+        api.getMeta().pen === 0,
+    },
+    {
+      id: "manual-lam5-shape",
+      title: "AB|CDE without reveal",
+      level: "Stretch",
+      prompt: "Reach AB|CDE (plain cut 5) with Reveal off — Run λ=5 or Flip.",
+      hint: "Hide golden; assign C with D,E.",
+      check: (_c, api) =>
+        !api.isRevealed() &&
+        partsString(api.getAssignment()) === "AB|CDE" &&
+        api.cutsize() === 5,
     },
   ],
-  extraActions(ctx) {
+  extraActions(ctx, api) {
     return [
       el("button", {
         className: "btn btn-secondary",
         type: "button",
-        text: "Show seed only",
-        onClick: () => {
-          result = null;
-          lastLam = null;
-          ctx.rerender();
-        },
-      }),
-      el("button", {
-        className: "btn btn-ghost",
-        type: "button",
         text: "Run λ=0",
         onClick: () => {
-          run(0);
+          const g = api.getGraph();
+          const r = congestionAwarePartition(g.nodes, g.edges, BAD_SEED, EDGE_CONGESTION, 0);
+          api.setAssignment(r.assignment);
+          api.setMeta({ plain: r.plain, pen: r.pen, objective: r.objective, lam: 0 });
+          api.setRevealed(false);
           ctx.rerender();
         },
       }),
@@ -161,30 +133,23 @@ createChallengeLab(root, {
         type: "button",
         text: "Run λ=5",
         onClick: () => {
-          run(5);
+          const g = api.getGraph();
+          const r = congestionAwarePartition(g.nodes, g.edges, BAD_SEED, EDGE_CONGESTION, 5);
+          api.setAssignment(r.assignment);
+          api.setMeta({ plain: r.plain, pen: r.pen, objective: r.objective, lam: 5 });
+          api.setRevealed(false);
           ctx.rerender();
         },
       }),
     ];
   },
-  renderWorkspace(ctx) {
-    const asn = result ? result.assignment : seed;
-    drawGraph(ctx.canvas, graph, { assignment: asn });
-    const lines = [
-      `seed cutsize: ${cutsize(seed, graph.edges)}`,
-      `congestion: C|D=${EDGE_CONGESTION["C|D"]}, C|E=${EDGE_CONGESTION["C|E"]} (else 0)`,
+  extraMetrics(api) {
+    const m = api.getMeta();
+    return [
+      `cong map: C|D=${EDGE_CONGESTION["C|D"]}, C|E=${EDGE_CONGESTION["C|E"]}`,
+      m.lam != null
+        ? `last run λ=${m.lam} plain=${m.plain} pen=${m.pen} obj=${m.objective}`
+        : "last run: —",
     ];
-    if (!result) {
-      lines.push("Showing seed only (BAD_SEED).");
-      lines.push(`parts: ${partsString(seed)}`);
-    } else {
-      lines.push(`λ=${lastLam}`);
-      lines.push(`plain cut: ${result.plain}`);
-      lines.push(`congestion pen: ${result.pen}`);
-      lines.push(`objective: ${result.objective}`);
-      lines.push(`parts: ${partsString(result.assignment)}`);
-    }
-    ctx.metrics.innerHTML = "";
-    ctx.metrics.append(metricsBlock(lines));
   },
 });

@@ -1,0 +1,34 @@
+{
+  "module": "module05-01-offline-benchmark-compare",
+  "title": "Offline check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "true_false",
+      "prompt": "Fair compares require the same tiny_legal input and comparable metrics.",
+      "answer": true,
+      "explain": "Otherwise you compare different problems."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "prompt": "If a reference legalizer is missing you should\u2026",
+      "choices": [
+        "Invent golden HPWL",
+        "Still run your harness and document the gap",
+        "Skip legality checks",
+        "Delete displacement metrics"
+      ],
+      "answer": 1,
+      "explain": "Honesty about tooling beats fake goldens."
+    },
+    {
+      "id": "q3",
+      "type": "true_false",
+      "prompt": "An educational legalizer that is slower than a commercial tool is automatically wrong.",
+      "answer": false,
+      "explain": "Speed differs; look for legal, consistent metrics."
+    }
+  ]
+}

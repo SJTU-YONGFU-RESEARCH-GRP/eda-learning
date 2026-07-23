@@ -1,7 +1,7 @@
 # Module 02-03: Critical path
 
 **Module id:** `module02-03-critical-path`  
-**Kind:** `lab` · Primary lab: `critical-path` · **Planned**
+**Kind:** `lab` · Primary lab: `critical-path` · **Shipped**
 
 [← Slack / setup / hold](../module02-01-slack-setup-hold/README.md) · [Course README](../README.md) · [Incremental update →](../module03-01-incremental-update/README.md)
 
@@ -19,8 +19,9 @@ After this module you can: **Trace the worst (most critical) path from an endpoi
 
 ### Track B — Browser lab (online)
 
-1. Local: [http://127.0.0.1:8080/tools/critical-path/index.html](http://127.0.0.1:8080/tools/critical-path/index.html) *(planned)*
-2. Tools shelf: open `critical-path` from the platform tools index when shipped
+1. Local: [http://127.0.0.1:8080/tools/critical-path/index.html](http://127.0.0.1:8080/tools/critical-path/index.html)
+2. Live: [https://universal-verification-methodology.github.io/learning/tools/critical-path/](https://universal-verification-methodology.github.io/learning/tools/critical-path/)
+3. Tools shelf: open `critical-path` from the platform tools index
 3. Load the **starter netlist**, run the analysis, inspect path / slack metrics.
 4. Check off Track B items in [CHECKLIST.md](CHECKLIST.md).
 

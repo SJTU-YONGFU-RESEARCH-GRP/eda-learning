@@ -1,213 +1,169 @@
-import { cloneGraph, cutsize, partsString } from "../../assets/clustering-core.js";
-import { BAD_SEED, multilevelVCycle } from "../../assets/partitioning-core.js";
-import {
-  createChallengeLab,
-  drawGraph,
-  el,
-  metricsBlock,
-} from "../../assets/clustering-ui.js";
+import { BAD_SEED, partsString } from "../../assets/clustering-core.js";
+import { multilevelVCycle } from "../../assets/partitioning-core.js";
+import { createInteractiveGraphLab, el } from "../../assets/interactive-graph-lab.js";
 
 const root = document.getElementById("lab-root");
-let graph = cloneGraph();
-let result = null;
-let stage = "final"; // coarsen | project | refine | final
+const GOLDEN = { A: "P0", B: "P0", C: "P0", D: "P1", E: "P1" };
 
-function arm() {
-  graph = cloneGraph();
-  result = null;
-  stage = "final";
-}
-
-function asnForStage() {
-  if (!result) return null;
-  if (stage === "coarsen") return result.stages.coarsen.assignment;
-  if (stage === "project") return result.stages.project.assignment;
-  if (stage === "refine") return result.stages.refine.assignment;
-  return result.stages.final.assignment;
-}
-
-createChallengeLab(root, {
+createInteractiveGraphLab(root, {
+  initialAssignment: { ...BAD_SEED },
+  revealAssignment: GOLDEN,
+  initialMeta: { stages: null, stage: "final" },
   starterHtml: `
-    <p><strong>Starter example (reference):</strong> multilevel V-cycle
-    (coarsen → project → FM refine) lands on <code>P0/P1</code> communities
-    <strong>ABC|DE</strong> with <strong>cutsize 3</strong>. Reload starter anytime.</p>
+    <p><strong>Your job:</strong> Run V-cycle (or Flip/Swap) until final cut 3 / ABC|DE (P0/P1).
+    Use stage buttons to inspect coarsen → project → refine → final. Challenges check your assignment.</p>
   `,
-  loadStarter() {
-    graph = cloneGraph();
-    result = multilevelVCycle(graph.nodes, graph.edges, graph.sizes, 2);
-    stage = "final";
-  },
   challenges: [
     {
       id: "final-cut-3",
       title: "Final cutsize 3",
       level: "Intro",
-      prompt: "Run V-cycle; final cutsize is 3.",
-      hint: "Click Run V-cycle, view Final.",
-      setup: arm,
-      check: () => result && stage === "final" && result.stages.final.cut === 3,
+      prompt: "Reach cutsize 3 (Run V-cycle or edit).",
+      hint: "Teaching V-cycle lands on cut 3.",
+      check: (_c, api) => api.cutsize() === 3,
     },
     {
       id: "final-parts",
-      title: "Final ABC|DE",
+      title: "Parts ABC|DE",
       level: "Intro",
-      prompt: "Final parts are ABC|DE.",
-      hint: "P0/P1 labels still sort to ABC|DE.",
-      setup: arm,
-      check: () => result && stage === "final" && result.stages.final.parts === "ABC|DE",
+      prompt: "Parts are ABC|DE.",
+      hint: "Communities match the golden bipartition.",
+      check: (_c, api) => partsString(api.getAssignment()) === "ABC|DE",
     },
     {
       id: "labels-p0-p1",
       title: "Labels P0/P1",
       level: "Intro",
-      prompt: "Final labels are exactly P0 and P1.",
-      hint: "View Final stage.",
-      setup: arm,
-      check: () => {
-        if (!(result && stage === "final")) return false;
-        const labs = new Set(Object.values(result.stages.final.assignment));
+      prompt: "After Run V-cycle (final stage), labels are exactly P0 and P1.",
+      hint: "View final after the run.",
+      check: (_c, api) => {
+        const labs = new Set(Object.values(api.getAssignment()));
         return labs.size === 2 && labs.has("P0") && labs.has("P1");
       },
     },
     {
       id: "project-abc-de",
-      title: "Project is ABC|DE",
+      title: "Project stage golden",
       level: "Practice",
-      prompt: "Project stage parts are ABC|DE with cut 3.",
+      prompt: "After Run V-cycle, project stage parts are ABC|DE with cut 3.",
       hint: "Click View project.",
-      setup: arm,
-      check: () =>
-        result &&
-        stage === "project" &&
-        result.stages.project.parts === "ABC|DE" &&
-        result.stages.project.cut === 3,
+      check: (_c, api) => {
+        const p = api.getMeta().stages?.project;
+        return p && p.parts === "ABC|DE" && p.cut === 3;
+      },
     },
     {
       id: "refine-matches",
       title: "Refine matches project",
       level: "Practice",
-      prompt: "Refine stage also ABC|DE cut 3 (already good projection).",
-      hint: "Click View refine.",
-      setup: arm,
-      check: () =>
-        result &&
-        stage === "refine" &&
-        result.stages.refine.parts === "ABC|DE" &&
-        result.stages.refine.cut === 3,
+      prompt: "Refine stage also ABC|DE cut 3.",
+      hint: "Already good projection.",
+      check: (_c, api) => {
+        const r = api.getMeta().stages?.refine;
+        return r && r.parts === "ABC|DE" && r.cut === 3;
+      },
     },
     {
       id: "coarsen-two",
-      title: "Coarsen has 2 clusters",
+      title: "Coarsen two clusters",
       level: "Practice",
       prompt: "Coarsen stage uses exactly two cluster ids.",
-      hint: "Click View coarsen.",
-      setup: arm,
-      check: () =>
-        result &&
-        stage === "coarsen" &&
-        new Set(Object.values(result.stages.coarsen.assignment)).size === 2,
+      hint: "View coarsen after Run V-cycle.",
+      check: (_c, api) => {
+        const c = api.getMeta().stages?.coarsen;
+        return c && new Set(Object.values(c.assignment)).size === 2;
+      },
     },
     {
       id: "coarsen-merges",
-      title: "Coarsen logged merges",
+      title: "Coarsen has merges",
       level: "Practice",
-      prompt: "Coarsen mergeLog has length ≥ 1.",
-      hint: "Greedy contractions down to 2 clusters.",
-      setup: arm,
-      check: () => result && result.stages.coarsen.mergeLog.length >= 1,
+      prompt: "Coarsen mergeLog length ≥ 1.",
+      hint: "Greedy coarsening fired.",
+      check: (_c, api) => (api.getMeta().stages?.coarsen?.mergeLog?.length || 0) >= 1,
     },
     {
       id: "beats-seed",
-      title: "Beats bad seed cut 12",
+      title: "Beat seed 12",
       level: "Stretch",
-      prompt: "Final cut 3 beats BAD_SEED cut 12.",
-      hint: "View Final after Run.",
-      setup: arm,
-      check: () =>
-        result &&
-        stage === "final" &&
-        result.stages.final.cut === 3 &&
-        cutsize(BAD_SEED, graph.edges) === 12,
+      prompt: "Final cut 3 (seed was 12).",
+      hint: "Run V-cycle.",
+      check: (_c, api) => api.cutsize() === 3,
     },
     {
       id: "abc-same",
-      title: "A,B,C same final",
+      title: "A,B,C together",
       level: "Stretch",
-      prompt: "Final assignment keeps A,B,C together.",
-      hint: "View Final.",
-      setup: arm,
-      check: () => {
-        if (!(result && stage === "final")) return false;
-        const a = result.stages.final.assignment;
-        return a.A === a.B && a.B === a.C;
+      prompt: "A, B, C share a label; cutsize 3.",
+      hint: "Triangle stays together.",
+      check: (_c, api) => {
+        const a = api.getAssignment();
+        return a.A === a.B && a.B === a.C && api.cutsize() === 3;
       },
     },
     {
       id: "de-same",
-      title: "D,E same final",
+      title: "D,E without reveal",
       level: "Stretch",
-      prompt: "Final assignment keeps D,E together.",
-      hint: "View Final.",
-      setup: arm,
-      check: () => {
-        if (!(result && stage === "final")) return false;
-        const a = result.stages.final.assignment;
-        return a.D === a.E && a.D !== a.A;
+      prompt: "D and E together, cut 3, Reveal off.",
+      hint: "Hide golden; Run V-cycle.",
+      check: (_c, api) => {
+        const a = api.getAssignment();
+        return !api.isRevealed() && a.D === a.E && api.cutsize() === 3;
       },
     },
   ],
-  extraActions(ctx) {
-    const viewBtn = (label, s) =>
-      el("button", {
-        className: "btn btn-ghost",
-        type: "button",
-        text: label,
-        onClick: () => {
-          if (!result) return;
-          stage = s;
-          ctx.rerender();
-        },
-      });
+  extraActions(ctx, api) {
+    const showStage = (stage) => {
+      const stages = api.getMeta().stages;
+      if (!stages) {
+        ctx.setStatus("idle", "Run V-cycle first");
+        return;
+      }
+      const asn = stages[stage]?.assignment;
+      if (!asn) return;
+      api.setAssignment(asn);
+      api.setMeta({ stage });
+      api.setRevealed(false);
+      ctx.rerender();
+    };
     return [
       el("button", {
         className: "btn btn-primary",
         type: "button",
         text: "Run V-cycle",
         onClick: () => {
-          result = multilevelVCycle(graph.nodes, graph.edges, graph.sizes, 2);
-          stage = "final";
+          const g = api.getGraph();
+          const r = multilevelVCycle(g.nodes, g.edges, g.sizes, 2);
+          api.setMeta({ stages: r.stages, stage: "final" });
+          api.setAssignment(r.assignment);
+          api.setRevealed(false);
           ctx.rerender();
         },
       }),
-      viewBtn("View coarsen", "coarsen"),
-      viewBtn("View project", "project"),
-      viewBtn("View refine", "refine"),
-      viewBtn("View final", "final"),
+      ...["coarsen", "project", "refine", "final"].map((s) =>
+        el("button", {
+          className: "btn btn-ghost",
+          type: "button",
+          text: `View ${s}`,
+          onClick: () => showStage(s),
+        })
+      ),
     ];
   },
-  renderWorkspace(ctx) {
-    const asn = asnForStage();
-    drawGraph(ctx.canvas, graph, { assignment: asn });
-    const lines = [];
-    if (!result) {
-      lines.push("No result — click Run V-cycle.");
-      lines.push(`For contrast, BAD_SEED cutsize=${cutsize(BAD_SEED, graph.edges)}`);
-    } else {
-      lines.push(`viewing stage: ${stage}`);
-      const st = result.stages[stage] || result.stages.final;
-      if (stage === "coarsen") {
-        lines.push(`coarse labels: ${result.stages.coarsen.labels.join(", ")}`);
-        lines.push(`merges: ${result.stages.coarsen.mergeLog.length}`);
-        for (const m of result.stages.coarsen.mergeLog) {
-          lines.push(`  ${m.u}+${m.v}→${m.into} (w=${m.w})`);
-        }
-        lines.push(`parts: ${partsString(result.stages.coarsen.assignment)}`);
-      } else {
-        lines.push(`parts: ${st.parts || partsString(st.assignment)}`);
-        lines.push(`cutsize: ${st.cut != null ? st.cut : cutsize(st.assignment, graph.edges)}`);
+  extraMetrics(api) {
+    const lines = [`stage view: ${api.getMeta().stage || "—"}`];
+    const st = api.getMeta().stages;
+    if (st) {
+      for (const name of ["coarsen", "project", "refine", "final"]) {
+        const s = st[name];
+        if (!s) continue;
+        lines.push(
+          `${name}: parts=${partsString(s.assignment)}` +
+            (s.cut != null ? ` cut=${s.cut}` : "")
+        );
       }
     }
-    ctx.metrics.innerHTML = "";
-    ctx.metrics.append(metricsBlock(lines));
+    return lines;
   },
 });
