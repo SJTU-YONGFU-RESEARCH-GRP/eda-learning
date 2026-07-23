@@ -1,0 +1,101 @@
+title: Kernighan–Lin refinement
+footer: learn_clustering — 05 kernighan lin
+slides:
+- type: title
+  title: Kernighan–Lin refinement
+  subtitle: Kernighan–Lin improves an existing bipartition by swapping pairs across
+    the cut
+  notes: 'Kernighan–Lin improves an existing bipartition by swapping pairs across
+    the cut. You’ll watch a full pass—gains, locking, a swap sequence, and rollback
+    to the best prefix. On the starter seed that cuts both heavy edges, KL drives
+    the cut from twelve down to three.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: 'Bad seed: cutsize 12'
+  image: assets/steps/01-bad-seed.png
+  caption: 'Bad seed: cutsize 12'
+  notes: 'Start from a terrible bipartition: A and E versus B, C, and D. Both heavy
+    edges A–B and D–E are cut, so cutsize is twelve. KL will search improving swaps.'
+- type: image
+  title: Score pairwise swaps by gain
+  image: assets/steps/02-gain-idea.png
+  caption: Score pairwise swaps by gain
+  notes: KL considers swapping one vertex from each side. Gain estimates how much
+    the cut shrinks. The best unlocked pair here is A with D, gain nine.
+- type: image
+  title: 'Accept prefix: only A↔D'
+  image: assets/steps/03-accept-swap.png
+  caption: 'Accept prefix: only A↔D'
+  notes: 'Pass zero builds a sequence of candidate swaps, then keeps the prefix with
+    best cumulative gain. Here best k equals one: perform A↔D once, and the cut falls
+    from twelve to three.'
+- type: image
+  title: Refined partition ABC|DE
+  image: assets/steps/04-final.png
+  caption: Refined partition ABC|DE
+  notes: 'After the swap, A joins B and C, and D joins E. Heavy edges are internal;
+    only the weak bridge through C remains cut. Cutsize golden: three.'
+- type: image
+  title: Next pass finds nothing
+  image: assets/steps/05-pass1-stop.png
+  caption: Next pass finds nothing
+  notes: 'Pass one reports no improvement. KL stops at a local optimum for swap moves
+    from this seed. Quality still depends on where you started.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab, show the seed only, then run KL
+  - Check the challenges for cutsize twelve, the A–D swap, and the final cutsize three
+  notes: In the browser lab, show the seed only, then run KL. Check the challenges
+    for cutsize twelve, the A–D swap, and the final cutsize three.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Load the tiny graph and the bad seed
+  - Print cutsize twelve before you start
+  - Run the reference KL solver and confirm it accepts A–D
+  notes: Load the tiny graph and the bad seed. Print cutsize twelve before you start.
+    Run the reference KL solver and confirm it accepts A–D, lands on cutsize three,
+    then stops on the next pass.
+- type: code
+  title: Implement track — try these
+  code: '# pwd — print working directory
+
+    pwd
+
+
+    # ls examples — graph + seed partition
+
+    ls examples
+
+
+    # run full KL refinement on the bad seed
+
+    export PYTHONPATH=../common
+
+    python ../common/solvers.py examples/tiny_graph.json --mode kl --seed examples/seed_partition.json
+
+    '
+  notes: ''
+- type: bullets
+  title: Pitfalls to watch
+  bullets:
+  - Forgetting rollback is the classic bug
+  - Stale D-values after a swap pick the wrong pair next
+  - And if your seed isn’t labeled zero and one, the gain math won’t match
+  notes: Forgetting rollback is the classic bug—you keep the final locked state even
+    when an earlier prefix was better. Stale D-values after a swap pick the wrong
+    pair next. And if your seed isn’t labeled zero and one, the gain math won’t match.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Reproduce cut twelve to three with the accepted A–D swap
+  - Finish the checklist and quiz
+  notes: Reproduce cut twelve to three with the accepted A–D swap. Finish the checklist
+    and quiz, then continue to Fiduccia–Mattheyses—single-vertex moves instead of
+    pairwise swaps.

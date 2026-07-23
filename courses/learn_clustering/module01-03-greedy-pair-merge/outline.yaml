@@ -1,0 +1,105 @@
+title: Greedy pair merge
+footer: learn_clustering — 03 greedy pair merge
+slides:
+- type: title
+  title: Greedy pair merge
+  subtitle: Greedy pair merge is the simplest coarsening engine that still feels like
+    CAD
+  notes: 'Greedy pair merge is the simplest coarsening engine that still feels like
+    CAD: repeatedly merge the most attractive pair, update the graph, and stop when
+    you hit a cluster count. You’ll watch the full loop on the tiny graph—affinity,
+    contraction, and cutsize moving together.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: Every node starts alone
+  image: assets/steps/01-singletons.png
+  caption: Every node starts alone
+  notes: Agglomerative clustering begins with five singletons. We repeatedly merge
+    the highest-affinity legal pair until we hit target K—here, two clusters, with
+    no capacity limit in the reference run.
+- type: image
+  title: 'Merge 1: contract A–B'
+  image: assets/steps/02-merge-ab.png
+  caption: 'Merge 1: contract A–B'
+  notes: Heaviest edge is A–B at weight five, so they merge first into a supernode.
+    That protects the strongest connection immediately.
+- type: image
+  title: 'Merge 2: absorb C into AB'
+  image: assets/steps/03-absorb-c.png
+  caption: 'Merge 2: absorb C into AB'
+  notes: After contraction, C connects to A–B with combined weight five. That ties
+    D–E; alphabetical order merges C next, forming A–B–C.
+- type: image
+  title: 'Merge 3: contract D–E'
+  image: assets/steps/04-merge-de.png
+  caption: 'Merge 3: contract D–E'
+  notes: 'Last merge joins D–E at weight five. We now have exactly two clusters: A–B–C
+    versus D–E.'
+- type: image
+  title: 'Result: cutsize 3'
+  image: assets/steps/05-final-cut.png
+  caption: 'Result: cutsize 3'
+  notes: 'Cut edges are C–D and C–E—total three. Greedy locked in the natural communities
+    without backtracking. Capacity two would have blocked the size-three cluster.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab, load the starter, try the K and capacity presets, and run
+    greedy merge
+  - Work the challenges
+  notes: 'In the browser lab, load the starter, try the K and capacity presets, and
+    run greedy merge. Work the challenges: unconstrained K equals two, then capacity
+    two, then stop at K equals three.'
+- type: bullets
+  title: Implement track
+  bullets:
+  - Run the reference greedy merge down to two clusters
+  - You should land on A–B–C versus D–E with cutsize three
+  - Re-implement contraction yourself and keep a deterministic tie-break so golden
+    tests stay
+  notes: Run the reference greedy merge down to two clusters. You should land on A–B–C
+    versus D–E with cutsize three. Re-implement contraction yourself and keep a deterministic
+    tie-break so golden tests stay stable.
+- type: code
+  title: Implement track — try these
+  code: '# pwd — print working directory
+
+    pwd
+
+
+    # ls examples — confirm tiny_graph.json is present
+
+    ls examples
+
+
+    # greedy merge to K=2 via reference solver
+
+    export PYTHONPATH=../common
+
+    python ../common/solvers.py examples/tiny_graph.json --k 2
+
+    '
+  notes: ''
+- type: bullets
+  title: Pitfalls to watch
+  bullets:
+  - Greedy is myopic, a great first merge can strand you with a bad global cut
+  - Watch illegal merges that violate a size cap
+  - And updating affinities incorrectly after contraction creates silent wrong clusters
+    until
+  notes: Greedy is myopic—a great first merge can strand you with a bad global cut.
+    Watch illegal merges that violate a size cap. And updating affinities incorrectly
+    after contraction creates silent wrong clusters until you check cutsize by hand.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Implement greedy pair merge end to end, hit a chosen K, and record cutsize
+  - Complete the checklist and quiz
+  notes: Implement greedy pair merge end to end, hit a chosen K, and record cutsize.
+    Complete the checklist and quiz, then continue to size-constrained agglomerative
+    clustering—where capacity becomes a hard rule.

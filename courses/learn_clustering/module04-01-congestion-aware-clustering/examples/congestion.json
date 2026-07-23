@@ -1,0 +1,11 @@
+{
+  "notes": "Congestion high on the C-D bridge — cutting it is expensive under lambda>0.",
+  "edges": [
+    {"u": "A", "v": "B", "congestion": 0},
+    {"u": "A", "v": "C", "congestion": 0},
+    {"u": "B", "v": "C", "congestion": 0},
+    {"u": "C", "v": "D", "congestion": 5},
+    {"u": "D", "v": "E", "congestion": 0},
+    {"u": "C", "v": "E", "congestion": 4}
+  ]
+}

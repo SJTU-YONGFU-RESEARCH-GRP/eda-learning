@@ -1,0 +1,47 @@
+{
+  "module": "module01-03-greedy-pair-merge",
+  "title": "Greedy merge check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "prompt": "This module\u2019s primary algorithm is\u2026",
+      "choices": [
+        "greedy pair merge (heaviest-edge matching coarsening)",
+        "Gate-level SDF annotation",
+        "UVM phase jumping",
+        "Liberty CCSP parsing"
+      ],
+      "answer": 0,
+      "explain": "One algorithm per lab."
+    },
+    {
+      "id": "q2",
+      "type": "true_false",
+      "prompt": "You should report cutsize (or hyperedge cut) and balance/capacity along with the objective.",
+      "answer": true,
+      "explain": "Quality without balance is often illegal or useless."
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "prompt": "Course-scale \u201cfull implementation\u201d means\u2026",
+      "choices": [
+        "Drop-in replacement for commercial P&R",
+        "Complete correct algorithm on scoped tiny/medium instances",
+        "Only pseudocode comments",
+        "GUI macros only"
+      ],
+      "answer": 1,
+      "explain": "Complete and correct at learning scale."
+    },
+    {
+      "id": "q4",
+      "type": "true_false",
+      "prompt": "Track A asks you to implement greedy pair merge (heaviest-edge matching coarsening) end-to-end, not only click a demo.",
+      "answer": true,
+      "explain": "Implement track is the fidelity path."
+    }
+  ]
+}

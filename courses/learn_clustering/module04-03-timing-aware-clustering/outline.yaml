@@ -1,0 +1,78 @@
+title: Timing-aware clustering
+footer: learn_clustering — 03 timing aware clustering
+slides:
+- type: title
+  title: Timing-aware clustering
+  subtitle: Critical nets should stay uncut
+  notes: 'Critical nets should stay uncut. You’ll watch FM on criticality-weighted
+    edges and land on cutsize three with weighted cut seven—protecting the A–B–C path.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: Mark critical edges
+  image: assets/steps/01-criticality.png
+  caption: Mark critical edges
+  notes: 'Criticality map emphasizes path A–B–C–D: A–B=5, B–C=4, C–D=3. Cutting critical
+    edges hurts timing more than raw wire weight suggests.'
+- type: image
+  title: Reweight then refine
+  image: assets/steps/02-weight.png
+  caption: Reweight then refine
+  notes: Multiply each edge by its criticality (default 1 if missing). FM now strongly
+    prefers keeping A–B and B–C internal.
+- type: image
+  title: Land on ABC|DE
+  image: assets/steps/03-result.png
+  caption: Land on ABC|DE
+  notes: Timing-aware FM reaches ABC|DE. Plain cutsize is 3; weighted cut (criticality-scaled)
+    is 7.
+- type: image
+  title: Critical edges uncut
+  image: assets/steps/04-protect.png
+  caption: Critical edges uncut
+  notes: A–B and B–C stay inside ABC. The cut uses less critical bridges C–D and C–E
+    — acceptable plain cut, better timing story.
+- type: image
+  title: Timing as an objective
+  image: assets/steps/05-takeaway.png
+  caption: Timing as an objective
+  notes: 'Reweighting turns the same FM kernel into a timing-aware partitioner. Students
+    compare plain vs weighted metrics on one seed.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab, run timing-aware refinement from the bad seed
+  - Confirm plain cut three and weighted cut seven
+  notes: In the browser lab, run timing-aware refinement from the bad seed. Confirm
+    plain cut three and weighted cut seven.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Run timing-aware mode and confirm ABC versus DE, plain three, weighted seven
+  notes: Run timing-aware mode and confirm ABC versus DE, plain three, weighted seven.
+- type: code
+  title: Implement track — try these
+  code: 'export PYTHONPATH=../common
+
+    python ../common/solvers.py examples/tiny_graph.json --mode timing --seed ../module02-05-kernighan-lin/examples/seed_partition.json
+    --criticality examples/criticality.json
+
+    '
+  notes: ''
+- type: bullets
+  title: Pitfalls to watch
+  bullets:
+  - Criticality of one means no boost, document defaults
+  - Mixing plain and weighted metrics in the same table confuses compares
+  notes: Criticality of one means no boost—document defaults. Mixing plain and weighted
+    metrics in the same table confuses compares.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Match the golden
+  notes: Match the golden, finish the checklist and quiz, then continue to offline
+    benchmark compare.

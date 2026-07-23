@@ -1,0 +1,21 @@
+{
+  "module": "module05-01-offline-benchmark-compare",
+  "title": "Offline compare check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "true_false",
+      "prompt": "Fair compares require the same input instance and comparable metrics.",
+      "answer": true,
+      "explain": "Otherwise you compare different problems."
+    },
+    {
+      "id": "q2",
+      "type": "true_false",
+      "prompt": "If an external tool is missing, you should still record your harness results and document the gap.",
+      "answer": true,
+      "explain": "Honesty beats fake goldens."
+    }
+  ]
+}

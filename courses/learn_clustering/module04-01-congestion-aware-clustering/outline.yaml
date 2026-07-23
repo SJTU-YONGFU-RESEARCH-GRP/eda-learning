@@ -1,0 +1,83 @@
+title: Congestion-aware clustering
+footer: learn_clustering — 01 congestion aware clustering
+slides:
+- type: title
+  title: Congestion-aware clustering
+  subtitle: When bridge edges are congested, cutting them becomes expensive
+  notes: 'When bridge edges are congested, cutting them becomes expensive. You’ll
+    watch FM under a congestion penalty and see how lambda reshapes the partition.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: Start from BAD_SEED
+  image: assets/steps/01-bad-seed.png
+  caption: Start from BAD_SEED
+  notes: Same cutsize-12 seed AE|BCD. Congestion map marks C–D=5 and C–E=4 — cheap
+    wire cuts may be expensive for routing.
+- type: image
+  title: λ=0 → ordinary FM
+  image: assets/steps/02-lam0.png
+  caption: λ=0 → ordinary FM
+  notes: 'With λ=0, boosted weights equal original weights. FM recovers ABC|DE: plain=3
+    but penalty=9 because both congested bridges are cut.'
+- type: image
+  title: Boost weights by λ·cong
+  image: assets/steps/03-boost.png
+  caption: Boost weights by λ·cong
+  notes: For λ=5, C–D and C–E become very expensive to cut. FM optimizes the boosted
+    graph, then we report plain cut and congestion penalty separately.
+- type: image
+  title: λ=5 → pen 0, plain 5
+  image: assets/steps/04-lam5.png
+  caption: λ=5 → pen 0, plain 5
+  notes: 'Result AB|CDE: plain cut rises to 5, but congestion penalty drops to 0 —
+    congested bridges stay internal.'
+- type: image
+  title: Objective tradeoffs
+  image: assets/steps/05-takeaway.png
+  caption: Objective tradeoffs
+  notes: 'EDA flows rarely optimize cut alone. λ makes the congestion tax explicit
+    so students see the Pareto move between wire and routing.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab, compare lambda zero with lambda five from the same bad seed
+  - Watch the penalty drop to zero when the congested bridge is avoided
+  notes: In the browser lab, compare lambda zero with lambda five from the same bad
+    seed. Watch the penalty drop to zero when the congested bridge is avoided.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Run congestion-aware partition at lambda zero and five
+  - Confirm plain cut three with penalty nine at lambda zero
+  notes: Run congestion-aware partition at lambda zero and five. Confirm plain cut
+    three with penalty nine at lambda zero, and plain five with penalty zero at lambda
+    five.
+- type: code
+  title: Implement track — try these
+  code: 'export PYTHONPATH=../common
+
+    python ../common/solvers.py examples/tiny_graph.json --mode congestion --seed
+    ../module02-05-kernighan-lin/examples/seed_partition.json --congestion examples/congestion.json
+    --lambda 5
+
+    '
+  notes: ''
+- type: bullets
+  title: Pitfalls to watch
+  bullets:
+  - Applying congestion only after FM misses the point, weights must change before
+    moves
+  - Huge lambda can ignore connectivity entirely
+  notes: Applying congestion only after FM misses the point—weights must change before
+    moves. Huge lambda can ignore connectivity entirely.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Match both lambda goldens
+  notes: Match both lambda goldens, finish the checklist and quiz, then continue to
+    timing-aware clustering.

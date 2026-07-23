@@ -1,0 +1,50 @@
+{
+  "module": "module02-05-kernighan-lin",
+  "title": "Kernighan–Lin check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "prompt": "In KL, D(v) is defined as…",
+      "choices": [
+        "Only internal weight",
+        "External weight minus internal weight",
+        "Node degree squared",
+        "Cluster size"
+      ],
+      "answer": 1,
+      "explain": "D(v) = E(v) − I(v)."
+    },
+    {
+      "id": "q2",
+      "type": "true_false",
+      "prompt": "After a KL pass you should keep the entire swap sequence even if cumulative gain peaked earlier.",
+      "answer": false,
+      "explain": "Rollback to the best prefix; late swaps can hurt."
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "prompt": "On the course seed partition, cutsize before KL is…",
+      "choices": ["3", "5", "12", "0"],
+      "answer": 2,
+      "explain": "The seed cuts A–B and D–E (among others) for cut 12."
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "prompt": "The reference KL run accepts which first improving swap?",
+      "choices": ["A with B", "A with D", "C with E", "B with E"],
+      "answer": 1,
+      "explain": "Swap (A, D) with gain 9 reduces cut 12 → 3."
+    },
+    {
+      "id": "q5",
+      "type": "true_false",
+      "prompt": "KL is a refinement method: it needs an initial bipartition to improve.",
+      "answer": true,
+      "explain": "KL does not create a partition from scratch."
+    }
+  ]
+}

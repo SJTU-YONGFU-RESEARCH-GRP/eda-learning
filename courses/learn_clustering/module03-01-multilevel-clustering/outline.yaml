@@ -1,0 +1,80 @@
+title: Multilevel clustering
+footer: learn_clustering — 01 multilevel clustering
+slides:
+- type: title
+  title: Multilevel clustering
+  subtitle: Multilevel clustering coarsens, partitions, then refines
+  notes: 'Multilevel clustering coarsens, partitions, then refines. You’ll watch greedy
+    coarsening to two clusters followed by FM polish—landing on cutsize three.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: Coarsen with greedy merge
+  image: assets/steps/01-coarsen.png
+  caption: Coarsen with greedy merge
+  notes: Multilevel starts by contracting the graph. Greedy pair merge to coarseK=2
+    builds a projected bipartition of the original nodes.
+- type: image
+  title: Project to a bipartition
+  image: assets/steps/02-project.png
+  caption: Project to a bipartition
+  notes: Map the two coarse clusters onto sides 0 and 1. This seed is already near-optimal
+    on TINY_GRAPH — unlike BAD_SEED’s cut of 12.
+- type: image
+  title: FM-refine on the fine graph
+  image: assets/steps/03-fm-refine.png
+  caption: FM-refine on the fine graph
+  notes: Run Fiduccia–Mattheyses on the projected seed. On this instance refinement
+    keeps ABC vs DE and renames sides to P0/P1.
+- type: image
+  title: 'Golden: cutsize 3'
+  image: assets/steps/04-final.png
+  caption: 'Golden: cutsize 3'
+  notes: Final communities ABC|DE with P0/P1 labels. Multilevel’s value shows more
+    on larger graphs; here it demonstrates the V-cycle shape.
+- type: image
+  title: Multilevel mindset
+  image: assets/steps/05-takeaway.png
+  caption: Multilevel mindset
+  notes: 'Coarsen for global structure, refine for local cut. Real placers nest this
+    inside V-cycles with hyperedges and tighter balance — this lab is the skeleton.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab, run multilevel and compare with a plain greedy seed
+  - Clear challenges for the refined ABC|DE result
+  notes: In the browser lab, run multilevel and compare with a plain greedy seed.
+    Clear challenges for the refined ABC|DE result.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Run multilevel on the tiny graph and confirm cutsize three
+  - Re-implement project-and-refine until the unit test passes
+  notes: Run multilevel on the tiny graph and confirm cutsize three. Re-implement
+    project-and-refine until the unit test passes.
+- type: code
+  title: Implement track — try these
+  code: 'export PYTHONPATH=../common
+
+    python ../common/solvers.py examples/tiny_graph.json --mode multilevel
+
+    '
+  notes: ''
+- type: bullets
+  title: Pitfalls to watch
+  bullets:
+  - Skipping refinement leaves coarsening artifacts
+  - Projecting labels incorrectly scrambles the fine-level seed
+  - Too aggressive coarsening can erase structure
+  notes: Skipping refinement leaves coarsening artifacts. Projecting labels incorrectly
+    scrambles the fine-level seed. Too aggressive coarsening can erase structure.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Match the golden, finish the checklist and quiz, then continue to hypergraph clustering
+  notes: Match the golden, finish the checklist and quiz, then continue to hypergraph
+    clustering.

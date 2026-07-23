@@ -1,0 +1,34 @@
+{
+  "module": "module02-01-label-propagation",
+  "title": "Label propagation check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "true_false",
+      "prompt": "Async label propagation updates a node\u2019s label immediately within a sweep.",
+      "answer": true,
+      "explain": "That is the asynchronous variant used in this course."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "prompt": "On the starter graph (order A..E), cutsize after LP is\u2026",
+      "choices": [
+        "0",
+        "3",
+        "12",
+        "18"
+      ],
+      "answer": 1,
+      "explain": "Natural clusters give cutsize 3."
+    },
+    {
+      "id": "q3",
+      "type": "true_false",
+      "prompt": "Tie-breaking can change which label name a community keeps even if the partition is similar.",
+      "answer": true,
+      "explain": "Label ids are arbitrary; the partition matter more than the name."
+    }
+  ]
+}

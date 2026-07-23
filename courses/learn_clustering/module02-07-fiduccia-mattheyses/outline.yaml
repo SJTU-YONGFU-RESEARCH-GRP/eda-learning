@@ -1,0 +1,85 @@
+title: Fiduccia–Mattheyses refinement
+footer: learn_clustering — 07 fiduccia mattheyses
+slides:
+- type: title
+  title: Fiduccia–Mattheyses refinement
+  subtitle: FM refines a bipartition with single-vertex moves, locking
+  notes: 'FM refines a bipartition with single-vertex moves, locking, and rollback—cousin
+    to Kernighan–Lin, but one cell at a time. On the same bad seed that starts at
+    cutsize twelve, FM reaches cutsize three.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: Same bad seed, different move set
+  image: assets/steps/01-bad-seed.png
+  caption: Same bad seed, different move set
+  notes: FM starts from the same cutsize-twelve seed, but moves one vertex at a time
+    instead of swapping a pair. That suits hypergraph and cell-move implementations.
+- type: image
+  title: 'Move 1: flip D (gain 3)'
+  image: assets/steps/02-move-d.png
+  caption: 'Move 1: flip D (gain 3)'
+  notes: 'Highest legal move sends D to the other side with gain three. Partial progress:
+    D joins E’s side early. Lock D and update neighbor gains.'
+- type: image
+  title: 'Move 2: flip A (gain 6)'
+  image: assets/steps/03-move-a.png
+  caption: 'Move 2: flip A (gain 6)'
+  notes: Next, A flips with gain six. Cumulative gain is three plus six—nine—the same
+    total improvement KL found with one swap. Best k equals two keeps both moves.
+- type: image
+  title: Final ABC|DE, cutsize 3
+  image: assets/steps/04-final.png
+  caption: Final ABC|DE, cutsize 3
+  notes: FM lands on the same refined bipartition as KL. Move style differs; destination
+    quality matches on this instance. Cutsize is three.
+- type: image
+  title: Pass 1 confirms local optimum
+  image: assets/steps/05-pass1-stop.png
+  caption: Pass 1 confirms local optimum
+  notes: 'A second FM pass finds no improving move prefix. Stop. In real tools, FM
+    often runs inside multilevel V-cycles with tighter balance and hyperedges.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab, show the seed, run FM, and compare the move list with KL’s
+    single swap
+  - Clear the challenges for twelve-to-three and the D-then-A prefix
+  notes: In the browser lab, show the seed, run FM, and compare the move list with
+    KL’s single swap. Clear the challenges for twelve-to-three and the D-then-A prefix.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Run FM on the shared bad seed
+  - Confirm moves D then A in the accepted prefix, and cut twelve to three
+  - Re-implement selection and rollback until tests pass
+  notes: Run FM on the shared bad seed. Confirm moves D then A in the accepted prefix,
+    and cut twelve to three. Re-implement selection and rollback until tests pass.
+- type: code
+  title: Implement track — try these
+  code: '# FM refinement on the shared bad seed
+
+    export PYTHONPATH=../common
+
+    python ../common/solvers.py examples/tiny_graph.json --mode fm --seed ../module02-05-kernighan-lin/examples/seed_partition.json
+
+    '
+  notes: ''
+- type: bullets
+  title: Pitfalls to watch
+  bullets:
+  - Skipping rollback keeps a worse locked state
+  - Ignoring balance lets one side empty
+  - Stale gains after a move pick the wrong cell next
+  notes: Skipping rollback keeps a worse locked state. Ignoring balance lets one side
+    empty. Stale gains after a move pick the wrong cell next.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Reproduce twelve to three
+  notes: Reproduce twelve to three, finish the checklist and quiz, then continue to
+    multilevel clustering.

@@ -1,0 +1,80 @@
+title: Size-constrained agglomerative clustering
+footer: learn_clustering — 05 size constrained agglomerative
+slides:
+- type: title
+  title: Size-constrained agglomerative clustering
+  subtitle: Size caps change which merges are legal
+  notes: 'Size caps change which merges are legal. You’ll watch greedy agglomeration
+    with capacity two on the tiny graph—and see why A–B–C can no longer form.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: Capacity blocks illegal merges
+  image: assets/steps/01-capacity-rule.png
+  caption: Capacity blocks illegal merges
+  notes: Same greedy heaviest-edge merge, but refuse any pair whose sizes sum above
+    capacity. With capacity=2 on unit nodes, size-3 clusters are illegal.
+- type: image
+  title: Merge A–B (still legal)
+  image: assets/steps/02-merge-ab.png
+  caption: Merge A–B (still legal)
+  notes: Heaviest edge A–B at weight 5 merges first. Combined size is 2 — exactly
+    at capacity. C cannot join next.
+- type: image
+  title: Merge D–E; C stays alone
+  image: assets/steps/03-merge-de.png
+  caption: Merge D–E; C stays alone
+  notes: D–E merges at weight 5. Absorbing C into AB would create size 3 and is rejected,
+    so we stop with three clusters even though target K=2.
+- type: image
+  title: 'Result: cutsize 8'
+  image: assets/steps/04-cut-8.png
+  caption: 'Result: cutsize 8'
+  notes: Cut edges include A–C, B–C, C–D, C–E. Capacity cost is +5 versus the unconstrained
+    cut of 3.
+- type: image
+  title: Why capacity matters in EDA
+  image: assets/steps/05-takeaway.png
+  caption: Why capacity matters in EDA
+  notes: 'Floorplanning and clustering often cap cluster area. Teaching point: constraints
+    change the greedy path — you may never reach the unconstrained communities.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab
+  - Clear the challenges for blocked size-three clusters and the AB|C|DE parts
+  notes: In the browser lab, load the starter with capacity two, then compare presets
+    against unconstrained K equals two. Clear the challenges for blocked size-three
+    clusters and the AB|C|DE parts.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Run greedy merge with capacity two and confirm cutsize eight with parts AB|C|DE
+  - Then lift capacity to three and recover the unconstrained ABC|DE cutsize three
+  notes: Run greedy merge with capacity two and confirm cutsize eight with parts AB|C|DE.
+    Then lift capacity to three and recover the unconstrained ABC|DE cutsize three.
+- type: code
+  title: Implement track — try these
+  code: 'export PYTHONPATH=../common
+
+    python ../common/solvers.py examples/tiny_graph.json --k 2 --capacity 2
+
+    '
+  notes: ''
+- type: bullets
+  title: Pitfalls to watch
+  bullets:
+  - Forgetting to check capacity before contracting is the classic bug
+  - Also watch stale affinities after a blocked merge candidate is skipped
+  notes: Forgetting to check capacity before contracting is the classic bug. Also
+    watch stale affinities after a blocked merge candidate is skipped.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Match the capacity-two golden
+  notes: Match the capacity-two golden, finish the checklist and quiz, then continue
+    to label propagation.

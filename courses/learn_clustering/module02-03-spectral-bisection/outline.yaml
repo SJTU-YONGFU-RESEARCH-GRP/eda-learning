@@ -1,0 +1,82 @@
+title: Spectral bisection
+footer: learn_clustering — 03 spectral bisection
+slides:
+- type: title
+  title: Spectral bisection
+  subtitle: Spectral bisection uses the graph Laplacian and its Fiedler vector to
+    propose a balanced cut
+  notes: 'Spectral bisection uses the graph Laplacian and its Fiedler vector to propose
+    a balanced cut. You’ll watch the order and the chosen split land on cutsize three.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: Build the Laplacian
+  image: assets/steps/01-laplacian.png
+  caption: Build the Laplacian
+  notes: Spectral methods read connectivity from the graph Laplacian L = D − A. The
+    Fiedler vector (second eigenvector) encodes a soft cut.
+- type: image
+  title: Sort by Fiedler value
+  image: assets/steps/02-fiedler-order.png
+  caption: Sort by Fiedler value
+  notes: After iteration, nodes order low→high as E, D, C, B, A. E is most negative;
+    A is most positive — natural bipartition candidates.
+- type: image
+  title: Sweep prefixes for best cut
+  image: assets/steps/03-sweep-cut.png
+  caption: Sweep prefixes for best cut
+  notes: Try every balanced prefix of the order as side 0. The winning split is {D,E}
+    vs {A,B,C} with cutsize 3.
+- type: image
+  title: Result ABC|DE
+  image: assets/steps/04-final.png
+  caption: Result ABC|DE
+  notes: 'Spectral recovers the same communities as unconstrained greedy and LP. Teaching
+    point: global eigenvectors can find the cut without greedy merges.'
+- type: image
+  title: When spectral helps
+  image: assets/steps/05-takeaway.png
+  caption: When spectral helps
+  notes: 'Spectral is a strong initializer for bipartition. On larger chips it pairs
+    with multilevel; here the tiny instance is exact enough to grade against goldens.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab, run spectral bisection and inspect the Fiedler order
+  - Clear challenges for cutsize three and the ABC versus DE parts
+  notes: In the browser lab, run spectral bisection and inspect the Fiedler order.
+    Clear challenges for cutsize three and the ABC versus DE parts.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Run the spectral mode on the tiny graph
+  - Confirm cutsize three and the natural clusters
+  - Re-implement the sweep yourself; a dense tiny eigensolve is fine at course scale
+  notes: Run the spectral mode on the tiny graph. Confirm cutsize three and the natural
+    clusters. Re-implement the sweep yourself; a dense tiny eigensolve is fine at
+    course scale.
+- type: code
+  title: Implement track — try these
+  code: 'export PYTHONPATH=../common
+
+    python ../common/solvers.py examples/tiny_graph.json --mode spectral
+
+    '
+  notes: ''
+- type: bullets
+  title: Pitfalls to watch
+  bullets:
+  - Ignoring balance can isolate one node
+  - Numerical noise can scramble near-ties, use a stable sort
+  - Disconnected graphs need explicit component handling
+  notes: Ignoring balance can isolate one node. Numerical noise can scramble near-ties—use
+    a stable sort. Disconnected graphs need explicit component handling.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Match cutsize three, finish the checklist and quiz, then continue to Kernighan–Lin
+  notes: Match cutsize three, finish the checklist and quiz, then continue to Kernighan–Lin.

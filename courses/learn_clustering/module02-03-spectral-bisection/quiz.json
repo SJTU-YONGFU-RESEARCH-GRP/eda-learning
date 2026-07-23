@@ -1,0 +1,34 @@
+{
+  "module": "module02-03-spectral-bisection",
+  "title": "Spectral bisection check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "prompt": "The Fiedler vector corresponds to\u2026",
+      "choices": [
+        "The largest eigenvalue of A",
+        "The second-smallest eigenvalue of L",
+        "Random projection only",
+        "Prim\u2019s MST"
+      ],
+      "answer": 1,
+      "explain": "Fiedler = eigenvector for \u03bb\u2082 of the Laplacian."
+    },
+    {
+      "id": "q2",
+      "type": "true_false",
+      "prompt": "On the starter graph, spectral bisection achieves cutsize 3.",
+      "answer": true,
+      "explain": "Matches the natural clusters."
+    },
+    {
+      "id": "q3",
+      "type": "true_false",
+      "prompt": "You should sweep candidate splits under a balance constraint, not only take the median blindly.",
+      "answer": true,
+      "explain": "The course solver searches balanced cuts along the order."
+    }
+  ]
+}

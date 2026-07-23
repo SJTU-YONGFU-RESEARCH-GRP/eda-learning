@@ -1,0 +1,43 @@
+{
+  "module": "module01-01-affinity-metrics",
+  "title": "Affinity metrics check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "prompt": "Under pure edge-weight affinity on the starter graph, the top score is…",
+      "choices": ["A–C at 1", "A–B (and D–E) at 5", "B–C at 4", "C–D at 2"],
+      "answer": 1,
+      "explain": "Heaviest edges are A–B and D–E at weight 5."
+    },
+    {
+      "id": "q2",
+      "type": "true_false",
+      "prompt": "Shared-neighbor affinity can raise a pair’s score above its direct edge weight.",
+      "answer": true,
+      "explain": "Overlap through common neighbors is added to the direct weight."
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "prompt": "On the starter graph, shared-neighbor+edge score for A–B is…",
+      "choices": ["5", "6", "4", "1"],
+      "answer": 1,
+      "explain": "5 + min(A–C,B–C)=1 → 6."
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "prompt": "Why does A–C rise under shared-neighbor scoring?",
+      "choices": [
+        "Because A–C is the heaviest direct edge",
+        "Because A and C share neighbor B with a strong path",
+        "Because D–E disappears",
+        "Because cutsize ignores affinity"
+      ],
+      "answer": 1,
+      "explain": "min(A–B,C–B)=4 boosts the weak A–C edge."
+    }
+  ]
+}

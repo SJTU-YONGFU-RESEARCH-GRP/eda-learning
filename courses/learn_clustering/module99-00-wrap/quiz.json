@@ -1,0 +1,40 @@
+{
+  "module": "module99-00-wrap",
+  "title": "Wrap check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "prompt": "Huge high-fanout nets are modeled most naturally by\u2026",
+      "choices": [
+        "Only pairwise graph edges",
+        "Hyperedges / hypergraph clustering",
+        "Ignoring connectivity",
+        "Always one cell per cluster"
+      ],
+      "answer": 1,
+      "explain": "Nets span many pins; hypergraphs capture that."
+    },
+    {
+      "id": "q2",
+      "type": "true_false",
+      "prompt": "KL and FM are refinement methods that improve an existing partition.",
+      "answer": true,
+      "explain": "They move or swap nodes to reduce cut under balance."
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "prompt": "A natural next course after clustering is\u2026",
+      "choices": [
+        "learn_partitioning or learn_floorplanning",
+        "learn_uart only",
+        "Vendor Innovus certification only",
+        "Skipping metrics forever"
+      ],
+      "answer": 0,
+      "explain": "Partitioning and floorplanning reuse clustering instincts."
+    }
+  ]
+}

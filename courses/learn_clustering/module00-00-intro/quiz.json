@@ -1,0 +1,40 @@
+{
+  "module": "module00-00-intro",
+  "title": "Intro check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "prompt": "This course focuses primarily on\u2026",
+      "choices": [
+        "Vendor GUI click-paths",
+        "Full implementations of clustering algorithms on tiny instances",
+        "Foundry PDK certification",
+        "Writing UVM agents"
+      ],
+      "answer": 1,
+      "explain": "Algorithm / toy-engine literacy on scoped graphs."
+    },
+    {
+      "id": "q2",
+      "type": "true_false",
+      "prompt": "Hierarchical module ids (section + algorithm slot) are meant to stay stable when new algorithms are added later.",
+      "answer": true,
+      "explain": "Ids are stable keys; display order is in MODULES.md."
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "prompt": "A good study rhythm is\u2026",
+      "choices": [
+        "Only memorize folder names",
+        "Browser intuition then implement metrics on tiny graphs",
+        "Skip checklists entirely",
+        "Start with timing-aware before affinity"
+      ],
+      "answer": 1,
+      "explain": "Track B then Track A hardens the idea."
+    }
+  ]
+}

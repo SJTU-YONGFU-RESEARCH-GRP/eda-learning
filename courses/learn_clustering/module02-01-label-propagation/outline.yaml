@@ -1,0 +1,92 @@
+title: Label propagation clustering
+footer: learn_clustering — 01 label propagation
+slides:
+- type: title
+  title: Label propagation clustering
+  subtitle: Label propagation grows communities by letting each node adopt the strongest
+    neighbor label
+  notes: 'Label propagation grows communities by letting each node adopt the strongest
+    neighbor label. You’ll watch the asynchronous update on the tiny graph, then measure
+    iterations-to-stable and cutsize.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: 'Initialize: each node is its own label'
+  image: assets/steps/01-init.png
+  caption: 'Initialize: each node is its own label'
+  notes: Start with five communities—each node labeled as itself. Every node will
+    vote using weighted neighbor labels; async updates walk nodes in order A through
+    E.
+- type: image
+  title: Each node adopts the winning neighbor label
+  image: assets/steps/02-vote-idea.png
+  caption: Each node adopts the winning neighbor label
+  notes: For a node, sum edge weights by neighbor label and take the best. Dense A–B–C
+    and D–E pull neighbors onto shared labels quickly. Ties break lexicographically.
+- type: image
+  title: 'After iteration 1: already clustered'
+  image: assets/steps/03-after-iter1.png
+  caption: 'After iteration 1: already clustered'
+  notes: One async sweep flips A and C onto B, and D onto E. Communities A–B–C and
+    D–E appear immediately on this tiny graph.
+- type: image
+  title: 'Iteration 2: no changes — stop'
+  image: assets/steps/04-iter2-stable.png
+  caption: 'Iteration 2: no changes — stop'
+  notes: A second sweep finds zero flips, so the algorithm reports two iterations
+    to stable. Stability—not a cutsize objective—is the stopping rule. Cutsize lands
+    at three.
+- type: image
+  title: When LP helps in EDA flows
+  image: assets/steps/05-takeaway.png
+  caption: When LP helps in EDA flows
+  notes: 'LP is a cheap community detector—great as a seed or coarsening hint. It
+    does not enforce balance or timing; refinement still matters on hard instances.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab, show the initial labels, then run label propagation
+  - Clear the challenges for two iterations, two communities, and the full golden
+    label map
+  notes: In the browser lab, show the initial labels, then run label propagation.
+    Clear the challenges for two iterations, two communities, and the full golden
+    label map.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Load the tiny graph and run the reference label-propagation mode
+  - Confirm two iterations, labels grouping A–B–C versus D–E, and cutsize three
+  - Re-implement the vote and tie-break until the unit test passes
+  notes: Load the tiny graph and run the reference label-propagation mode. Confirm
+    two iterations, labels grouping A–B–C versus D–E, and cutsize three. Re-implement
+    the vote and tie-break until the unit test passes.
+- type: code
+  title: Implement track — try these
+  code: '# run async label propagation on the tiny graph
+
+    export PYTHONPATH=../common
+
+    python ../common/solvers.py examples/tiny_graph.json --mode lp
+
+    '
+  notes: ''
+- type: bullets
+  title: Pitfalls to watch
+  bullets:
+  - Order dependence is real, document your sweep order
+  - Without a tie-break, goldens flake
+  - And stopping only on max iterations without checking that nothing changed hides
+  notes: Order dependence is real—document your sweep order. Without a tie-break,
+    goldens flake. And stopping only on max iterations without checking that nothing
+    changed hides non-convergence.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Match the golden table, finish the checklist and quiz, then continue to spectral
+    bisection
+  notes: Match the golden table, finish the checklist and quiz, then continue to spectral
+    bisection.

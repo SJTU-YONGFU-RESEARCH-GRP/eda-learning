@@ -1,0 +1,11 @@
+{
+  "nodes": ["A", "B", "C", "D", "E"],
+  "node_sizes": {"A": 1, "B": 1, "C": 1, "D": 1, "E": 1},
+  "hyperedges": [
+    {"id": "n1", "pins": ["A", "B", "C"], "w": 3},
+    {"id": "n2", "pins": ["D", "E"], "w": 2},
+    {"id": "n3", "pins": ["C", "D"], "w": 1},
+    {"id": "n4", "pins": ["A", "B"], "w": 1}
+  ],
+  "notes": "Multi-pin n1 makes {A,B,C} natural; graph clique expansion would differ."
+}

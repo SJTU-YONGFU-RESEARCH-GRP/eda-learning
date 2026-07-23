@@ -1,0 +1,27 @@
+{
+  "module": "module03-03-hypergraph-clustering",
+  "title": "Hypergraph check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "true_false",
+      "prompt": "A hyperedge can connect more than two nodes.",
+      "answer": true,
+      "explain": "That is the point of hypergraphs for netlists."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "prompt": "On the course hypergraph, greedy clustering to K=2 yields hyperedge cut\u2026",
+      "choices": [
+        "0",
+        "1",
+        "3",
+        "12"
+      ],
+      "answer": 1,
+      "explain": "Only the C\u2013D bridge net is cut."
+    }
+  ]
+}

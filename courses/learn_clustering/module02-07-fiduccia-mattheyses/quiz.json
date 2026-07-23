@@ -1,0 +1,34 @@
+{
+  "module": "module02-07-fiduccia-mattheyses",
+  "title": "FM check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "prompt": "FM differs from KL mainly by\u2026",
+      "choices": [
+        "Never using gains",
+        "Moving one vertex at a time instead of swapping a pair",
+        "Only working on hypergraphs",
+        "Forbidding rollback"
+      ],
+      "answer": 1,
+      "explain": "FM uses single-vertex moves."
+    },
+    {
+      "id": "q2",
+      "type": "true_false",
+      "prompt": "On the course seed, FM reduces cutsize from 12 to 3.",
+      "answer": true,
+      "explain": "Matches the reference run."
+    },
+    {
+      "id": "q3",
+      "type": "true_false",
+      "prompt": "Rollback to the best cumulative-gain prefix is part of a full FM pass.",
+      "answer": true,
+      "explain": "Same prefix idea as KL."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "module": "module04-01-congestion-aware-clustering",
+  "title": "Congestion-aware check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "true_false",
+      "prompt": "Increasing lambda can raise plain cutsize while lowering congestion penalty.",
+      "answer": true,
+      "explain": "That is the trade-off on the course instance."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "prompt": "At lambda=5 on the course data, congestion_penalty becomes\u2026",
+      "choices": [
+        "9",
+        "5",
+        "0",
+        "12"
+      ],
+      "answer": 2,
+      "explain": "The partition avoids congested cut edges."
+    }
+  ]
+}

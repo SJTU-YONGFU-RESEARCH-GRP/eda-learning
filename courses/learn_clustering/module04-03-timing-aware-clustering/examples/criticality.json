@@ -1,0 +1,11 @@
+{
+  "notes": "Critical path A-B-C-D; cutting A-B or B-C is expensive.",
+  "edges": [
+    {"u": "A", "v": "B", "criticality": 5},
+    {"u": "B", "v": "C", "criticality": 4},
+    {"u": "A", "v": "C", "criticality": 1},
+    {"u": "C", "v": "D", "criticality": 3},
+    {"u": "D", "v": "E", "criticality": 1},
+    {"u": "C", "v": "E", "criticality": 1}
+  ]
+}

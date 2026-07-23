@@ -1,0 +1,27 @@
+{
+  "module": "module03-01-multilevel-clustering",
+  "title": "Multilevel check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "prompt": "A multilevel V-cycle typically\u2026",
+      "choices": [
+        "Only refines, never coarsens",
+        "Coarsens, solves, projects, and refines",
+        "Deletes timing arcs",
+        "Requires a foundry PDK"
+      ],
+      "answer": 1,
+      "explain": "Coarsen \u2192 initial \u2192 uncoarsen/refine."
+    },
+    {
+      "id": "q2",
+      "type": "true_false",
+      "prompt": "On the starter graph, multilevel clustering achieves cutsize 3.",
+      "answer": true,
+      "explain": "Reference run."
+    }
+  ]
+}

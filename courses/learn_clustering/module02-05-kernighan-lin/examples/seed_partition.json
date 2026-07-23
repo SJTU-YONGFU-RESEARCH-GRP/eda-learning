@@ -1,0 +1,10 @@
+{
+  "notes": "Intentionally suboptimal bipartition: cuts both heavy edges A-B and D-E.",
+  "assignment": {
+    "A": "0",
+    "E": "0",
+    "B": "1",
+    "C": "1",
+    "D": "1"
+  }
+}
