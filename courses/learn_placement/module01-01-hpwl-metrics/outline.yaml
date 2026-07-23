@@ -1,8 +1,55 @@
-title: "Half-perimeter wirelength"
-footer: "learn_placement — HPWL metrics"
+title: Half-perimeter wirelength
+footer: learn_placement — 01 hpwl metrics
 slides:
-  - type: title
-    title: "Half-perimeter wirelength"
-    subtitle: "module01-01-hpwl-metrics · learn_placement"
-    notes: |
-      Stub — replace via transcript_to_outline.py after revising transcript.md.
+- type: title
+  title: Half-perimeter wirelength
+  subtitle: Placement assigns cell coordinates to cut wirelength while keeping density
+    under control
+  notes: Placement assigns cell coordinates to cut wirelength while keeping density
+    under control. In this module you’ll implement **bbox half-perimeter wirelength
+    (HPWL) metrics** end to end—not a sketch. By the end, you’ll run it on a tiny
+    instance, report HPWL, and know what the algorithm actually does.
+- type: bullets
+  title: The idea
+  bullets:
+  - Bbox half-perimeter wirelength (HPWL) metrics
+  - You’ll take a placement instance, apply the update rule until a stop condition
+  - Watch HPWL every time, and density overflow when the lab uses bins
+  notes: bbox half-perimeter wirelength (HPWL) metrics. You’ll take a placement instance,
+    apply the update rule until a stop condition, and emit coordinates. Watch HPWL
+    every time—and density overflow when the lab uses bins.
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab track, open the **hpwl-metrics** lab from the tools shelf
+  - Load the starter placement, run the algorithm once, and read the metrics panel
+  - Orient yourself
+  notes: In the browser lab track, open the **hpwl-metrics** lab from the tools shelf.
+    Load the starter placement, run the algorithm once, and read the metrics panel.
+    Orient yourself, try one parameter change, then come back to implement the same
+    loop yourself.
+- type: bullets
+  title: Implement track
+  bullets:
+  - In the implement track, open this module’s examples and build the full algorithm
+  - Parse the tiny placement, run the core loop with clear stop rules
+  - Prefer a deterministic seed so your golden answers stay stable
+  notes: In the implement track, open this module’s examples and build the full algorithm.
+    Parse the tiny placement, run the core loop with clear stop rules, and print coordinates
+    plus metrics. Prefer a deterministic seed so your golden answers stay stable.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Common traps
+  notes: 'Common traps: celebrating HPWL while cells pile into one bin; ignoring fixed
+    pads; mixing bbox and clique models in one report; and stopping before the best
+    SA iterate is kept.'
+- type: bullets
+  title: Your turn
+  bullets:
+  - Complete the checklist for at least one track, preferably both
+  - Implement until your metrics match the expected range on the starter placement
+  - When you’re ready, take the short quiz, then continue to the next module
+  notes: Complete the checklist for at least one track—preferably both. Implement
+    until your metrics match the expected range on the starter placement. When you’re
+    ready, take the short quiz, then continue to the next module.

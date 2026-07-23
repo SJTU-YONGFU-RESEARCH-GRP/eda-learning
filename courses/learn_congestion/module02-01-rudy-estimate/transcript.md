@@ -15,18 +15,50 @@ For each net, take the axis-aligned bbox of pin positions. Half-perimeter wirele
 ## Slide 3 — Browser lab track
 
 <!-- algorithm-walkthrough -->
+
+## Slide 4 — Net bounding box
+
+![Net bounding box](assets/steps/01-bbox.png)
+
+RUDY starts from each net’s axis-aligned pin bbox and HPWL.
+
+## Slide 5 — Uniform share
+
+![Uniform share](assets/steps/02-share.png)
+
+Density = HPWL / #overlapping GCells; add to each overlapping tile.
+
+## Slide 6 — Sum over nets
+
+![Sum over nets](assets/steps/03-sum.png)
+
+Demand is the sum across nets—center tiles collect many contributions on a cluster.
+
+## Slide 7 — Overflow appears
+
+![Overflow appears](assets/steps/04-overflow.png)
+
+ov = max(0, demand−Cap). Seed shows a clear hotspot.
+
+## Slide 8 — Spread cools total pattern
+
+![Spread cools total pattern](assets/steps/05-spread.png)
+
+Long nets paint many tiles; cluster spikes max. Both are useful views.
+
 <!-- /algorithm-walkthrough -->
+
 
 Open **rudy-estimate**. Start from the spread placement, then load the congested seed and watch center tiles heat up. Check challenges against your demand totals. Reveal golden is study-only.
 
-## Slide 4 — Implement track
+## Slide 9 — Implement track
 
 Implement `rudy_demand(positions)` in `common/solvers.py`. On `congested_seed`, print the four-by-two demand matrix and total overflow at capacity two. Match the browser golden within a small rounding tolerance.
 
-## Slide 5 — Pitfalls
+## Slide 10 — Pitfalls
 
 Dividing by bbox area in continuous units while depositing into discrete tiles inconsistently. Skipping nets with coincident pins—still touch one GCell. Mutating the demand matrix in place across calls without zeroing.
 
-## Slide 6 — Your turn
+## Slide 11 — Your turn
 
 Ship Track A RUDY and clear the browser challenges. Next: probabilistic L-shapes for a different demand signature.

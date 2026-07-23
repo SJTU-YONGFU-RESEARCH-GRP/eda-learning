@@ -88,6 +88,15 @@ LAB_TO_ALGO: dict[str, tuple[str, int]] = {
     "fixed-macros": ("fixed-macros", 5),
     "displacement-hpwl": ("displacement-hpwl", 5),
     "detailed-vs-global": ("detailed-vs-global", 5),
+    "gcell-grid": ("gcell-grid", 5),
+    "capacity-demand": ("capacity-demand", 5),
+    "rudy-estimate": ("rudy-estimate", 5),
+    "probabilistic-demand": ("probabilistic-demand", 5),
+    "congestion-map": ("congestion-map", 5),
+    "overflow-metrics": ("overflow-metrics", 5),
+    "cell-inflator": ("cell-inflator", 5),
+    "net-weighting": ("net-weighting", 5),
+    "placement-feedback": ("placement-feedback", 5),
 }
 
 BEGIN_MARK = "<!-- algorithm-walkthrough -->"

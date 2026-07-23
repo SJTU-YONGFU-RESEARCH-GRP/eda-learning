@@ -258,9 +258,15 @@ function heatColor(t) {
  */
 export function drawCongestion(canvas, opts = {}) {
   const positions = opts.positions || PLACEMENT;
-  const heat = opts.heat || null;
-  const heatMode = opts.heatMode || "cong"; // cong | demand
   const capacity = opts.capacity ?? CAPACITY;
+  const heatMode = opts.heatMode || "cong"; // cong | demand
+  // Default heat from RUDY so walkthrough frames show a map without per-step heat fields.
+  const heat =
+    opts.heat != null
+      ? opts.heat
+      : heatMode === "demand"
+        ? rudyDemand(positions)
+        : congestionMap(rudyDemand(positions), capacity);
   const highlight = new Set(opts.highlight || []);
   const { ctx, w, h } = fitHiDpiCanvas(canvas, { w: 640, h: LAB_CANVAS_CSS_HEIGHT });
   ctx.clearRect(0, 0, w, h);

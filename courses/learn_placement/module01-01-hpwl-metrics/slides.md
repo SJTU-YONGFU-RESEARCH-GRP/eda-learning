@@ -6,54 +6,28 @@ paginate: true
 
 # Half-perimeter wirelength
 
-Half-perimeter wirelength is the teaching yardstick for placement
+Placement assigns cell coordinates to cut wirelength while keeping density under control
 
 ---
 
 ## The idea
-- For every net
-- Sum over nets for total HPWL
-- Never celebrate a tiny total that piles every cell on one point
-- <!-- algorithm-walkthrough -->
-
----
-
-## Starter placement is spread out
-![Starter placement is spread out](assets/steps/01-starter-spread.png)
-
----
-
-## One net: bbox width plus height
-![One net: bbox width plus height](assets/steps/02-one-net.png)
-
----
-
-## Sum six nets to fifty-two
-![Sum six nets to fifty-two](assets/steps/03-sum-nets.png)
-
----
-
-## Golden placement drops to fourteen
-![Golden placement drops to fourteen](assets/steps/04-golden-compact.png)
-
----
-
-## HPWL is the teaching yardstick
-![HPWL is the teaching yardstick](assets/steps/05-takeaway.png)
+- Bbox half-perimeter wirelength (HPWL) metrics
+- You’ll take a placement instance, apply the update rule until a stop condition
+- Watch HPWL every time, and density overflow when the lab uses bins
 
 ---
 
 ## Browser lab track
 - In the browser lab track, open the **hpwl-metrics** lab from the tools shelf
-- Load the starter placement, run the algorithm once
-- Work the challenges that lock the goldens
+- Load the starter placement, run the algorithm once, and read the metrics panel
+- Orient yourself
 
 ---
 
 ## Implement track
-- In the implement track, open this module’s examples and the course `common/` solvers
-- Parse `tiny_place.json`, run the algorithm with a deterministic seed
-- Match the browser goldens before you claim the checklist
+- In the implement track, open this module’s examples and build the full algorithm
+- Parse the tiny placement, run the core loop with clear stop rules
+- Prefer a deterministic seed so your golden answers stay stable
 
 ---
 
@@ -64,6 +38,6 @@ Half-perimeter wirelength is the teaching yardstick for placement
 
 ## Your turn
 - Complete the checklist for at least one track, preferably both
-- Implement until your metrics match the starter goldens
+- Implement until your metrics match the expected range on the starter placement
 - When you’re ready, take the short quiz, then continue to the next module
 
