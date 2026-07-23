@@ -1,0 +1,41 @@
+{
+  "module": "module03-03-soft-module-sizing",
+  "title": "Soft module aspect sizing check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "true_false",
+      "prompt": "Module A is soft on the starter instance.",
+      "answer": true,
+      "explain": "Only A has soft: true."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "prompt": "After reshape, soft A size is\u2026",
+      "choices": [
+        "3\u00d72",
+        "2\u00d73",
+        "4\u00d72",
+        "1\u00d76"
+      ],
+      "answer": 1,
+      "explain": "Teaching reshape keeps area 6 as 2\u00d73."
+    },
+    {
+      "id": "q3",
+      "type": "true_false",
+      "prompt": "Reshaped A still has area 6.",
+      "answer": true,
+      "explain": "2\u00d73 = 6."
+    },
+    {
+      "id": "q4",
+      "type": "true_false",
+      "prompt": "The soft packing remains legal inside 10\u00d78.",
+      "answer": true,
+      "explain": "SOFT_A_PACK is a legal golden."
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+title: Boundary pins
+footer: learn_floorplanning — 03 pin assignment
+slides:
+- type: title
+  title: Boundary pins
+  subtitle: Chips talk to the outside world through I/O pins on the outline edges,
+    north, east, south, west
+  notes: Chips talk to the outside world through I/O pins on the outline edges—north,
+    east, south, west. Pin assignment places those pins along edges and influences
+    which modules should abut which sides. Floorplanning without pins ignores a major
+    wirelength and packaging constraint.
+- type: bullets
+  title: The idea
+  bullets:
+  - Each pin gets an edge and a position along that edge
+  - Modules that connect to a pin prefer shorter Manhattan stubs toward that side
+  - You can score a packing with a simple pin-to-module wirelength proxy
+  - Fixed outline still governs module legality
+  notes: Each pin gets an edge and a position along that edge. Modules that connect
+    to a pin prefer shorter Manhattan stubs toward that side. You can score a packing
+    with a simple pin-to-module wirelength proxy. Fixed outline still governs module
+    legality; pins live on the boundary, not inside module interiors.
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - Open **pin-assignment**
+  - Place a few pins on the four edges
+  - Connect them to modules A–E with a toy netlist
+  - Watch the wirelength proxy as you move pins or modules
+  - Then implement edge assignment and scoring in Track A
+  notes: Open **pin-assignment**. Place a few pins on the four edges. Connect them
+    to modules A–E with a toy netlist. Watch the wirelength proxy as you move pins
+    or modules. Then implement edge assignment and scoring in Track A.
+- type: bullets
+  title: Implement track
+  bullets:
+  - 'Add a pin list: id, side, offset'
+  - Assign sides for a handful of I/Os
+  - Score sum of distances from module centers (or abutment points) to pin locations
+  - Keep modules legal under the outline while you tweak assignments
+  - Print the assignment table and score
+  notes: 'Add a pin list: id, side, offset. Assign sides for a handful of I/Os. Score
+    sum of distances from module centers (or abutment points) to pin locations. Keep
+    modules legal under the outline while you tweak assignments. Print the assignment
+    table and score.'
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Putting pins inside the outline instead of on the boundary breaks the model
+  - Crowding every pin onto one edge creates congestion you won’t see if you only
+    watch
+  - Don’t forget that pin order on an edge can matter for packaging, even on a toy
+  notes: Putting pins inside the outline instead of on the boundary breaks the model.
+    Crowding every pin onto one edge creates congestion you won’t see if you only
+    watch deadspace. Don’t forget that pin order on an edge can matter for packaging—even
+    on a toy.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Assign boundary pins and report a wirelength proxy beside deadspace
+  - Then continue to offline compare, and finally the wrap
+  notes: Assign boundary pins and report a wirelength proxy beside deadspace. Then
+    continue to offline compare—and finally the wrap.

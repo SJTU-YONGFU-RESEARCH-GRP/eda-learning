@@ -1,0 +1,76 @@
+title: Area, packing density, whitespace/deadspace
+footer: learn_floorplanning — 03 area deadspace
+slides:
+- type: title
+  title: Area, packing density, whitespace/deadspace
+  subtitle: With a legal packing in hand, score the whitespace
+  notes: 'With a legal packing in hand, score the whitespace. Module areas sum to
+    twenty-three; the outline is eighty; deadspace is fifty-seven; density is zero
+    point two eight seven five.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: Module areas sum to 23
+  image: assets/steps/01-areas.png
+  caption: Module areas sum to 23
+  notes: 'Add the five module areas: A is six, B is six, C is four, D is three, E
+    is four. That is twenty-three units of silicon that must fit in the outline.'
+- type: image
+  title: Outline area is 80
+  image: assets/steps/02-outline-area.png
+  caption: Outline area is 80
+  notes: Ten times eight is eighty. That is the budget. Module area twenty-three leaves
+    whitespace—deadspace—equal to fifty-seven.
+- type: image
+  title: Density is 0.2875
+  image: assets/steps/03-density.png
+  caption: Density is 0.2875
+  notes: 'Density is module area over outline area: twenty-three over eighty equals
+    zero point two eight seven five. Whitespace fraction is zero point seven one two
+    five.'
+- type: image
+  title: Metrics need a legal pack
+  image: assets/steps/04-legal-metrics.png
+  caption: Metrics need a legal pack
+  notes: On the golden legal packing these numbers are honest. On an overflow packing
+    the area math still computes, but the floorplan is invalid—do not celebrate density
+    on illegal layouts.
+- type: image
+  title: Report area trio every time
+  image: assets/steps/05-takeaway.png
+  caption: Report area trio every time
+  notes: 'Habit: print module area, outline area, deadspace, and density with every
+    packing. Representations later change geometry; this trio stays the scoreboard.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - Open area-deadspace, load the golden packing, and read the metrics panel
+  notes: 'Open area-deadspace, load the golden packing, and read the metrics panel:
+    module area twenty-three, outline eighty, deadspace fifty-seven, density zero
+    point two eight seven five.'
+- type: bullets
+  title: Implement track
+  bullets:
+  - Implement moduleAreaSum, outlineArea, deadspace, and density
+  - Assert deadspace equals eighty minus twenty-three on the starter modules
+  notes: Implement moduleAreaSum, outlineArea, deadspace, and density. Assert deadspace
+    equals eighty minus twenty-three on the starter modules—independent of placement
+    when sizes are fixed.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Reporting density on an illegal pack
+  notes: Reporting density on an illegal pack; mixing outline area with bounding-box
+    area; forgetting soft A still contributes area six at three by two.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Print the area trio on every run
+  - Next lab builds a slicing polish whose bounding box is nine by three inside this
+    outline
+  notes: Print the area trio on every run. Next lab builds a slicing polish whose
+    bounding box is nine by three inside this outline.

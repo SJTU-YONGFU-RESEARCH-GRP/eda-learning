@@ -1,0 +1,47 @@
+{
+  "module": "module02-01-slicing-floorplan",
+  "title": "Slicing tree check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "prompt": "Golden polish bounding box is\u2026",
+      "choices": [
+        "10\u00d78",
+        "9\u00d73",
+        "5\u00d75",
+        "3\u00d79"
+      ],
+      "answer": 1,
+      "explain": "evalPolish(A D H B V C V E V) \u2192 9\u00d73."
+    },
+    {
+      "id": "q2",
+      "type": "true_false",
+      "prompt": "The golden polish packing is legal inside the 10\u00d78 outline.",
+      "answer": true,
+      "explain": "9\u226410 and 3\u22648 with no overlaps."
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "prompt": "In this course, operator H means\u2026",
+      "choices": [
+        "Horizontal through-cut stacking children vertically",
+        "Always place on the left",
+        "Hyperedge cut",
+        "Ignore heights"
+      ],
+      "answer": 0,
+      "explain": "H stacks; V places side by side."
+    },
+    {
+      "id": "q4",
+      "type": "true_false",
+      "prompt": "Every packing is a slicing floorplan.",
+      "answer": false,
+      "explain": "Non-slicing wheels need B* / SP."
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "module": "module03-05-macro-placement",
+  "title": "Hard macro check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "prompt": "In macro mode, D is fixed at\u2026",
+      "choices": [
+        "(0,2)",
+        "(0,0)",
+        "(3,0)",
+        "(5,0)"
+      ],
+      "answer": 1,
+      "explain": "MACRO_PACK pins D at the origin."
+    },
+    {
+      "id": "q2",
+      "type": "true_false",
+      "prompt": "D.macro is true in the macro packing.",
+      "answer": true,
+      "explain": "Hard macro flag."
+    },
+    {
+      "id": "q3",
+      "type": "true_false",
+      "prompt": "Macro packing stays legal inside 10\u00d78.",
+      "answer": true,
+      "explain": "Fixed D plus packed neighbors fit."
+    },
+    {
+      "id": "q4",
+      "type": "true_false",
+      "prompt": "Free golden D sits at the same coordinates as macro D.",
+      "answer": false,
+      "explain": "Free D is at (0,2); macro D at (0,0)."
+    }
+  ]
+}

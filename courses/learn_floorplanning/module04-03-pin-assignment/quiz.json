@@ -1,0 +1,41 @@
+{
+  "module": "module04-03-pin-assignment",
+  "title": "Boundary pin check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "prompt": "Golden pin P0 is on which side?",
+      "choices": [
+        "top",
+        "left",
+        "right",
+        "bottom"
+      ],
+      "answer": 1,
+      "explain": "P0 side=left."
+    },
+    {
+      "id": "q2",
+      "type": "true_false",
+      "prompt": "Golden pins cover all four outline sides.",
+      "answer": true,
+      "explain": "left, bottom, right, top."
+    },
+    {
+      "id": "q3",
+      "type": "true_false",
+      "prompt": "An empty pin list is valid.",
+      "answer": false,
+      "explain": "Need four distinct sides."
+    },
+    {
+      "id": "q4",
+      "type": "true_false",
+      "prompt": "pinsValid is true for the golden four-pin set.",
+      "answer": true,
+      "explain": "Offsets in range and four sides present."
+    }
+  ]
+}

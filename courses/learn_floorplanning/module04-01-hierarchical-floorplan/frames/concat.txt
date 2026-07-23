@@ -1,0 +1,13 @@
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module04-01-hierarchical-floorplan/frames/slide-1.png'
+duration 16.488
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module04-01-hierarchical-floorplan/frames/slide-2.png'
+duration 21.288
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module04-01-hierarchical-floorplan/frames/slide-3.png'
+duration 17.112
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module04-01-hierarchical-floorplan/frames/slide-4.png'
+duration 16.128
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module04-01-hierarchical-floorplan/frames/slide-5.png'
+duration 14.136
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module04-01-hierarchical-floorplan/frames/slide-6.png'
+duration 7.656
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module04-01-hierarchical-floorplan/frames/slide-6.png'

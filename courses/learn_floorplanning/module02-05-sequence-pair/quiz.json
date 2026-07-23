@@ -1,0 +1,47 @@
+{
+  "module": "module02-05-sequence-pair",
+  "title": "Sequence-pair representation check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "prompt": "Golden positive sequence starts with\u2026",
+      "choices": [
+        "D",
+        "A",
+        "E",
+        "C"
+      ],
+      "answer": 1,
+      "explain": "pos = A B C E D."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "prompt": "Golden negative sequence starts with\u2026",
+      "choices": [
+        "A",
+        "D",
+        "B",
+        "E"
+      ],
+      "answer": 1,
+      "explain": "neg = D A B C E."
+    },
+    {
+      "id": "q3",
+      "type": "true_false",
+      "prompt": "Pos and neg are permutations of the same five module ids.",
+      "answer": true,
+      "explain": "Required for a valid sequence pair."
+    },
+    {
+      "id": "q4",
+      "type": "true_false",
+      "prompt": "The golden SP packing is legal.",
+      "answer": true,
+      "explain": "Longest-path pack of the teaching pair is legal."
+    }
+  ]
+}

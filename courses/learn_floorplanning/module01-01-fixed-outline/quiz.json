@@ -1,0 +1,47 @@
+{
+  "module": "module01-01-fixed-outline",
+  "title": "Fixed-outline constraints check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "prompt": "On the bad seed, legality fails because\u2026",
+      "choices": [
+        "Density is too low",
+        "E overflows the right edge (x+w = 11 > 10)",
+        "A is soft",
+        "Deadspace is 57"
+      ],
+      "answer": 1,
+      "explain": "E at x=9 with w=2 exceeds outline width 10."
+    },
+    {
+      "id": "q2",
+      "type": "true_false",
+      "prompt": "The golden packing of A\u2013E inside 10\u00d78 is legal.",
+      "answer": true,
+      "explain": "Containment and non-overlap both hold."
+    },
+    {
+      "id": "q3",
+      "type": "true_false",
+      "prompt": "Edge-touching rectangles count as illegal overlap in this course.",
+      "answer": false,
+      "explain": "Only positive-area interior overlap is illegal."
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "prompt": "Outline size for the teaching instance is\u2026",
+      "choices": [
+        "8\u00d78",
+        "10\u00d78",
+        "12\u00d710",
+        "9\u00d73"
+      ],
+      "answer": 1,
+      "explain": "Fixed outline W\u00d7H = 10\u00d78."
+    }
+  ]
+}

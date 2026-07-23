@@ -1,0 +1,9 @@
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module05-01-offline-benchmark-compare/frames/slide-1.png'
+duration 20.616
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module05-01-offline-benchmark-compare/frames/slide-2.png'
+duration 20.112
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module05-01-offline-benchmark-compare/frames/slide-3.png'
+duration 20.088
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module05-01-offline-benchmark-compare/frames/slide-4.png'
+duration 13.416
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module05-01-offline-benchmark-compare/frames/slide-4.png'

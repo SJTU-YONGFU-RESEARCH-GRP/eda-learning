@@ -1,0 +1,60 @@
+title: Soft module sizing
+footer: learn_floorplanning — 03 soft module sizing
+slides:
+- type: title
+  title: Soft module sizing
+  subtitle: Hard modules have fixed width and height
+  notes: Hard modules have fixed width and height. Soft modules keep a fixed area
+    but may change aspect ratio within bounds—minimum and maximum width over height.
+    Floorplanning often sizes soft blocks while packing so the outline fills with
+    less deadspace.
+- type: bullets
+  title: The idea
+  bullets:
+  - For soft module A with area a
+  - Re-pack after each sizing move
+  - On our starter, A is soft; B through E stay hard
+  - Deadspace uses the same formula
+  notes: 'For soft module A with area a, choose width w and set height to a over w,
+    subject to aspect_min ≤ w/h ≤ aspect_max. Re-pack after each sizing move. On our
+    starter, A is soft; B through E stay hard. Deadspace uses the same formula: outline
+    area minus sum of areas—areas stay constant if only aspect changes.'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - Open **soft-module-sizing**
+  - Select module A, drag aspect within bounds
+  - Confirm area of A stays constant while density of the packing geometry changes
+  - Then implement aspect moves in Track A
+  notes: Open **soft-module-sizing**. Select module A, drag aspect within bounds,
+    and watch the packing reshape under the fixed outline. Confirm area of A stays
+    constant while density of the packing geometry changes. Then implement aspect
+    moves in Track A.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Extend your packer so A’s (w, h) can vary under aspect constraints at constant
+    area
+  - Combine with a simple search, even greedy aspect tries help
+  - Report legality and deadspace before and after
+  - Reject sizes outside aspect bounds
+  notes: Extend your packer so A’s (w, h) can vary under aspect constraints at constant
+    area. Combine with a simple search—even greedy aspect tries help. Report legality
+    and deadspace before and after. Reject sizes outside aspect bounds.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Using aspect limits on w/h but updating only w without fixing h = area/w breaks
+    the area
+  - Allowing zero width is nonsense, enforce positive sizes
+  - Soft sizing cannot fix an area budget that already exceeds the outline
+  notes: Using aspect limits on w/h but updating only w without fixing h = area/w
+    breaks the area invariant. Allowing zero width is nonsense—enforce positive sizes.
+    Soft sizing cannot fix an area budget that already exceeds the outline.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Improve a legal packing by resizing A within bounds
+  - 'Next: hard macros that refuse to move or resize'
+  notes: 'Improve a legal packing by resizing A within bounds. Next: hard macros that
+    refuse to move or resize.'

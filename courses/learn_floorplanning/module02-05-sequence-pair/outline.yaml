@@ -1,0 +1,66 @@
+title: Sequence pairs
+footer: learn_floorplanning — 05 sequence pair
+slides:
+- type: title
+  title: Sequence pairs
+  subtitle: A sequence pair is two permutations of the modules, often called the positive
+    and negative sequences, Γ-plus and Γ-minus
+  notes: A sequence pair is two permutations of the modules—often called the positive
+    and negative sequences, Γ-plus and Γ-minus. Together they encode relative left-right
+    and above-below order. From the pair you can pack coordinates with longest-path
+    style constraints on a constraint graph.
+- type: bullets
+  title: The idea
+  bullets:
+  - If module A appears before B in both sequences, A is left of B
+  - If A appears before B in Γ-plus but after B in Γ-minus
+  - Horizontal and vertical constraint graphs yield x and y via longest paths
+  - Soft sizing and rotation can be layered on later; first get hard rectangles right
+  notes: If module A appears before B in both sequences, A is left of B. If A appears
+    before B in Γ-plus but after B in Γ-minus, A is above B—under the standard Murata
+    interpretation. Horizontal and vertical constraint graphs yield x and y via longest
+    paths. Soft sizing and rotation can be layered on later; first get hard rectangles
+    right.
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - Open **sequence-pair**
+  - Load starter Γ-plus and Γ-minus
+  - Highlight one pair of modules and read the implied relation, left-of or above
+  - Pack and inspect deadspace under the fixed outline
+  - Swap two symbols in one sequence and watch relations flip
+  - Then implement packing from sequences in Track A
+  notes: Open **sequence-pair**. Load starter Γ-plus and Γ-minus. Highlight one pair
+    of modules and read the implied relation—left-of or above. Pack and inspect deadspace
+    under the fixed outline. Swap two symbols in one sequence and watch relations
+    flip. Then implement packing from sequences in Track A.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Represent Γ-plus and Γ-minus as lists of module ids
+  - Build constraint edges, compute coordinates
+  - Report deadspace
+  - Keep permutations as permutations, no duplicate ids
+  - Deterministic packing helps goldens
+  notes: Represent Γ-plus and Γ-minus as lists of module ids. Build constraint edges,
+    compute coordinates, and check legality on the ten-by-eight outline. Report deadspace.
+    Keep permutations as permutations—no duplicate ids. Deterministic packing helps
+    goldens.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Mixing up which sequence pair condition means “left of” versus “above” yields
+    mirrored
+  - Forgetting transitive longest-path compaction leaves unnecessary whitespace
+  - And sequence pairs can encode non-slicing packings
+  notes: Mixing up which sequence pair condition means “left of” versus “above” yields
+    mirrored nonsense. Forgetting transitive longest-path compaction leaves unnecessary
+    whitespace. And sequence pairs can encode non-slicing packings—don’t force a slicing
+    tree interpretation onto them.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Pack A–E from a sequence pair and verify legality
+  - Next you’ll search the space of representations with simulated annealing
+  notes: Pack A–E from a sequence pair and verify legality. Next you’ll search the
+    space of representations with simulated annealing.

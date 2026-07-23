@@ -1,0 +1,53 @@
+title: Floorplanning path complete
+footer: learn_floorplanning — 00 wrap
+slides:
+- type: title
+  title: Floorplanning path complete
+  subtitle: You’ve walked the floorplanning path, from fixed outlines and deadspace,
+    through slicing, B*-tree
+  notes: You’ve walked the floorplanning path—from fixed outlines and deadspace, through
+    slicing, B*-tree, and sequence-pair encodings, into simulated annealing, soft
+    sizing, macros, hierarchy, and pin assignment, plus an offline compare habit.
+    This wrap names what you can do now and where to go next.
+- type: bullets
+  title: What you can do now
+  bullets:
+  - You can pack modules under a W by H outline and prove legality
+  - You can compute deadspace as outline area minus the sum of module areas
+  - Assign boundary pins
+  - You are building algorithm literacy, not shipping a foundry floorplanner
+  notes: You can pack modules under a W by H outline and prove legality. You can compute
+    deadspace as outline area minus the sum of module areas. You can encode packings
+    three classic ways, search with annealing moves, size soft blocks, respect hard
+    macros, nest sub-floorplans, and assign boundary pins. You are building algorithm
+    literacy—not shipping a foundry floorplanner.
+- type: bullets
+  title: Close the gaps
+  bullets:
+  - If you mainly watched browser labs
+  - If you mainly coded, re-open visual labs for packing intuition
+  - Clustering and partitioning as prereqs should already feel connected
+  notes: 'If you mainly watched browser labs, finish at least one full implementation
+    in foundations and one representation plus SA. If you mainly coded, re-open visual
+    labs for packing intuition. Clustering and partitioning as prereqs should already
+    feel connected: groups and cuts became shapes and whitespace.'
+- type: bullets
+  title: Next
+  bullets:
+  - Complete the quiz for this part
+  - Natural next steps are learn_placement, spreading standard cells under the floorplan
+  notes: Natural next steps are learn_placement—spreading standard cells under the
+    floorplan—and learn_legalization—snapping to rows and sites without overlap. Keep
+    your tiny_modules harness; placement courses reuse outline thinking. Mentally
+    bookmark clustering and partitioning as the path you already finished into this
+    course.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Review the wrap checklist
+  - Name three representations and one strength each
+  - Say how deadspace is computed
+  - When you’re ready, take the short quiz, then open learn_placement or learn_legalization
+  notes: Review the wrap checklist. Name three representations and one strength each.
+    Say how deadspace is computed. When you’re ready, take the short quiz, then open
+    learn_placement or learn_legalization.

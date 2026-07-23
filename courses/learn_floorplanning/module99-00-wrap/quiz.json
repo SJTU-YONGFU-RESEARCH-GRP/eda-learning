@@ -1,0 +1,40 @@
+{
+  "module": "module99-00-wrap",
+  "title": "Wrap check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "prompt": "Deadspace under a fixed outline is\u2026",
+      "choices": [
+        "Always zero",
+        "outlineArea \u2212 sum(module areas)",
+        "Only the wirelength",
+        "The number of pins on the north edge"
+      ],
+      "answer": 1,
+      "explain": "Whitespace budget left after module areas."
+    },
+    {
+      "id": "q2",
+      "type": "true_false",
+      "prompt": "B*-tree and sequence-pair are packing representations; SA searches over moves on a representation.",
+      "answer": true,
+      "explain": "Encode then search is the floorplan pattern."
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "prompt": "Natural next courses after floorplanning are\u2026",
+      "choices": [
+        "Only analog layout",
+        "learn_placement and learn_legalization",
+        "SPICE device models first",
+        "Ignore the PD stack"
+      ],
+      "answer": 1,
+      "explain": "Placement and legalization continue from the outline."
+    }
+  ]
+}

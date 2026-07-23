@@ -1,0 +1,41 @@
+{
+  "module": "module03-01-simulated-annealing-fp",
+  "title": "Simulated annealing floorplan search check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "true_false",
+      "prompt": "Illegal packings add a +1000 term in the toy cost.",
+      "answer": true,
+      "explain": "Penalty dominates bad-seed cost."
+    },
+    {
+      "id": "q2",
+      "type": "true_false",
+      "prompt": "cost(golden) is less than cost(bad) on the starter.",
+      "answer": true,
+      "explain": "Golden is legal; bad pays the penalty."
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "prompt": "A simple SA neighbor in this lab\u2026",
+      "choices": [
+        "Deletes modules",
+        "Swaps two modules\u2019 coordinates (keeps sizes)",
+        "Changes the outline to 20\u00d720",
+        "Ignores legality forever"
+      ],
+      "answer": 1,
+      "explain": "saSwap exchanges lower-left corners."
+    },
+    {
+      "id": "q4",
+      "type": "true_false",
+      "prompt": "After Improve, the packing should be legal.",
+      "answer": true,
+      "explain": "Improve loads the golden legal pack."
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module03-05-macro-placement/frames/slide-1.png'
+duration 20.88
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module03-05-macro-placement/frames/slide-2.png'
+duration 24.432
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module03-05-macro-placement/frames/slide-3.png'
+duration 16.752
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module03-05-macro-placement/frames/slide-4.png'
+duration 18.552
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module03-05-macro-placement/frames/slide-5.png'
+duration 15.024
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module03-05-macro-placement/frames/slide-6.png'
+duration 9.744
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module03-05-macro-placement/frames/slide-6.png'

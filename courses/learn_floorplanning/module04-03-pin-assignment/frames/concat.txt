@@ -1,0 +1,13 @@
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module04-03-pin-assignment/frames/slide-1.png'
+duration 18.168
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module04-03-pin-assignment/frames/slide-2.png'
+duration 20.28
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module04-03-pin-assignment/frames/slide-3.png'
+duration 16.536
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module04-03-pin-assignment/frames/slide-4.png'
+duration 19.848
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module04-03-pin-assignment/frames/slide-5.png'
+duration 15.696
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module04-03-pin-assignment/frames/slide-6.png'
+duration 9.144
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module04-03-pin-assignment/frames/slide-6.png'

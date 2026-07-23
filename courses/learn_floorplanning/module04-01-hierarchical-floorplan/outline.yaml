@@ -1,0 +1,59 @@
+title: Hierarchical floorplans
+footer: learn_floorplanning — 01 hierarchical floorplan
+slides:
+- type: title
+  title: Hierarchical floorplans
+  subtitle: Large designs floorplan recursively
+  notes: 'Large designs floorplan recursively: clusters become soft or hard regions,
+    each with its own sub-floorplan, then compose into the chip outline. Hierarchy
+    reuses the same packing ideas at every level and mirrors how partitioning and
+    clustering fed you the blocks.'
+- type: bullets
+  title: The idea
+  bullets:
+  - Pick a parent region inside the outline
+  - Floorplan a subset of modules inside that region as if it were its own fixed outline
+  - Place sibling regions, then recurse
+  - Top-level deadspace still uses the chip outline area
+  - Keep region outlines legal with respect to their parent
+  notes: Pick a parent region inside the outline. Floorplan a subset of modules inside
+    that region as if it were its own fixed outline. Place sibling regions, then recurse.
+    Top-level deadspace still uses the chip outline area; local deadspace can be reported
+    per region. Keep region outlines legal with respect to their parent.
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - Open **hierarchical-floorplan**
+  - 'Load a two-level starter: a parent outline and two child groups'
+  - Pack inside each child, then place children in the parent
+  - Inspect metrics at both levels
+  - Then implement nested packing in Track A
+  notes: 'Open **hierarchical-floorplan**. Load a two-level starter: a parent outline
+    and two child groups. Pack inside each child, then place children in the parent.
+    Inspect metrics at both levels. Then implement nested packing in Track A.'
+- type: bullets
+  title: Implement track
+  bullets:
+  - Partition A–E into two groups
+  - Floorplan each group into a sub-rectangle
+  - Verify no group overflows its region and regions don’t overlap
+  - Report global deadspace
+  notes: Partition A–E into two groups. Floorplan each group into a sub-rectangle,
+    then place those rectangles in the ten-by-eight outline. Verify no group overflows
+    its region and regions don’t overlap. Report global deadspace.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Optimizing children while ignoring parent legality leaves you with beautiful
+  - Don’t double-count module area across levels
+  - Align coordinates to a single global origin when composing
+  notes: Optimizing children while ignoring parent legality leaves you with beautiful
+    sub-floorplans that don’t compose. Don’t double-count module area across levels.
+    Align coordinates to a single global origin when composing.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Ship one hierarchical packing for the tiny instance
+  - 'Next: assign I/O pins to the chip boundary'
+  notes: 'Ship one hierarchical packing for the tiny instance. Next: assign I/O pins
+    to the chip boundary.'

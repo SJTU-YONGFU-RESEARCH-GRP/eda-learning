@@ -1,0 +1,13 @@
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module02-01-slicing-floorplan/frames/slide-1.png'
+duration 20.712
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module02-01-slicing-floorplan/frames/slide-2.png'
+duration 28.464
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module02-01-slicing-floorplan/frames/slide-3.png'
+duration 19.248
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module02-01-slicing-floorplan/frames/slide-4.png'
+duration 20.016
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module02-01-slicing-floorplan/frames/slide-5.png'
+duration 17.856
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module02-01-slicing-floorplan/frames/slide-6.png'
+duration 10.68
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module02-01-slicing-floorplan/frames/slide-6.png'

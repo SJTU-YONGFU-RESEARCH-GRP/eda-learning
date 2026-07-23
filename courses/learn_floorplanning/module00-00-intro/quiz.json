@@ -1,0 +1,40 @@
+{
+  "module": "module00-00-intro",
+  "title": "Intro check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "prompt": "This course focuses primarily on\u2026",
+      "choices": [
+        "Vendor P&R GUI click-paths",
+        "Fixed-outline floorplanning representations and search on tiny modules",
+        "Foundry PDK certification",
+        "Writing UVM agents"
+      ],
+      "answer": 1,
+      "explain": "Algorithm / toy-engine literacy on scoped floorplans."
+    },
+    {
+      "id": "q2",
+      "type": "true_false",
+      "prompt": "A fixed-outline floorplan may legally place modules outside the W\u00d7H chip.",
+      "answer": false,
+      "explain": "Containment inside the outline is required for legality."
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "prompt": "A good study rhythm is\u2026",
+      "choices": [
+        "Only memorize folder names",
+        "Browser intuition then implement packing metrics on tiny modules",
+        "Skip checklists entirely",
+        "Start with pin assignment before legality"
+      ],
+      "answer": 1,
+      "explain": "Track B then Track A hardens the idea."
+    }
+  ]
+}

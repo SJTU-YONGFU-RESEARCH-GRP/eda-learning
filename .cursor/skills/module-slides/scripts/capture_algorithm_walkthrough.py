@@ -54,6 +54,16 @@ LAB_TO_ALGO: dict[str, tuple[str, int]] = {
     "terminal-propagation": ("terminal-propagation", 5),
     "hypergraph-partition": ("hypergraph-partition", 5),
     "multilevel-partition": ("multilevel-partition", 5),
+    "fixed-outline": ("fixed-outline", 5),
+    "area-deadspace": ("area-deadspace", 5),
+    "slicing-floorplan": ("slicing-floorplan", 5),
+    "bstar-tree": ("bstar-tree", 5),
+    "sequence-pair": ("sequence-pair", 5),
+    "simulated-annealing-fp": ("simulated-annealing-fp", 5),
+    "soft-module-sizing": ("soft-module-sizing", 5),
+    "macro-placement": ("macro-placement", 5),
+    "hierarchical-floorplan": ("hierarchical-floorplan", 5),
+    "pin-assignment": ("pin-assignment", 5),
 }
 
 BEGIN_MARK = "<!-- algorithm-walkthrough -->"

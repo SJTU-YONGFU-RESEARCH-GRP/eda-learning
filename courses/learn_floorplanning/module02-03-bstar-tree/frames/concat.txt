@@ -1,0 +1,13 @@
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module02-03-bstar-tree/frames/slide-1.png'
+duration 19.656
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module02-03-bstar-tree/frames/slide-2.png'
+duration 21.12
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module02-03-bstar-tree/frames/slide-3.png'
+duration 19.368
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module02-03-bstar-tree/frames/slide-4.png'
+duration 20.496
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module02-03-bstar-tree/frames/slide-5.png'
+duration 16.752
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module02-03-bstar-tree/frames/slide-6.png'
+duration 10.152
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module02-03-bstar-tree/frames/slide-6.png'

@@ -1,0 +1,13 @@
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module03-01-simulated-annealing-fp/frames/slide-1.png'
+duration 22.176
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module03-01-simulated-annealing-fp/frames/slide-2.png'
+duration 24.888
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module03-01-simulated-annealing-fp/frames/slide-3.png'
+duration 18.792
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module03-01-simulated-annealing-fp/frames/slide-4.png'
+duration 19.248
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module03-01-simulated-annealing-fp/frames/slide-5.png'
+duration 19.704
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module03-01-simulated-annealing-fp/frames/slide-6.png'
+duration 10.824
+file '/mnt/d/proj/designs/eda_learning/courses/learn_floorplanning/module03-01-simulated-annealing-fp/frames/slide-6.png'

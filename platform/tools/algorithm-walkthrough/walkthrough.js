@@ -11,13 +11,15 @@ import {
   cutsize,
 } from "../../assets/clustering-core.js";
 import { drawGraph, el } from "../../assets/clustering-ui.js";
+import { drawFloorplan } from "../../assets/floorplanning-core.js";
+import { FLOORPLAN_ALGOS } from "./floorplanning-algos.js";
 
 const graph = cloneGraph();
 
-/** @typedef {{ id: string, title: string, caption: string, bullets: string[], metrics?: string[], assignment?: object|null, highlightPairs?: string[], showWeights?: boolean }} Step */
+/** @typedef {{ id: string, title: string, caption: string, bullets: string[], metrics?: string[], assignment?: object|null, highlightPairs?: string[], showWeights?: boolean, pack?: object|null, pins?: object[], empty?: boolean }} Step */
 
-/** @type {Record<string, { title: string, module: string, steps: Step[] }>} */
-export const ALGOS = {
+/** @type {Record<string, { title: string, module: string, steps: Step[], kind?: string }>} */
+const CLUSTER_ALGOS = {
   "affinity-metrics": {
     title: "Affinity metrics",
     module: "module01-01-affinity-metrics",
@@ -1644,6 +1646,8 @@ export const ALGOS = {
   },
 };
 
+export const ALGOS = { ...CLUSTER_ALGOS, ...FLOORPLAN_ALGOS };
+
 function qs() {
   const u = new URL(location.href);
   return {
@@ -1711,10 +1715,17 @@ function render() {
   const body = el("div", { className: "walk-body" }, [left, explain]);
   frame.append(banner, body);
 
-  drawGraph(canvas, TINY_GRAPH, {
-    assignment: s.assignment || null,
-    highlightPairs: s.highlightPairs || [],
-  });
+  if (pack.kind === "floorplan" || s.pack != null) {
+    drawFloorplan(canvas, {
+      pack: s.pack || {},
+      pins: s.pins || [],
+    });
+  } else {
+    drawGraph(canvas, TINY_GRAPH, {
+      assignment: s.assignment || null,
+      highlightPairs: s.highlightPairs || [],
+    });
+  }
 
   // unused import guard for edge ranking goldens in affinity metrics text
   void affinityEdgeWeight;

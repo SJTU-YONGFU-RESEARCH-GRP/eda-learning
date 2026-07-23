@@ -1,0 +1,47 @@
+{
+  "module": "module01-03-area-deadspace",
+  "title": "Area, packing density, whitespace check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "prompt": "Module area sum on the starter is\u2026",
+      "choices": [
+        "18",
+        "23",
+        "57",
+        "80"
+      ],
+      "answer": 1,
+      "explain": "6+6+4+3+4 = 23."
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "prompt": "Deadspace for outline 10\u00d78 is\u2026",
+      "choices": [
+        "23",
+        "57",
+        "80",
+        "9"
+      ],
+      "answer": 1,
+      "explain": "80 \u2212 23 = 57."
+    },
+    {
+      "id": "q3",
+      "type": "true_false",
+      "prompt": "Density equals 23/80 = 0.2875 on the starter.",
+      "answer": true,
+      "explain": "moduleArea / outlineArea."
+    },
+    {
+      "id": "q4",
+      "type": "true_false",
+      "prompt": "Whitespace fraction 57/80 equals 0.7125.",
+      "answer": true,
+      "explain": "Complement of density."
+    }
+  ]
+}

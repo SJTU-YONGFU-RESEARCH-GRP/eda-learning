@@ -1,0 +1,70 @@
+title: Simulated annealing search
+footer: learn_floorplanning — 01 simulated annealing fp
+slides:
+- type: title
+  title: Simulated annealing search
+  subtitle: Representations give you a packing
+  notes: Representations give you a packing. Search finds a good one under a fixed
+    outline. Simulated annealing perturbs the representation—swap modules, rotate,
+    change a tree edge or sequence—and accepts uphill moves early so you escape local
+    minima. Cost usually mixes outline overflow, deadspace, and a wirelength proxy.
+- type: bullets
+  title: The idea
+  bullets:
+  - 'Pick a representation you already trust: slicing, B*, or sequence pair'
+  - Define moves that stay in that encoding
+  - At temperature T, accept worse costs with probability related to exp of minus
+    delta over T
+  - Cool on a schedule
+  - Always re-pack and re-score after a move
+  - Illegal overflow should cost heavily so the search prefers legal packings
+  notes: 'Pick a representation you already trust: slicing, B*, or sequence pair.
+    Define moves that stay in that encoding. At temperature T, accept worse costs
+    with probability related to exp of minus delta over T. Cool on a schedule. Always
+    re-pack and re-score after a move. Illegal overflow should cost heavily so the
+    search prefers legal packings.'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - Open **simulated-annealing-fp**
+  - Run a short anneal on the starter instance
+  - Watch cost and temperature
+  - Pause, inspect the current packing, then continue
+  - Try a hotter start versus a greedy low temperature
+  - Then implement a tiny SA loop yourself with a fixed seed
+  notes: Open **simulated-annealing-fp**. Run a short anneal on the starter instance.
+    Watch cost and temperature. Pause, inspect the current packing, then continue.
+    Try a hotter start versus a greedy low temperature. Then implement a tiny SA loop
+    yourself with a fixed seed.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Wire SA around one representation
+  - Log temperature, cost, and best packing
+  - Use a deterministic RNG seed
+  - Stop after a modest iteration budget on the toy outline
+  - Export the best coordinates and deadspace
+  notes: Wire SA around one representation. Log temperature, cost, and best packing.
+    Use a deterministic RNG seed. Stop after a modest iteration budget on the toy
+    outline—this is literacy, not overnight runs. Export the best coordinates and
+    deadspace.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Moves that don’t change the packing waste iterations
+  - A cost that ignores overflow will “optimize” illegal layouts
+  - Cooling too fast freezes a bad packing
+  - Also don’t compare costs across different outline penalties without documenting
+    the
+  notes: Moves that don’t change the packing waste iterations. A cost that ignores
+    overflow will “optimize” illegal layouts. Cooling too fast freezes a bad packing;
+    cooling too slow teaches nothing on a five-module toy. Also don’t compare costs
+    across different outline penalties without documenting the weights.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Get SA to improve deadspace or wirelength proxy from a random start while staying
+    legal
+  - 'Next: soft modules, resize aspect under area constraints'
+  notes: 'Get SA to improve deadspace or wirelength proxy from a random start while
+    staying legal. Next: soft modules—resize aspect under area constraints.'

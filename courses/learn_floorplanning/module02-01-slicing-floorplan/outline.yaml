@@ -1,0 +1,70 @@
+title: Slicing floorplans
+footer: learn_floorplanning — 01 slicing floorplan
+slides:
+- type: title
+  title: Slicing floorplans
+  subtitle: A slicing floorplan is built by recursively cutting a rectangle with through-cuts
+  notes: A slicing floorplan is built by recursively cutting a rectangle with through-cuts—horizontal
+    or vertical—until each leaf is a module. The cut tree, or its polish expression
+    with operators H and V, is a compact encoding. In this lab you’ll pack modules
+    from a slicing tree or polish string into concrete coordinates.
+- type: bullets
+  title: The idea
+  bullets:
+  - An H operator stacks left and right children as bottom and top (or as specified
+    by your
+  - A V operator places them side by side
+  - Evaluating the tree bottom-up yields the size of each composite rectangle
+  - 'Polish expressions are postfix: operands then H or V'
+  - Not every packing is slicing
+  notes: 'An H operator stacks left and right children as bottom and top (or as specified
+    by your convention). A V operator places them side by side. Evaluating the tree
+    bottom-up yields the size of each composite rectangle; placing top-down assigns
+    origins. Polish expressions are postfix: operands then H or V. Not every packing
+    is slicing—wheels need non-slicing representations—but slicing is a strong first
+    model.'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - Open **slicing-floorplan**
+  - Load a starter polish expression or tree
+  - Step through cuts and watch rectangles subdivide
+  - Read deadspace on the fixed outline
+  - Change one operator from H to V and see the packing reshape
+  - Then implement tree evaluation yourself
+  notes: Open **slicing-floorplan**. Load a starter polish expression or tree. Step
+    through cuts and watch rectangles subdivide. Read deadspace on the fixed outline.
+    Change one operator from H to V and see the packing reshape. Then implement tree
+    evaluation yourself.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Define a small tree or polish string over modules A–E
+  - Evaluate composite widths and heights, then assign (x, y) under the ten-by-eight
+    outline
+  - Reject trees whose root size exceeds the outline
+  - Report legality and deadspace
+  - Keep operator conventions documented in comments
+  notes: Define a small tree or polish string over modules A–E. Evaluate composite
+    widths and heights, then assign (x, y) under the ten-by-eight outline. Reject
+    trees whose root size exceeds the outline. Report legality and deadspace. Keep
+    operator conventions documented in comments.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Swapping H and V conventions silently flips the packing
+  - Forgetting that composite size is max-along-cut versus sum-along-cut is the classic
+    bug
+  - 'Also: a polish string that is not a valid slicing expression will crash a naive
+    evaluator'
+  notes: 'Swapping H and V conventions silently flips the packing. Forgetting that
+    composite size is max-along-cut versus sum-along-cut is the classic bug. Also:
+    a polish string that is not a valid slicing expression will crash a naive evaluator—validate
+    arity as you parse.'
+- type: bullets
+  title: Your turn
+  bullets:
+  - Pack a legal slicing floorplan for the starter modules
+  - Quiz when ready
+  notes: Pack a legal slicing floorplan for the starter modules. Quiz when ready,
+    then meet B*-trees—which can represent non-slicing packings more naturally.

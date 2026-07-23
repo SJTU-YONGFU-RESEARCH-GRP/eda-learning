@@ -1,0 +1,79 @@
+title: Fixed-outline constraints
+footer: learn_floorplanning — 01 fixed outline
+slides:
+- type: title
+  title: Fixed-outline constraints
+  subtitle: Floorplanning on this course uses a fixed outline ten by eight
+  notes: 'Floorplanning on this course uses a fixed outline ten by eight. Modules
+    A through E must pack inside—no growing the chip. In this lab you’ll reject illegal
+    packings before you ever talk about density.
+
+
+    <!-- algorithm-walkthrough -->'
+- type: image
+  title: Fixed outline is 10×8
+  image: assets/steps/01-outline.png
+  caption: Fixed outline is 10×8
+  notes: Modern floorplanning starts with a fixed outline. Ours is ten by eight—area
+    eighty. Modules A through E must pack inside; growing the chip is not allowed.
+- type: image
+  title: 'Bad pack: E overflows'
+  image: assets/steps/02-bad-overflow.png
+  caption: 'Bad pack: E overflows'
+  notes: The bad seed places E at x equals nine with width two, so it sticks past
+    the right edge. Legality fails immediately—E is outside the outline.
+- type: image
+  title: Overlap is also illegal
+  image: assets/steps/03-overlap.png
+  caption: Overlap is also illegal
+  notes: 'A second failure mode: E sits on top of C. Edge-touching is fine; positive-area
+    interior overlap is not. The checker reports C overlaps E.'
+- type: image
+  title: Golden pack is legal
+  image: assets/steps/04-golden.png
+  caption: Golden pack is legal
+  notes: The golden packing keeps every block inside ten by eight with no overlaps.
+    A sits at the origin; B, C, and E march right; D stacks above A.
+- type: image
+  title: Legality is the gate
+  image: assets/steps/05-takeaway.png
+  caption: Legality is the gate
+  notes: 'Never optimize density or wirelength on an illegal packing. Fix containment
+    and overlap first—then the metrics in the next lab mean something.
+
+
+    <!-- /algorithm-walkthrough -->'
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - Open the fixed-outline lab
+  - 'Show the bad seed: E overflows past the right edge'
+  - Then show overlap, then golden
+  - Watch legality flip from false to true when the golden packing loads
+  notes: 'Open the fixed-outline lab. Show the bad seed: E overflows past the right
+    edge. Then show overlap, then golden. Watch legality flip from false to true when
+    the golden packing loads.'
+- type: bullets
+  title: Implement track
+  bullets:
+  - Parse tiny_modules.json, assign (x, y)
+  - On the golden packing, legality must pass
+  notes: Parse tiny_modules.json, assign (x, y), and implement containment plus pairwise
+    non-overlap. On the golden packing, legality must pass; on the bad seed with E
+    at nine, it must fail with E outside the outline.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Off-by-one edges, treating centers as rectangles
+  - Edge-touching is allowed; interior overlap is not
+  notes: Off-by-one edges, treating centers as rectangles, and celebrating density
+    on illegal layouts. Edge-touching is allowed; interior overlap is not.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Get a legal packing of A through E inside ten by eight
+  - Quiz checks the overflow failure and the golden pass
+  - 'Next: deadspace fifty-seven on this same instance'
+  notes: 'Get a legal packing of A through E inside ten by eight. Quiz checks the
+    overflow failure and the golden pass. Next: deadspace fifty-seven on this same
+    instance.'

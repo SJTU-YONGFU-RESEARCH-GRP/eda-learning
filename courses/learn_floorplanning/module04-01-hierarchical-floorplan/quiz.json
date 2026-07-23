@@ -1,0 +1,41 @@
+{
+  "module": "module04-01-hierarchical-floorplan",
+  "title": "Hierarchical floorplanning check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "true_false",
+      "prompt": "In the golden hierarchy, A is on the left cluster (x < 5).",
+      "answer": true,
+      "explain": "AB packs left of the cut."
+    },
+    {
+      "id": "q2",
+      "type": "true_false",
+      "prompt": "C, D, and E are offset so x \u2265 5.",
+      "answer": true,
+      "explain": "Right cluster origin at x=5."
+    },
+    {
+      "id": "q3",
+      "type": "true_false",
+      "prompt": "The hierarchical packing is legal.",
+      "answer": true,
+      "explain": "Clusters do not overlap; outline fits."
+    },
+    {
+      "id": "q4",
+      "type": "multiple_choice",
+      "prompt": "Teaching hierarchy uses how many top-level clusters?",
+      "choices": [
+        "1",
+        "2",
+        "5",
+        "10"
+      ],
+      "answer": 1,
+      "explain": "AB and CDE."
+    }
+  ]
+}

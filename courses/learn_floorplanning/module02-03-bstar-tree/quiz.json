@@ -1,0 +1,41 @@
+{
+  "module": "module02-03-bstar-tree",
+  "title": "B*-tree floorplan representation check",
+  "passing_score": 0.67,
+  "items": [
+    {
+      "id": "q1",
+      "type": "true_false",
+      "prompt": "In the golden B*, A is placed at (0,0).",
+      "answer": true,
+      "explain": "Root packs at the origin."
+    },
+    {
+      "id": "q2",
+      "type": "true_false",
+      "prompt": "Left child means right-of parent in this packing convention.",
+      "answer": true,
+      "explain": "Left \u2192 +x; right \u2192 above via contour."
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "prompt": "Golden B* left chain order is\u2026",
+      "choices": [
+        "E\u2192C\u2192B",
+        "B\u2192C\u2192E",
+        "D\u2192A\u2192B",
+        "C\u2192A\u2192E"
+      ],
+      "answer": 1,
+      "explain": "A.left = B\u2192C\u2192E."
+    },
+    {
+      "id": "q4",
+      "type": "true_false",
+      "prompt": "The golden B* packing is legal inside 10\u00d78.",
+      "answer": true,
+      "explain": "Contour pack of A\u2013E fits."
+    }
+  ]
+}
