@@ -1,0 +1,38 @@
+[
+  {
+    "id": "offline-q1",
+    "type": "mcq",
+    "prompt": "A fair router compare keeps constant\u2026",
+    "choices": [
+      "Instance and track capacity",
+      "Random Cap per row",
+      "Different netlists silently",
+      "Wall-clock only"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "offline-q2",
+    "type": "mcq",
+    "prompt": "Useful regression metrics include\u2026",
+    "choices": [
+      "Total track overflow, max overflow, runtime",
+      "Only screenshot brightness",
+      "Git commit hash alone",
+      "Font size"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "offline-q3",
+    "type": "mcq",
+    "prompt": "If a reference tool is missing you should\u2026",
+    "choices": [
+      "Document blockers and still validate harness I/O",
+      "Skip the module silently",
+      "Invent fake golden numbers",
+      "Delete the JSON"
+    ],
+    "answer": 0
+  }
+]

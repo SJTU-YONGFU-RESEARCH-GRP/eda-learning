@@ -1,0 +1,58 @@
+title: Detailed routing in the stack
+footer: learn_routing — 00 intro
+slides:
+- type: title
+  title: Detailed routing in the stack
+  subtitle: You committed coarse paths in global routing
+  notes: You committed coarse paths in global routing. Detailed routing assigns tracks
+    on M1 and M2, places vias, and chases DRC-clean geometry before compaction or
+    signoff. This course teaches that grid, maze, A*, track usage, vias, spacing,
+    and rip-up on a tiny chip.
+- type: two_column
+  title: Two tracks
+  left:
+  - 'Track B is the browser lab: route nets, watch track heat, inspect vias, clear
+    challenges'
+  - 'Track A is implement: Python solvers on tiny_dr.json'
+  - Use either or both
+  - Browser first for intuition is fine
+  right: assets/tools-index.png
+  notes: 'Track B is the browser lab: route nets, watch track heat, inspect vias,
+    clear challenges. Track A is implement: Python solvers on tiny_dr.json. Use either
+    or both. Browser first for intuition is fine.'
+- type: bullets
+  title: Course map
+  bullets:
+  - Foundations cover the routing grid and pin access
+  - Algorithms cover Lee maze, A*, track usage, and via assignment
+  - DRC and rip-up cover spacing lite and detailed rip-up
+  - Sequential detailed ties the flow together
+  - Offline compare and wrap close the path
+  notes: Foundations cover the routing grid and pin access. Algorithms cover Lee maze,
+    A*, track usage, and via assignment. DRC and rip-up cover spacing lite and detailed
+    rip-up. Sequential detailed ties the flow together. Offline compare and wrap close
+    the path.
+- type: bullets
+  title: Prerequisites
+  bullets:
+  - Finish learn_global_routing so GCell graphs and edge usage deposits already make
+    sense
+  - Directed track usage is finer-grained, not the same keys as GCell edges
+  notes: Finish learn_global_routing so GCell graphs and edge usage deposits already
+    make sense. Directed track usage is finer-grained—not the same keys as GCell edges.
+- type: bullets
+  title: How to move
+  bullets:
+  - Read each module README
+  - Odd module slots leave room to insert algorithms later without renumbering
+  notes: Read each module README, pick a track, check the checklist, then skim the
+    clip when media is available. Odd module slots leave room to insert algorithms
+    later without renumbering.
+- type: bullets
+  title: Next
+  bullets:
+  - Complete the quiz for this part
+  - Open the routing grid graph and enumerate M1 and M2 tracks on the twelve-by-eight
+    grid
+  notes: Open the routing grid graph and enumerate M1 and M2 tracks on the twelve-by-eight
+    grid.

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "wrap-q1",
+    "type": "mcq",
+    "prompt": "A* routing penalizes tracks where\u2026",
+    "choices": [
+      "usage \u2265 capacity",
+      "usage = 0",
+      "pins align",
+      "HPWL is minimal"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "wrap-q2",
+    "type": "mcq",
+    "prompt": "A natural next course after detailed routing is\u2026",
+    "choices": [
+      "learn_compaction or learn_pattern_matching",
+      "learn_unix only",
+      "learn_spice first always",
+      "Skip to ML-EDA"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "wrap-q3",
+    "type": "mcq",
+    "prompt": "Rip-up reroute picks the net with\u2026",
+    "choices": [
+      "Largest track overflow on its route",
+      "Shortest name",
+      "Fewest pins always",
+      "Random choice"
+    ],
+    "answer": 0
+  }
+]

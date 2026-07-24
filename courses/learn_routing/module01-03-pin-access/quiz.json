@@ -1,0 +1,38 @@
+[
+  {
+    "id": "pin-access-q1",
+    "type": "mcq",
+    "prompt": "Pin access maps a pin to\u2026",
+    "choices": [
+      "A grid cell the router can start from",
+      "A GCell four tiles wide",
+      "A Liberty timing arc",
+      "A power strap only"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "pin-access-q2",
+    "type": "mcq",
+    "prompt": "If a pin lands inside a blockage we\u2026",
+    "choices": [
+      "Nudge to a free neighbor on the grid",
+      "Delete the net",
+      "Skip detailed routing forever",
+      "Inflate the chip"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "pin-access-q3",
+    "type": "mcq",
+    "prompt": "Access points are needed before\u2026",
+    "choices": [
+      "Lee, A*, or layer-aware pattern routes",
+      "Synthesis only",
+      "Floorplanning only",
+      "Scan insertion"
+    ],
+    "answer": 0
+  }
+]

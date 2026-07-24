@@ -1,0 +1,72 @@
+title: Geometry rules matter
+footer: learn_routing — 01 drc spacing
+slides:
+- type: title
+  title: Geometry rules matter
+  subtitle: Signoff DRC is vast; spacing lite teaches the idea
+  notes: 'Signoff DRC is vast; spacing lite teaches the idea: same-layer parallel
+    segments too close fail even when tracks are logically free.'
+- type: bullets
+  title: The idea
+  bullets:
+  - Group segment points by layer
+  - For M1 pairs on the same row y
+  - Likewise for M2 pairs on the same column x
+  - Otherwise pass
+  notes: Group segment points by layer. For M1 pairs on the same row y, if horizontal
+    distance is greater than zero but less than or equal to min_dist, return fail
+    with violation coordinates. Likewise for M2 pairs on the same column x. Otherwise
+    pass.
+- type: image
+  title: Lite checker
+  image: assets/steps/01-lite.png
+  caption: Lite checker
+  notes: Same-layer parallel segments one grid apart fail.
+- type: image
+  title: Spread pass
+  image: assets/steps/02-pass.png
+  caption: Spread pass
+  notes: Spread layered routes pass on the toy.
+- type: image
+  title: Violation demo
+  image: assets/steps/03-fail.png
+  caption: Violation demo
+  notes: Adjacent M1 rows at y=2 and y=3 fail minDist=1.
+- type: image
+  title: After route
+  image: assets/steps/04-route.png
+  caption: After route
+  notes: Run checker on learner sequential routes.
+- type: image
+  title: Real DRC
+  image: assets/steps/05-real.png
+  caption: Real DRC
+  notes: Production routers use full width/spacing/via rules.
+- type: image
+  title: Browser lab track
+  image: assets/lab-starter.png
+  caption: Browser lab starter
+  notes: Open **drc-spacing**. Place parallel M1 segments one track apart on adjacent
+    rows and read the violation panel. Widen spacing and confirm pass.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Implement `drc_spacing_lite(segments, min_dist)`
+  - Feed the golden failing segment set from test_solvers and assert pass is false
+  notes: Implement `drc_spacing_lite(segments, min_dist)`. Feed the golden failing
+    segment set from test_solvers and assert pass is false.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Checking cross-layer pairs, this lite rule is same-layer only
+  - Using Manhattan grid distance across rows for M1 horizontal segments
+  - Treating DRC pass as proof of tape-out readiness
+  notes: Checking cross-layer pairs—this lite rule is same-layer only. Using Manhattan
+    grid distance across rows for M1 horizontal segments. Treating DRC pass as proof
+    of tape-out readiness.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Clear DRC spacing challenges
+  - 'Next: rip-up the hottest net and A* reroute'
+  notes: 'Clear DRC spacing challenges. Next: rip-up the hottest net and A* reroute.'

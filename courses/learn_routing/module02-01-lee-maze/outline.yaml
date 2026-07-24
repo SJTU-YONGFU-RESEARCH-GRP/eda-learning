@@ -1,0 +1,74 @@
+title: Cell paths before layers
+footer: learn_routing — 01 lee maze
+slides:
+- type: title
+  title: Cell paths before layers
+  subtitle: Lee maze finds a shortest path on grid cells ignoring track congestion
+  notes: Lee maze finds a shortest path on grid cells ignoring track congestion—ideal
+    for teaching detours around blockages before A* adds capacity penalties.
+- type: bullets
+  title: The idea
+  bullets:
+  - Seed a BFS queue with start and path list
+  - Pop, expand neighbors4 skipping blocked cells, return the first path that reaches
+    the goal
+  - If the queue empties, return None
+  - Shortest cell hop count wins
+  notes: Seed a BFS queue with start and path list. Pop, expand neighbors4 skipping
+    blocked cells, return the first path that reaches the goal. If the queue empties,
+    return None. Shortest cell hop count wins.
+- type: image
+  title: Breadth-first
+  image: assets/steps/01-bfs.png
+  caption: Breadth-first
+  notes: Lee expands uniformly—first arrival is shortest hop count.
+- type: image
+  title: Around macro
+  image: assets/steps/02-detour.png
+  caption: Around macro
+  notes: Path (4,1)→(7,1) detours below blockage.
+- type: image
+  title: Route Lee
+  image: assets/steps/03-lee.png
+  caption: Route Lee
+  notes: Sequential Lee assigns layers per step.
+- type: image
+  title: vs layered
+  image: assets/steps/04-compare.png
+  caption: vs layered
+  notes: Lee may differ from L overflow totals.
+- type: image
+  title: When to maze
+  image: assets/steps/05-use.png
+  caption: When to maze
+  notes: Use maze when pattern routes hit blockages or hot tracks.
+- type: image
+  title: Browser lab track
+  image: assets/lab-starter.png
+  caption: Browser lab starter
+  notes: Open **lee-maze**. Route from four comma one to seven comma one with the
+    blockage at five comma two visible. Watch maze pick a longer detour above or below
+    the blocked rectangle.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Implement `lee_maze(start, goal, blocked, nx, ny)`
+  - Block cells inside five comma two two by two and show the path avoids them
+  - Match the browser overlay
+  notes: Implement `lee_maze(start, goal, blocked, nx, ny)`. Block cells inside five
+    comma two two by two and show the path avoids them. Match the browser overlay.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Treating blockages as track usage instead of forbidden cells
+  - Forgetting BFS needs visited on cells not edges
+  - Returning a path through a blocked cell because neighbor checks were skipped
+  notes: Treating blockages as track usage instead of forbidden cells. Forgetting
+    BFS needs visited on cells not edges. Returning a path through a blocked cell
+    because neighbor checks were skipped.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Pass Lee maze goldens
+  - 'Next: A* routing that respects track capacity'
+  notes: 'Pass Lee maze goldens. Next: A* routing that respects track capacity.'

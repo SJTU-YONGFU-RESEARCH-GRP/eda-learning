@@ -179,6 +179,25 @@ COURSE_META = {
         "first_lab": "routing-graph",
         "first_n": "02",
     },
+    "learn_routing": {
+        "title": "Detailed routing for EDA",
+        "focus": "Grid graph → pin access → Lee maze → A* → track usage → vias → DRC lite → rip-up → sequential detailed",
+        "prereq": None,
+        "status": "ready",
+        "repo": "learn_routing",
+        "modules_md": ROOT / "courses" / "learn_routing" / "docs" / "MODULES.md",
+        "course_root": ROOT / "courses" / "learn_routing",
+        "lead": (
+            "Detailed routing on a tiny 12×8 grid — layered M1/M2 tracks, maze/A* detours, overflow you can trust. "
+            "Clips and decks load from "
+            "<code>courses/learn_routing</code> "
+            "(<code>moduleSS-AA-slug/video.mp4</code>). Open the matching browser tool, then mark the lab done."
+        ),
+        "tools_href": "../../tools/index.html#detailed-routing",
+        "tools_label": "Detailed routing tools",
+        "first_lab": "routing-grid",
+        "first_n": "02",
+    },
 }
 
 COURSE_INDEX = """<!DOCTYPE html>

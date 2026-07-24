@@ -29,6 +29,11 @@
       "section": "Static timing analysis"
     },
     {
+      "id": "astar-route",
+      "title": "Astar Route",
+      "section": "Clustering & refinement"
+    },
+    {
       "id": "bstar-tree",
       "title": "Bstar Tree",
       "section": "Floorplanning"
@@ -77,6 +82,11 @@
       "id": "displacement-hpwl",
       "title": "Displacement Hpwl",
       "section": "Legalization"
+    },
+    {
+      "id": "drc-spacing",
+      "title": "Drc Spacing",
+      "section": "Clustering & refinement"
     },
     {
       "id": "edge-overflow",
@@ -174,6 +184,11 @@
       "section": "Clustering & refinement"
     },
     {
+      "id": "lee-maze",
+      "title": "Lee Maze",
+      "section": "Clustering & refinement"
+    },
+    {
       "id": "legality-metrics",
       "title": "Legality Metrics",
       "section": "Legalization"
@@ -239,6 +254,11 @@
       "section": "Clustering & refinement"
     },
     {
+      "id": "pin-access",
+      "title": "Pin Access",
+      "section": "Clustering & refinement"
+    },
+    {
       "id": "pin-assignment",
       "title": "Pin Assignment",
       "section": "Floorplanning"
@@ -264,6 +284,11 @@
       "section": "Partitioning"
     },
     {
+      "id": "ripup-detailed",
+      "title": "Ripup Detailed",
+      "section": "Clustering & refinement"
+    },
+    {
       "id": "ripup-reroute",
       "title": "Ripup Reroute",
       "section": "Clustering & refinement"
@@ -271,6 +296,11 @@
     {
       "id": "routing-graph",
       "title": "Routing Graph",
+      "section": "Clustering & refinement"
+    },
+    {
+      "id": "routing-grid",
+      "title": "Routing Grid",
       "section": "Clustering & refinement"
     },
     {
@@ -287,6 +317,11 @@
       "id": "sequence-pair",
       "title": "Sequence Pair",
       "section": "Floorplanning"
+    },
+    {
+      "id": "sequential-detailed",
+      "title": "Sequential Detailed",
+      "section": "Clustering & refinement"
     },
     {
       "id": "sequential-global",
@@ -367,6 +402,16 @@
       "id": "timing-graph",
       "title": "Timing Graph",
       "section": "Static timing analysis"
+    },
+    {
+      "id": "track-usage",
+      "title": "Track Usage",
+      "section": "Clustering & refinement"
+    },
+    {
+      "id": "via-assignment",
+      "title": "Via Assignment",
+      "section": "Clustering & refinement"
     }
   ],
   "courses": [
@@ -2006,12 +2051,193 @@
     },
     {
       "id": "learn_routing",
-      "title": "Detailed routing",
-      "focus": "Maze/A*, rip-up & reroute",
-      "status": "planned",
+      "title": "Detailed routing for EDA",
+      "focus": "Grid graph \u2192 pin access \u2192 Lee maze \u2192 A* \u2192 track usage \u2192 vias \u2192 DRC lite \u2192 rip-up \u2192 sequential detailed",
+      "status": "ready",
       "repo": "learn_routing",
       "prereq": null,
-      "labs": []
+      "labs": [
+        {
+          "n": "01",
+          "slug": "intro",
+          "moduleId": "module00-00-intro",
+          "kind": "intro",
+          "title": "Welcome to detailed routing for EDA",
+          "toolId": null,
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "02",
+          "slug": "routing-grid",
+          "moduleId": "module01-01-routing-grid",
+          "kind": "lab",
+          "title": "Routing grid graph",
+          "toolId": "routing-grid",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "03",
+          "slug": "pin-access",
+          "moduleId": "module01-03-pin-access",
+          "kind": "lab",
+          "title": "Pin access points",
+          "toolId": "pin-access",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "04",
+          "slug": "lee-maze",
+          "moduleId": "module02-01-lee-maze",
+          "kind": "lab",
+          "title": "Lee maze routing",
+          "toolId": "lee-maze",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "05",
+          "slug": "astar-route",
+          "moduleId": "module02-03-astar-route",
+          "kind": "lab",
+          "title": "A* detailed routing",
+          "toolId": "astar-route",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "06",
+          "slug": "track-usage",
+          "moduleId": "module02-05-track-usage",
+          "kind": "lab",
+          "title": "Track usage and capacity",
+          "toolId": "track-usage",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "07",
+          "slug": "via-assignment",
+          "moduleId": "module02-07-via-assignment",
+          "kind": "lab",
+          "title": "Via assignment (2-layer)",
+          "toolId": "via-assignment",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "08",
+          "slug": "drc-spacing",
+          "moduleId": "module03-01-drc-spacing",
+          "kind": "lab",
+          "title": "DRC spacing lite",
+          "toolId": "drc-spacing",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "09",
+          "slug": "ripup-detailed",
+          "moduleId": "module03-03-ripup-detailed",
+          "kind": "lab",
+          "title": "Rip-up and reroute (detailed)",
+          "toolId": "ripup-detailed",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "10",
+          "slug": "sequential-detailed",
+          "moduleId": "module04-01-sequential-detailed",
+          "kind": "lab",
+          "title": "Sequential detailed route",
+          "toolId": "sequential-detailed",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "11",
+          "slug": "offline-benchmark-compare",
+          "moduleId": "module05-01-offline-benchmark-compare",
+          "kind": "offline",
+          "title": "Offline benchmark compare",
+          "toolId": null,
+          "status": "planned",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "12",
+          "slug": "wrap",
+          "moduleId": "module99-00-wrap",
+          "kind": "wrap",
+          "title": "Detailed routing path complete",
+          "toolId": null,
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        }
+      ]
     },
     {
       "id": "learn_compaction",

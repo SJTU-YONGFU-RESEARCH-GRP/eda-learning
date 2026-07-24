@@ -1,0 +1,38 @@
+[
+  {
+    "id": "drc-spacing-q1",
+    "type": "mcq",
+    "prompt": "DRC spacing lite checks\u2026",
+    "choices": [
+      "Same-layer parallel segments too close",
+      "Only via enclosure",
+      "Only power straps",
+      "Scan chain order"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "drc-spacing-q2",
+    "type": "mcq",
+    "prompt": "Parallel M1 segments one track apart with min_dist=1\u2026",
+    "choices": [
+      "Fail spacing",
+      "Always pass",
+      "Require a via",
+      "Skip DRC"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "drc-spacing-q3",
+    "type": "mcq",
+    "prompt": "Production DRC is heavier; this lab teaches\u2026",
+    "choices": [
+      "The idea of geometric spacing rules",
+      "Foundry tape-out signoff only",
+      "Nothing useful",
+      "Only global routing"
+    ],
+    "answer": 0
+  }
+]

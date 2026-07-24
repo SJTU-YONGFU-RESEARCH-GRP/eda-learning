@@ -1,0 +1,38 @@
+[
+  {
+    "id": "track-usage-q1",
+    "type": "mcq",
+    "prompt": "Track overflow on one directed edge is\u2026",
+    "choices": [
+      "max(0, usage \u2212 capacity)",
+      "usage \u00d7 capacity",
+      "HPWL only",
+      "Always zero"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "track-usage-q2",
+    "type": "mcq",
+    "prompt": "path_track_usage converts segments to\u2026",
+    "choices": [
+      "Directed M1/M2 edge counts",
+      "Only via locations",
+      "GCell demand",
+      "Liberty tables"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "track-usage-q3",
+    "type": "mcq",
+    "prompt": "Sequential L-HV at Cap=1 on tiny_dr should\u2026",
+    "choices": [
+      "Produce positive total track overflow",
+      "Always be zero overflow",
+      "Skip track counting",
+      "Only count vias"
+    ],
+    "answer": 0
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "via-assignment-q1",
+    "type": "mcq",
+    "prompt": "An L-route with prefer=HV walks horizontal on\u2026",
+    "choices": [
+      "M1 first, then vertical on M2",
+      "M2 only",
+      "Diagonals",
+      "Random layers"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "via-assignment-q2",
+    "type": "mcq",
+    "prompt": "A layer change at the bend is marked with\u2026",
+    "choices": [
+      "via=True on the segment",
+      "A new net name",
+      "DRC waiver",
+      "Scan bit"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "via-assignment-q3",
+    "type": "mcq",
+    "prompt": "Two-layer via assignment teaches\u2026",
+    "choices": [
+      "How detailed routers connect M1 and M2",
+      "Clock-tree buffering",
+      "Power-grid synthesis only",
+      "Abacus packing"
+    ],
+    "answer": 0
+  }
+]

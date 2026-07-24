@@ -1,0 +1,38 @@
+[
+  {
+    "id": "intro-q1",
+    "type": "mcq",
+    "prompt": "Detailed routing typically sits\u2026",
+    "choices": [
+      "After global routing, before compaction or signoff polish",
+      "Before synthesis",
+      "Only inside SPICE",
+      "Instead of placement"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "intro-q2",
+    "type": "mcq",
+    "prompt": "Track B in this course means\u2026",
+    "choices": [
+      "Browser lab challenges on the platform",
+      "Vendor GUI certification",
+      "Only PDF reading",
+      "FPGA bitstream gen"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "intro-q3",
+    "type": "mcq",
+    "prompt": "Detailed routes deposit usage on\u2026",
+    "choices": [
+      "Directed M1/M2 track edges",
+      "Only cell widths",
+      "Scan flops",
+      "Liberty arcs"
+    ],
+    "answer": 0
+  }
+]

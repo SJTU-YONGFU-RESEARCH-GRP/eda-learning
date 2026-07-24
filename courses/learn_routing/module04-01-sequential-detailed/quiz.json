@@ -1,0 +1,38 @@
+[
+  {
+    "id": "sequential-detailed-q1",
+    "type": "mcq",
+    "prompt": "Sequential detailed routing processes nets\u2026",
+    "choices": [
+      "In a fixed order, depositing on shared tracks",
+      "All in parallel with no sharing",
+      "Only before placement",
+      "Only after compaction"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "sequential-detailed-q2",
+    "type": "mcq",
+    "prompt": "route mode astar means\u2026",
+    "choices": [
+      "Congestion-aware A* for two-pin nets",
+      "GCell maze only",
+      "Skip multi-pin nets",
+      "Ignore blockages"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "sequential-detailed-q3",
+    "type": "mcq",
+    "prompt": "Order sensitivity means\u2026",
+    "choices": [
+      "Later nets see congested tracks from earlier nets",
+      "Order never matters",
+      "Only one net routes",
+      "Capacity is ignored"
+    ],
+    "answer": 0
+  }
+]

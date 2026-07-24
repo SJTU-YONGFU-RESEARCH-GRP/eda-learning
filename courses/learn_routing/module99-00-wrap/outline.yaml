@@ -1,0 +1,45 @@
+title: You can now
+footer: learn_routing — 00 wrap
+slides:
+- type: title
+  title: You can now
+  subtitle: Run sequential detailed routing on tiny_dr
+  notes: You can build a track graph, assign pin access, route with Lee and A*, deposit
+    track usage, assign vias on L paths, check spacing lite, rip up congested nets,
+    and run sequential detailed routing on tiny_dr.
+- type: bullets
+  title: Dual-track recap
+  bullets:
+  - If you stayed in the browser, implement astar_route and track_overflow once in
+    Python
+  - If you stayed in Track A, skim the track heat-map lab so colors match your usage
+    dict
+  notes: If you stayed in the browser, implement astar_route and track_overflow once
+    in Python. If you stayed in Track A, skim the track heat-map lab so colors match
+    your usage dict.
+- type: bullets
+  title: Pitfalls to remember
+  bullets:
+  - Directed track keys, layer-aware moves, sequential order effects
+  notes: Directed track keys, layer-aware moves, sequential order effects, and never
+    treating reveal golden as the solve path.
+- type: bullets
+  title: Next
+  bullets:
+  - Complete the quiz for this part
+  - Natural next steps are learn_compaction for post-route cleanup
+  notes: Natural next steps are learn_compaction for post-route cleanup—or learn_pattern_matching
+    if you continue the PD spine toward lithography-friendly patterns.
+- type: bullets
+  title: Checklist
+  bullets:
+  - Name three algorithms and one strength each
+  - Say which idea you reach for when sequential L overflows
+  - Pick your next course README
+  notes: Name three algorithms and one strength each. Say which idea you reach for
+    when sequential L overflows. Pick your next course README.
+- type: bullets
+  title: Close
+  bullets:
+  - When you are ready, take the short quiz, then open the next course
+  notes: When you are ready, take the short quiz, then open the next course.

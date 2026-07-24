@@ -1,0 +1,78 @@
+title: Relieve track hotspots
+footer: learn_routing — 03 ripup detailed
+slides:
+- type: title
+  title: Relieve track hotspots
+  subtitle: When track overflow appears, detailed routers rip up contributing nets
+    and reroute around congested tracks
+  notes: When track overflow appears, detailed routers rip up contributing nets and
+    reroute around congested tracks. Our toy pass picks the net whose route contributes
+    the most overflow, removes its usage, then A*-reroutes.
+- type: bullets
+  title: The idea
+  bullets:
+  - Score each net by track overflow on its segments
+  - Subtract its route from usage
+  - Run astar_route between its pins with the remaining usage map
+  - Add the new segment track usage back
+  - Total overflow should not rise; ideally it drops versus the pre-rip state
+  notes: Score each net by track overflow on its segments. Subtract its route from
+    usage. Run astar_route between its pins with the remaining usage map. Add the
+    new segment track usage back. Total overflow should not rise; ideally it drops
+    versus the pre-rip state.
+- type: image
+  title: Sequential first
+  image: assets/steps/01-seq.png
+  caption: Sequential first
+  notes: Route layered; tracks exceed Cap.
+- type: image
+  title: Pick hot net
+  image: assets/steps/02-pick.png
+  caption: Pick hot net
+  notes: Find net with worst overflow contribution.
+- type: image
+  title: Rip segments
+  image: assets/steps/03-rip.png
+  caption: Rip segments
+  notes: Subtract ripped net from track usage.
+- type: image
+  title: A* reroute
+  image: assets/steps/04-astar-r.png
+  caption: A* reroute
+  notes: Reroute ripped net with A* on updated usage.
+- type: image
+  title: Iterate
+  image: assets/steps/05-loop.png
+  caption: Iterate
+  notes: Real detailed routers loop route→DRC→rip until clean.
+- type: image
+  title: Browser lab track
+  image: assets/lab-starter.png
+  caption: Browser lab starter
+  notes: Open **ripup-detailed**. Run sequential L to create overflow, then one rip-up
+    pass. Watch total overflow fall on the metrics panel.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Implement `ripup_detailed(routes, usage, cap, terminals_map, nets, nx, ny, blocks)`
+  - Assert total overflow after is less than or equal to before on tiny_dr sequential
+    L seed
+  notes: Implement `ripup_detailed(routes, usage, cap, terminals_map, nets, nx, ny,
+    blocks)`. Assert total overflow after is less than or equal to before on tiny_dr
+    sequential L seed.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Ripping a net but leaving ghost usage on its old tracks
+  - Rerouting with pattern L through the same hot track
+  - Picking the wrong net to rip, use overflow contribution not HPWL
+  notes: Ripping a net but leaving ghost usage on its old tracks. Rerouting with pattern
+    L through the same hot track. Picking the wrong net to rip—use overflow contribution
+    not HPWL.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Clear rip-up challenges
+  - 'Next: tie it together with full sequential detailed routing'
+  notes: 'Clear rip-up challenges. Next: tie it together with full sequential detailed
+    routing.'

@@ -1,0 +1,32 @@
+{
+  "chip": {"W": 12, "H": 8},
+  "grid": {"nx": 12, "ny": 8},
+  "track_capacity": 1,
+  "layers": ["M1", "M2"],
+  "cells": [
+    {"id": "A", "width": 2},
+    {"id": "B", "width": 2},
+    {"id": "C", "width": 2},
+    {"id": "D", "width": 2},
+    {"id": "E", "width": 1},
+    {"id": "F", "width": 1}
+  ],
+  "nets": [
+    ["A", "B"],
+    ["C", "D"],
+    ["A", "C"],
+    ["B", "D"],
+    ["A", "B", "C", "D"],
+    ["E", "F"]
+  ],
+  "placement": {
+    "A": {"x": 1, "y": 1},
+    "B": {"x": 8, "y": 1},
+    "C": {"x": 1, "y": 5},
+    "D": {"x": 8, "y": 5},
+    "E": {"x": 5, "y": 3},
+    "F": {"x": 6, "y": 3}
+  },
+  "blockages": [{"x": 5, "y": 2, "w": 2, "h": 2}],
+  "notes": "12×8 grid. M1=horizontal edges, M2=vertical. Via at (x,y) connects layers. track_capacity=1 per directed edge."
+}

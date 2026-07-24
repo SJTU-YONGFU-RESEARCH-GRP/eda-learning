@@ -1,0 +1,80 @@
+title: Why a track graph
+footer: learn_routing — 01 routing grid
+slides:
+- type: title
+  title: Why a track graph
+  subtitle: Detailed routers do not hop GCell to GCell
+  notes: 'Detailed routers do not hop GCell to GCell. They walk a fine grid whose
+    edges are directed tracks: M1 horizontal and M2 vertical. Before any maze or A*
+    route, you must enumerate those tracks on our twelve-by-eight toy grid.'
+- type: bullets
+  title: The idea
+  bullets:
+  - A directed M2 edge upward when y plus one is less than ny
+  - Canonical keys sort endpoints so left-to-right and bottom-to-top always win
+  - On twelve by eight you get eighty-eight M1 edges and eighty-four M2 edges
+  notes: For each grid point at column x and row y, add a directed M1 edge to the
+    right neighbor when x plus one is less than nx, and a directed M2 edge upward
+    when y plus one is less than ny. Canonical keys sort endpoints so left-to-right
+    and bottom-to-top always win. On twelve by eight you get eighty-eight M1 edges
+    and eighty-four M2 edges.
+- type: image
+  title: 12×8 grid
+  image: assets/steps/01-grid.png
+  caption: 12×8 grid
+  notes: Detailed routes walk grid points; M1 horizontal, M2 vertical.
+- type: image
+  title: Two layers
+  image: assets/steps/02-layers.png
+  caption: Two layers
+  notes: Horizontal moves on M1; vertical on M2; via switches at grid point.
+- type: image
+  title: Blockage
+  image: assets/steps/03-block.png
+  caption: Blockage
+  notes: Cells (5–6, 2–3) are blocked—maze must detour.
+- type: image
+  title: Neighbors
+  image: assets/steps/04-neigh.png
+  caption: Neighbors
+  notes: Free grid points have up to four neighbors.
+- type: image
+  title: Capacity
+  image: assets/steps/05-cap.png
+  caption: Capacity
+  notes: Track usage vs capacity drives overflow and rip-up.
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - Open the **routing-grid** lab
+  - Toggle layer M1 and M2 overlays
+  - Highlight one horizontal track between columns one and two on row one
+  - Read the track list in the metrics panel and match the counts
+  notes: Open the **routing-grid** lab. Toggle layer M1 and M2 overlays. Highlight
+    one horizontal track between columns one and two on row one. Read the track list
+    in the metrics panel and match the counts.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Inspect `h_edge`, `v_edge`, and `track_key` in `common/drutil.py`
+  - Print sample M1 and M2 keys for tiny_dr
+  - Verify diagonals are absent and layers match movement axis
+  notes: Inspect `h_edge`, `v_edge`, and `track_key` in `common/drutil.py`. Print
+    sample M1 and M2 keys for tiny_dr. Verify diagonals are absent and layers match
+    movement axis.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Counting grid points instead of directed tracks
+  - Treating M1 and M2 as interchangeable
+  - Forgetting blockages still occupy cells even if tracks exist between free neighbors
+  notes: Counting grid points instead of directed tracks. Treating M1 and M2 as interchangeable.
+    Forgetting blockages still occupy cells even if tracks exist between free neighbors.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Finish the checklist
+  - Sketch M1 on one row from memory
+  - 'Next: map pin placements to access points on the grid'
+  notes: 'Finish the checklist. Sketch M1 on one row from memory. Next: map pin placements
+    to access points on the grid.'

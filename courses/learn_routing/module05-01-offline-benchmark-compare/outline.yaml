@@ -1,0 +1,44 @@
+title: Why compare
+footer: learn_routing — 01 offline benchmark compare
+slides:
+- type: title
+  title: Why compare
+  subtitle: 'Toy detailed routers need a harness: same JSON in, track overflow and
+    runtime out'
+  notes: 'Toy detailed routers need a harness: same JSON in, track overflow and runtime
+    out. Comparing Lee, L-layer, A*, and rip-up teaches what better means beyond a
+    pretty heat map.'
+- type: bullets
+  title: The idea
+  bullets:
+  - Fix tiny_dr
+  - Run sequential L-HV, Lee mode, A* mode, and one rip-up pass
+  - Record total overflow, max overflow, wall time
+  - Optionally compare to a reference router
+  - Write one discrepancy hypothesis
+  notes: Fix tiny_dr. Run sequential L-HV, Lee mode, A* mode, and one rip-up pass.
+    Record total overflow, max overflow, wall time. Optionally compare to a reference
+    router. Write one discrepancy hypothesis.
+- type: bullets
+  title: Harness shape
+  bullets:
+  - A small Python driver loading tiny_dr.json is enough
+  - Print a markdown table
+  - Missing external tools are OK, document blockers and still validate I/O
+  notes: A small Python driver loading tiny_dr.json is enough. Print a markdown table.
+    Missing external tools are OK—document blockers and still validate I/O.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Changing track_capacity between rows
+  - Comparing incompatible route modes without labeling
+  - Optimizing runtime before correctness
+  notes: Changing track_capacity between rows. Comparing incompatible route modes
+    without labeling. Optimizing runtime before correctness.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Fill one comparison table for Lee versus A* versus rip-up
+  - Then open the wrap
+  notes: Fill one comparison table for Lee versus A* versus rip-up. Then open the
+    wrap.

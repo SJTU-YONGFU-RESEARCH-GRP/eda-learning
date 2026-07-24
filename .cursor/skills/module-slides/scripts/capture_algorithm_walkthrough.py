@@ -106,6 +106,15 @@ LAB_TO_ALGO: dict[str, tuple[str, int]] = {
     "edge-overflow": ("edge-overflow", 5),
     "ripup-reroute": ("ripup-reroute", 5),
     "sequential-global": ("sequential-global", 5),
+    "routing-grid": ("routing-grid", 5),
+    "pin-access": ("pin-access", 5),
+    "lee-maze": ("lee-maze", 5),
+    "astar-route": ("astar-route", 5),
+    "track-usage": ("track-usage", 5),
+    "via-assignment": ("via-assignment", 5),
+    "drc-spacing": ("drc-spacing", 5),
+    "ripup-detailed": ("ripup-detailed", 5),
+    "sequential-detailed": ("sequential-detailed", 5),
 }
 
 BEGIN_MARK = "<!-- algorithm-walkthrough -->"

@@ -1,0 +1,11 @@
+file '/mnt/d/proj/designs/eda_learning/courses/learn_routing/module05-01-offline-benchmark-compare/frames/slide-1.png'
+duration 12.6
+file '/mnt/d/proj/designs/eda_learning/courses/learn_routing/module05-01-offline-benchmark-compare/frames/slide-2.png'
+duration 18.576
+file '/mnt/d/proj/designs/eda_learning/courses/learn_routing/module05-01-offline-benchmark-compare/frames/slide-3.png'
+duration 12.672
+file '/mnt/d/proj/designs/eda_learning/courses/learn_routing/module05-01-offline-benchmark-compare/frames/slide-4.png'
+duration 10.368
+file '/mnt/d/proj/designs/eda_learning/courses/learn_routing/module05-01-offline-benchmark-compare/frames/slide-5.png'
+duration 6.6
+file '/mnt/d/proj/designs/eda_learning/courses/learn_routing/module05-01-offline-benchmark-compare/frames/slide-5.png'

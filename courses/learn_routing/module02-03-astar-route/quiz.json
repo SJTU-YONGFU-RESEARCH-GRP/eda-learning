@@ -1,0 +1,38 @@
+[
+  {
+    "id": "astar-route-q1",
+    "type": "mcq",
+    "prompt": "Our A* router penalizes tracks where\u2026",
+    "choices": [
+      "usage \u2265 capacity",
+      "usage = 0",
+      "pins align",
+      "HPWL = 0"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "astar-route-q2",
+    "type": "mcq",
+    "prompt": "A* uses Manhattan distance as\u2026",
+    "choices": [
+      "Heuristic h toward the goal",
+      "DRC spacing rule",
+      "Via count only",
+      "Power IR drop"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "astar-route-q3",
+    "type": "mcq",
+    "prompt": "Horizontal steps in A* use layer\u2026",
+    "choices": [
+      "M1",
+      "M2",
+      "M3 always",
+      "No layer"
+    ],
+    "answer": 0
+  }
+]

@@ -1,0 +1,78 @@
+title: Pins need grid access
+footer: learn_routing — 03 pin access
+slides:
+- type: title
+  title: Pins need grid access
+  subtitle: A detailed route starts and ends at grid access points, integer cells
+    the router can reach
+  notes: A detailed route starts and ends at grid access points—integer cells the
+    router can reach. Legal placement gives you x y coordinates; this module converts
+    them with round-and-clamp and nudges off blockages when needed.
+- type: bullets
+  title: The idea
+  bullets:
+  - Pin_grid of x y returns column gx equals round of x clamped zero to nx minus one
+  - Cell A at one comma one maps to one comma one
+  - Cell E at five comma three sits near the blockage at five comma two
+  notes: pin_grid of x y returns column gx equals round of x clamped zero to nx minus
+    one, and row gy likewise. Cell A at one comma one maps to one comma one. Cell
+    E at five comma three sits near the blockage at five comma two; nudge to a free
+    neighbor if the pin lands inside the blocked rectangle.
+- type: image
+  title: Pin → grid
+  image: assets/steps/01-map.png
+  caption: Pin → grid
+  notes: Cell centers round to grid indices.
+- type: image
+  title: A → (1,1)
+  image: assets/steps/02-a11.png
+  caption: A → (1,1)
+  notes: Spread A lands on grid (1,1).
+- type: image
+  title: D → (8,5)
+  image: assets/steps/03-d85.png
+  caption: D → (8,5)
+  notes: D at (8,5) top row.
+- type: image
+  title: Blocked pins
+  image: assets/steps/04-nudge.png
+  caption: Blocked pins
+  notes: E/F on blockage nudge to nearest free neighbor.
+- type: image
+  title: Routes from pins
+  image: assets/steps/05-route.png
+  caption: Routes from pins
+  notes: Sequential routes start/end at terminal grid points.
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - Open **pin-access**
+  - Hover each cell and read its access grid point
+  - Move a pin across the blockage boundary and watch the access index shift
+  - Confirm all six cells on tiny_dr match your Track A printout
+  notes: Open **pin-access**. Hover each cell and read its access grid point. Move
+    a pin across the blockage boundary and watch the access index shift. Confirm all
+    six cells on tiny_dr match your Track A printout.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Implement or call `terminals(positions, data)` in `common/drutil.py`
+  - Assert A through F on spread placement
+  - Print access points before any routing lab
+  notes: Implement or call `terminals(positions, data)` in `common/drutil.py`. Assert
+    A through F on spread placement. Print access points before any routing lab.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Using GCell floor divide from global routing instead of per-grid rounding
+  - Off-by-one at the chip edge without clamp
+  - Ignoring blockages when assigning access
+  notes: Using GCell floor divide from global routing instead of per-grid rounding.
+    Off-by-one at the chip edge without clamp. Ignoring blockages when assigning access.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Complete access points for all six cells
+  - 'Next: Lee maze routing around the central blockage'
+  notes: 'Complete access points for all six cells. Next: Lee maze routing around
+    the central blockage.'

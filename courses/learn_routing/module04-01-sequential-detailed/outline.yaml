@@ -1,0 +1,72 @@
+title: Order matters on tracks
+footer: learn_routing — 01 sequential detailed
+slides:
+- type: title
+  title: Order matters on tracks
+  subtitle: Production detailed routers process nets in an order
+  notes: Production detailed routers process nets in an order. Each net deposits usage
+    on directed tracks; later nets see a more congested grid. Sequential L-HV on tiny_dr
+    is our baseline stress test; A* mode shows congestion-aware ordering effects.
+- type: bullets
+  title: The idea
+  bullets:
+  - Initialize empty usage
+  - Increment usage on every track key in the route
+  - Report final usage and track_overflow summary
+  notes: Initialize empty usage. For each net in list order, compute terminals, route
+    with the chosen mode—l_hv for layer L, lee for cell maze, astar for congestion-aware—and
+    increment usage on every track key in the route. Report final usage and track_overflow
+    summary.
+- type: image
+  title: Net order
+  image: assets/steps/01-order.png
+  caption: Net order
+  notes: Route nets 0..5 in order; later nets see earlier usage.
+- type: image
+  title: Layered pass
+  image: assets/steps/02-layer-all.png
+  caption: Layered pass
+  notes: Layered L all nets documents baseline overflow.
+- type: image
+  title: Lee pass
+  image: assets/steps/03-lee-all.png
+  caption: Lee pass
+  notes: Sequential Lee may redistribute usage.
+- type: image
+  title: Clear overflow
+  image: assets/steps/04-clear.png
+  caption: Clear overflow
+  notes: 'Goal: total overflow 0 after A* or moves.'
+- type: image
+  title: Handoff
+  image: assets/steps/05-done.png
+  caption: Handoff
+  notes: Detailed routing feeds signoff DRC and extraction.
+- type: image
+  title: Browser lab track
+  image: assets/lab-starter.png
+  caption: Browser lab starter
+  notes: 'Open **sequential-detailed**. Route all nets in default order. Reorder mentally:
+    would routing the four-pin net last change the hottest track?'
+- type: bullets
+  title: Implement track
+  bullets:
+  - Implement `sequential_detailed` and `route_from_data`
+  - Print usage and overflow after routing all six nets
+  - Compare astar mode with l_hv on total overflow
+  notes: Implement `sequential_detailed` and `route_from_data`. Print usage and overflow
+    after routing all six nets. Compare astar mode with l_hv on total overflow.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Parallel deposit without order, hides rip-up motivation
+  - Ignoring multi-pin net in order list
+  - Resetting usage between nets accidentally
+  notes: Parallel deposit without order— hides rip-up motivation. Ignoring multi-pin
+    net in order list. Resetting usage between nets accidentally.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Complete sequential detailed routing
+  - Offline compare and wrap come next
+  notes: Complete sequential detailed routing. Offline compare and wrap come next.

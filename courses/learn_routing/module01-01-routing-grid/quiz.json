@@ -1,0 +1,38 @@
+[
+  {
+    "id": "routing-grid-q1",
+    "type": "mcq",
+    "prompt": "On our toy grid M1 tracks run\u2026",
+    "choices": [
+      "Horizontally (left\u2013right)",
+      "Vertically only",
+      "Diagonally",
+      "Only inside vias"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "routing-grid-q2",
+    "type": "mcq",
+    "prompt": "A 12\u00d78 routing grid has how many M1 horizontal directed edges?",
+    "choices": [
+      "11\u00d78 = 88",
+      "12\u00d78 = 96",
+      "12\u00d77 = 84",
+      "11\u00d77 = 77"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "routing-grid-q3",
+    "type": "mcq",
+    "prompt": "Detailed routes deposit usage on\u2026",
+    "choices": [
+      "Directed track edges (M1 or M2)",
+      "GCell coarse edges only",
+      "Liberty arcs",
+      "Scan chain flops"
+    ],
+    "answer": 0
+  }
+]

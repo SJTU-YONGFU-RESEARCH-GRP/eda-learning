@@ -1,0 +1,73 @@
+title: Layer changes at bends
+footer: learn_routing — 07 via assignment
+slides:
+- type: title
+  title: Layer changes at bends
+  subtitle: Real detailed routes switch between M1 and M2 at vias
+  notes: Real detailed routes switch between M1 and M2 at vias. Our L-route with layers
+    walks horizontal on M1 and vertical on M2—or the VH variant—and marks via equals
+    true at the bend cell.
+- type: bullets
+  title: The idea
+  bullets:
+  - Given start and goal
+  - L_route_layers returns segment dicts with x y layer and optional via flag
+  - A path from one comma one to five comma four in HV includes at least one via
+  notes: Given start and goal, prefer HV walks horizontal on M1 to align columns,
+    inserts a via segment at the bend, then walks vertical on M2. l_route_layers returns
+    segment dicts with x y layer and optional via flag. A path from one comma one
+    to five comma four in HV includes at least one via.
+- type: image
+  title: L-bend via
+  image: assets/steps/01-bend.png
+  caption: L-bend via
+  notes: Layered L places a via at the corner to switch M1→M2.
+- type: image
+  title: A–C example
+  image: assets/steps/02-ab.png
+  caption: A–C example
+  notes: Spread A–C layered path uses M1 then M2 with via.
+- type: image
+  title: Canvas vias
+  image: assets/steps/03-draw.png
+  caption: Canvas vias
+  notes: Walkthrough marks via points on the grid.
+- type: image
+  title: Multi-pin
+  image: assets/steps/04-multi.png
+  caption: Multi-pin
+  notes: Four-pin net concatenates L legs—multiple vias possible.
+- type: image
+  title: Spacing next
+  image: assets/steps/05-drc.png
+  caption: Spacing next
+  notes: Vias do not replace DRC spacing checks.
+- type: image
+  title: Browser lab track
+  image: assets/lab-starter.png
+  caption: Browser lab starter
+  notes: Open **via-assignment**. Route A to B with HV and read via markers in the
+    segment list. Toggle VH on the same pair and compare the bend cell and layers.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Implement `l_route_layers(a, b, prefer)`
+  - Route net A–B on tiny_dr and print segments with via flags
+  - Match the browser overlay
+  notes: Implement `l_route_layers(a, b, prefer)`. Route net A–B on tiny_dr and print
+    segments with via flags. Match the browser overlay.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Skipping the via marker at the bend
+  - Putting horizontal motion on M2 or vertical on M1
+  - Forgetting the final segment must land on the goal coordinates
+  notes: Skipping the via marker at the bend. Putting horizontal motion on M2 or vertical
+    on M1. Forgetting the final segment must land on the goal coordinates.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Ship Track A layer routes with vias
+  - 'Next: DRC spacing lite on parallel tracks'
+  notes: 'Ship Track A layer routes with vias. Next: DRC spacing lite on parallel
+    tracks.'

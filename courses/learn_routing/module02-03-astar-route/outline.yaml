@@ -1,0 +1,76 @@
+title: Congestion-aware search
+footer: learn_routing — 03 astar route
+slides:
+- type: title
+  title: Congestion-aware search
+  subtitle: Lee ignores other nets
+  notes: Lee ignores other nets. Production detailed routers penalize hot tracks.
+    Our A* adds a heavy step cost when usage is already at capacity so routes detour
+    around congested M1 or M2 edges.
+- type: bullets
+  title: The idea
+  bullets:
+  - Maintain open heap ordered by f equals g plus Manhattan distance to goal
+  - Expand four neighbors on M1 for horizontal steps and M2 for vertical
+  - Step cost is one plus ten times overflow penalty when usage meets capacity
+  - First time you pop the goal, return the path
+  notes: Maintain open heap ordered by f equals g plus Manhattan distance to goal.
+    Expand four neighbors on M1 for horizontal steps and M2 for vertical. Step cost
+    is one plus ten times overflow penalty when usage meets capacity. First time you
+    pop the goal, return the path.
+- type: image
+  title: Track cost
+  image: assets/steps/01-cost.png
+  caption: Track cost
+  notes: A* adds penalty when usage ≥ capacity.
+- type: image
+  title: Layered overflow
+  image: assets/steps/02-l-ov.png
+  caption: Layered overflow
+  notes: Layered L-HV on spread overflows shared tracks.
+- type: image
+  title: Route A*
+  image: assets/steps/03-astar.png
+  caption: Route A*
+  notes: Sequential A* considers current usage.
+- type: image
+  title: Compare totals
+  image: assets/steps/04-compare.png
+  caption: Compare totals
+  notes: A* may clear overflow on the toy spread.
+- type: image
+  title: Move pins
+  image: assets/steps/05-move.png
+  caption: Move pins
+  notes: Moving cells changes pin grid and paths.
+- type: image
+  title: Browser lab track
+  image: assets/lab-starter.png
+  caption: Browser lab starter
+  notes: Open **astar-route**. Pre-fill M1 edge one comma one to two comma one at
+    capacity one and watch A* pick a longer detour. Clear the block and confirm the
+    shortest path returns.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Implement or call `astar_route(start, goal, usage, cap, nx, ny, blocks)`
+  - Block the hot edge and show A* cannot go direct; unblock a vertical detour path
+    exists
+  notes: Implement or call `astar_route(start, goal, usage, cap, nx, ny, blocks)`.
+    Block the hot edge and show A* cannot go direct; unblock a vertical detour path
+    exists.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Using undirected track keys inconsistently
+  - Checking capacity on the wrong layer for a move
+  - Forgetting blockages still forbid cells even when tracks are free
+  notes: Using undirected track keys inconsistently. Checking capacity on the wrong
+    layer for a move. Forgetting blockages still forbid cells even when tracks are
+    free.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Clear A* challenges
+  - 'Next: deposit segments on tracks and measure overflow'
+  notes: 'Clear A* challenges. Next: deposit segments on tracks and measure overflow.'

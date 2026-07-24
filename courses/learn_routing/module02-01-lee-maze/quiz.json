@@ -1,0 +1,38 @@
+[
+  {
+    "id": "lee-maze-q1",
+    "type": "mcq",
+    "prompt": "Lee maze routing uses\u2026",
+    "choices": [
+      "BFS for shortest cell path",
+      "DFS only",
+      "Simulated annealing",
+      "SPICE transient"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "lee-maze-q2",
+    "type": "mcq",
+    "prompt": "Lee maze skips cells that are\u2026",
+    "choices": [
+      "Blocked or in the blockage set",
+      "On M1 only",
+      "Always diagonal",
+      "Outside the netlist"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "lee-maze-q3",
+    "type": "mcq",
+    "prompt": "If no feasible path exists, lee_maze returns\u2026",
+    "choices": [
+      "None",
+      "A random walk",
+      "Negative overflow",
+      "A via stack only"
+    ],
+    "answer": 0
+  }
+]
