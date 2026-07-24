@@ -1,6 +1,52 @@
-# outline — module00-00-intro
-# Regenerated from transcript.md via transcript_to_outline.py
-course: learn_congestion
-module: module00-00-intro
-title: Welcome to congestion for EDA
-slides: []
+title: Congestion in the stack
+footer: learn_congestion — 00 intro
+slides:
+- type: title
+  title: Congestion in the stack
+  subtitle: You placed and legalized cells
+  notes: You placed and legalized cells. Routers still need room in each GCell. This
+    course teaches how to estimate demand, read overflow, and feed congestion back
+    into placement—before you open a full global router.
+- type: two_column
+  title: Two tracks
+  left:
+  - 'Track B is the browser lab: drag cells, watch heat maps, clear challenges'
+  - 'Track A is implement: Python solvers on a tiny JSON instance'
+  - Use either or both
+  - Browser first for intuition is fine
+  right: assets/tools-index.png
+  notes: 'Track B is the browser lab: drag cells, watch heat maps, clear challenges.
+    Track A is implement: Python solvers on a tiny JSON instance. Use either or both.
+    Browser first for intuition is fine.'
+- type: bullets
+  title: Course map
+  bullets:
+  - Foundations cover GCells and capacity
+  - Estimation covers RUDY, probabilistic demand, heat maps, and overflow metrics
+  - Feedback covers inflators, net weights, and one placement loop
+  - Offline compare and wrap close the path
+  notes: Foundations cover GCells and capacity. Estimation covers RUDY, probabilistic
+    demand, heat maps, and overflow metrics. Feedback covers inflators, net weights,
+    and one placement loop. Offline compare and wrap close the path.
+- type: bullets
+  title: Prerequisites
+  bullets:
+  - Finish learn_placement or learn_legalization first so float versus legal coordinates
+  - Density bins from placement are cousins, not the same as routing GCells
+  notes: Finish learn_placement or learn_legalization first so float versus legal
+    coordinates already make sense. Density bins from placement are cousins—not the
+    same as routing GCells.
+- type: bullets
+  title: How to move
+  bullets:
+  - Read each module README
+  - Odd module slots leave room to insert algorithms later without renumbering
+  notes: Read each module README, pick a track, check the checklist, then skim the
+    clip when media is available. Odd module slots leave room to insert algorithms
+    later without renumbering.
+- type: bullets
+  title: Next
+  bullets:
+  - Complete the quiz for this part
+  - Open the GCell grid model and learn the four-by-two tiling by heart
+  notes: Open the GCell grid model and learn the four-by-two tiling by heart.

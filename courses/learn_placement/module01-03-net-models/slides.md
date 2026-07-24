@@ -15,7 +15,33 @@ Multi-pin nets need a model before you optimize
 - Clique overestimates affinity on multi-pin nets
 - Star depends on the hub choice
 - Use one model for the reported objective and say which
-- <!-- algorithm-walkthrough -->
+
+---
+
+## Pseudocode
+- Net models change which edges enter the sum
+- Pseudocode names bbox, clique, and star so reports stay comparable
+- Open this module's examples file and find the Pseudocode section
+- That written sketch is what you implement on the implement track and what the browser
+
+---
+
+## Algorithm sketch
+- On golden ABCD, clique HPWL is sixteen and star from A is eight
+- Mixing models in one table is a metric bug
+
+---
+
+## Algorithm sketch — try these
+
+```
+INPUT: net pins, positions, model
+bbox: one HPWL on all pins
+clique: Σ pairwise HPWL over pin pairs
+star: Σ HPWL(hub, other pins)
+GOLDEN 4-pin ABCD on golden place:
+  clique=16; star from A=8
+```
 
 ---
 
@@ -52,7 +78,7 @@ Multi-pin nets need a model before you optimize
 ---
 
 ## Implement track
-- In the implement track, open this module’s examples and the course `common/` solvers
+- In the implement track
 - Parse `tiny_place.json`, run the algorithm with a deterministic seed
 - Match the browser goldens before you claim the checklist
 

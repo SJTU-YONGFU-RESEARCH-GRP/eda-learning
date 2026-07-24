@@ -6,27 +6,80 @@
 
 ## Slide 1 — Quadratic placement
 
-Placement assigns cell coordinates to cut wirelength while keeping density under control. In this module you’ll implement **quadratic placement with fixed pads** end to end—not a sketch. By the end, you’ll run it on a tiny instance, report HPWL, and know what the algorithm actually does.
+Quadratic-lite placement averages neighbors under fixed pads—here A and D stay pinned. From starter HPWL fifty-two the solve reaches forty-eight. Pads constrain the free cells, so you will not match free force’s eighteen point seven on this instance.
 
 ## Slide 2 — The idea
 
-quadratic placement with fixed pads. You’ll take a placement instance, apply the update rule until a stop condition, and emit coordinates. Watch HPWL every time—and density overflow when the lab uses bins.
+Gauss–Seidel style: replace each free cell with a blend of neighbor average and prior coordinate so the solve does not collapse. Fixed pads anchor the system. Teaching point: pad constraints raise HPWL versus unconstrained force on the same seed.
+
+
+## Slide 3 — Pseudocode
+
+Quadratic-lite solves free cells toward neighbor averages under pinned pads. Damping keeps the system from collapsing.
+
+Open this module's examples file and find the Pseudocode section. That written sketch is what you implement on the implement track and what the browser challenges measure.
+
+## Slide 4 — Algorithm sketch
+
+With A and D fixed, the teaching solve reaches HPWL forty-eight from fifty-two—modest win, honest about pad constraints.
+
+```text
+INPUT: positions, nets, fixed pads {A,D}
+OUTPUT: free-cell coords + HPWL
+repeat: for free c:
+  blend toward neighbor average (damped)
+pads A,D remain pinned
+GOLDEN starter 52 → HPWL 48
+```
+
 
 <!-- algorithm-walkthrough -->
+
+## Slide 5 — Pads A and D stay fixed
+
+![Pads A and D stay fixed](assets/steps/01-pads-fixed.png)
+
+Quadratic-lite averages neighbors under fixed pads. Here A stays at (0,0) and D at (8,8)—anchors that free cells must respect.
+
+## Slide 6 — Free cells slide toward neighbors
+
+![Free cells slide toward neighbors](assets/steps/02-free-cells.png)
+
+B, C, E, and F update toward the average of their neighbors while A and D hold. The system cannot collapse onto the pads.
+
+## Slide 7 — After quadratic: HPWL forty-eight
+
+![After quadratic: HPWL forty-eight](assets/steps/03-after-quad.png)
+
+Default iterations reach total HPWL forty-eight. Pads constrain the free cells, so you will not match free force’s eighteen point seven.
+
+## Slide 8 — Quadratic vs unconstrained force
+
+![Quadratic vs unconstrained force](assets/steps/04-vs-force.png)
+
+Force without pads reaches about eighteen point seven; quadratic with pads stays at forty-eight. Same seed, different constraint story.
+
+## Slide 9 — Pads anchor the solve
+
+![Pads anchor the solve](assets/steps/05-takeaway.png)
+
+Always declare fixed cells. On this instance the quadratic golden is forty-eight—modest wirelength win, honest about pad constraints.
+
 <!-- /algorithm-walkthrough -->
 
-## Slide 3 — Browser lab track
 
-In the browser lab track, open the **quadratic-place** lab from the tools shelf. Load the starter placement, run the algorithm once, and read the metrics panel. Orient yourself, try one parameter change, then come back to implement the same loop yourself.
+## Slide 10 — Browser lab track
 
-## Slide 4 — Implement track
+In the browser lab track, open the **quadratic-place** lab from the tools shelf. Load the starter placement, run the algorithm once, and read HPWL—and density when the panel shows it. Work the challenges that lock the goldens, then come back to implement the same loop yourself.
 
-In the implement track, open this module’s examples and build the full algorithm. Parse the tiny placement, run the core loop with clear stop rules, and print coordinates plus metrics. Prefer a deterministic seed so your golden answers stay stable.
+## Slide 11 — Implement track
 
-## Slide 5 — Pitfalls
+In the implement track, open this module's EXAMPLES.md Pseudocode section and the course common solvers. Parse `tiny_place.json`, run the algorithm with a deterministic seed, and print coordinates plus HPWL. Match the browser goldens before you claim the checklist.
 
-Common traps: celebrating HPWL while cells pile into one bin; ignoring fixed pads; mixing bbox and clique models in one report; and stopping before the best SA iterate is kept.
+## Slide 12 — Pitfalls
 
-## Slide 6 — Your turn
+Common traps: celebrating HPWL while cells pile into one bin; ignoring fixed pads A and D; mixing bbox and clique models in one report; keeping only the final SA iterate instead of the best; and forgetting that timing weights change the objective, not just the label.
 
-Complete the checklist for at least one track—preferably both. Implement until your metrics match the expected range on the starter placement. When you’re ready, take the short quiz, then continue to the next module.
+## Slide 13 — Your turn
+
+Complete the checklist for at least one track—preferably both. Implement until your metrics match the starter goldens. When you’re ready, take the short quiz, then continue to the next module.

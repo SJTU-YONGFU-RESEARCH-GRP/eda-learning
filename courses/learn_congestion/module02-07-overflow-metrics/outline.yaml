@@ -1,6 +1,76 @@
-# outline — module02-07-overflow-metrics
-# Regenerated from transcript.md via transcript_to_outline.py
-course: learn_congestion
-module: module02-07-overflow-metrics
-title: Overflow metrics
-slides: []
+title: Numbers that regress
+footer: learn_congestion — 07 overflow metrics
+slides:
+- type: title
+  title: Numbers that regress
+  subtitle: Overflow is demand above capacity
+  notes: Overflow is demand above capacity. Sum it, take the max, and count how many
+    GCells overflow. Those three numbers become your regression bar for estimators
+    and feedback loops.
+- type: bullets
+  title: The idea
+  bullets:
+  - Ov equals max of zero and demand minus Cap, per tile
+  - Total is the sum
+  - Max is the worst tile
+  - Count is how many tiles have positive overflow
+  - Report all three every time you change placement
+  notes: ov equals max of zero and demand minus Cap, per tile. Total is the sum. Max
+    is the worst tile. Count is how many tiles have positive overflow. Report all
+    three every time you change placement.
+- type: image
+  title: Define overflow
+  image: assets/steps/01-def.png
+  caption: Define overflow
+  notes: ov = max(0, demand−Cap) per tile.
+- type: image
+  title: Total overflow
+  image: assets/steps/02-total.png
+  caption: Total overflow
+  notes: Sum of per-tile overflow—primary regression number.
+- type: image
+  title: Max overflow
+  image: assets/steps/03-max.png
+  caption: Max overflow
+  notes: Worst tile—catches hotspots even when total is moderate.
+- type: image
+  title: Congested count
+  image: assets/steps/04-count.png
+  caption: Congested count
+  notes: How many tiles overflow—useful for “how widespread”.
+- type: image
+  title: Hit a target
+  image: assets/steps/05-target.png
+  caption: Hit a target
+  notes: Move cells until total/max/count clear challenge thresholds.
+- type: image
+  title: Browser lab track
+  image: assets/lab-starter.png
+  caption: Browser lab starter
+  notes: Open **overflow-metrics**. Start from congested_seed. Move cells outward
+    until total overflow drops below a challenge threshold. Check reads your positions
+    through RUDY—not a mode flag.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Implement `overflow_metrics`
+  - Assert congested_seed has higher total overflow than spread placement at Cap equals
+    two
+  - Print the triple (total, max, count)
+  notes: Implement `overflow_metrics`. Assert congested_seed has higher total overflow
+    than spread placement at Cap equals two. Print the triple (total, max, count).
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Reporting negative “overflow.” Counting tiles with congestion greater than one
+    while
+  - Comparing totals across estimators with incompatible demand units
+  notes: Reporting negative “overflow.” Counting tiles with congestion greater than
+    one while computing overflow from a different Cap. Comparing totals across estimators
+    with incompatible demand units.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Hit the overflow targets
+  - 'Next: cell inflation, the first feedback knob'
+  notes: 'Hit the overflow targets. Next: cell inflation—the first feedback knob.'

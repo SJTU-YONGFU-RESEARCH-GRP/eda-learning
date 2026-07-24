@@ -1,0 +1,13 @@
+file '/mnt/d/proj/designs/eda_learning/courses/learn_congestion/module00-00-intro/frames/slide-1.png'
+duration 14.328
+file '/mnt/d/proj/designs/eda_learning/courses/learn_congestion/module00-00-intro/frames/slide-2.png'
+duration 15.288
+file '/mnt/d/proj/designs/eda_learning/courses/learn_congestion/module00-00-intro/frames/slide-3.png'
+duration 17.112
+file '/mnt/d/proj/designs/eda_learning/courses/learn_congestion/module00-00-intro/frames/slide-4.png'
+duration 12.336
+file '/mnt/d/proj/designs/eda_learning/courses/learn_congestion/module00-00-intro/frames/slide-5.png'
+duration 11.616
+file '/mnt/d/proj/designs/eda_learning/courses/learn_congestion/module00-00-intro/frames/slide-6.png'
+duration 4.56
+file '/mnt/d/proj/designs/eda_learning/courses/learn_congestion/module00-00-intro/frames/slide-6.png'

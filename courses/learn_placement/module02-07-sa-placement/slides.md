@@ -14,7 +14,34 @@ Simulated annealing jogs one cell at a time under an HPWL cost
 - Propose a small axis move, accept improvements always
 - Keep the best iterate, not only the final temperature
 - Fix the seed so your golden stays stable across runs
-- <!-- algorithm-walkthrough -->
+
+---
+
+## Pseudocode
+- Placement annealing jogs one cell per move under HPWL cost, accepts by Metropolis
+- Open this module's examples file and find the Pseudocode section
+- That written sketch is what you implement on the implement track and what the browser
+
+---
+
+## Algorithm sketch
+- Seed forty-two with sixty moves yields best HPWL near forty-nine point six from fifty-two
+- Lock the seed so goldens stay stable
+
+---
+
+## Algorithm sketch — try these
+
+```
+INPUT: positions, seed, moves, T0
+OUTPUT: best positions + best HPWL
+for i in 1..moves:
+  jog one cell on one axis
+  accept if ΔHPWL<0 or rand<e^(−Δ/T)
+  keep best; cool T
+GOLDEN seed=42, 60 moves → best≈49.6
+accepted≈44 rejected≈16
+```
 
 ---
 
@@ -51,7 +78,7 @@ Simulated annealing jogs one cell at a time under an HPWL cost
 ---
 
 ## Implement track
-- In the implement track, open this module’s examples and the course `common/` solvers
+- In the implement track
 - Parse `tiny_place.json`, run the algorithm with a deterministic seed
 - Match the browser goldens before you claim the checklist
 

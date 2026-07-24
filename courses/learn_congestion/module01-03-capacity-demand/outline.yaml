@@ -1,6 +1,78 @@
-# outline — module01-03-capacity-demand
-# Regenerated from transcript.md via transcript_to_outline.py
-course: learn_congestion
-module: module01-03-capacity-demand
-title: Capacity vs demand
-slides: []
+title: Supply and load
+footer: learn_congestion — 03 capacity demand
+slides:
+- type: title
+  title: Supply and load
+  subtitle: A GCell has a routing budget, capacity
+  notes: A GCell has a routing budget—capacity. Estimators deposit demand into the
+    same tiles. When demand exceeds capacity the tile is oversubscribed. On our toy
+    instance capacity is two point zero for every GCell unless you change it.
+- type: bullets
+  title: The idea
+  bullets:
+  - Surplus equals demand minus capacity
+  - Positive surplus means overflow
+  - List oversubscribed tiles before you trust a heat map
+  - Capacity can later become anisotropic edge capacities
+  notes: Surplus equals demand minus capacity. Positive surplus means overflow. List
+    oversubscribed tiles before you trust a heat map. Capacity can later become anisotropic
+    edge capacities; here it is a scalar so goldens stay simple.
+- type: image
+  title: Capacity budget
+  image: assets/steps/01-cap.png
+  caption: Capacity budget
+  notes: Each GCell has capacity 2.0 on the toy instance.
+- type: image
+  title: Demand arrives
+  image: assets/steps/02-demand.png
+  caption: Demand arrives
+  notes: Estimators deposit demand into tiles; surplus = demand − Cap.
+- type: image
+  title: Oversubscribed tiles
+  image: assets/steps/03-flag.png
+  caption: Oversubscribed tiles
+  notes: Flag every tile with demand > Cap before trusting a heat map.
+- type: image
+  title: Lower Cap
+  image: assets/steps/04-toggle.png
+  caption: Lower Cap
+  notes: At Cap=1 more tiles fail—capacity is part of the contract.
+- type: image
+  title: Spread helps
+  image: assets/steps/05-spread.png
+  caption: Spread helps
+  notes: Moving cells outward reduces how many tiles exceed Cap.
+- type: image
+  title: Browser lab track
+  image: assets/lab-starter.png
+  caption: Browser lab starter
+  notes: Open **capacity-demand**. Toggle capacity between one and two while holding
+    a fixed demand seed. Watch which tiles flip. Check challenges that score your
+    capacity choice against overflow counts—not a “show golden” click.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Given a demand matrix from RUDY (or a hand-filled stub)
+  - Print both for capacity equals two and capacity equals one
+  - Keep the API ready for the overflow-metrics lab
+  notes: Given a demand matrix from RUDY (or a hand-filled stub), compute surplus
+    and the oversubscribed set. Print both for capacity equals two and capacity equals
+    one. Keep the API ready for the overflow-metrics lab.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Comparing demand to capacity without documenting units
+  - Treating zero demand as “healthy” while ignoring that neighboring tiles may be
+    hot
+  - Changing capacity mid-challenge without resetting the starter placement
+  notes: Comparing demand to capacity without documenting units. Treating zero demand
+    as “healthy” while ignoring that neighboring tiles may be hot. Changing capacity
+    mid-challenge without resetting the starter placement.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Complete Track A or B
+  - 'Next: RUDY, the classic demand estimator that fills those tiles from net bounding
+    boxes'
+  notes: 'Complete Track A or B. Next: RUDY—the classic demand estimator that fills
+    those tiles from net bounding boxes.'

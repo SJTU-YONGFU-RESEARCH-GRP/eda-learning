@@ -13,7 +13,33 @@ Analytical lite first pulls for wirelength, then spreads for density with pads A
 ## The idea
 - Wirelength stage clusters
 - Watch both HPWL and overflow
-- <!-- algorithm-walkthrough -->
+
+---
+
+## Pseudocode
+- Analytical lite is three stages in pseudocode
+- Open this module's examples file and find the Pseudocode section
+- That written sketch is what you implement on the implement track and what the browser
+
+---
+
+## Algorithm sketch
+- Default teaching run lands near forty-eight point one HPWL
+- Winning wirelength while overflowing every bin is not success, report both metrics
+
+---
+
+## Algorithm sketch — try these
+
+```
+INPUT: positions, bins, pads
+OUTPUT: positions, HPWL, overflow
+stage1: wirelength pull (force/quad style)
+stage2: push out of overloaded bins
+stage3: light reconnect for HPWL
+report HPWL and overflow together
+GOLDEN lite ≈48.1 HPWL after defaults
+```
 
 ---
 
@@ -50,7 +76,7 @@ Analytical lite first pulls for wirelength, then spreads for density with pads A
 ---
 
 ## Implement track
-- In the implement track, open this module’s examples and the course `common/` solvers
+- In the implement track
 - Parse `tiny_place.json`, run the algorithm with a deterministic seed
 - Match the browser goldens before you claim the checklist
 

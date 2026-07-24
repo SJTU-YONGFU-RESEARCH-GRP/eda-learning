@@ -141,6 +141,25 @@ COURSE_META = {
         "first_lab": "site-row-model",
         "first_n": "02",
     },
+    "learn_congestion": {
+        "title": "Congestion for EDA",
+        "focus": "GCell grid → capacity/demand → RUDY/probabilistic → heat map → overflow → inflators → place feedback",
+        "prereq": None,
+        "status": "ready",
+        "repo": "learn_congestion",
+        "modules_md": ROOT / "courses" / "learn_congestion" / "docs" / "MODULES.md",
+        "course_root": ROOT / "courses" / "learn_congestion",
+        "lead": (
+            "Routing congestion estimation and placement feedback — tiny GCell grids, full algorithms, "
+            "overflow metrics you can trust. Clips and decks load from "
+            "<code>courses/learn_congestion</code> "
+            "(<code>moduleSS-AA-slug/video.mp4</code>). Open the matching browser tool, then mark the lab done."
+        ),
+        "tools_href": "../../tools/index.html#congestion",
+        "tools_label": "Congestion tools",
+        "first_lab": "gcell-grid",
+        "first_n": "02",
+    },
 }
 
 COURSE_INDEX = """<!DOCTYPE html>

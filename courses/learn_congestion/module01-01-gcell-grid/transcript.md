@@ -48,7 +48,10 @@ Congested seed piles cells into center tiles—later labs heat those GCells.
 
 ## Slide 8 — Browser lab track
 
+![Browser lab starter](assets/lab-starter.png)
+
 Open the **gcell-grid** lab. Move a cell and read the GCell index in the metrics panel. Paint the grid lines so the four-by-two tiling is obvious. Then encode the same clamp-and-floor rule in Track A.
+
 
 ## Slide 9 — Implement track
 

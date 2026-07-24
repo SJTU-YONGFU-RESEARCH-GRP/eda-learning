@@ -6,28 +6,81 @@ paginate: true
 
 # Half-perimeter wirelength
 
-Placement assigns cell coordinates to cut wirelength while keeping density under control
+Half-perimeter wirelength is the teaching yardstick for placement
 
 ---
 
 ## The idea
-- Bbox half-perimeter wirelength (HPWL) metrics
-- You’ll take a placement instance, apply the update rule until a stop condition
-- Watch HPWL every time, and density overflow when the lab uses bins
+- For every net
+- Sum over nets for total HPWL
+- Never celebrate a tiny total that piles every cell on one point
+
+---
+
+## Pseudocode
+- HPWL is one loop over nets: bounding-box width plus height, then sum
+- That sum is the teaching yardstick for every later placer
+- Open this module's examples file and find the Pseudocode section
+- That written sketch is what you implement on the implement track and what the browser
+
+---
+
+## Algorithm sketch
+- Starter placement scores fifty-two
+- Compact golden scores fourteen
+- Never celebrate a tiny total that piles every cell on one point
+
+---
+
+## Algorithm sketch — try these
+
+```
+INPUT: positions, nets
+OUTPUT: total HPWL
+for each net: bbox → (maxx−minx)+(maxy−miny)
+total ← Σ net HPWL
+GOLDEN starter=52; compact=14
+NOTE: collapsed point ≠ usable place
+```
+
+---
+
+## Starter placement is spread out
+![Starter placement is spread out](assets/steps/01-starter-spread.png)
+
+---
+
+## One net: bbox width plus height
+![One net: bbox width plus height](assets/steps/02-one-net.png)
+
+---
+
+## Sum six nets to fifty-two
+![Sum six nets to fifty-two](assets/steps/03-sum-nets.png)
+
+---
+
+## Golden placement drops to fourteen
+![Golden placement drops to fourteen](assets/steps/04-golden-compact.png)
+
+---
+
+## HPWL is the teaching yardstick
+![HPWL is the teaching yardstick](assets/steps/05-takeaway.png)
 
 ---
 
 ## Browser lab track
 - In the browser lab track, open the **hpwl-metrics** lab from the tools shelf
-- Load the starter placement, run the algorithm once, and read the metrics panel
-- Orient yourself
+- Load the starter placement, run the algorithm once
+- Work the challenges that lock the goldens
 
 ---
 
 ## Implement track
-- In the implement track, open this module’s examples and build the full algorithm
-- Parse the tiny placement, run the core loop with clear stop rules
-- Prefer a deterministic seed so your golden answers stay stable
+- In the implement track
+- Parse `tiny_place.json`, run the algorithm with a deterministic seed
+- Match the browser goldens before you claim the checklist
 
 ---
 
@@ -38,6 +91,6 @@ Placement assigns cell coordinates to cut wirelength while keeping density under
 
 ## Your turn
 - Complete the checklist for at least one track, preferably both
-- Implement until your metrics match the expected range on the starter placement
+- Implement until your metrics match the starter goldens
 - When you’re ready, take the short quiz, then continue to the next module
 

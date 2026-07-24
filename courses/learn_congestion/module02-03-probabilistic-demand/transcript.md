@@ -12,35 +12,33 @@ RUDY paints the whole bbox. Probabilistic demand instead assumes two-pin nets ro
 
 For a two-pin net, walk GCells along each L and add one half unit of demand per walk (toy scaling). Multi-pin nets: star from the bbox center to each pin and deposit like two-pin edges. Compare the resulting matrix to RUDY on the same placement.
 
-## Slide 3 — Browser lab track
-
 <!-- algorithm-walkthrough -->
 
-## Slide 4 — L-shape idea
+## Slide 3 — L-shape idea
 
 ![L-shape idea](assets/steps/01-lshape.png)
 
 Two-pin nets route on L-shapes with half probability each bend.
 
-## Slide 5 — Deposit along legs
+## Slide 4 — Deposit along legs
 
 ![Deposit along legs](assets/steps/02-deposit.png)
 
 Walk GCells on each leg and share demand along the path.
 
-## Slide 6 — Multi-pin star
+## Slide 5 — Multi-pin star
 
 ![Multi-pin star](assets/steps/03-multi.png)
 
 Star from bbox center to each pin; deposit like two-pin edges.
 
-## Slide 7 — Versus RUDY
+## Slide 6 — Versus RUDY
 
 ![Versus RUDY](assets/steps/04-compare.png)
 
 Probabilistic concentrates on corridors; RUDY paints the bbox.
 
-## Slide 8 — Spread again
+## Slide 7 — Spread again
 
 ![Spread again](assets/steps/05-cool.png)
 
@@ -48,6 +46,9 @@ Spreading still reduces probabilistic overflow—feedback is placement.
 
 <!-- /algorithm-walkthrough -->
 
+## Slide 8 — Browser lab track
+
+![Browser lab starter](assets/lab-starter.png)
 
 Open **probabilistic-demand**. Toggle RUDY versus probabilistic overlays. Note which center tiles differ. Challenges score your placement’s probabilistic overflow, not which button you clicked.
 

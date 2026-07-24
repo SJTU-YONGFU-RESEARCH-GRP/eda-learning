@@ -14,7 +14,34 @@ Timing-driven place weights critical nets in the wirelength objective
 - Multiply each net’s HPWL by its criticality weight and sum
 - Heavy weights pull critical nets shorter even when plain HPWL looks fine
 - Always report both plain and weighted totals so you can see what the objective actually
-- <!-- algorithm-walkthrough -->
+
+---
+
+## Pseudocode
+- Timing-driven place multiplies each net’s HPWL by criticality and sums
+- Pseudocode always reports plain and weighted totals together
+- Open this module's examples file and find the Pseudocode section
+- That written sketch is what you implement on the implement track and what the browser
+
+---
+
+## Algorithm sketch
+- Starter plain fifty-two becomes timing one hundred sixteen because the four-pin net has
+- Compact golden drops timing cost to thirty
+
+---
+
+## Algorithm sketch — try these
+
+```
+INPUT: positions, nets, weights w[net]
+OUTPUT: plain HPWL, timing HPWL
+plain ← Σ HPWL(net)
+timing ← Σ w[net]·HPWL(net)
+optimize timing (or report both)
+GOLDEN starter: plain=52 timing=116
+compact: plain=14 timing=30
+```
 
 ---
 
@@ -51,7 +78,7 @@ Timing-driven place weights critical nets in the wirelength objective
 ---
 
 ## Implement track
-- In the implement track, open this module’s examples and the course `common/` solvers
+- In the implement track
 - Parse `tiny_place.json`, run the algorithm with a deterministic seed
 - Match the browser goldens before you claim the checklist
 

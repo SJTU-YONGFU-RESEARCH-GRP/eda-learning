@@ -12,21 +12,54 @@ Inflators tell the placer that cells in congested GCells should act bigger, enco
 
 Map each cell center to a GCell. If that tile’s congestion exceeds one, inflate; otherwise leave width alone. Alpha around zero point five keeps the demo visible without exploding geometry. Coordinates stay put—this lab changes widths, not x y.
 
-## Slide 3 — Browser lab track
-
 <!-- algorithm-walkthrough -->
+
+## Slide 3 — Why inflate
+
+![Why inflate](assets/steps/01-idea.png)
+
+Make cells in hot GCells act larger so the next place pass spreads.
+
+## Slide 4 — Scale rule
+
+![Scale rule](assets/steps/02-rule.png)
+
+If cong>1: w' = w·(1+α(c−1)), α=0.5.
+
+## Slide 5 — Apply once
+
+![Apply once](assets/steps/03-run.png)
+
+Compute congestion from RUDY, then inflate widths once.
+
+## Slide 6 — Quiet tiles
+
+![Quiet tiles](assets/steps/04-quiet.png)
+
+Cells in tiles with cong≤1 stay at base width.
+
+## Slide 7 — Link to place
+
+![Link to place](assets/steps/05-link.png)
+
+Widths feed the next placer—estimation alone is not enough.
+
 <!-- /algorithm-walkthrough -->
+
+## Slide 8 — Browser lab track
+
+![Browser lab starter](assets/lab-starter.png)
 
 Open **cell-inflator**. Run inflate on congested_seed and read which cells grew. Challenges verify inflated widths from your congestion state.
 
-## Slide 4 — Implement track
+## Slide 9 — Implement track
 
 Implement `inflate_cells` with alpha equals zero point five. Print before/after widths for cells sitting in oversubscribed tiles.
 
-## Slide 5 — Pitfalls
+## Slide 10 — Pitfalls
 
 Inflating every cell when only some GCells are hot. Inflating height when the placer model only tracks width. Applying inflation twice without resetting to base widths.
 
-## Slide 6 — Your turn
+## Slide 11 — Your turn
 
 Clear the inflator challenges. Next: net weighting—the wirelength-side knob.

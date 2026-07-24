@@ -1,6 +1,73 @@
-# outline — module02-05-congestion-map
-# Regenerated from transcript.md via transcript_to_outline.py
-course: learn_congestion
-module: module02-05-congestion-map
-title: Congestion heat map
-slides: []
+title: Demand over capacity
+footer: learn_congestion — 05 congestion map
+slides:
+- type: title
+  title: Demand over capacity
+  subtitle: 'Congestion is a ratio: demand divided by capacity'
+  notes: 'Congestion is a ratio: demand divided by capacity. A heat map paints that
+    ratio per GCell so you can point at the hottest tile without reading a matrix
+    of floats aloud.'
+- type: bullets
+  title: The idea
+  bullets:
+  - Cong[i][j] equals demand[i][j] over Cap
+  - Values above one are oversubscribed
+  - The hottest GCell is the argmax
+  - On the congested seed, expect the center columns to light up first
+  notes: cong[i][j] equals demand[i][j] over Cap. Values above one are oversubscribed.
+    The hottest GCell is the argmax. On the congested seed, expect the center columns
+    to light up first.
+- type: image
+  title: Demand / Cap
+  image: assets/steps/01-ratio.png
+  caption: Demand / Cap
+  notes: Congestion is a ratio per GCell—values above one are oversubscribed.
+- type: image
+  title: Hottest tile
+  image: assets/steps/02-hot.png
+  caption: Hottest tile
+  notes: Argmax over the matrix with fixed scan order for stable goldens.
+- type: image
+  title: Read the colors
+  image: assets/steps/03-legend.png
+  caption: Read the colors
+  notes: Hotter colors mean higher congestion; use metrics for exact floats.
+- type: image
+  title: Move the hotspot
+  image: assets/steps/04-move.png
+  caption: Move the hotspot
+  notes: Dragging cells can move which tile is hottest.
+- type: image
+  title: Cooler map
+  image: assets/steps/05-spread.png
+  caption: Cooler map
+  notes: Spread placement lowers peak ratios.
+- type: image
+  title: Browser lab track
+  image: assets/lab-starter.png
+  caption: Browser lab starter
+  notes: Open **congestion-map**. Read the heat legend. Move cells until a different
+    GCell becomes hottest, then Check. Study reveal shows a reference map—do not rely
+    on it to pass.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Build `congestion_map(demand, capacity)` returning the ratio matrix and hottest
+    index
+  - Print hottest for both placement seeds
+  notes: Build `congestion_map(demand, capacity)` returning the ratio matrix and hottest
+    index. Print hottest for both placement seeds.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Dividing by zero capacity
+  - Pick a fixed scan order
+  notes: Dividing by zero capacity. Coloring by raw demand while labeling the plot
+    “congestion.” Breaking ties in argmax nondeterministically—pick a fixed scan order.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Finish the lab
+  - 'Next: overflow metrics compress the map into totals you can regress'
+  notes: 'Finish the lab. Next: overflow metrics compress the map into totals you
+    can regress.'

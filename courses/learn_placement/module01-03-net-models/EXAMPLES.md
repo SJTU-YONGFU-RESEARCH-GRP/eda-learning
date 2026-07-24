@@ -1,25 +1,33 @@
-# Examples — Net models for wirelength
+# Examples — Net models
 
-Track A (implement). Use the tiny 6-cell placement first.
+Track A (implement). Use `examples/tiny_place.json` and `../../common/solvers.py`.
 
 ## Algorithm
 
-**bbox / clique / star net wirelength models**
+**bbox vs clique vs star HPWL**
+
+## Pseudocode
+
+```text
+INPUT: net pins, positions, model
+bbox: one HPWL on all pins
+clique: Σ pairwise HPWL over pin pairs
+star: Σ HPWL(hub, other pins)
+GOLDEN 4-pin ABCD on golden place:
+  clique=16; star from A=8
+```
 
 ## Starter prompts
 
-1. Restate the algorithm in five bullets (inputs → loop → stop → output).
-2. Run it on `examples/tiny_place.json` (same instance as the browser starter).
-3. Compute total HPWL after the run (and density overflow when relevant).
-4. Change one parameter (seed, iters, pad fix, capacity) and report what moved.
-5. Name one failure mode (overlap collapse, ignored pads, metric mismatch, …).
+1. Implement the pseudocode above (or call the matching `common/` helper).
+2. Print the metrics named in the GOLDEN line; match browser / Track A tests.
+3. Change one knob and report what moved.
 
 ## Expected artifacts
 
-- Cell coordinates (or assignment) after the run
-- HPWL before and after (plus density / overflow when used)
-- Short note: why this algorithm belongs on the placement shelf
+- Outputs listed in the pseudocode OUTPUT line
+- Note tying the run to the pseudocode phases
 
 ## Stretch
 
-Scale to ~100 cells; keep the same API as the tiny case.
+Scale the instance slightly; keep the same metrics API.

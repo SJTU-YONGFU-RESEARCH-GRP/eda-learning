@@ -1,6 +1,85 @@
-# outline — module01-01-gcell-grid
-# Regenerated from transcript.md via transcript_to_outline.py
-course: learn_congestion
-module: module01-01-gcell-grid
-title: GCell grid model
-slides: []
+title: Why GCells
+footer: learn_congestion — 01 gcell grid
+slides:
+- type: title
+  title: Why GCells
+  subtitle: After legalization you have legal cell sites, but routers still think
+    in coarser tiles called GCells
+  notes: 'After legalization you have legal cell sites, but routers still think in
+    coarser tiles called GCells. Our toy chip is twelve by eight. We overlay a four
+    by two grid: each GCell is three wide and four tall. Congestion literacy starts
+    by naming which tile owns a point.'
+- type: bullets
+  title: The idea
+  bullets:
+  - Index with lower-left origin
+  - Column i is floor of x over cell width, clamped to zero through three
+  - Row j is floor of y over cell height, clamped to zero or one
+  - Cell A at one comma one lands in GCell zero comma zero
+  - Cell D at eight comma five lands in two comma one
+  - Memorize that mapping, every estimator reuses it
+  notes: Index with lower-left origin. Column i is floor of x over cell width, clamped
+    to zero through three. Row j is floor of y over cell height, clamped to zero or
+    one. Cell A at one comma one lands in GCell zero comma zero. Cell D at eight comma
+    five lands in two comma one. Memorize that mapping—every estimator reuses it.
+- type: image
+  title: Chip and GCells
+  image: assets/steps/01-chip.png
+  caption: Chip and GCells
+  notes: Twelve by eight chip with a four-by-two GCell overlay. Each tile is three
+    by four.
+- type: image
+  title: A lands in (0,0)
+  image: assets/steps/02-a00.png
+  caption: A lands in (0,0)
+  notes: Cell A at (1,1) indexes to GCell column 0, row 0.
+- type: image
+  title: D lands in (2,1)
+  image: assets/steps/03-d21.png
+  caption: D lands in (2,1)
+  notes: D at (8,5) → i=2, j=1 (top row).
+- type: image
+  title: Paint all centers
+  image: assets/steps/04-paint.png
+  caption: Paint all centers
+  notes: Every cell maps to exactly one GCell; the grid is the router’s coarse map.
+- type: image
+  title: Clustered seed
+  image: assets/steps/05-seed.png
+  caption: Clustered seed
+  notes: Congested seed piles cells into center tiles—later labs heat those GCells.
+- type: image
+  title: Browser lab track
+  image: assets/lab-starter.png
+  caption: Browser lab starter
+  notes: Open the **gcell-grid** lab. Move a cell and read the GCell index in the
+    metrics panel. Paint the grid lines so the four-by-two tiling is obvious. Then
+    encode the same clamp-and-floor rule in Track A.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Parse `tiny_cong.json`
+  - Print nx, ny, cellW, cellH
+  - Write `cell_gcell(x, y)` returning (i, j)
+  - Assert A→(0,0) and D→(2,1) on the spread placement
+  - No demand yet, this module is pure geometry
+  notes: Parse `tiny_cong.json`. Print nx, ny, cellW, cellH. Write `cell_gcell(x,
+    y)` returning (i, j). Assert A→(0,0) and D→(2,1) on the spread placement. No demand
+    yet—this module is pure geometry.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Using upper-left image coordinates instead of chip lower-left
+  - Forgetting to clamp points on the right or top edge into the last tile
+  - Mixing site columns from legalization with GCell columns, different grids
+  notes: Using upper-left image coordinates instead of chip lower-left. Forgetting
+    to clamp points on the right or top edge into the last tile. Mixing site columns
+    from legalization with GCell columns—different grids.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Finish the checklist
+  - Be able to sketch the eight GCells from memory
+  - 'Next: capacity versus demand, the supply side of the map'
+  notes: 'Finish the checklist. Be able to sketch the eight GCells from memory. Next:
+    capacity versus demand—the supply side of the map.'

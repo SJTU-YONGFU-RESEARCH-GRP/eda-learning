@@ -1,6 +1,75 @@
-# outline — module04-01-placement-feedback
-# Regenerated from transcript.md via transcript_to_outline.py
-course: learn_congestion
-module: module04-01-placement-feedback
-title: Placement feedback loop
-slides: []
+title: Close the loop
+footer: learn_congestion — 01 placement feedback
+slides:
+- type: title
+  title: Close the loop
+  subtitle: Congestion estimation matters when it changes placement
+  notes: 'Congestion estimation matters when it changes placement. One toy pass: RUDY
+    → congestion → inflate → push cells from overflowing GCells toward quieter neighbors
+    → remeasure overflow.'
+- type: bullets
+  title: The idea
+  bullets:
+  - After inflation
+  - Clamp to the chip
+  - Recompute RUDY
+  - On congested_seed you should see total overflow drop after one pass
+  notes: After inflation, each movable cell in an overflowing tile takes a step toward
+    the neighbor GCell with least overflow. Clamp to the chip. Recompute RUDY. On
+    congested_seed you should see total overflow drop after one pass—not to zero,
+    but clearly down.
+- type: image
+  title: Hot starter
+  image: assets/steps/01-seed.png
+  caption: Hot starter
+  notes: Congested seed starts with total overflow 5 at Cap=2.
+- type: image
+  title: Estimate
+  image: assets/steps/02-estimate.png
+  caption: Estimate
+  notes: Run RUDY → congestion → overflow per tile.
+- type: image
+  title: Push outward
+  image: assets/steps/03-push.png
+  caption: Push outward
+  notes: Cells in overflowing tiles step toward the quietest neighbor GCell.
+- type: image
+  title: Overflow drops
+  image: assets/steps/04-after.png
+  caption: Overflow drops
+  notes: After one feedback pass, total overflow falls (often to ~0 on this toy).
+- type: image
+  title: Toward routing
+  image: assets/steps/05-next.png
+  caption: Toward routing
+  notes: Real flows iterate with global routing; next course deepens GCell edges.
+- type: image
+  title: Browser lab track
+  image: assets/lab-starter.png
+  caption: Browser lab starter
+  notes: Open **placement-feedback**. Run the feedback helper, then nudge further
+    if needed to clear challenges. Check scores post-feedback overflow from your positions.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Implement `placement_feedback_lite`
+  - Print overflow before and after on congested_seed
+  - Assert after is strictly less than before at Cap equals two
+  notes: Implement `placement_feedback_lite`. Print overflow before and after on congested_seed.
+    Assert after is strictly less than before at Cap equals two.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Pushing macros that should stay fixed
+  - Infinite oscillation from oversized steps, use a fraction of GCell size
+  - Declaring victory without recomputing demand after the move
+  notes: Pushing macros that should stay fixed. Infinite oscillation from oversized
+    steps—use a fraction of GCell size. Declaring victory without recomputing demand
+    after the move.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Complete the feedback lab and offline compare next
+  - Then the wrap points you to global routing
+  notes: Complete the feedback lab and offline compare next. Then the wrap points
+    you to global routing.

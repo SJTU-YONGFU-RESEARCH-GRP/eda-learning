@@ -1,6 +1,42 @@
-# outline — module99-00-wrap
-# Regenerated from transcript.md via transcript_to_outline.py
-course: learn_congestion
-module: module99-00-wrap
-title: Congestion path complete
-slides: []
+title: You can now
+footer: learn_congestion — 00 wrap
+slides:
+- type: title
+  title: You can now
+  subtitle: Run a one-pass placement feedback on a tiny chip
+  notes: You can index GCells, compare capacity to demand, estimate with RUDY and
+    L-shapes, report overflow, inflate cells, reweight nets, and run a one-pass placement
+    feedback on a tiny chip.
+- type: bullets
+  title: Dual-track recap
+  bullets:
+  - If you stayed in the browser, implement RUDY and overflow once in Python
+  - If you stayed in Track A, skim the heat-map lab so the colors match your matrices
+  notes: If you stayed in the browser, implement RUDY and overflow once in Python.
+    If you stayed in Track A, skim the heat-map lab so the colors match your matrices.
+- type: bullets
+  title: Pitfalls to remember
+  bullets:
+  - Units between estimators, clamp-and-floor GCell indexing
+  notes: Units between estimators, clamp-and-floor GCell indexing, and never treating
+    “reveal golden” as the solve path.
+- type: bullets
+  title: Next
+  bullets:
+  - Complete the quiz for this part
+  - Natural next steps are learn_global_routing
+  notes: Natural next steps are learn_global_routing—GCells with real edge capacities—or
+    learn_clock_tree if you continue the PD spine toward CTS.
+- type: bullets
+  title: Checklist
+  bullets:
+  - Name three algorithms and one strength each
+  - Say which idea you reach for on a center-clustered seed
+  - Pick your next course README
+  notes: Name three algorithms and one strength each. Say which idea you reach for
+    on a center-clustered seed. Pick your next course README.
+- type: bullets
+  title: Close
+  bullets:
+  - When you are ready, take the short quiz, then open the next course
+  notes: When you are ready, take the short quiz, then open the next course.

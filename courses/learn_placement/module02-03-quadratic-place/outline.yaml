@@ -1,8 +1,116 @@
-title: "Quadratic placement"
-footer: "learn_placement — Quadratic"
+title: Quadratic placement
+footer: learn_placement — 03 quadratic place
 slides:
-  - type: title
-    title: "Quadratic placement"
-    subtitle: "module02-03-quadratic-place · learn_placement"
-    notes: |
-      Stub — replace via transcript_to_outline.py after revising transcript.md.
+- type: title
+  title: Quadratic placement
+  subtitle: Quadratic-lite placement averages neighbors under fixed pads, here A and
+    D stay pinned
+  notes: Quadratic-lite placement averages neighbors under fixed pads—here A and D
+    stay pinned. From starter HPWL fifty-two the solve reaches forty-eight. Pads constrain
+    the free cells, so you will not match free force’s eighteen point seven on this
+    instance.
+- type: bullets
+  title: The idea
+  bullets:
+  - Gauss–Seidel style
+  - Fixed pads anchor the system
+  - 'Teaching point: pad constraints raise HPWL versus unconstrained force on the
+    same seed'
+  notes: 'Gauss–Seidel style: replace each free cell with a blend of neighbor average
+    and prior coordinate so the solve does not collapse. Fixed pads anchor the system.
+    Teaching point: pad constraints raise HPWL versus unconstrained force on the same
+    seed.'
+- type: bullets
+  title: Pseudocode
+  bullets:
+  - Quadratic-lite solves free cells toward neighbor averages under pinned pads
+  - Damping keeps the system from collapsing
+  - Open this module's examples file and find the Pseudocode section
+  - That written sketch is what you implement on the implement track and what the
+    browser
+  notes: 'Quadratic-lite solves free cells toward neighbor averages under pinned pads.
+    Damping keeps the system from collapsing.
+
+
+    Open this module''s examples file and find the Pseudocode section. That written
+    sketch is what you implement on the implement track and what the browser challenges
+    measure.'
+- type: bullets
+  title: Algorithm sketch
+  bullets:
+  - With A and D fixed
+  notes: With A and D fixed, the teaching solve reaches HPWL forty-eight from fifty-two—modest
+    win, honest about pad constraints.
+- type: code
+  title: Algorithm sketch — try these
+  code: "INPUT: positions, nets, fixed pads {A,D}\nOUTPUT: free-cell coords + HPWL\n\
+    repeat: for free c:\n  blend toward neighbor average (damped)\npads A,D remain\
+    \ pinned\nGOLDEN starter 52 → HPWL 48"
+  notes: ''
+- type: image
+  title: Pads A and D stay fixed
+  image: assets/steps/01-pads-fixed.png
+  caption: Pads A and D stay fixed
+  notes: Quadratic-lite averages neighbors under fixed pads. Here A stays at (0,0)
+    and D at (8,8)—anchors that free cells must respect.
+- type: image
+  title: Free cells slide toward neighbors
+  image: assets/steps/02-free-cells.png
+  caption: Free cells slide toward neighbors
+  notes: B, C, E, and F update toward the average of their neighbors while A and D
+    hold. The system cannot collapse onto the pads.
+- type: image
+  title: 'After quadratic: HPWL forty-eight'
+  image: assets/steps/03-after-quad.png
+  caption: 'After quadratic: HPWL forty-eight'
+  notes: Default iterations reach total HPWL forty-eight. Pads constrain the free
+    cells, so you will not match free force’s eighteen point seven.
+- type: image
+  title: Quadratic vs unconstrained force
+  image: assets/steps/04-vs-force.png
+  caption: Quadratic vs unconstrained force
+  notes: Force without pads reaches about eighteen point seven; quadratic with pads
+    stays at forty-eight. Same seed, different constraint story.
+- type: image
+  title: Pads anchor the solve
+  image: assets/steps/05-takeaway.png
+  caption: Pads anchor the solve
+  notes: Always declare fixed cells. On this instance the quadratic golden is forty-eight—modest
+    wirelength win, honest about pad constraints.
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab track, open the **quadratic-place** lab from the tools shelf
+  - Load the starter placement, run the algorithm once
+  - Work the challenges that lock the goldens
+  notes: In the browser lab track, open the **quadratic-place** lab from the tools
+    shelf. Load the starter placement, run the algorithm once, and read HPWL—and density
+    when the panel shows it. Work the challenges that lock the goldens, then come
+    back to implement the same loop yourself.
+- type: bullets
+  title: Implement track
+  bullets:
+  - In the implement track
+  - Parse `tiny_place.json`, run the algorithm with a deterministic seed
+  - Match the browser goldens before you claim the checklist
+  notes: In the implement track, open this module's EXAMPLES.md Pseudocode section
+    and the course common solvers. Parse `tiny_place.json`, run the algorithm with
+    a deterministic seed, and print coordinates plus HPWL. Match the browser goldens
+    before you claim the checklist.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Common traps
+  notes: 'Common traps: celebrating HPWL while cells pile into one bin; ignoring fixed
+    pads A and D; mixing bbox and clique models in one report; keeping only the final
+    SA iterate instead of the best; and forgetting that timing weights change the
+    objective, not just the label.'
+- type: bullets
+  title: Your turn
+  bullets:
+  - Complete the checklist for at least one track, preferably both
+  - Implement until your metrics match the starter goldens
+  - When you’re ready, take the short quiz, then continue to the next module
+  notes: Complete the checklist for at least one track—preferably both. Implement
+    until your metrics match the starter goldens. When you’re ready, take the short
+    quiz, then continue to the next module.

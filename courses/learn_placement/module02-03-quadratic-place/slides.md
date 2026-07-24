@@ -14,7 +14,32 @@ Quadratic-lite placement averages neighbors under fixed pads, here A and D stay 
 - Gauss–Seidel style
 - Fixed pads anchor the system
 - Teaching point: pad constraints raise HPWL versus unconstrained force on the same seed
-- <!-- algorithm-walkthrough -->
+
+---
+
+## Pseudocode
+- Quadratic-lite solves free cells toward neighbor averages under pinned pads
+- Damping keeps the system from collapsing
+- Open this module's examples file and find the Pseudocode section
+- That written sketch is what you implement on the implement track and what the browser
+
+---
+
+## Algorithm sketch
+- With A and D fixed
+
+---
+
+## Algorithm sketch — try these
+
+```
+INPUT: positions, nets, fixed pads {A,D}
+OUTPUT: free-cell coords + HPWL
+repeat: for free c:
+  blend toward neighbor average (damped)
+pads A,D remain pinned
+GOLDEN starter 52 → HPWL 48
+```
 
 ---
 
@@ -51,7 +76,7 @@ Quadratic-lite placement averages neighbors under fixed pads, here A and D stay 
 ---
 
 ## Implement track
-- In the implement track, open this module’s examples and the course `common/` solvers
+- In the implement track
 - Parse `tiny_place.json`, run the algorithm with a deterministic seed
 - Match the browser goldens before you claim the checklist
 

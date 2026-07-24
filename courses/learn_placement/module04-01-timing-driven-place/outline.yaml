@@ -1,8 +1,127 @@
-title: "Timing-driven placement"
-footer: "learn_placement — Timing-driven"
+title: Timing-driven placement
+footer: learn_placement — 01 timing driven place
 slides:
-  - type: title
-    title: "Timing-driven placement"
-    subtitle: "module04-01-timing-driven-place · learn_placement"
-    notes: |
-      Stub — replace via transcript_to_outline.py after revising transcript.md.
+- type: title
+  title: Timing-driven placement
+  subtitle: Timing-driven place weights critical nets in the wirelength objective
+  notes: Timing-driven place weights critical nets in the wirelength objective. On
+    the starter, plain HPWL is fifty-two but timing-weighted HPWL is one hundred sixteen
+    because the four-pin net carries weight five. The compact golden drops timing-weighted
+    cost to thirty.
+- type: bullets
+  title: The idea
+  bullets:
+  - Multiply each net’s HPWL by its criticality weight and sum
+  - Heavy weights pull critical nets shorter even when plain HPWL looks fine
+  - Always report both plain and weighted totals so you can see what the objective
+    actually
+  notes: Multiply each net’s HPWL by its criticality weight and sum. Heavy weights
+    pull critical nets shorter even when plain HPWL looks fine. Always report both
+    plain and weighted totals so you can see what the objective actually optimized.
+- type: bullets
+  title: Pseudocode
+  bullets:
+  - Timing-driven place multiplies each net’s HPWL by criticality and sums
+  - Pseudocode always reports plain and weighted totals together
+  - Open this module's examples file and find the Pseudocode section
+  - That written sketch is what you implement on the implement track and what the
+    browser
+  notes: 'Timing-driven place multiplies each net’s HPWL by criticality and sums.
+    Pseudocode always reports plain and weighted totals together.
+
+
+    Open this module''s examples file and find the Pseudocode section. That written
+    sketch is what you implement on the implement track and what the browser challenges
+    measure.'
+- type: bullets
+  title: Algorithm sketch
+  bullets:
+  - Starter plain fifty-two becomes timing one hundred sixteen because the four-pin
+    net has
+  - Compact golden drops timing cost to thirty
+  notes: Starter plain fifty-two becomes timing one hundred sixteen because the four-pin
+    net has weight five. Compact golden drops timing cost to thirty.
+- type: code
+  title: Algorithm sketch — try these
+  code: 'INPUT: positions, nets, weights w[net]
+
+    OUTPUT: plain HPWL, timing HPWL
+
+    plain ← Σ HPWL(net)
+
+    timing ← Σ w[net]·HPWL(net)
+
+    optimize timing (or report both)
+
+    GOLDEN starter: plain=52 timing=116
+
+    compact: plain=14 timing=30'
+  notes: ''
+- type: image
+  title: Plain HPWL hides critical nets
+  image: assets/steps/01-plain-vs-weighted.png
+  caption: Plain HPWL hides critical nets
+  notes: On the starter, plain HPWL is fifty-two, but timing-weighted HPWL is one
+    hundred sixteen because the four-pin net carries weight five.
+- type: image
+  title: Weighted sum of net HPWLs
+  image: assets/steps/02-weight-math.png
+  caption: Weighted sum of net HPWLs
+  notes: Multiply each net’s bbox HPWL by its criticality and sum. The critical ABCD
+    net alone contributes five times sixteen equals eighty on the starter.
+- type: image
+  title: Golden timing cost drops to thirty
+  image: assets/steps/03-golden-timing.png
+  caption: Golden timing cost drops to thirty
+  notes: The compact golden cuts the critical bbox sharply. Timing-weighted HPWL falls
+    from one hundred sixteen to thirty while plain HPWL hits fourteen.
+- type: image
+  title: Always quote plain and weighted
+  image: assets/steps/04-both-reports.png
+  caption: Always quote plain and weighted
+  notes: A placement can look fine on plain HPWL while the critical net stays long.
+    Timing labs demand both numbers so the objective is visible.
+- type: image
+  title: Weights change what you optimize
+  image: assets/steps/05-takeaway.png
+  caption: Weights change what you optimize
+  notes: Timing-driven place is still wirelength—just weighted. Remember one hundred
+    sixteen to thirty on this instance, and never drop the plain HPWL report.
+- type: bullets
+  title: Browser lab track
+  bullets:
+  - In the browser lab track, open the **timing-driven-place** lab from the tools
+    shelf
+  - Load the starter placement, run the algorithm once
+  - Work the challenges that lock the goldens
+  notes: In the browser lab track, open the **timing-driven-place** lab from the tools
+    shelf. Load the starter placement, run the algorithm once, and read HPWL—and density
+    when the panel shows it. Work the challenges that lock the goldens, then come
+    back to implement the same loop yourself.
+- type: bullets
+  title: Implement track
+  bullets:
+  - In the implement track
+  - Parse `tiny_place.json`, run the algorithm with a deterministic seed
+  - Match the browser goldens before you claim the checklist
+  notes: In the implement track, open this module's EXAMPLES.md Pseudocode section
+    and the course common solvers. Parse `tiny_place.json`, run the algorithm with
+    a deterministic seed, and print coordinates plus HPWL. Match the browser goldens
+    before you claim the checklist.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Common traps
+  notes: 'Common traps: celebrating HPWL while cells pile into one bin; ignoring fixed
+    pads A and D; mixing bbox and clique models in one report; keeping only the final
+    SA iterate instead of the best; and forgetting that timing weights change the
+    objective, not just the label.'
+- type: bullets
+  title: Your turn
+  bullets:
+  - Complete the checklist for at least one track, preferably both
+  - Implement until your metrics match the starter goldens
+  - When you’re ready, take the short quiz, then continue to the next module
+  notes: Complete the checklist for at least one track—preferably both. Implement
+    until your metrics match the starter goldens. When you’re ready, take the short
+    quiz, then continue to the next module.

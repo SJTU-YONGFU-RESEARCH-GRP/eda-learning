@@ -48,7 +48,10 @@ Moving cells outward reduces how many tiles exceed Cap.
 
 ## Slide 8 — Browser lab track
 
+![Browser lab starter](assets/lab-starter.png)
+
 Open **capacity-demand**. Toggle capacity between one and two while holding a fixed demand seed. Watch which tiles flip. Check challenges that score your capacity choice against overflow counts—not a “show golden” click.
+
 
 ## Slide 9 — Implement track
 

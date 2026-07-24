@@ -1,6 +1,74 @@
-# outline — module03-03-net-weighting
-# Regenerated from transcript.md via transcript_to_outline.py
-course: learn_congestion
-module: module03-03-net-weighting
-title: Congestion-aware net weighting
-slides: []
+title: Pull soft from hotspots
+footer: learn_congestion — 03 net weighting
+slides:
+- type: title
+  title: Pull soft from hotspots
+  subtitle: Net weighting raises the cost of nets that cross congested GCells so a
+    weighted placer pulls those pins apart
+  notes: Net weighting raises the cost of nets that cross congested GCells so a weighted
+    placer pulls those pins apart. Weight equals one plus beta times mean congestion
+    under the net bbox.
+- type: bullets
+  title: The idea
+  bullets:
+  - For each net, average congestion over GCells under its bbox
+  - Scale with beta, one point zero is a clear demo
+  - The four-pin net on a clustered seed should outrank the short E–F net
+  notes: For each net, average congestion over GCells under its bbox. Scale with beta—one
+    point zero is a clear demo. The four-pin net on a clustered seed should outrank
+    the short E–F net.
+- type: image
+  title: Weight hot nets
+  image: assets/steps/01-idea.png
+  caption: Weight hot nets
+  notes: Nets through congested GCells get larger weights for weighted place.
+- type: image
+  title: Mean under bbox
+  image: assets/steps/02-bbox.png
+  caption: Mean under bbox
+  notes: Average congestion over GCells under the net bbox—not the whole chip.
+- type: image
+  title: 4-pin ranks high
+  image: assets/steps/03-rank.png
+  caption: 4-pin ranks high
+  notes: On a cluster, the 4-pin net outranks short E–F.
+- type: image
+  title: Spread lowers weights
+  image: assets/steps/04-cool.png
+  caption: Spread lowers weights
+  notes: As congestion falls, weights ease back toward 1.
+- type: image
+  title: Use in placer
+  image: assets/steps/05-use.png
+  caption: Use in placer
+  notes: Weighted HPWL pulls soft from hotspots—pair with inflators.
+- type: image
+  title: Browser lab track
+  image: assets/lab-starter.png
+  caption: Browser lab starter
+  notes: Open **net-weighting**. Compare weights on spread versus congested seeds.
+    Challenges check that a hot net’s weight exceeds a cool net’s weight on your map.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Implement `net_weights_from_congestion`
+  - Print the six weights for congested_seed
+  - Confirm net index four is among the highest
+  notes: Implement `net_weights_from_congestion`. Print the six weights for congested_seed.
+    Confirm net index four is among the highest.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Averaging over the whole chip instead of the net bbox
+  - Using demand instead of congestion ratios
+  - Updating weights but forgetting the placer still optimizes unweighted HPWL in
+    the toy lab
+  notes: Averaging over the whole chip instead of the net bbox. Using demand instead
+    of congestion ratios. Updating weights but forgetting the placer still optimizes
+    unweighted HPWL in the toy lab.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Finish weighting
+  - 'Next: one full placement feedback pass'
+  notes: 'Finish weighting. Next: one full placement feedback pass.'

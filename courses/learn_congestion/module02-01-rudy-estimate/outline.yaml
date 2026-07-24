@@ -1,6 +1,81 @@
-# outline — module02-01-rudy-estimate
-# Regenerated from transcript.md via transcript_to_outline.py
-course: learn_congestion
-module: module02-01-rudy-estimate
-title: RUDY congestion estimate
-slides: []
+title: Uniform wire density
+footer: learn_congestion — 01 rudy estimate
+slides:
+- type: title
+  title: Uniform wire density
+  subtitle: RUDY, Rectangular Uniform wire DensitY, spreads each net’s wirelength
+    evenly across GCells under its bounding box
+  notes: RUDY—Rectangular Uniform wire DensitY—spreads each net’s wirelength evenly
+    across GCells under its bounding box. It is fast, deterministic, and good enough
+    to teach overflow before you build a full global router.
+- type: bullets
+  title: The idea
+  bullets:
+  - For each net, take the axis-aligned bbox of pin positions
+  - Half-perimeter wirelength is width plus height
+  - Collect overlapping GCells, at least one
+  - Density equals HPWL divided by the tile count
+  - Add that density into every overlapping tile
+  - Sum across nets for the demand map
+  notes: For each net, take the axis-aligned bbox of pin positions. Half-perimeter
+    wirelength is width plus height. Collect overlapping GCells—at least one. Density
+    equals HPWL divided by the tile count. Add that density into every overlapping
+    tile. Sum across nets for the demand map.
+- type: image
+  title: Net bounding box
+  image: assets/steps/01-bbox.png
+  caption: Net bounding box
+  notes: RUDY starts from each net’s axis-aligned pin bbox and HPWL.
+- type: image
+  title: Uniform share
+  image: assets/steps/02-share.png
+  caption: Uniform share
+  notes: 'Density = HPWL / #overlapping GCells; add to each overlapping tile.'
+- type: image
+  title: Sum over nets
+  image: assets/steps/03-sum.png
+  caption: Sum over nets
+  notes: Demand is the sum across nets—center tiles collect many contributions on
+    a cluster.
+- type: image
+  title: Overflow appears
+  image: assets/steps/04-overflow.png
+  caption: Overflow appears
+  notes: ov = max(0, demand−Cap). Seed shows a clear hotspot.
+- type: image
+  title: Spread cools total pattern
+  image: assets/steps/05-spread.png
+  caption: Spread cools total pattern
+  notes: Long nets paint many tiles; cluster spikes max. Both are useful views.
+- type: image
+  title: Browser lab track
+  image: assets/lab-starter.png
+  caption: Browser lab starter
+  notes: Open **rudy-estimate**. Start from the spread placement, then load the congested
+    seed and watch center tiles heat up. Check challenges against your demand totals.
+    Reveal golden is study-only.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Implement `rudy_demand(positions)` in `common/solvers.py`
+  - On `congested_seed`
+  - Match the browser golden within a small rounding tolerance
+  notes: Implement `rudy_demand(positions)` in `common/solvers.py`. On `congested_seed`,
+    print the four-by-two demand matrix and total overflow at capacity two. Match
+    the browser golden within a small rounding tolerance.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Dividing by bbox area in continuous units while depositing into discrete tiles
+  - Skipping nets with coincident pins, still touch one GCell
+  - Mutating the demand matrix in place across calls without zeroing
+  notes: Dividing by bbox area in continuous units while depositing into discrete
+    tiles inconsistently. Skipping nets with coincident pins—still touch one GCell.
+    Mutating the demand matrix in place across calls without zeroing.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Ship Track A RUDY and clear the browser challenges
+  - 'Next: probabilistic L-shapes for a different demand signature'
+  notes: 'Ship Track A RUDY and clear the browser challenges. Next: probabilistic
+    L-shapes for a different demand signature.'

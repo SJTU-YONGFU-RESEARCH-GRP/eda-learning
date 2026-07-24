@@ -1,6 +1,42 @@
-# outline — module05-01-offline-benchmark-compare
-# Regenerated from transcript.md via transcript_to_outline.py
-course: learn_congestion
-module: module05-01-offline-benchmark-compare
-title: Offline benchmark compare
-slides: []
+title: Why compare
+footer: learn_congestion — 01 offline benchmark compare
+slides:
+- type: title
+  title: Why compare
+  subtitle: 'Toy estimators need a harness: same JSON in, overflow and runtime out'
+  notes: 'Toy estimators need a harness: same JSON in, overflow and runtime out. Comparing
+    engines teaches you what “better congestion” means beyond a pretty heat map.'
+- type: bullets
+  title: The idea
+  bullets:
+  - Fix the instance
+  - Run RUDY and probabilistic
+  - Record total overflow, max overflow, wall time
+  - Optionally compare to a reference map
+  - Write one discrepancy hypothesis
+  notes: Fix the instance. Run RUDY and probabilistic. Record total overflow, max
+    overflow, wall time. Optionally compare to a reference map. Write one discrepancy
+    hypothesis.
+- type: bullets
+  title: Harness shape
+  bullets:
+  - A small Python driver loading tiny_cong.json is enough
+  - Print a markdown table
+  - Missing external tools are OK, document blockers and still validate I/O
+  notes: A small Python driver loading tiny_cong.json is enough. Print a markdown
+    table. Missing external tools are OK—document blockers and still validate I/O.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Changing Cap between rows of the table
+  - Comparing incompatible demand units
+  - Optimizing runtime before correctness
+  notes: Changing Cap between rows of the table. Comparing incompatible demand units.
+    Optimizing runtime before correctness.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Fill one comparison table for spread versus congested seeds
+  - Then open the wrap
+  notes: Fill one comparison table for spread versus congested seeds. Then open the
+    wrap.

@@ -14,7 +14,33 @@ Spreading pushes overlapping or near pairs apart until a minimum pairwise distan
 - While any pair sits closer than minDist, push them along their separation vector
 - Finish with a deterministic repair pass so the result is stable
 - Spreading is a legality proxy, not full row-site legalization
-- <!-- algorithm-walkthrough -->
+
+---
+
+## Pseudocode
+- Spread lite pushes close pairs apart until every pairwise distance clears a minimum
+- It is overlap relief, not site legalization
+- Open this module's examples file and find the Pseudocode section
+- That written sketch is what you implement on the implement track and what the browser
+
+---
+
+## Algorithm sketch
+- Start from the triple-overlap demo, run the spreader with minimum distance zero point five
+
+---
+
+## Algorithm sketch — try these
+
+```
+INPUT: positions, min_dist
+OUTPUT: spread positions
+while exists pair with dist < min_dist:
+  push the pair apart along their vector
+stop when all pairs clear min_dist
+NOTE: not row/site legalization
+GOLDEN min_dist=0.5 on overlap seed
+```
 
 ---
 
@@ -51,7 +77,7 @@ Spreading pushes overlapping or near pairs apart until a minimum pairwise distan
 ---
 
 ## Implement track
-- In the implement track, open this module’s examples and the course `common/` solvers
+- In the implement track
 - Parse `tiny_place.json`, run the algorithm with a deterministic seed
 - Match the browser goldens before you claim the checklist
 

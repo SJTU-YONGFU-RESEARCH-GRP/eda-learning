@@ -10,6 +10,8 @@ You placed and legalized cells. Routers still need room in each GCell. This cour
 
 ## Slide 2 — Two tracks
 
+![Tools index](assets/tools-index.png)
+
 Track B is the browser lab: drag cells, watch heat maps, clear challenges. Track A is implement: Python solvers on a tiny JSON instance. Use either or both. Browser first for intuition is fine.
 
 ## Slide 3 — Course map

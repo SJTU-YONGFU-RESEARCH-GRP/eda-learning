@@ -15,7 +15,33 @@ Force-directed place pulls each free cell toward the average of its net neighbor
 - Fixed pads stay put
 - Too much alpha collapses the design; too little barely moves
 - Report HPWL before and after with the same net model
-- <!-- algorithm-walkthrough -->
+
+---
+
+## Pseudocode
+- Force-directed place blends each free cell toward its neighbor average with step alpha
+- Fixed pads do not move
+- Open this module's examples file and find the Pseudocode section
+- That written sketch is what you implement on the implement track and what the browser
+
+---
+
+## Algorithm sketch
+- From starter fifty-two
+
+---
+
+## Algorithm sketch — try these
+
+```
+INPUT: positions, nets, α, iters, fixed pads
+OUTPUT: updated positions + HPWL
+each iter, for free cell c:
+  tgt ← avg neighbor coords (+ weak center)
+  pos[c] ← (1−α)·pos[c] + α·tgt
+pads stay fixed
+GOLDEN starter 52 → ≈18.7 after defaults
+```
 
 ---
 
@@ -52,7 +78,7 @@ Force-directed place pulls each free cell toward the average of its net neighbor
 ---
 
 ## Implement track
-- In the implement track, open this module’s examples and the course `common/` solvers
+- In the implement track
 - Parse `tiny_place.json`, run the algorithm with a deterministic seed
 - Match the browser goldens before you claim the checklist
 

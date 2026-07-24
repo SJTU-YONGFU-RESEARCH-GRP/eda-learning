@@ -1,6 +1,75 @@
-# outline — module02-03-probabilistic-demand
-# Regenerated from transcript.md via transcript_to_outline.py
-course: learn_congestion
-module: module02-03-probabilistic-demand
-title: Probabilistic routing demand
-slides: []
+title: L-shape routes
+footer: learn_congestion — 03 probabilistic demand
+slides:
+- type: title
+  title: L-shape routes
+  subtitle: RUDY paints the whole bbox
+  notes: 'RUDY paints the whole bbox. Probabilistic demand instead assumes two-pin
+    nets route on L-shapes: half the probability goes horizontal-then-vertical, half
+    the other bend. That concentrates demand on corridors instead of the filled rectangle.'
+- type: bullets
+  title: The idea
+  bullets:
+  - For a two-pin net
+  - 'Multi-pin nets: star from the bbox center to each pin and deposit like two-pin
+    edges'
+  - Compare the resulting matrix to RUDY on the same placement
+  notes: 'For a two-pin net, walk GCells along each L and add one half unit of demand
+    per walk (toy scaling). Multi-pin nets: star from the bbox center to each pin
+    and deposit like two-pin edges. Compare the resulting matrix to RUDY on the same
+    placement.'
+- type: image
+  title: L-shape idea
+  image: assets/steps/01-lshape.png
+  caption: L-shape idea
+  notes: Two-pin nets route on L-shapes with half probability each bend.
+- type: image
+  title: Deposit along legs
+  image: assets/steps/02-deposit.png
+  caption: Deposit along legs
+  notes: Walk GCells on each leg and share demand along the path.
+- type: image
+  title: Multi-pin star
+  image: assets/steps/03-multi.png
+  caption: Multi-pin star
+  notes: Star from bbox center to each pin; deposit like two-pin edges.
+- type: image
+  title: Versus RUDY
+  image: assets/steps/04-compare.png
+  caption: Versus RUDY
+  notes: Probabilistic concentrates on corridors; RUDY paints the bbox.
+- type: image
+  title: Spread again
+  image: assets/steps/05-cool.png
+  caption: Spread again
+  notes: Spreading still reduces probabilistic overflow—feedback is placement.
+- type: image
+  title: Browser lab track
+  image: assets/lab-starter.png
+  caption: Browser lab starter
+  notes: Open **probabilistic-demand**. Toggle RUDY versus probabilistic overlays.
+    Note which center tiles differ. Challenges score your placement’s probabilistic
+    overflow, not which button you clicked.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Implement `probabilistic_demand`
+  - On spread placement, print both RUDY and probabilistic totals
+  - Explain one tile where they disagree and why
+  notes: Implement `probabilistic_demand`. On spread placement, print both RUDY and
+    probabilistic totals. Explain one tile where they disagree and why.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Double-counting the corner GCell on both L legs
+  - Forgetting multi-pin nets
+  - Document your unit choice
+  notes: Double-counting the corner GCell on both L legs. Forgetting multi-pin nets.
+    Scaling probabilistic deposits so differently from RUDY that overflow comparisons
+    become meaningless—document your unit choice.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Clear the checklist
+  - 'Next: turn demand into a congestion heat map'
+  notes: 'Clear the checklist. Next: turn demand into a congestion heat map.'

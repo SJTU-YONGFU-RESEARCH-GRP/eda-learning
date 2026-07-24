@@ -1,6 +1,75 @@
-# outline — module03-01-cell-inflator
-# Regenerated from transcript.md via transcript_to_outline.py
-course: learn_congestion
-module: module03-01-cell-inflator
-title: Cell inflation
-slides: []
+title: Make hot cells larger
+footer: learn_congestion — 01 cell inflator
+slides:
+- type: title
+  title: Make hot cells larger
+  subtitle: Inflators tell the placer that cells in congested GCells should act bigger,
+    encouraging spreading on the next pass
+  notes: 'Inflators tell the placer that cells in congested GCells should act bigger,
+    encouraging spreading on the next pass. On the toy grid we scale width: width
+    prime equals width times one plus alpha times congestion minus one, when congestion
+    is above one.'
+- type: bullets
+  title: The idea
+  bullets:
+  - Map each cell center to a GCell
+  - If that tile’s congestion exceeds one, inflate; otherwise leave width alone
+  - Alpha around zero point five keeps the demo visible without exploding geometry
+  - Coordinates stay put, this lab changes widths, not x y
+  notes: Map each cell center to a GCell. If that tile’s congestion exceeds one, inflate;
+    otherwise leave width alone. Alpha around zero point five keeps the demo visible
+    without exploding geometry. Coordinates stay put—this lab changes widths, not
+    x y.
+- type: image
+  title: Why inflate
+  image: assets/steps/01-idea.png
+  caption: Why inflate
+  notes: Make cells in hot GCells act larger so the next place pass spreads.
+- type: image
+  title: Scale rule
+  image: assets/steps/02-rule.png
+  caption: Scale rule
+  notes: 'If cong>1: w'' = w·(1+α(c−1)), α=0.5.'
+- type: image
+  title: Apply once
+  image: assets/steps/03-run.png
+  caption: Apply once
+  notes: Compute congestion from RUDY, then inflate widths once.
+- type: image
+  title: Quiet tiles
+  image: assets/steps/04-quiet.png
+  caption: Quiet tiles
+  notes: Cells in tiles with cong≤1 stay at base width.
+- type: image
+  title: Link to place
+  image: assets/steps/05-link.png
+  caption: Link to place
+  notes: Widths feed the next placer—estimation alone is not enough.
+- type: image
+  title: Browser lab track
+  image: assets/lab-starter.png
+  caption: Browser lab starter
+  notes: Open **cell-inflator**. Run inflate on congested_seed and read which cells
+    grew. Challenges verify inflated widths from your congestion state.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Implement `inflate_cells` with alpha equals zero point five
+  - Print before/after widths for cells sitting in oversubscribed tiles
+  notes: Implement `inflate_cells` with alpha equals zero point five. Print before/after
+    widths for cells sitting in oversubscribed tiles.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Inflating every cell when only some GCells are hot
+  - Inflating height when the placer model only tracks width
+  - Applying inflation twice without resetting to base widths
+  notes: Inflating every cell when only some GCells are hot. Inflating height when
+    the placer model only tracks width. Applying inflation twice without resetting
+    to base widths.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Clear the inflator challenges
+  - 'Next: net weighting, the wirelength-side knob'
+  notes: 'Clear the inflator challenges. Next: net weighting—the wirelength-side knob.'

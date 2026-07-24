@@ -34,8 +34,23 @@
       "section": "Floorplanning"
     },
     {
+      "id": "capacity-demand",
+      "title": "Capacity Demand",
+      "section": "Clustering & refinement"
+    },
+    {
+      "id": "cell-inflator",
+      "title": "Cell Inflator",
+      "section": "Clustering & refinement"
+    },
+    {
       "id": "congestion-aware-clustering",
       "title": "Congestion-aware clustering",
+      "section": "Clustering & refinement"
+    },
+    {
+      "id": "congestion-map",
+      "title": "Congestion Map",
       "section": "Clustering & refinement"
     },
     {
@@ -92,6 +107,11 @@
       "id": "force-directed-place",
       "title": "Force Directed Place",
       "section": "Placement"
+    },
+    {
+      "id": "gcell-grid",
+      "title": "Gcell Grid",
+      "section": "Clustering & refinement"
     },
     {
       "id": "greedy-pair-merge",
@@ -179,6 +199,16 @@
       "section": "Placement"
     },
     {
+      "id": "net-weighting",
+      "title": "Net Weighting",
+      "section": "Clustering & refinement"
+    },
+    {
+      "id": "overflow-metrics",
+      "title": "Overflow Metrics",
+      "section": "Clustering & refinement"
+    },
+    {
       "id": "overlap-removal",
       "title": "Overlap Removal",
       "section": "Legalization"
@@ -189,6 +219,16 @@
       "section": "Floorplanning"
     },
     {
+      "id": "placement-feedback",
+      "title": "Placement Feedback",
+      "section": "Clustering & refinement"
+    },
+    {
+      "id": "probabilistic-demand",
+      "title": "Probabilistic Demand",
+      "section": "Clustering & refinement"
+    },
+    {
       "id": "quadratic-place",
       "title": "Quadratic Place",
       "section": "Placement"
@@ -197,6 +237,11 @@
       "id": "recursive-bisection",
       "title": "Recursive Bisection",
       "section": "Partitioning"
+    },
+    {
+      "id": "rudy-estimate",
+      "title": "Rudy Estimate",
+      "section": "Clustering & refinement"
     },
     {
       "id": "sa-placement",
@@ -1518,12 +1563,193 @@
     },
     {
       "id": "learn_congestion",
-      "title": "Congestion",
-      "focus": "Congestion estimation and inflators",
-      "status": "planned",
+      "title": "Congestion for EDA",
+      "focus": "GCell grid \u2192 capacity/demand \u2192 RUDY/probabilistic \u2192 heat map \u2192 overflow \u2192 inflators \u2192 place feedback",
+      "status": "ready",
       "repo": "learn_congestion",
       "prereq": null,
-      "labs": []
+      "labs": [
+        {
+          "n": "01",
+          "slug": "intro",
+          "moduleId": "module00-00-intro",
+          "kind": "intro",
+          "title": "Welcome to congestion for EDA",
+          "toolId": null,
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "02",
+          "slug": "gcell-grid",
+          "moduleId": "module01-01-gcell-grid",
+          "kind": "lab",
+          "title": "GCell grid model",
+          "toolId": "gcell-grid",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "03",
+          "slug": "capacity-demand",
+          "moduleId": "module01-03-capacity-demand",
+          "kind": "lab",
+          "title": "Capacity vs demand",
+          "toolId": "capacity-demand",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "04",
+          "slug": "rudy-estimate",
+          "moduleId": "module02-01-rudy-estimate",
+          "kind": "lab",
+          "title": "RUDY congestion estimate",
+          "toolId": "rudy-estimate",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "05",
+          "slug": "probabilistic-demand",
+          "moduleId": "module02-03-probabilistic-demand",
+          "kind": "lab",
+          "title": "Probabilistic routing demand",
+          "toolId": "probabilistic-demand",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "06",
+          "slug": "congestion-map",
+          "moduleId": "module02-05-congestion-map",
+          "kind": "lab",
+          "title": "Congestion heat map",
+          "toolId": "congestion-map",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "07",
+          "slug": "overflow-metrics",
+          "moduleId": "module02-07-overflow-metrics",
+          "kind": "lab",
+          "title": "Overflow metrics",
+          "toolId": "overflow-metrics",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "08",
+          "slug": "cell-inflator",
+          "moduleId": "module03-01-cell-inflator",
+          "kind": "lab",
+          "title": "Cell inflation",
+          "toolId": "cell-inflator",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "09",
+          "slug": "net-weighting",
+          "moduleId": "module03-03-net-weighting",
+          "kind": "lab",
+          "title": "Congestion-aware net weighting",
+          "toolId": "net-weighting",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "10",
+          "slug": "placement-feedback",
+          "moduleId": "module04-01-placement-feedback",
+          "kind": "lab",
+          "title": "Placement feedback loop",
+          "toolId": "placement-feedback",
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "11",
+          "slug": "offline-benchmark-compare",
+          "moduleId": "module05-01-offline-benchmark-compare",
+          "kind": "offline",
+          "title": "Offline benchmark compare",
+          "toolId": null,
+          "status": "planned",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        },
+        {
+          "n": "12",
+          "slug": "wrap",
+          "moduleId": "module99-00-wrap",
+          "kind": "wrap",
+          "title": "Congestion path complete",
+          "toolId": null,
+          "status": "shipped",
+          "media": {
+            "video": true,
+            "pdf": true,
+            "pptx": true,
+            "quiz": true
+          }
+        }
+      ]
     },
     {
       "id": "learn_clock_tree",

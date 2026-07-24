@@ -12,35 +12,33 @@ RUDY—Rectangular Uniform wire DensitY—spreads each net’s wirelength evenly
 
 For each net, take the axis-aligned bbox of pin positions. Half-perimeter wirelength is width plus height. Collect overlapping GCells—at least one. Density equals HPWL divided by the tile count. Add that density into every overlapping tile. Sum across nets for the demand map.
 
-## Slide 3 — Browser lab track
-
 <!-- algorithm-walkthrough -->
 
-## Slide 4 — Net bounding box
+## Slide 3 — Net bounding box
 
 ![Net bounding box](assets/steps/01-bbox.png)
 
 RUDY starts from each net’s axis-aligned pin bbox and HPWL.
 
-## Slide 5 — Uniform share
+## Slide 4 — Uniform share
 
 ![Uniform share](assets/steps/02-share.png)
 
 Density = HPWL / #overlapping GCells; add to each overlapping tile.
 
-## Slide 6 — Sum over nets
+## Slide 5 — Sum over nets
 
 ![Sum over nets](assets/steps/03-sum.png)
 
 Demand is the sum across nets—center tiles collect many contributions on a cluster.
 
-## Slide 7 — Overflow appears
+## Slide 6 — Overflow appears
 
 ![Overflow appears](assets/steps/04-overflow.png)
 
 ov = max(0, demand−Cap). Seed shows a clear hotspot.
 
-## Slide 8 — Spread cools total pattern
+## Slide 7 — Spread cools total pattern
 
 ![Spread cools total pattern](assets/steps/05-spread.png)
 
@@ -48,6 +46,9 @@ Long nets paint many tiles; cluster spikes max. Both are useful views.
 
 <!-- /algorithm-walkthrough -->
 
+## Slide 8 — Browser lab track
+
+![Browser lab starter](assets/lab-starter.png)
 
 Open **rudy-estimate**. Start from the spread placement, then load the congested seed and watch center tiles heat up. Check challenges against your demand totals. Reveal golden is study-only.
 
