@@ -1,0 +1,38 @@
+[
+  {
+    "id": "terminal-gcells-q1",
+    "type": "mcq",
+    "prompt": "Pin terminal assignment maps a pin to\u2026",
+    "choices": [
+      "The GCell containing the pin center",
+      "The farthest GCell on the chip",
+      "A Liberty arc",
+      "A detailed-route via"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "terminal-gcells-q2",
+    "type": "mcq",
+    "prompt": "Cell A at (1,1) on our 4\u00d72 grid lands in GCell\u2026",
+    "choices": [
+      "(0,0)",
+      "(2,1)",
+      "(3,1)",
+      "(1,1)"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "terminal-gcells-q3",
+    "type": "mcq",
+    "prompt": "Terminals are needed before\u2026",
+    "choices": [
+      "Any pattern or maze route between pins",
+      "Synthesis only",
+      "DRC at foundry signoff only",
+      "Scan insertion"
+    ],
+    "answer": 0
+  }
+]

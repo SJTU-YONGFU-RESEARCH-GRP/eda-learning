@@ -1,0 +1,94 @@
+{
+  "chip": {
+    "W": 12,
+    "H": 8
+  },
+  "gcell": {
+    "nx": 4,
+    "ny": 2,
+    "cellW": 3,
+    "cellH": 4
+  },
+  "edge_capacity": 2,
+  "cells": [
+    {
+      "id": "A",
+      "width": 2
+    },
+    {
+      "id": "B",
+      "width": 2
+    },
+    {
+      "id": "C",
+      "width": 2
+    },
+    {
+      "id": "D",
+      "width": 2
+    },
+    {
+      "id": "E",
+      "width": 1
+    },
+    {
+      "id": "F",
+      "width": 1
+    }
+  ],
+  "nets": [
+    [
+      "A",
+      "B"
+    ],
+    [
+      "C",
+      "D"
+    ],
+    [
+      "A",
+      "C"
+    ],
+    [
+      "B",
+      "D"
+    ],
+    [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    [
+      "E",
+      "F"
+    ]
+  ],
+  "placement": {
+    "A": {
+      "x": 1,
+      "y": 1
+    },
+    "B": {
+      "x": 8,
+      "y": 1
+    },
+    "C": {
+      "x": 1,
+      "y": 5
+    },
+    "D": {
+      "x": 8,
+      "y": 5
+    },
+    "E": {
+      "x": 5,
+      "y": 3
+    },
+    "F": {
+      "x": 6,
+      "y": 3
+    }
+  },
+  "notes": "4\u00d72 GCells. Edges between adjacent GCells have capacity 2. Global route deposits usage on edges."
+}

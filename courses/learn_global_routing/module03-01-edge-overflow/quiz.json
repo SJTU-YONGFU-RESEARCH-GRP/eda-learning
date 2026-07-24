@@ -1,0 +1,38 @@
+[
+  {
+    "id": "edge-overflow-q1",
+    "type": "mcq",
+    "prompt": "Edge overflow on one edge is\u2026",
+    "choices": [
+      "max(0, usage \u2212 capacity)",
+      "usage \u00d7 capacity",
+      "HPWL only",
+      "Always zero"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "edge-overflow-q2",
+    "type": "mcq",
+    "prompt": "Sequential L-routes at Cap=2 on tiny_gr should\u2026",
+    "choices": [
+      "Produce positive total overflow",
+      "Always be zero overflow",
+      "Skip edge counting",
+      "Only count vias"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "edge-overflow-q3",
+    "type": "mcq",
+    "prompt": "Overflow count reports\u2026",
+    "choices": [
+      "How many edges exceed capacity",
+      "Number of cells",
+      "Git commits",
+      "Clock skew"
+    ],
+    "answer": 0
+  }
+]

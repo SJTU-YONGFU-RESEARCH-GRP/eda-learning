@@ -1,0 +1,38 @@
+[
+  {
+    "id": "pattern-z-route-q1",
+    "type": "mcq",
+    "prompt": "A Z-route uses\u2026",
+    "choices": [
+      "Three segments when pins are off the same row and column",
+      "Exactly one edge always",
+      "Only vias",
+      "No bends"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "pattern-z-route-q2",
+    "type": "mcq",
+    "prompt": "When a and b share a row, Z-route\u2026",
+    "choices": [
+      "Falls back to L-route",
+      "Returns empty",
+      "Uses maze only",
+      "Fails DRC"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "pattern-z-route-q3",
+    "type": "mcq",
+    "prompt": "HZ prefer means the first segment is\u2026",
+    "choices": [
+      "Horizontal",
+      "Vertical",
+      "Diagonal",
+      "Via-only"
+    ],
+    "answer": 0
+  }
+]

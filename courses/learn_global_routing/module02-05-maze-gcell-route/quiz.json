@@ -1,0 +1,38 @@
+[
+  {
+    "id": "maze-gcell-route-q1",
+    "type": "mcq",
+    "prompt": "Maze routing skips edges where\u2026",
+    "choices": [
+      "usage \u2265 capacity",
+      "usage = 0",
+      "pins coincide",
+      "HPWL = 0"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "maze-gcell-route-q2",
+    "type": "mcq",
+    "prompt": "Our maze router uses\u2026",
+    "choices": [
+      "BFS for shortest feasible path",
+      "DFS only",
+      "Simulated annealing",
+      "SPICE"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "maze-gcell-route-q3",
+    "type": "mcq",
+    "prompt": "If all paths are blocked, maze_route returns\u2026",
+    "choices": [
+      "None",
+      "A random path",
+      "Negative overflow",
+      "A via stack"
+    ],
+    "answer": 0
+  }
+]

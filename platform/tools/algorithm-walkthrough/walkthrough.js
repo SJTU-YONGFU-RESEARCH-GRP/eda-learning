@@ -24,6 +24,8 @@ import { FLOORPLAN_ALGOS } from "./floorplanning-algos.js";
 import { LEGALIZATION_ALGOS } from "./legalization-algos.js";
 import { CONGESTION_ALGOS } from "./congestion-algos.js";
 import { drawCongestion } from "../../assets/congestion-core.js";
+import { GLOBAL_ROUTING_ALGOS } from "./global-routing-algos.js";
+import { drawGlobalRoute, usageFromRoutes } from "../../assets/global-routing-core.js";
 import { PLACEMENT_ALGO_IDS, PLACEMENT_ALGOS } from "./placement-algos.js";
 import { STA_ALGOS } from "./sta-algos.js";
 
@@ -1666,6 +1668,7 @@ export const ALGOS = {
   ...PLACEMENT_ALGOS,
   ...LEGALIZATION_ALGOS,
   ...CONGESTION_ALGOS,
+  ...GLOBAL_ROUTING_ALGOS,
 };
 
 function qs() {
@@ -1757,6 +1760,17 @@ function render() {
       positions: s.positions,
       heat: s.heat || null,
       heatMode: s.heatMode || "cong",
+      highlight: s.highlight || [],
+    });
+  } else if (pack.kind === "global-routing") {
+    const grRoutes = s.routes || [];
+    const grUsage = s.usage || (grRoutes.length ? usageFromRoutes(grRoutes) : null);
+    drawGlobalRoute(canvas, {
+      positions: s.positions,
+      usage: grUsage,
+      routes: grRoutes,
+      highlightPath: s.highlightPath || null,
+      selectedNet: s.selectedNet ?? null,
       highlight: s.highlight || [],
     });
   } else if (

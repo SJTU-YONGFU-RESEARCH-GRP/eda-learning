@@ -1,0 +1,76 @@
+title: Why a routing graph
+footer: learn_global_routing — 01 routing graph
+slides:
+- type: title
+  title: Why a routing graph
+  subtitle: Global routers do not hop pixel by pixel
+  notes: Global routers do not hop pixel by pixel. They walk a coarse graph whose
+    nodes are GCells and whose edges are the channels between neighbors. Before any
+    pattern route, you must enumerate those edges on our four-by-two toy grid.
+- type: bullets
+  title: The idea
+  bullets:
+  - To the upper neighbor when j plus one is less than ny
+  - On four by two you get eleven edges
+  - Store each edge as a sorted pair of GCell indices so direction does not matter
+  notes: For each GCell at column i and row j, add an undirected edge to the right
+    neighbor when i plus one is less than nx, and to the upper neighbor when j plus
+    one is less than ny. On four by two you get eleven edges. Store each edge as a
+    sorted pair of GCell indices so direction does not matter.
+- type: image
+  title: GCell graph
+  image: assets/steps/01-grid.png
+  caption: GCell graph
+  notes: 'Four-by-two GCells form a grid graph: nodes are tiles, edges are adjacency.'
+- type: image
+  title: Horizontal edges
+  image: assets/steps/02-h.png
+  caption: Horizontal edges
+  notes: Three horizontal edges per row connect columns i and i+1.
+- type: image
+  title: Vertical edges
+  image: assets/steps/03-v.png
+  caption: Vertical edges
+  notes: Four vertical edges connect rows j and j+1.
+- type: image
+  title: Neighbors
+  image: assets/steps/04-neigh.png
+  caption: Neighbors
+  notes: Interior GCell (1,0) has three neighbors; corners have two.
+- type: image
+  title: Capacity
+  image: assets/steps/05-cap.png
+  caption: Capacity
+  notes: Each edge tracks usage vs capacity—overflow drives rip-up.
+- type: image
+  title: Browser lab track
+  image: assets/lab-starter.png
+  caption: Browser lab starter
+  notes: Open the **routing-graph** lab. Toggle grid lines and highlight one horizontal
+    edge between columns zero and one. Read the edge list in the metrics panel. Match
+    the count to eleven.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Implement `edge_list(nx, ny)` in `common/grutil.py`
+  - Print all edges for the tiny instance
+  - Verify ((0,0),(1,0)) is present and diagonals are absent
+  notes: Implement `edge_list(nx, ny)` in `common/grutil.py`. Print all edges for
+    the tiny instance. Verify ((0,0),(1,0)) is present and diagonals are absent.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Counting tile interiors instead of adjacency channels
+  - Double-counting undirected edges as two directed arcs without collapsing
+  - Forgetting top and right boundary checks
+  notes: Counting tile interiors instead of adjacency channels. Double-counting undirected
+    edges as two directed arcs without collapsing. Forgetting top and right boundary
+    checks.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Finish the checklist
+  - Sketch the eleven edges from memory
+  - 'Next: map pin placements to terminal GCells'
+  notes: 'Finish the checklist. Sketch the eleven edges from memory. Next: map pin
+    placements to terminal GCells.'

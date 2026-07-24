@@ -1,0 +1,54 @@
+title: Global routing in the stack
+footer: learn_global_routing — 00 intro
+slides:
+- type: title
+  title: Global routing in the stack
+  subtitle: You estimated congestion on GCells
+  notes: You estimated congestion on GCells. Global routing commits coarse paths on
+    the GCell graph, depositing usage on edges before detailed routing or CTS. This
+    course teaches that graph, pattern routers, overflow, and rip-up on a tiny chip.
+- type: two_column
+  title: Two tracks
+  left:
+  - 'Track B is the browser lab: route nets, watch edge heat, clear challenges'
+  - 'Track A is implement: Python solvers on tiny_gr.json'
+  - Use either or both
+  - Browser first for intuition is fine
+  right: assets/tools-index.png
+  notes: 'Track B is the browser lab: route nets, watch edge heat, clear challenges.
+    Track A is implement: Python solvers on tiny_gr.json. Use either or both. Browser
+    first for intuition is fine.'
+- type: bullets
+  title: Course map
+  bullets:
+  - Foundations cover the routing graph and terminals
+  - Patterns cover L, Z, maze, and multipin star
+  - Congestion response covers edge overflow and rip-up
+  - Sequential global ties the flow together
+  - Offline compare and wrap close the path
+  notes: Foundations cover the routing graph and terminals. Patterns cover L, Z, maze,
+    and multipin star. Congestion response covers edge overflow and rip-up. Sequential
+    global ties the flow together. Offline compare and wrap close the path.
+- type: bullets
+  title: Prerequisites
+  bullets:
+  - Finish learn_congestion or learn_legalization so GCell indexing and placed netlists
+  - Congestion demand maps are cousins, not the same as edge usage deposits
+  notes: Finish learn_congestion or learn_legalization so GCell indexing and placed
+    netlists already make sense. Congestion demand maps are cousins—not the same as
+    edge usage deposits.
+- type: bullets
+  title: How to move
+  bullets:
+  - Read each module README
+  - Odd module slots leave room to insert algorithms later without renumbering
+  notes: Read each module README, pick a track, check the checklist, then skim the
+    clip when media is available. Odd module slots leave room to insert algorithms
+    later without renumbering.
+- type: bullets
+  title: Next
+  bullets:
+  - Complete the quiz for this part
+  - Open the GCell routing graph and enumerate eleven edges on the four-by-two grid
+  notes: Open the GCell routing graph and enumerate eleven edges on the four-by-two
+    grid.

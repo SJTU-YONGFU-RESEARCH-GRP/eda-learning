@@ -1,0 +1,74 @@
+title: More than two pins
+footer: learn_global_routing — 07 multipin tree
+slides:
+- type: title
+  title: More than two pins
+  subtitle: Real nets have many pins
+  notes: Real nets have many pins. A full Steiner tree is heavy; our Steiner-lite
+    star picks the bbox-center GCell as a hub and L-routes each pin to that hub. Good
+    enough to teach shared edge usage on the four-pin net A B C D.
+- type: bullets
+  title: The idea
+  bullets:
+  - Collect terminal GCells for the net
+  - Center is the integer average of min and max column and row
+  - For each pin, add the edges along l_route center to pin with HV unless you choose
+    VH
+  - Union all legs, edges shared by two legs count once in usage when you deposit
+  notes: Collect terminal GCells for the net. Center is the integer average of min
+    and max column and row. For each pin, add the edges along l_route center to pin
+    with HV unless you choose VH. Union all legs—edges shared by two legs count once
+    in usage when you deposit.
+- type: image
+  title: Four-pin net
+  image: assets/steps/01-net4.png
+  caption: Four-pin net
+  notes: Net [A,B,C,D] needs a tree, not a single two-pin path.
+- type: image
+  title: Bbox center
+  image: assets/steps/02-center.png
+  caption: Bbox center
+  notes: Star hub at mean GCell of pins (clamped).
+- type: image
+  title: Four L legs
+  image: assets/steps/03-legs.png
+  caption: Four L legs
+  notes: Each pin gets an L-route from the hub in the full sequential pass.
+- type: image
+  title: Shared edges
+  image: assets/steps/04-usage.png
+  caption: Shared edges
+  notes: Multi-pin trees reuse edges—overflow adds up.
+- type: image
+  title: Two-pin nets
+  image: assets/steps/05-two.png
+  caption: Two-pin nets
+  notes: Short nets E–F stay single L paths.
+- type: image
+  title: Browser lab track
+  image: assets/lab-starter.png
+  caption: Browser lab starter
+  notes: Open **multipin-tree**. Route the four-pin net and highlight the hub near
+    column one row zero. Compare total edges to four separate two-pin L routes.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Implement `multipin_star` and `multipin_star_edges`
+  - Route net index four on tiny_gr and print hub GCell plus edge count
+  notes: Implement `multipin_star` and `multipin_star_edges`. Route net index four
+    on tiny_gr and print hub GCell plus edge count.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Routing pairwise between every pin pair, that explodes edges
+  - Picking chip center instead of bbox center GCell
+  - Double-depositing the same edge when summing legs
+  notes: Routing pairwise between every pin pair— that explodes edges. Picking chip
+    center instead of bbox center GCell. Double-depositing the same edge when summing
+    legs—usage should increment per net once per edge traversed.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Complete multipin routing
+  - 'Next: quantify overflow on those shared edges'
+  notes: 'Complete multipin routing. Next: quantify overflow on those shared edges.'

@@ -1,0 +1,75 @@
+title: The simplest global path
+footer: learn_global_routing — 01 pattern l route
+slides:
+- type: title
+  title: The simplest global path
+  subtitle: 'Two-pin global routing often starts with an L: travel along one axis,
+    then the other'
+  notes: 'Two-pin global routing often starts with an L: travel along one axis, then
+    the other. It is fast, deterministic, and good enough to teach edge usage before
+    maze search or rip-up.'
+- type: bullets
+  title: The idea
+  bullets:
+  - Prefer VH swaps the order
+  - Emit the list of GCells visited and convert consecutive pairs to edges with path_to_edges
+  - A path from zero comma zero to two comma one in HV uses three edges
+  notes: Given terminals a and b, prefer HV walks horizontal to align columns then
+    vertical to the row; prefer VH swaps the order. Emit the list of GCells visited
+    and convert consecutive pairs to edges with path_to_edges. A path from zero comma
+    zero to two comma one in HV uses three edges.
+- type: image
+  title: L-shape
+  image: assets/steps/01-idea.png
+  caption: L-shape
+  notes: 'Two-pin nets use one bend: HV (horizontal first) or VH.'
+- type: image
+  title: Route L-HV
+  image: assets/steps/02-hv.png
+  caption: Route L-HV
+  notes: Spread placement L-HV yields documented overflow.
+- type: image
+  title: Route L-VH
+  image: assets/steps/03-vh.png
+  caption: Route L-VH
+  notes: Swapping bend order changes which edges saturate.
+- type: image
+  title: Edge usage
+  image: assets/steps/04-edges.png
+  caption: Edge usage
+  notes: Thicker edges show usage; red dash marks overflow.
+- type: image
+  title: Move pins
+  image: assets/steps/05-move.png
+  caption: Move pins
+  notes: Moving cells changes terminal GCells and L paths.
+- type: image
+  title: Browser lab track
+  image: assets/lab-starter.png
+  caption: Browser lab starter
+  notes: Open **pattern-l-route**. Route A to B with HV and read the highlighted edges.
+    Toggle VH on the same pair and compare the bend GCell.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Implement `l_route(a, b, prefer)` and `path_to_edges`
+  - Route net A–B on tiny_gr and print the edge list
+  - Match the browser overlay
+  notes: Implement `l_route(a, b, prefer)` and `path_to_edges`. Route net A–B on tiny_gr
+    and print the edge list. Match the browser overlay.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Skipping duplicate GCells at the bend
+  - Returning directed edges inconsistently, always normalize undirected keys
+  - Forgetting that L routes ignore existing congestion until sequential routing
+  notes: Skipping duplicate GCells at the bend. Returning directed edges inconsistently—always
+    normalize undirected keys. Forgetting that L routes ignore existing congestion
+    until sequential routing.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Ship Track A L-routes and clear browser challenges
+  - 'Next: Z-shape patterns when you want a third segment'
+  notes: 'Ship Track A L-routes and clear browser challenges. Next: Z-shape patterns
+    when you want a third segment.'

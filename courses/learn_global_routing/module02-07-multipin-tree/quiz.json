@@ -1,0 +1,38 @@
+[
+  {
+    "id": "multipin-tree-q1",
+    "type": "mcq",
+    "prompt": "Our Steiner-lite star hubs at\u2026",
+    "choices": [
+      "Bbox-center GCell of the pins",
+      "Chip lower-left corner always",
+      "Random tile",
+      "Power pad"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "multipin-tree-q2",
+    "type": "mcq",
+    "prompt": "Each pin connects to the hub with\u2026",
+    "choices": [
+      "An L-route leg",
+      "A separate chip exit",
+      "Only a via",
+      "No edges"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "multipin-tree-q3",
+    "type": "mcq",
+    "prompt": "The four-pin net A\u2013B\u2013C\u2013D uses\u2026",
+    "choices": [
+      "Multipin star, not pairwise maze",
+      "Only one two-pin L",
+      "Clock-tree buffering",
+      "Abacus packing"
+    ],
+    "answer": 0
+  }
+]

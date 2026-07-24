@@ -1,0 +1,38 @@
+[
+  {
+    "id": "ripup-reroute-q1",
+    "type": "mcq",
+    "prompt": "Rip-up picks the net with\u2026",
+    "choices": [
+      "Largest overflow contribution on its edges",
+      "Shortest HPWL always",
+      "Lowest pin count always",
+      "Random selection"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "ripup-reroute-q2",
+    "type": "mcq",
+    "prompt": "After rip-up we reroute with\u2026",
+    "choices": [
+      "Maze respecting remaining usage",
+      "Same L blindly",
+      "Delete the net",
+      "Inflate cells"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "ripup-reroute-q3",
+    "type": "mcq",
+    "prompt": "Rip-up should\u2026",
+    "choices": [
+      "Not increase total overflow vs before (ideal)",
+      "Always zero all overflow",
+      "Skip usage accounting",
+      "Only run in detailed route"
+    ],
+    "answer": 0
+  }
+]

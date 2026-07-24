@@ -1,0 +1,74 @@
+title: Three segments
+footer: learn_global_routing — 03 pattern z route
+slides:
+- type: title
+  title: Three segments
+  subtitle: When pins are not on the same row or column, an L is not your only pattern
+  notes: 'When pins are not on the same row or column, an L is not your only pattern.
+    A Z bends twice: horizontal to a midpoint column, vertical, then horizontal to
+    the destination—or the vertical-first variant.'
+- type: bullets
+  title: The idea
+  bullets:
+  - If a and b share a row or column, fall back to L-route
+  - Otherwise with prefer HZ pick mid column as the average of the two columns, walk
+    H–V–H
+  - Path_to_edges should show at least three edges for off-axis pairs like zero comma
+    zero to
+  notes: If a and b share a row or column, fall back to L-route. Otherwise with prefer
+    HZ pick mid column as the average of the two columns, walk H–V–H. path_to_edges
+    should show at least three edges for off-axis pairs like zero comma zero to three
+    comma one.
+- type: image
+  title: Two bends
+  image: assets/steps/01-z.png
+  caption: Two bends
+  notes: Z-route uses a midpoint column (or row) with two corners.
+- type: image
+  title: A–D Z path
+  image: assets/steps/02-ab.png
+  caption: A–D Z path
+  notes: On spread, Z from A to D shows the mid-column bend.
+- type: image
+  title: L reference
+  image: assets/steps/03-l.png
+  caption: L reference
+  notes: L-HV is the fast pattern route baseline.
+- type: image
+  title: Overflow tradeoff
+  image: assets/steps/04-ov.png
+  caption: Overflow tradeoff
+  notes: Extra bends can spread or concentrate edge usage.
+- type: image
+  title: Maze escape
+  image: assets/steps/05-next.png
+  caption: Maze escape
+  notes: When L/Z overflow, maze search detours.
+- type: image
+  title: Browser lab track
+  image: assets/lab-starter.png
+  caption: Browser lab starter
+  notes: Open **pattern-z-route**. Compare Z versus L on B to D. Note the extra bend
+    GCell and how edge usage shifts.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Implement `z_route(a, b, prefer)`
+  - Print Z and L paths for the same terminal pair; explain one edge difference
+  notes: Implement `z_route(a, b, prefer)`. Print Z and L paths for the same terminal
+    pair; explain one edge difference.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Using a midpoint that leaves zero-length segments
+  - Not falling back to L on aligned pins
+  - Confusing Z prefer HZ with L prefer HV naming
+  notes: Using a midpoint that leaves zero-length segments. Not falling back to L
+    on aligned pins. Confusing Z prefer HZ with L prefer HV naming.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Finish Z routing on two-pin nets
+  - 'Next: maze routing that respects congested edges'
+  notes: 'Finish Z routing on two-pin nets. Next: maze routing that respects congested
+    edges.'

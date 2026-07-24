@@ -1,0 +1,38 @@
+[
+  {
+    "id": "pattern-l-route-q1",
+    "type": "mcq",
+    "prompt": "An L-route with prefer=HV goes\u2026",
+    "choices": [
+      "Horizontal first, then vertical",
+      "Vertical first, then horizontal",
+      "Diagonal only",
+      "Random zigzag"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "pattern-l-route-q2",
+    "type": "mcq",
+    "prompt": "Two-pin L routing is a\u2026",
+    "choices": [
+      "Fast pattern router baseline",
+      "Detailed DRC engine",
+      "CTS solver",
+      "Power-grid placer"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "pattern-l-route-q3",
+    "type": "mcq",
+    "prompt": "path_to_edges on an L path returns\u2026",
+    "choices": [
+      "One edge per consecutive GCell step",
+      "Only the first GCell",
+      "All nets in the design",
+      "Layer assignments"
+    ],
+    "answer": 0
+  }
+]

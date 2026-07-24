@@ -1,0 +1,73 @@
+title: Routes that detour
+footer: learn_global_routing — 05 maze gcell route
+slides:
+- type: title
+  title: Routes that detour
+  subtitle: Pattern routers ignore blocked channels
+  notes: Pattern routers ignore blocked channels. Maze routing runs BFS on the GCell
+    graph, skipping any edge whose usage is already at capacity. That is how global
+    routers find alternate corridors.
+- type: bullets
+  title: The idea
+  bullets:
+  - Seed a queue with start and path list
+  - Pop, expand neighbors, skip edges with usage greater than or equal to capacity
+  - First time you dequeue the goal, return the path
+  - If the queue empties, return None
+  - Shortest feasible path wins
+  notes: Seed a queue with start and path list. Pop, expand neighbors, skip edges
+    with usage greater than or equal to capacity. First time you dequeue the goal,
+    return the path. If the queue empties, return None. Shortest feasible path wins.
+- type: image
+  title: Edge cost
+  image: assets/steps/01-cost.png
+  caption: Edge cost
+  notes: Maze adds penalty when usage ≥ capacity.
+- type: image
+  title: L overflow
+  image: assets/steps/02-l-ov.png
+  caption: L overflow
+  notes: L-HV on spread overflows on shared corridors.
+- type: image
+  title: Route maze
+  image: assets/steps/03-maze.png
+  caption: Route maze
+  notes: Sequential maze routing considers current usage.
+- type: image
+  title: Compare totals
+  image: assets/steps/04-compare.png
+  caption: Compare totals
+  notes: Maze may match or beat L overflow on the toy.
+- type: image
+  title: When to maze
+  image: assets/steps/05-use.png
+  caption: When to maze
+  notes: Use maze when pattern routes saturate edges.
+- type: image
+  title: Browser lab track
+  image: assets/lab-starter.png
+  caption: Browser lab starter
+  notes: Open **maze-gcell-route**. Pre-fill an edge to capacity two and watch maze
+    pick a longer detour. Clear the block and confirm the shortest path returns.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Implement `maze_route(a, b, usage, capacity, nx, ny)`
+  - Block edge ((0,0),(1,0)) at cap two and show maze cannot go direct
+  notes: Implement `maze_route(a, b, usage, capacity, nx, ny)`. Block edge ((0,0),(1,0))
+    at cap two and show maze cannot go direct; unblock a vertical detour path exists.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Treating usage as per-tile instead of per-edge
+  - Forgetting BFS needs visited set on GCells not edges
+  - Returning a path through a full edge because you checked the wrong direction key
+  notes: Treating usage as per-tile instead of per-edge. Forgetting BFS needs visited
+    set on GCells not edges. Returning a path through a full edge because you checked
+    the wrong direction key.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Pass maze goldens
+  - 'Next: connect more than two pins with a star tree'
+  notes: 'Pass maze goldens. Next: connect more than two pins with a star tree.'

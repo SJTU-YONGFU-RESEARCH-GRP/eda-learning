@@ -1,0 +1,38 @@
+[
+  {
+    "id": "sequential-global-q1",
+    "type": "mcq",
+    "prompt": "Sequential global routing processes nets\u2026",
+    "choices": [
+      "In a fixed order, depositing on shared edges",
+      "All in parallel with no sharing",
+      "Only after CTS",
+      "Before placement"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "sequential-global-q2",
+    "type": "mcq",
+    "prompt": "route_nets mode l_hv means\u2026",
+    "choices": [
+      "L-route each two-pin net horizontal-then-vertical",
+      "Z-route only",
+      "Skip multi-pin nets",
+      "Maze every net first"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "sequential-global-q3",
+    "type": "mcq",
+    "prompt": "Order sensitivity means\u2026",
+    "choices": [
+      "Later nets see congested edges from earlier nets",
+      "Order never matters",
+      "Only one net routes",
+      "Capacity is ignored"
+    ],
+    "answer": 0
+  }
+]

@@ -1,0 +1,76 @@
+title: Relieve hotspots
+footer: learn_global_routing — 03 ripup reroute
+slides:
+- type: title
+  title: Relieve hotspots
+  subtitle: When overflow appears, global routers rip up contributing nets and reroute
+    around congested edges
+  notes: When overflow appears, global routers rip up contributing nets and reroute
+    around congested edges. Our toy pass picks the net whose edges contribute the
+    most overflow, removes its usage, then maze-reroutes.
+- type: bullets
+  title: The idea
+  bullets:
+  - Score each net by overflow on its edges
+  - Subtract its route from usage
+  - Run maze_route between its pins with the remaining usage map
+  - Add the new edges back
+  - Total overflow should not rise; ideally it drops versus the pre-rip state
+  notes: Score each net by overflow on its edges. Subtract its route from usage. Run
+    maze_route between its pins with the remaining usage map. Add the new edges back.
+    Total overflow should not rise; ideally it drops versus the pre-rip state.
+- type: image
+  title: Sequential L first
+  image: assets/steps/01-seq.png
+  caption: Sequential L first
+  notes: Route L-HV; some edges exceed Cap.
+- type: image
+  title: Pick hot edge
+  image: assets/steps/02-pick.png
+  caption: Pick hot edge
+  notes: Find worst overflowing edge; mark nets using it.
+- type: image
+  title: Rip nets
+  image: assets/steps/03-rip.png
+  caption: Rip nets
+  notes: Remove those nets from usage.
+- type: image
+  title: Maze reroute
+  image: assets/steps/04-maze-r.png
+  caption: Maze reroute
+  notes: Ripped nets maze-route with updated usage.
+- type: image
+  title: Iterate
+  image: assets/steps/05-loop.png
+  caption: Iterate
+  notes: Real routers loop estimate→route→rip until clean or budget.
+- type: image
+  title: Browser lab track
+  image: assets/lab-starter.png
+  caption: Browser lab starter
+  notes: Open **ripup-reroute**. Run sequential L to create overflow, then one rip-up
+    pass. Watch total overflow fall on the metrics panel.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Implement `ripup_reroute(routes, usage, capacity, nets, term, nx, ny)`
+  - Assert total overflow after is less than or equal to before on tiny_gr sequential
+    L seed
+  notes: Implement `ripup_reroute(routes, usage, capacity, nets, term, nx, ny)`. Assert
+    total overflow after is less than or equal to before on tiny_gr sequential L seed.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Ripping a net but leaving ghost usage on its old edges
+  - Rerouting with pattern L through the same hot edge
+  - Picking the wrong net to rip, use overflow contribution not HPWL
+  notes: Ripping a net but leaving ghost usage on its old edges. Rerouting with pattern
+    L through the same hot edge. Picking the wrong net to rip—use overflow contribution
+    not HPWL.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Clear rip-up challenges
+  - 'Next: tie it together with full sequential global routing'
+  notes: 'Clear rip-up challenges. Next: tie it together with full sequential global
+    routing.'

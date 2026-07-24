@@ -1,0 +1,38 @@
+[
+  {
+    "id": "intro-q1",
+    "type": "mcq",
+    "prompt": "Global routing typically sits\u2026",
+    "choices": [
+      "After congestion estimate, before detailed routing",
+      "Before synthesis",
+      "Only inside SPICE",
+      "Instead of placement"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "intro-q2",
+    "type": "mcq",
+    "prompt": "Track B in this course means\u2026",
+    "choices": [
+      "Browser lab challenges on the platform",
+      "Vendor GUI certification",
+      "Only PDF reading",
+      "FPGA bitstream gen"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "intro-q3",
+    "type": "mcq",
+    "prompt": "Global routes deposit usage on\u2026",
+    "choices": [
+      "GCell graph edges",
+      "Only cell widths",
+      "Scan flops",
+      "Liberty arcs"
+    ],
+    "answer": 0
+  }
+]

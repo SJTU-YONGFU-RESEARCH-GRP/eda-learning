@@ -1,0 +1,44 @@
+title: You can now
+footer: learn_global_routing — 00 wrap
+slides:
+- type: title
+  title: You can now
+  subtitle: Run sequential global routing on tiny_gr
+  notes: You can build a routing graph, assign terminals, route with L Z maze and
+    star patterns, measure edge overflow, rip up congested nets, and run sequential
+    global routing on tiny_gr.
+- type: bullets
+  title: Dual-track recap
+  bullets:
+  - If you stayed in the browser, implement maze_route and edge_overflow once in Python
+  - If you stayed in Track A, skim the edge heat-map lab so colors match your usage
+    dict
+  notes: If you stayed in the browser, implement maze_route and edge_overflow once
+    in Python. If you stayed in Track A, skim the edge heat-map lab so colors match
+    your usage dict.
+- type: bullets
+  title: Pitfalls to remember
+  bullets:
+  - Undirected edge keys, sequential order effects
+  notes: Undirected edge keys, sequential order effects, and never treating reveal
+    golden as the solve path.
+- type: bullets
+  title: Next
+  bullets:
+  - Complete the quiz for this part
+  - Natural next steps are learn_routing for detailed routes
+  notes: Natural next steps are learn_routing for detailed routes—or learn_clock_tree
+    if you continue the PD spine toward CTS.
+- type: bullets
+  title: Checklist
+  bullets:
+  - Name three algorithms and one strength each
+  - Say which idea you reach for when sequential L overflows
+  - Pick your next course README
+  notes: Name three algorithms and one strength each. Say which idea you reach for
+    when sequential L overflows. Pick your next course README.
+- type: bullets
+  title: Close
+  bullets:
+  - When you are ready, take the short quiz, then open the next course
+  notes: When you are ready, take the short quiz, then open the next course.

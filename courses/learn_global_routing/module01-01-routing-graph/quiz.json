@@ -1,0 +1,38 @@
+[
+  {
+    "id": "routing-graph-q1",
+    "type": "mcq",
+    "prompt": "A GCell routing graph connects\u2026",
+    "choices": [
+      "Horizontally and vertically adjacent GCells",
+      "Only diagonal GCell corners",
+      "Liberty timing arcs",
+      "Scan chain flops"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "routing-graph-q2",
+    "type": "mcq",
+    "prompt": "On a 4\u00d72 GCell grid the undirected edge count is\u2026",
+    "choices": [
+      "11",
+      "8",
+      "16",
+      "24"
+    ],
+    "answer": 0
+  },
+  {
+    "id": "routing-graph-q3",
+    "type": "mcq",
+    "prompt": "Global routes deposit demand on\u2026",
+    "choices": [
+      "GCell edges",
+      "Standard cells only",
+      "Clock pins",
+      "Power straps only"
+    ],
+    "answer": 0
+  }
+]

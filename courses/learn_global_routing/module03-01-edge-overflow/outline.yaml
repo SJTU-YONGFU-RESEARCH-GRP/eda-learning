@@ -1,0 +1,74 @@
+title: When usage exceeds capacity
+footer: learn_global_routing — 01 edge overflow
+slides:
+- type: title
+  title: When usage exceeds capacity
+  subtitle: Each GCell edge has capacity two on tiny_gr
+  notes: Each GCell edge has capacity two on tiny_gr. Every routed net deposits plus
+    one on each edge it uses. Overflow is how far usage exceeds capacity—summed, maxed,
+    and counted per edge.
+- type: bullets
+  title: The idea
+  bullets:
+  - For each edge e, overflow e equals max of zero and usage e minus capacity
+  - Total is the sum across edges
+  - Max is the worst edge
+  - Count is how many edges have positive overflow
+  - Sequential L-HV on all six nets should yield positive total overflow at cap two
+  notes: For each edge e, overflow e equals max of zero and usage e minus capacity.
+    Total is the sum across edges. Max is the worst edge. Count is how many edges
+    have positive overflow. Sequential L-HV on all six nets should yield positive
+    total overflow at cap two.
+- type: image
+  title: Overflow
+  image: assets/steps/01-def.png
+  caption: Overflow
+  notes: ov(e)=max(0, usage(e)−Cap) per edge.
+- type: image
+  title: Total overflow
+  image: assets/steps/02-total.png
+  caption: Total overflow
+  notes: Sum over edges—primary regression scalar.
+- type: image
+  title: Max overflow
+  image: assets/steps/03-max.png
+  caption: Max overflow
+  notes: Worst edge—catches hotspot corridors.
+- type: image
+  title: Overflow count
+  image: assets/steps/04-count.png
+  caption: Overflow count
+  notes: How many edges exceed Cap.
+- type: image
+  title: Hit targets
+  image: assets/steps/05-target.png
+  caption: Hit targets
+  notes: Move pins or switch HV/VH/maze to clear thresholds.
+- type: image
+  title: Browser lab track
+  image: assets/lab-starter.png
+  caption: Browser lab starter
+  notes: Open **edge-overflow**. Run sequential L routes and read the triple total
+    max count. Heat-map the worst edge.
+- type: bullets
+  title: Implement track
+  bullets:
+  - Implement `edge_overflow(usage, capacity)`
+  - Call route_nets with mode l_hv on tiny_gr and assert total overflow is greater
+    than zero
+  notes: Implement `edge_overflow(usage, capacity)`. Call route_nets with mode l_hv
+    on tiny_gr and assert total overflow is greater than zero.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Computing overflow before summing all nets
+  - Using tile demand from congestion instead of edge usage
+  - Reporting negative overflow values
+  notes: Computing overflow before summing all nets. Using tile demand from congestion
+    instead of edge usage. Reporting negative overflow values.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Hit overflow targets
+  - 'Next: rip-up the hottest net and maze reroute'
+  notes: 'Hit overflow targets. Next: rip-up the hottest net and maze reroute.'

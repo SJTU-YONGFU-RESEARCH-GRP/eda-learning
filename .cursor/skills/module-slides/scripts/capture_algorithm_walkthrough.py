@@ -97,6 +97,15 @@ LAB_TO_ALGO: dict[str, tuple[str, int]] = {
     "cell-inflator": ("cell-inflator", 5),
     "net-weighting": ("net-weighting", 5),
     "placement-feedback": ("placement-feedback", 5),
+    "routing-graph": ("routing-graph", 5),
+    "terminal-gcells": ("terminal-gcells", 5),
+    "pattern-l-route": ("pattern-l-route", 5),
+    "pattern-z-route": ("pattern-z-route", 5),
+    "maze-gcell-route": ("maze-gcell-route", 5),
+    "multipin-tree": ("multipin-tree", 5),
+    "edge-overflow": ("edge-overflow", 5),
+    "ripup-reroute": ("ripup-reroute", 5),
+    "sequential-global": ("sequential-global", 5),
 }
 
 BEGIN_MARK = "<!-- algorithm-walkthrough -->"

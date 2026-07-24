@@ -160,6 +160,25 @@ COURSE_META = {
         "first_lab": "gcell-grid",
         "first_n": "02",
     },
+    "learn_global_routing": {
+        "title": "Global routing for EDA",
+        "focus": "GCell graph → terminal mapping → L/Z patterns → maze → multi-pin tree → edge overflow → rip-up → sequential global",
+        "prereq": None,
+        "status": "ready",
+        "repo": "learn_global_routing",
+        "modules_md": ROOT / "courses" / "learn_global_routing" / "docs" / "MODULES.md",
+        "course_root": ROOT / "courses" / "learn_global_routing",
+        "lead": (
+            "Global routing on a tiny GCell graph — pattern routes, maze detours, edge overflow you can trust. "
+            "Clips and decks load from "
+            "<code>courses/learn_global_routing</code> "
+            "(<code>moduleSS-AA-slug/video.mp4</code>). Open the matching browser tool, then mark the lab done."
+        ),
+        "tools_href": "../../tools/index.html#global-routing",
+        "tools_label": "Global routing tools",
+        "first_lab": "routing-graph",
+        "first_n": "02",
+    },
 }
 
 COURSE_INDEX = """<!DOCTYPE html>

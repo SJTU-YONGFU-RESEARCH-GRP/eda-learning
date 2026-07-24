@@ -1,0 +1,71 @@
+title: Order matters
+footer: learn_global_routing — 01 sequential global
+slides:
+- type: title
+  title: Order matters
+  subtitle: Production global routers process nets in an order
+  notes: Production global routers process nets in an order. Each net deposits usage
+    on edges; later nets see a more congested graph. Sequential L-HV on tiny_gr is
+    our baseline stress test.
+- type: bullets
+  title: The idea
+  bullets:
+  - Initialize empty usage
+  - Increment usage on every edge in the route
+  - Report final usage and edge_overflow summary
+  notes: Initialize empty usage. For each net in list order, compute terminals, route
+    with the chosen mode—l_hv for two-pin L, star for multi-pin—and increment usage
+    on every edge in the route. Report final usage and edge_overflow summary.
+- type: image
+  title: Net order
+  image: assets/steps/01-order.png
+  caption: Net order
+  notes: Route nets 0..5 in order; later nets see earlier usage.
+- type: image
+  title: Pattern pass
+  image: assets/steps/02-l-all.png
+  caption: Pattern pass
+  notes: L-HV all nets documents baseline overflow.
+- type: image
+  title: Maze pass
+  image: assets/steps/03-maze-all.png
+  caption: Maze pass
+  notes: Sequential maze may redistribute usage.
+- type: image
+  title: Clear overflow
+  image: assets/steps/04-clear.png
+  caption: Clear overflow
+  notes: 'Goal: total overflow 0 on the toy after moves or maze.'
+- type: image
+  title: Handoff
+  image: assets/steps/05-done.png
+  caption: Handoff
+  notes: Global routing feeds detailed routing and DRC-clean paths.
+- type: image
+  title: Browser lab track
+  image: assets/lab-starter.png
+  caption: Browser lab starter
+  notes: 'Open **sequential-global**. Route all nets in default order. Reorder mentally:
+    would routing the four-pin net last change the hottest edge?'
+- type: bullets
+  title: Implement track
+  bullets:
+  - Implement `route_nets` and `route_nets_with_routes`
+  - Print usage and overflow after routing all six nets
+  - Compare with maze mode on total overflow
+  notes: Implement `route_nets` and `route_nets_with_routes`. Print usage and overflow
+    after routing all six nets. Compare with maze mode on total overflow.
+- type: bullets
+  title: Pitfalls
+  bullets:
+  - Parallel deposit without order, hides rip-up motivation
+  - Ignoring multi-pin net in order list
+  - Resetting usage between nets accidentally
+  notes: Parallel deposit without order— hides rip-up motivation. Ignoring multi-pin
+    net in order list. Resetting usage between nets accidentally.
+- type: bullets
+  title: Your turn
+  bullets:
+  - Complete sequential global routing
+  - Offline compare and wrap come next
+  notes: Complete sequential global routing. Offline compare and wrap come next.
